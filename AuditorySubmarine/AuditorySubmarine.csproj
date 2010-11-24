@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{95CC7329-5199-4802-AAA1-943454EE7DB1}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AuditorySubmarine</RootNamespace>
+    <AssemblyName>AuditorySubmarine</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>AuditorySubmarine.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>AuditoryGames.GameFramework.App</SilverlightAppEntry>
+    <TestPageFileName>AuditorySubmarineTestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>true</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject>
+    </LinkedServerProject>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Controls.Data.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GameFramework\Core\AnimatedGameObject.cs">
+      <Link>Game\AnimatedGameObject.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\Core\BackgroundGameObject.cs">
+      <Link>Game\BackgroundGameObject.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\Core\BaseObject.cs">
+      <Link>Game\BaseObject.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\Core\CollisionIdentifiers.cs">
+      <Link>Game\CollisionIdentifiers.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\Core\CollisionManager.cs">
+      <Link>Game\CollisionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\Core\GameObject.cs">
+      <Link>Game\GameObject.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\Core\KeyHandler.cs">
+      <Link>Game\KeyHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\Core\ResourceHelper.cs">
+      <Link>Game\ResourceHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\Core\ResourcePool.cs">
+      <Link>Game\ResourcePool.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\Core\StateManager.cs">
+      <Link>Game\StateManager.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\Core\ZLayers.cs">
+      <Link>Game\ZLayers.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\UI\App.xaml.cs">
+      <Link>Game\App.xaml.cs</Link>
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\GameFramework\UI\ButtonIcon.xaml.cs">
+      <Link>Game\ButtonIcon.xaml.cs</Link>
+      <DependentUpon>ButtonIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\GameFramework\UI\GameParameters.xaml.cs">
+      <Link>Game\GameParameters.xaml.cs</Link>
+      <DependentUpon>GameParameters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\GameFramework\UI\Page.xaml.cs">
+      <Link>Game\Page.xaml.cs</Link>
+      <DependentUpon>Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\GameFramework\UI\ScoreControl.xaml.cs">
+      <Link>Game\ScoreControl.xaml.cs</Link>
+      <DependentUpon>ScoreControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\GameFramework\Utility\MathUtil.cs">
+      <Link>Game\MathUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\GameFramework\Utility\StopwatchPlus.cs">
+      <Link>Game\StopwatchPlus.cs</Link>
+    </Compile>
+    <Compile Include="GateObject.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ApplicationManager.cs" />
+    <Compile Include="SubmarinePlayer.cs" />
+    <Compile Include="WallObject.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AudioFramework\_AudioFramework.csproj">
+      <Project>{401B2150-4296-486E-8247-3C2A93E1DB68}</Project>
+      <Name>_AudioFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\OutOfBrowserSettings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="..\GameFramework\UI\App.xaml">
+      <Link>Game\App.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\GameFramework\UI\ButtonIcon.xaml">
+      <Link>Game\ButtonIcon.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\GameFramework\UI\GameParameters.xaml">
+      <Link>Game\GameParameters.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\GameFramework\UI\Page.xaml">
+      <Link>Game\Page.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\GameFramework\UI\ScoreControl.xaml">
+      <Link>Game\ScoreControl.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\asub1.png" />
+    <Resource Include="Media\asub2.png" />
+    <Resource Include="Media\asub3.png" />
+    <Resource Include="Media\asub4.png" />
+    <Resource Include="Media\Explosion1.png" />
+    <Resource Include="Media\Explosion2.png" />
+    <Resource Include="Media\Explosion3.png" />
+    <Resource Include="Media\Explosion4.png" />
+    <Resource Include="Media\Explosion5.png" />
+    <Resource Include="Media\Explosion6.png" />
+    <Resource Include="Media\Explosion7.png" />
+    <Resource Include="Media\gate_bottom.png" />
+    <Resource Include="Media\gate_top.png" />
+    <Resource Include="Media\wall.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_GameFramework", "GameFramework\_GameFramework.csproj", "{3627F8E4-8316-4C58-8E03-549CC1924B80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_AudioFramework", "AudioFramework\_AudioFramework.csproj", "{401B2150-4296-486E-8247-3C2A93E1DB68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSequencer", "TestSequencer\TestSequencer.csproj", "{2865E652-2549-498B-B6E7-E966C88A863B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditoryTreasureHunter", "AuditoryTreasureHunter\AuditoryTreasureHunter.csproj", "{00EAFFBA-DA07-4BF4-A386-9C709154BA32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditorySubmarine", "AuditorySubmarine\AuditorySubmarine.csproj", "{95CC7329-5199-4802-AAA1-943454EE7DB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditoryWhackAMole", "AuditoryWhackAMole\AuditoryWhackAMole.csproj", "{285A083C-FE12-48B1-BC27-CA4916A3EE4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame", "TestGame\TestGame.csproj", "{25633D49-A19B-4F28-9ACE-C880EC746943}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{55EB2057-ACCD-4CD1-AB2F-23F08697E0FB}"
+	ProjectSection(SolutionItems) = preProject
+		..\AuditoryGames\AuditoryGame.dox = ..\AuditoryGames\AuditoryGame.dox
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3627F8E4-8316-4C58-8E03-549CC1924B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3627F8E4-8316-4C58-8E03-549CC1924B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3627F8E4-8316-4C58-8E03-549CC1924B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3627F8E4-8316-4C58-8E03-549CC1924B80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{401B2150-4296-486E-8247-3C2A93E1DB68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{401B2150-4296-486E-8247-3C2A93E1DB68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{401B2150-4296-486E-8247-3C2A93E1DB68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{401B2150-4296-486E-8247-3C2A93E1DB68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2865E652-2549-498B-B6E7-E966C88A863B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2865E652-2549-498B-B6E7-E966C88A863B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2865E652-2549-498B-B6E7-E966C88A863B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2865E652-2549-498B-B6E7-E966C88A863B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00EAFFBA-DA07-4BF4-A386-9C709154BA32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00EAFFBA-DA07-4BF4-A386-9C709154BA32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00EAFFBA-DA07-4BF4-A386-9C709154BA32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00EAFFBA-DA07-4BF4-A386-9C709154BA32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95CC7329-5199-4802-AAA1-943454EE7DB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95CC7329-5199-4802-AAA1-943454EE7DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95CC7329-5199-4802-AAA1-943454EE7DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95CC7329-5199-4802-AAA1-943454EE7DB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{285A083C-FE12-48B1-BC27-CA4916A3EE4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{285A083C-FE12-48B1-BC27-CA4916A3EE4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{285A083C-FE12-48B1-BC27-CA4916A3EE4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{285A083C-FE12-48B1-BC27-CA4916A3EE4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25633D49-A19B-4F28-9ACE-C880EC746943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25633D49-A19B-4F28-9ACE-C880EC746943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25633D49-A19B-4F28-9ACE-C880EC746943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25633D49-A19B-4F28-9ACE-C880EC746943}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
