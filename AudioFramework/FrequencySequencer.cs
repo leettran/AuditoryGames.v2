@@ -13,6 +13,11 @@ using System.Collections.Generic;
 
 namespace AudioFramework
 {
+    /// <summary>
+    /// Abstract wrapper for auditory stimuli generator
+    /// 
+    /// @author Nicolas Van Labeke
+    /// </summary>
     public abstract class IFrequencySequencer
     {
         public delegate void StimuliStarted();
@@ -93,6 +98,10 @@ namespace AudioFramework
 
     }
 
+    /// <summary>
+    /// Implementation of a 2-Interval stimuli generator
+    /// @author Nicolas Van Labeke
+    /// </summary>
     public class Frequency3IGenerator : IFrequencySequencer
     {
         public Frequency3IGenerator(MediaElement elt) : base(elt)

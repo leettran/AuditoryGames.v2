@@ -26,6 +26,7 @@ AudioFramework/Kindohm.KSynth/VoiceNote.cs -text
 AudioFramework/Kindohm.KSynth/WavPlayer.cs -text
 AudioFramework/Properties/AssemblyInfo.cs -text
 AudioFramework/_AudioFramework.csproj -text
+/AuditoryGame.dox -text
 /AuditoryGames.v2.sln -text
 AuditorySubmarine/ApplicationManager.cs -text
 AuditorySubmarine/AuditorySubmarine.csproj -text
@@ -89,6 +90,7 @@ AuditoryWhackAMole/MainPage.xaml -text
 AuditoryWhackAMole/MainPage.xaml.cs -text
 AuditoryWhackAMole/Properties/AppManifest.xml -text
 AuditoryWhackAMole/Properties/AssemblyInfo.cs -text
+AuditoryWhackAMole/Properties/OutOfBrowserSettings.xml -text
 GameFramework/Core/AnimatedGameObject.cs -text
 GameFramework/Core/BackgroundGameObject.cs -text
 GameFramework/Core/BaseObject.cs -text
@@ -151,4 +153,5 @@ TestSequencer/Media/play.png -text
 TestSequencer/Media/stop.png -text
 TestSequencer/Properties/AppManifest.xml -text
 TestSequencer/Properties/AssemblyInfo.cs -text
+TestSequencer/Properties/OutOfBrowserSettings.xml -text
 TestSequencer/TestSequencer.csproj -text

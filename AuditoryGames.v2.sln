@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame", "TestGame\TestGa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{55EB2057-ACCD-4CD1-AB2F-23F08697E0FB}"
 	ProjectSection(SolutionItems) = preProject
-		..\AuditoryGames\AuditoryGame.dox = ..\AuditoryGames\AuditoryGame.dox
+		AuditoryGame.dox = AuditoryGame.dox
 	EndProjectSection
 EndProject
 Global

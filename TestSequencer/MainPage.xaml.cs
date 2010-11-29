@@ -90,14 +90,14 @@ namespace TestSequencer
             if (playing)
             {
                 this.media.Stop();
-                uri = new Uri("play.png", UriKind.Relative);
+                uri = new Uri("media/play.png", UriKind.Relative);
                 this.playing = false;
                 this.sequencer.StepIndex = this.sequencer.StepCount - 1;
             }
             else
             {
                 this.media.Play();
-                uri = new Uri("stop.png", UriKind.Relative);
+                uri = new Uri("media/stop.png", UriKind.Relative);
                 this.playing = true;
             }
             image = new BitmapImage(uri);
