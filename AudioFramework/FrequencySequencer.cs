@@ -44,7 +44,7 @@ namespace AudioFramework
             SynthMediaStreamSource source = new SynthMediaStreamSource(44100, 2);
             source.SampleMaker = this.sequencer;
 
-            this.sequencer.Tempo = 360*10;
+            this.sequencer.Tempo = 600;
             this._elt.SetSource(source);
             this._elt.Stop();
             this.sequencer.StepIndex = this.sequencer.StepCount - 1;
@@ -57,14 +57,14 @@ namespace AudioFramework
 
             this.intervalVoices = new Dictionary<int, ISampleMaker>();
             int inc = 0;
-            int intervalNb = 2;// interIdx;
+            int intervalNb = 4;// interIdx;
 
-            double[] inter = { 5000.0, 3000.0, 5000.0 };
+            double[] inter = { 5000.0, 3000.0, 5000.0, 3000.0 };
 
-            this.sequencer.StepCount = 100;
+            this.sequencer.StepCount = 80*2;
             IWaveForm form = new SineWaveForm();
 
-            double percent = 1 / 100d;
+            double percent = 10 / 100d;
             uint value = (uint)(15000 * percent);
 
             /// 
@@ -74,7 +74,7 @@ namespace AudioFramework
             ///
             ///
             ///
-            int[] pos = { 0, 10, 50, 10};
+            int[] pos = { 0, 10, 20, 10, 40 ,10 , 60 , 10 };
 
             for (inc = 0; inc < intervalNb; inc++)
             {
