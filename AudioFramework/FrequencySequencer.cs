@@ -28,53 +28,63 @@ namespace AudioFramework
         public event StimuliChanged stimuliChanged = null;
         public event StimuliStopped stimuliStopped = null;
 
-        public Sequencer sequencer = null;
-        protected Dictionary<int, ISampleMaker> intervalVoices = null;
+        /// <summary>
+        /// Instance of the sequencer to be used for the stimuli generation.
+        /// </summary>
+        protected Sequencer _sequencer = null;
 
+        /// <summary>
+        /// Reference to the GUI media element.
+        /// </summary>
         protected MediaElement _elt = null;
+
+        /// <summary>
+        /// Internal storage of voices for the sequencer. 
+        /// 
+        /// To be used for reset to factory settings.
+        /// </summary>
+        protected Dictionary<int, ISampleMaker> _intervalVoices = null;
 
         public abstract void ResetSequencer();
 
+
+        /// <summary>
+        /// Default Constructor.
+        /// </summary>
+        /// <param name="elt">Reference to the media element of the GUI</param>
         protected IFrequencySequencer(MediaElement elt)
         {
             this._elt = elt;
-            this.sequencer = new Sequencer();
-            this.intervalVoices = new Dictionary<int, ISampleMaker>();
+            this._sequencer = new Sequencer();
+            this._intervalVoices = new Dictionary<int, ISampleMaker>();
 
             SynthMediaStreamSource source = new SynthMediaStreamSource(44100, 2);
-            source.SampleMaker = this.sequencer;
+            source.SampleMaker = this._sequencer;
 
-            this.sequencer.Tempo = 600;
+            this._sequencer.Tempo = 60*4;
             this._elt.SetSource(source);
-            this._elt.Stop();
-            this.sequencer.StepIndex = this.sequencer.StepCount - 1;
-
-
         }
 
+        /// <summary>
+        /// Initialise the voices of the sequencer.
+        /// </summary>
+        /// <param name="interIdx"></param>
         protected void setSequencer(int interIdx)
         {
 
-            this.intervalVoices = new Dictionary<int, ISampleMaker>();
+            this._intervalVoices = new Dictionary<int, ISampleMaker>();
             int inc = 0;
             int intervalNb = 4;// interIdx;
 
             double[] inter = { 5000.0, 3000.0, 5000.0, 3000.0 };
 
-            this.sequencer.StepCount = 80*2;
+            this._sequencer.StepCount = 8;
             IWaveForm form = new SineWaveForm();
 
             double percent = 10 / 100d;
             uint value = (uint)(15000 * percent);
 
-            /// 
-            ///
-            ///
-            ///
-            ///
-            ///
-            ///
-            int[] pos = { 0, 10, 20, 10, 40 ,10 , 60 , 10 };
+            int[] pos = { 0, 1, 2, 1, 4 ,1 , 6 , 1 };
 
             for (inc = 0; inc < intervalNb; inc++)
             {
@@ -88,13 +98,33 @@ namespace AudioFramework
                 voice.Frequency = inter[inc];//pitch.Frequency;
                 voice.Envelope.Attack = value;
                 voice.Envelope.Decay = value;
-                this.intervalVoices.Add(inc, voice);
+                this._intervalVoices.Add(inc, voice);
 
                 //this.sequencer.AddNote(voice, (3 + 2) * inc + 1, 3);
-                this.sequencer.AddNote(voice, pos[2*inc], pos[2*inc + 1]);
+                this._sequencer.AddNote(voice, pos[2*inc], pos[2*inc + 1]);
 
             }
-         }
+            this._elt.Stop();
+            this._sequencer.StepIndex = this._sequencer.StepCount - 1;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Start()
+        {
+            if (_elt != null) _elt.Play();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Stop()
+        {
+            if (_elt != null) _elt.Stop();
+            this._sequencer.StepIndex = this._sequencer.StepCount - 1;
+        }
+
 
     }
 
@@ -115,18 +145,22 @@ namespace AudioFramework
         }
     }
 
+    /// <summary>
+    /// Implementation of a 3-Interval stimuli generator
+    /// @author Nicolas Van Labeke
+    /// </summary>
     public class Frequency2IGenerator : IFrequencySequencer
     {
         public Frequency2IGenerator(MediaElement elt) : base(elt)
         {
             //this.sequencer.StepCount = (int)this.stepBox.Value;
-            this.sequencer.Reset();
+            //this._sequencer.Reset();
         }
 
         public override void ResetSequencer()
         {
             //this.sequencer.StepCount = (int)this.stepBox.Value;
-            this.sequencer.Reset();
+            //this._sequencer.Reset();
         }
 
    }

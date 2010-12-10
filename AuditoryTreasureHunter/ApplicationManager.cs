@@ -409,16 +409,18 @@ namespace AuditoryGames.GameFramework
             _synthEx.Arpeggiator.Notes[2].Frequency = freqM;
             _synthEx.Arpeggiator.Notes[4].Frequency = freqR;
             _synthEx.Arpeggiator.Start();*/
-            MediaElement children = (AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
-            this._synthEx.sequencer.StepIndex = this._synthEx.sequencer.StepCount - 1;
+            //MediaElement children = (AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
+            //this._synthEx.sequencer.StepIndex = this._synthEx.sequencer.StepCount - 1;
             //this._synthEx.ResetSequencer();
-            children.Play();
+           // children.Play();
+            this._synthEx.Start();
         }
 
         public void exitGame()
         {
-            MediaElement children = (AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
-            children.Stop();
+            this._synthEx.Stop();
+            //MediaElement children = (AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
+            //children.Stop();
             //this._synthEx.sequencer.Reset();
             while (GameObject.gameObjects.Count != 0)
                 GameObject.gameObjects[0].shutdown();            

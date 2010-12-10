@@ -4,6 +4,12 @@ using System.Windows;
 
 namespace Kindohm.KSynth.Library
 {
+    /// <summary>
+    /// Implementation of a basic sequencer.
+    /// @author Kindohm
+    /// @author Nicolas Van Labeke
+    /// @version 1.0 - changed access to methods ProcessCurrentStep(), ProcessPreSampleTick() and ProcessPostSampleTick() to allow override.  
+    /// </summary>
     public class Sequencer : ISampleMaker
     {
         int tempo;
@@ -165,7 +171,7 @@ namespace Kindohm.KSynth.Library
 
         }
 
-        void ProcessCurrentStep()
+        virtual protected void ProcessCurrentStep()
         {
             if (this.stepIndex == 0)
             {
@@ -241,7 +247,7 @@ namespace Kindohm.KSynth.Library
             }
         }
 
-        void ProcessPreSampleTick()
+        virtual protected void ProcessPreSampleTick()
         {
             sampleCounter++;
 
@@ -255,7 +261,7 @@ namespace Kindohm.KSynth.Library
             }
         }
 
-        void ProcessPostSampleTick()
+        virtual protected void ProcessPostSampleTick()
         {
             if (++elapsedSampleTicks == 44100)
             {
