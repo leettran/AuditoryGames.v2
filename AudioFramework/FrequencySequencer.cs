@@ -10,9 +10,52 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Kindohm.KSynth.Library;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 
 namespace AudioFramework
 {
+    public class SequencerExt : Sequencer
+    {
+        public delegate void StepStarted();
+        public delegate void StepChanged();
+        public delegate void StepEnded();
+
+        public event StepStarted _stepStartedHook = null;
+        public event StepChanged _stepChangedHook = null;
+        public event StepEnded _stepEndedHook = null;
+
+        override protected void ProcessCurrentStep()
+        {
+            if (this.stepIndex == 0)
+            {
+                if (_stepStartedHook != null) this._stepStartedHook();
+            }
+            base.ProcessCurrentStep();
+        }
+
+        override protected void ProcessPreSampleTick()
+        {
+            sampleCounter++;
+
+            if (sampleCounter > samplesPerQuarter)
+            {
+                sampleCounter = 0;
+                this.stepIndex++;
+                this.stepChanged = true;
+                if (this.stepIndex >= this.StepCount)
+                {
+                    if (_stepEndedHook != null) this._stepEndedHook();
+                    this.stepIndex = 0;
+
+                }
+                else
+                {
+                    if (_stepChangedHook != null) this._stepChangedHook();
+                }
+            }
+        }
+    }
     /// <summary>
     /// Abstract wrapper for auditory stimuli generator
     /// 
@@ -20,18 +63,11 @@ namespace AudioFramework
     /// </summary>
     public abstract class IFrequencySequencer
     {
-        public delegate void StimuliStarted();
-        public delegate void StimuliChanged();
-        public delegate void StimuliStopped();
-
-        public event StimuliStarted stimuliStarted = null;
-        public event StimuliChanged stimuliChanged = null;
-        public event StimuliStopped stimuliStopped = null;
 
         /// <summary>
         /// Instance of the sequencer to be used for the stimuli generation.
         /// </summary>
-        protected Sequencer _sequencer = null;
+        protected SequencerExt _sequencer = null;
 
         /// <summary>
         /// Reference to the GUI media element.
@@ -48,6 +84,21 @@ namespace AudioFramework
         public abstract void ResetSequencer();
 
 
+        void _sequencer__stepChangedHook()
+        {
+            Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
+        }
+
+        void _sequencer__stepEndedHook()
+        {
+            Debug.WriteLine("SEQUENCER - LAST STEP ##### : " + this._sequencer.StepIndex);
+        }
+
+        void _sequencer__stepStartedHook()
+        {
+            Debug.WriteLine("SEQUENCER - STARTED ##### : " + this._sequencer.StepIndex);
+        }
+
         /// <summary>
         /// Default Constructor.
         /// </summary>
@@ -55,7 +106,11 @@ namespace AudioFramework
         protected IFrequencySequencer(MediaElement elt)
         {
             this._elt = elt;
-            this._sequencer = new Sequencer();
+            this._sequencer = new SequencerExt();
+            this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepChangedHook);
+            this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEndedHook);
+            this._sequencer._stepStartedHook += new SequencerExt.StepStarted(_sequencer__stepStartedHook);
+
             this._intervalVoices = new Dictionary<int, ISampleMaker>();
 
             SynthMediaStreamSource source = new SynthMediaStreamSource(44100, 2);
@@ -105,7 +160,7 @@ namespace AudioFramework
 
             }
             this._elt.Stop();
-            this._sequencer.StepIndex = this._sequencer.StepCount - 1;
+            this._sequencer.StepIndex = 0;// this._sequencer.StepCount - 1;
         }
 
         /// <summary>
@@ -122,7 +177,7 @@ namespace AudioFramework
         public void Stop()
         {
             if (_elt != null) _elt.Stop();
-            this._sequencer.StepIndex = this._sequencer.StepCount - 1;
+            this._sequencer.StepIndex = 0;// this._sequencer.StepCount - 1;
         }
 
 
@@ -137,11 +192,35 @@ namespace AudioFramework
         public Frequency3IGenerator(MediaElement elt) : base(elt)
         {
             setSequencer(3);
+            this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEnded3IHook);
         }
 
         public override void ResetSequencer()
         {
             setSequencer(3);
+        }
+
+        public delegate void AttachExecuteDelegate();
+        public void AttachExecute()
+        {
+            // here we can modify all the GUI elements; we’re now in the
+            // main thread of the application
+            if (this._elt != null) this._elt.Stop();
+            this._sequencer.StepIndex = 0;// this._sequencer.StepCount - 1;
+        }
+
+        public void ThreadProc(object stateInfo)
+        {
+            if (this._elt != null) this._elt.Stop();
+            this._sequencer.StepIndex = 0;// this._sequencer.StepCount - 1;
+
+        }
+
+        void _sequencer__stepEnded3IHook()
+        {
+            Debug.WriteLine("SEQUENCER - ENDED ## SHUT IT DOWN : " + this._sequencer.StepIndex);
+            //this.Stop();
+            //ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc));
         }
     }
 

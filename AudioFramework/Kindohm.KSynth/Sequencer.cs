@@ -12,14 +12,14 @@ namespace Kindohm.KSynth.Library
     /// </summary>
     public class Sequencer : ISampleMaker
     {
-        int tempo;
-        int sampleCounter;
-        int samplesPerQuarter;
-        int stepCount;
-        int stepIndex;
-        int elapsedSeconds = 0;
-        int elapsedSampleTicks = 0;
-        bool stepChanged;
+        protected int tempo;
+        protected int sampleCounter;
+        protected int samplesPerQuarter;
+        protected int stepCount;
+        protected int stepIndex;
+        protected int elapsedSeconds = 0;
+        protected int elapsedSampleTicks = 0;
+        protected bool stepChanged;
 
         Dictionary<int, StepEvent> stepEvents;
         List<VoiceNote> voicesInPlay;
