@@ -25,6 +25,7 @@ AudioFramework/Kindohm.KSynth/Voice.cs -text
 AudioFramework/Kindohm.KSynth/VoiceNote.cs -text
 AudioFramework/Kindohm.KSynth/WavPlayer.cs -text
 AudioFramework/Properties/AssemblyInfo.cs -text
+AudioFramework/WhiteNoiseWaveForm.cs -text
 AudioFramework/_AudioFramework.csproj -text
 /AuditoryGame.dox -text
 /AuditoryGames.v2.sln -text

@@ -81,6 +81,7 @@
     <Compile Include="Kindohm.KSynth\Voice.cs" />
     <Compile Include="Kindohm.KSynth\VoiceNote.cs" />
     <Compile Include="Kindohm.KSynth\WavPlayer.cs" />
+    <Compile Include="WhiteNoiseWaveForm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
