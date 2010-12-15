@@ -116,7 +116,7 @@ namespace AudioFramework
             SynthMediaStreamSource source = new SynthMediaStreamSource(44100, 2);
             source.SampleMaker = this._sequencer;
 
-            this._sequencer.Tempo = 60*4;
+            this._sequencer.Tempo = 60 * 10; // 1 beat per 10th second
             this._elt.SetSource(source);
         }
 
@@ -129,38 +129,65 @@ namespace AudioFramework
 
             this._intervalVoices = new Dictionary<int, ISampleMaker>();
             int inc = 0;
-            int intervalNb = 4;// interIdx;
+            int intervalNb = 2;// interIdx;
 
-            double[] inter = { 5000.0, 3000.0, 5000.0, 3000.0 };
+            double[] inter = { 5000.0, 3000.0, 1000.0, 3000.0 };
 
-            this._sequencer.StepCount = 8;
-            IWaveForm form = new SineWaveForm();
-
+            this._sequencer.StepCount = 19;
+            this._sequencer.VoiceCount = 3;
             double percent = 10 / 100d;
             uint value = (uint)(15000 * percent);
 
-            int[] pos = { 0, 1, 2, 1, 4 ,1 , 6 , 1 };
+            int[] pos = { 0, 2, 7, 2,0,19};
 
+ 
             for (inc = 0; inc < intervalNb; inc++)
             {
                 //Pitch pitch = new Pitch(11, 3);
+                IWaveForm form = new SineWaveForm();
                 Oscillator osc1 = new Oscillator();
-                osc1.WaveForm = form;
+                Oscillator osc2 = new Oscillator();
+                osc1.WaveForm = new SineWaveForm();
+                osc2.WaveForm = new SineWaveForm();
 
                 Voice voice = new Voice();
                 voice.Attenuation = 0;
-                voice.Oscillators.AddRange(new List<Oscillator>() { osc1 });
+                voice.Oscillators.AddRange(new List<Oscillator>() { osc1});
                 voice.Frequency = inter[inc];//pitch.Frequency;
                 voice.Envelope.Attack = value;
                 voice.Envelope.Decay = value;
                 this._intervalVoices.Add(inc, voice);
 
                 //this.sequencer.AddNote(voice, (3 + 2) * inc + 1, 3);
-                this._sequencer.AddNote(voice, pos[2*inc], pos[2*inc + 1]);
+                this._sequencer.AddNote(voice, pos[2 * inc], pos[2 * inc + 1]);
 
             }
+
+            if (false)
+           {
+                //Pitch pitch = new Pitch(11, 3);
+               IWaveForm form = new SineWaveForm();
+               Oscillator osc1 = new Oscillator();
+               Oscillator osc2 = new Oscillator();
+               osc1.WaveForm = new WhiteNoiseWaveForm();
+               osc2.WaveForm = new WhiteNoiseWaveForm();
+
+                Voice voice = new Voice();
+                voice.Attenuation = -25;
+                voice.Oscillators.AddRange(new List<Oscillator>() {osc1, osc2 });
+                voice.Frequency = 3000;
+                //voice.Envelope.Attack = value;
+                //voice.Envelope.Decay = value;
+                this._intervalVoices.Add(inc, voice);
+
+                //this.sequencer.AddNote(voice, (3 + 2) * inc + 1, 3);
+               this._sequencer.AddNote(voice, 0, 19);
+
+            }
+
+            
             this._elt.Stop();
-            this._sequencer.StepIndex = 0;// this._sequencer.StepCount - 1;
+            this._sequencer.StepIndex = -1;// this._sequencer.StepCount - 1;
         }
 
         /// <summary>
