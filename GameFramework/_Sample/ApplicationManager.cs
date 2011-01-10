@@ -13,18 +13,32 @@ using System.IO.IsolatedStorage;
 namespace AuditoryGames.GameFramework
 {
 
-    public partial class IApplicationManager
+    public abstract class IAppManager
     {
-        public int dev1 = 0;
+        protected static IAppManager _instance = null;
+
+        public static IAppManager Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
+
+        public int SavedScore;
+        public int Score;
+
+        public abstract void enterFrame(double dt);
+        public abstract void shutdown();
+        public abstract void startupApplicationManager();
     }
 
-    public class ApplicationManager
+    public class ApplicationManager : IAppManager
     {
         protected const string SCORE_ISOSTORE_NAME = "score";
         protected const double TIME_BETWEEN_ENEMIES = .2;
         protected const double TIME_BETWEEN_BACKGROUNDS = .3;
 
-        protected static ApplicationManager instance = null;
         protected Player plane = null;    
         protected Random rand = new Random((int)DateTime.Now.Ticks);
         protected double timeSinceLastEnemy = 0;
@@ -32,17 +46,17 @@ namespace AuditoryGames.GameFramework
         protected int score = 0;
         protected TextBlock txtbScore = null;
 
-        public static ApplicationManager Instance
+        public new static IAppManager Instance
         {
             get
             {
-                if (instance == null)
-                    instance = new ApplicationManager();
-                return instance;
+                if (_instance == null)
+                    _instance = new ApplicationManager();
+                return _instance;
             }
         }
 
-        public int SavedScore
+        public new int SavedScore
         {
             get
             {
@@ -60,7 +74,7 @@ namespace AuditoryGames.GameFramework
             }
         }
 
-        public int Score
+        public new int Score
         {
             get
             {
@@ -86,7 +100,7 @@ namespace AuditoryGames.GameFramework
                 children.RemoveAt(0);
         }
 
-        public void startupApplicationManager()
+        public override void startupApplicationManager()
         {
             StateManager.Instance.registerStateChange(
                 States.START_STATE,
@@ -147,7 +161,7 @@ namespace AuditoryGames.GameFramework
             plane.Position = new Point(150, 75);
 
             txtbScore = new TextBlock();
-            txtbScore.Text = ApplicationManager.Instance.Score.ToString();
+            //txtbScore.Text = IAppManager.Score.ToString();
             txtbScore.Width = 100;
             txtbScore.Height = 35;
             txtbScore.FontSize = 20;
@@ -169,7 +183,7 @@ namespace AuditoryGames.GameFramework
             txtbScore = null;
         }
 
-        public void enterFrame(double dt)
+        public override void enterFrame(double dt)
         {
             if (KeyHandler.Instance.isKeyPressed(Key.Escape) && StateManager.Instance.CurrentState.Equals("game"))
                 StateManager.Instance.setState(States.START_STATE);
@@ -206,7 +220,7 @@ namespace AuditoryGames.GameFramework
             }
         }
 
-        public void shutdown()
+        public override void shutdown()
         {
             SavedScore = Score;
         }

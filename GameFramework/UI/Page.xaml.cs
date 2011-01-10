@@ -18,8 +18,36 @@ namespace AuditoryGames.GameFramework
         public event EnterFrame enterFrame;
         
         protected DateTime lastTick;
+
+
+        public Canvas LayoutRoot
+        {
+            get
+            {
+                return this._LayoutRoot;
+            }
+        }
+
+
+        public MediaElement AudioPlayer
+        {
+            get
+            {
+                return this._AudioPlayer;
+            }
+        }
+
+
         
-        
+
+        public Canvas LayoutTitle
+        {
+            get
+            {
+                return this._LayoutTitle;
+            }
+        }
+
         public GamePage()
         {
             InitializeComponent();
@@ -37,7 +65,7 @@ namespace AuditoryGames.GameFramework
 
             if (enterFrame != null)
             {
-                ApplicationManager.Instance.enterFrame(elapsed.TotalSeconds);
+                IAppManager.Instance.enterFrame(elapsed.TotalSeconds);
                 CollisionManager.Instance.enterFrame(elapsed.TotalSeconds);
                 if (enterFrame != null) enterFrame(elapsed.TotalSeconds);
             }

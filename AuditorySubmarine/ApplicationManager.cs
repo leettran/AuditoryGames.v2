@@ -10,13 +10,8 @@ using AuditoryGames.Submarine;
 
 
 
-namespace AuditoryGames.GameFramework
+namespace AuditoryGames.Submarine
 {
-    public partial class IApplicationManager
-    {
-        public int dev2 = 2;
-    }
-
 
     /// <summary>
     /// 
@@ -31,7 +26,7 @@ namespace AuditoryGames.GameFramework
     /// <summary>
     /// 
     /// </summary>
-    public class ApplicationManager
+    public class SubmarineApplicationManager : IAppManager
     {
         /// <summary>
         /// 
@@ -44,25 +39,25 @@ namespace AuditoryGames.GameFramework
 
         private StopwatchPlus sp1;
 
-        protected static ApplicationManager instance = null;
+        //protected static SubmarineApplicationManager instance = null;
         
         /// <summary>
         /// 
         /// </summary>
-       public static ApplicationManager Instance
+        public new static IAppManager Instance
         {
             get
             {
-                if (instance == null)
-                    instance = new ApplicationManager();
-                return instance;
+                if (_instance == null)
+                    _instance = new SubmarineApplicationManager();
+                return _instance;
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        protected ApplicationManager()
+        protected SubmarineApplicationManager()
         {
             KeyHandler.Instance.IskeyUpOnly = true;
             //_synthEx = new Frequency2IGenerator();
@@ -72,7 +67,7 @@ namespace AuditoryGames.GameFramework
         /// <summary>
         /// 
         /// </summary>
-        public void startupApplicationManager()
+        public override void startupApplicationManager()
         {
             StateManager.Instance.registerStateChange(
                 States.START_STATE,
@@ -93,7 +88,7 @@ namespace AuditoryGames.GameFramework
 
         }
 
-        public void enterFrame(double dt)
+        public override void enterFrame(double dt)
         {
             if (KeyHandler.Instance.isKeyPressed(Key.Escape) && StateManager.Instance.CurrentState.Equals(SubmarineStates.LEVEL_STATE))
                 StateManager.Instance.setState(States.START_STATE);
@@ -148,7 +143,7 @@ namespace AuditoryGames.GameFramework
 
         }
 
-        public void shutdown()
+        public override void shutdown()
         {
             //SavedScore = Score;
         }
@@ -255,7 +250,7 @@ namespace AuditoryGames.GameFramework
  
 
             TextBlock txtbScore = new TextBlock();
-            txtbScore.Text = "150";// ApplicationManager.Instance.Score.ToString();
+            txtbScore.Text = "150";// SubmarineApplicationManager.Instance.Score.ToString();
             txtbScore.Name = "txtbScore";
             txtbScore.Width = 100;
             txtbScore.Height = 35;

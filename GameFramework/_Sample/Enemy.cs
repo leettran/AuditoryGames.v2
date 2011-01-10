@@ -92,7 +92,7 @@ namespace AuditoryGames.GameFramework
                         Position.X + Dimensions.X / 2 - 55 / 2, 
                         Position.Y + Dimensions.Y / 2 - 55 / 2);
 
-            ApplicationManager.Instance.Score += score;
+            IAppManager.Instance.Score += score;
 
             this.shutdown();
         }

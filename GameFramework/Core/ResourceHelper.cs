@@ -15,13 +15,25 @@ namespace AuditoryGames.GameFramework
 {
     public class ResourceHelper
     {
+        protected static string strExecutingAssemblyName = null;
 
         public static string ExecutingAssemblyName
         {
             get
             {
-                string name = System.Reflection.Assembly.GetExecutingAssembly().FullName;
-                return name.Substring(0, name.IndexOf(','));
+                if (strExecutingAssemblyName == null)
+                {
+                    string name = System.Reflection.Assembly.GetExecutingAssembly().FullName;
+                    return name.Substring(0, name.IndexOf(','));
+                }
+                else
+                {
+                    return strExecutingAssemblyName;
+                }
+            }
+            set
+            {
+                strExecutingAssemblyName = value;
             }
         }
 

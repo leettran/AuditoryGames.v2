@@ -23,22 +23,22 @@ namespace AuditoryGames.GameFramework
             InitializeComponent();
         }
 
-        private void Application_Startup(object sender, StartupEventArgs e)
+        protected virtual void Application_Startup(object sender, StartupEventArgs e)
         {
             this.RootVisual = new GamePage();
             KeyHandler.Instance.startupKeyHandler(this.RootVisual as GamePage);
-            ApplicationManager.Instance.startupApplicationManager();
+            IAppManager.Instance.startupApplicationManager();
             StateManager.Instance.startupStateManager();
         }
 
-        private void Application_Exit(object sender, EventArgs e)
+        protected virtual void Application_Exit(object sender, EventArgs e)
         {
             KeyHandler.Instance.shutdown();
             StateManager.Instance.shutdown();
-            ApplicationManager.Instance.shutdown();
+            IAppManager.Instance.shutdown();
         }
 
-        private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
+        protected void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
             // If the app is running outside of the debugger then report the exception using
             // the browser's exception mechanism. On IE this will display it a yellow alert 
@@ -54,7 +54,7 @@ namespace AuditoryGames.GameFramework
                 Deployment.Current.Dispatcher.BeginInvoke(delegate { ReportErrorToDOM(e); });
             }
         }
-        private void ReportErrorToDOM(ApplicationUnhandledExceptionEventArgs e)
+        protected void ReportErrorToDOM(ApplicationUnhandledExceptionEventArgs e)
         {
             try
             {

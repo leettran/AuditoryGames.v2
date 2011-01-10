@@ -95,13 +95,13 @@
     <Resource Include="Media\stop.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\OutOfBrowserSettings.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\AudioFramework\_AudioFramework.csproj">
       <Project>{401B2150-4296-486E-8247-3C2A93E1DB68}</Project>
       <Name>_AudioFramework</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\OutOfBrowserSettings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

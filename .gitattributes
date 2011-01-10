@@ -58,6 +58,7 @@ AuditorySubmarine/Media/wall.png -text
 AuditorySubmarine/Properties/AppManifest.xml -text
 AuditorySubmarine/Properties/AssemblyInfo.cs -text
 AuditorySubmarine/Properties/OutOfBrowserSettings.xml -text
+AuditorySubmarine/SubmarineApp.cs -text
 AuditorySubmarine/SubmarinePlayer.cs -text
 AuditorySubmarine/WallObject.cs -text
 AuditoryTreasureHunter/ApplicationManager.cs -text
@@ -90,6 +91,7 @@ AuditoryTreasureHunter/Media/volcanoisland.png -text
 AuditoryTreasureHunter/Properties/AppManifest.xml -text
 AuditoryTreasureHunter/Properties/AssemblyInfo.cs -text
 AuditoryTreasureHunter/Properties/OutOfBrowserSettings.xml -text
+AuditoryTreasureHunter/TreasureApp.cs -text
 AuditoryTreasureHunter/TreasureHunter.cs -text
 AuditoryTreasureHunter/TreasureNugget.cs -text
 AuditoryTreasureHunter/Weapon.cs -text
@@ -136,6 +138,7 @@ TestGame/Player.cs -text
 TestGame/Properties/AppManifest.xml -text
 TestGame/Properties/AssemblyInfo.cs -text
 TestGame/Properties/OutOfBrowserSettings.xml -text
+TestGame/TestApp.cs -text
 TestGame/TestGame.csproj -text
 TestGame/Weapon.cs -text
 TestGame/media/Explosion1.png -text

@@ -8,8 +8,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using AuditoryGames.GameFramework;
 
-namespace AuditoryGames.GameFramework
+namespace AuditoryGames.TreasureHunter
 {
     public class TreasureNugget : AnimatedGameObject
     {
@@ -113,13 +114,13 @@ namespace AuditoryGames.GameFramework
                         Position.X + Dimensions.X / 2 - 55 / 2, 
                         Position.Y + Dimensions.Y / 2 - 55 / 2);
 
-            ApplicationManager.Instance.Score += score;
+            TreasureApplicationManager.Instance.Score += score;
             this.Type = TreasureType.TREASURE_NONE;
             string newString = GameLevelInfo._curSetup.Substring(0, index) + "0" + GameLevelInfo._curSetup.Substring(index+1);
             GameLevelInfo._curSetup = newString;
             animationData.frames[currentFrame] = "media/hole1.png";
             prepareImage(animationData.frames[currentFrame]);
-            ApplicationManager.Instance.UpdateSound();
+            (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound();
            // this.shutdown();
         }
     }

@@ -9,8 +9,9 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using AuditoryGames.GameFramework;
 
-namespace AuditoryGames.GameFramework
+namespace AuditoryGames.TreasureHunter
 {
     public class TreasureHunter : AnimatedGameObject
     {
@@ -61,19 +62,19 @@ namespace AuditoryGames.GameFramework
                 {
                     _currState = MinerActionStates.MINER_IDLE;
                     _moveTo = new Point(0, 0);
-                    // ApplicationManager.Instance;
+                    // TreasureApplicationManager.Instance;
 
-                    ApplicationManager.Instance.UpdateSound();
+                    (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound();
                 }
             }
 
-            if (ApplicationManager.PREVENT_AUDIO_CHANGES) return;
+            if (TreasureApplicationManager.PREVENT_AUDIO_CHANGES) return;
 
             timeSinceLastShot -= dt;
             if (KeyHandler.Instance.isKeyPressed(Key.Space) && timeSinceLastShot <= 0 && _currState == MinerActionStates.MINER_IDLE)
             {
                 timeSinceLastShot = TIME_BETWEEN_SHOTS;
-                Weapon weapon = Weapon.UnusedWeapon.startupPlayerBasicWeapon(ZLayers.PLAYER_Z);
+                HunterWeapon weapon = HunterWeapon.UnusedWeapon.startupPlayerBasicWeapon(ZLayers.PLAYER_Z);
                 weapon.Position = new Point(Position.X + dimensions.X / 2 - weapon.Dimensions.X / 2, Position.Y + dimensions.Y - weapon.Dimensions.Y);
             }
 

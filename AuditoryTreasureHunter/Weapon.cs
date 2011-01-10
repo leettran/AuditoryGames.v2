@@ -8,17 +8,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using AuditoryGames.GameFramework;
 
-namespace AuditoryGames.GameFramework
+namespace AuditoryGames.TreasureHunter
 {
-    public class Weapon : GameObject
+    public class HunterWeapon : GameObject
     {
         protected const double SPEED = 200;
-        protected static ResourcePool<Weapon> resourcePool = new ResourcePool<Weapon>();
+        protected static ResourcePool<HunterWeapon> resourcePool = new ResourcePool<HunterWeapon>();
         public delegate void WeaponLogic(double dt);
         protected WeaponLogic weaponLogic = null;
 
-        static public Weapon UnusedWeapon
+        static public HunterWeapon UnusedWeapon
         {
             get
             {
@@ -26,7 +27,7 @@ namespace AuditoryGames.GameFramework
             }
         }
 
-        public Weapon()
+        public HunterWeapon()
         {
 
         }
@@ -37,7 +38,7 @@ namespace AuditoryGames.GameFramework
             if (weaponLogic != null) weaponLogic(dt);
         }
 
-        public Weapon startupPlayerBasicWeapon(int zLayer)
+        public HunterWeapon startupPlayerBasicWeapon(int zLayer)
         {
             base.startupGameObject(new Point(17, 15), "Media/twobullets.png", zLayer);
             weaponLogic = new WeaponLogic(this.basicPlayerWeaponLogic);
@@ -45,7 +46,7 @@ namespace AuditoryGames.GameFramework
             return this;
         }
 
-        public Weapon startupEnemyBasicWeapon(int zLayer)
+        public HunterWeapon startupEnemyBasicWeapon(int zLayer)
         {
             base.startupGameObject(new Point(17, 15), "Media/twobullets.png", zLayer);
             weaponLogic = new WeaponLogic(this.basicEnemyWeaponLogic);

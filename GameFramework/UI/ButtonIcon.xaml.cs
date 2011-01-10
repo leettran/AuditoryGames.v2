@@ -14,6 +14,23 @@ namespace AuditoryTreasureHunter
 {
     public partial class ButtonIcon : Button
     {
+
+
+        public Image Icon
+        {
+            get
+            {
+                return _Icon;
+         }
+        }
+
+        public TextBlock TextContent
+        {
+            get
+            {
+                return _TextContent;
+         }
+        }
         public ButtonIcon()
         {
             InitializeComponent();

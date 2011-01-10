@@ -14,8 +14,9 @@ using System.Text;
 using System.Diagnostics;
 using AudioFramework;
 using AuditoryTreasureHunter;
+using AuditoryGames.GameFramework;
 
-namespace AuditoryGames.GameFramework
+namespace AuditoryGames.TreasureHunter
 {
 
     public static class GameLevelInfo
@@ -78,7 +79,7 @@ namespace AuditoryGames.GameFramework
         public static int SKY_MARGIN = 200;
     }
 
-    public class ApplicationManager
+    public class TreasureApplicationManager : IAppManager
     {
         protected const string SCORE_ISOSTORE_NAME = "score";
         protected const double TIME_BETWEEN_ENEMIES = .2;
@@ -86,7 +87,7 @@ namespace AuditoryGames.GameFramework
 
         public static Boolean PREVENT_AUDIO_CHANGES = false;
 
-        protected static ApplicationManager instance = null;
+        //protected static TreasureApplicationManager instance = null;
         protected Random rand = new Random((int)DateTime.Now.Ticks);
         protected double timeSinceLastEnemy = 0;
         protected double timeSinceLastBackground = 0;
@@ -102,49 +103,21 @@ namespace AuditoryGames.GameFramework
         /// </summary>
         protected TreasureHunter _player = null;
 
-        public static ApplicationManager Instance
+        /// <summary>
+        /// 
+        /// </summary>
+        public new static IAppManager Instance
         {
             get
             {
-                if (instance == null)
-                    instance = new ApplicationManager();
-                return instance;
+                if (_instance == null)
+                    _instance = new TreasureApplicationManager();
+                return _instance;
             }
         }
 
-        public int SavedScore
-        {
-            get
-            {
-                if (IsolatedStorageSettings.ApplicationSettings.Contains(SCORE_ISOSTORE_NAME))
-                {
-                    int? value = IsolatedStorageSettings.ApplicationSettings[SCORE_ISOSTORE_NAME] as int?;
-                    if (value != null) return value.Value;
-                }
 
-                return 0;
-            }
-            set
-            {
-                IsolatedStorageSettings.ApplicationSettings[SCORE_ISOSTORE_NAME] = value;
-            }
-        }
-
-        public int Score
-        {
-            get
-            {
-                return score;
-            }
-
-            set
-            {
-                score = value;
-                if (txtbScore != null) txtbScore.Text = score.ToString();
-            }
-        }
-
-        protected ApplicationManager()
+        protected TreasureApplicationManager()
         {
             KeyHandler.Instance.IskeyUpOnly = true;
 
@@ -155,9 +128,7 @@ namespace AuditoryGames.GameFramework
                 _synthEx.FrequencyTimer.stimuliStarted += new FrequencyTimer.StimuliStarted(AppMgr_StimuliStarted);
                 _synthEx.FrequencyTimer.stimuliStopped += new FrequencyTimer.StimuliStopped(AppMgr_StimuliStopped);
             }*/
-            MediaElement children = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
-            _synthEx = new Frequency3IGenerator(children);
-
+ 
         }
 
 
@@ -180,8 +151,11 @@ namespace AuditoryGames.GameFramework
                 children.RemoveAt(0);
         }
 
-        public void startupApplicationManager()
+        public override void startupApplicationManager()
         {
+            MediaElement children = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
+            _synthEx = new Frequency3IGenerator(children);
+
             StateManager.Instance.registerStateChange(
                 States.START_STATE,
                 new StateChangeInfo.StateFunction(startMainMenu),
@@ -255,12 +229,12 @@ namespace AuditoryGames.GameFramework
             (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
 
 
-            GameParameters param = new GameParameters();
+           /* GameParameters param = new GameParameters();
             param.NbZone.Value = GameLevelInfo._nbTreasureZones;
 
             param.SetValue(Canvas.LeftProperty, 490.0);
             param.SetValue(Canvas.TopProperty, 50.0);
-            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(param);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(param);*/
         }
 
         public void endMainMenu()
@@ -289,7 +263,7 @@ namespace AuditoryGames.GameFramework
 
             //// initialise game objects
             // background image
-            BackgroundGameObject bgImage = new BackgroundGameObject()
+            BackgroundTreasureGameObject bgImage = new BackgroundTreasureGameObject()
             {
                 ImageStretch = Stretch.Fill
             };
@@ -299,7 +273,7 @@ namespace AuditoryGames.GameFramework
             bgImage.Position = new Point(0, GameLayout.SKY_MARGIN);
 
             // rail object
-            BackgroundGameObject railImage = new BackgroundGameObject()
+            BackgroundTreasureGameObject railImage = new BackgroundTreasureGameObject()
             {
                 ImageStretch = Stretch.Fill
             };
@@ -343,7 +317,7 @@ namespace AuditoryGames.GameFramework
 
             // score window (TO DO AGAIN)
             txtbScore = new TextBlock();
-            txtbScore.Text = ApplicationManager.Instance.Score.ToString();
+            txtbScore.Text = TreasureApplicationManager.Instance.Score.ToString();
             txtbScore.Width = 100;
             txtbScore.Height = 35;
             txtbScore.FontSize = 20;
@@ -431,7 +405,7 @@ namespace AuditoryGames.GameFramework
             txtbScore = null;
         }
 
-        public void enterFrame(double dt)
+        public override void enterFrame(double dt)
         {
             if (KeyHandler.Instance.isKeyPressed(Key.Escape) && StateManager.Instance.CurrentState.Equals("game"))
                 StateManager.Instance.setState(States.START_STATE);
@@ -459,7 +433,7 @@ namespace AuditoryGames.GameFramework
             {
                 timeSinceLastBackground = TIME_BETWEEN_BACKGROUNDS;
                 
-                BackgroundGameObject.UnusedBackgroundGameObject.startupBackgroundGameObject(
+                BackgroundTreasureGameObject.UnusedBackgroundGameObject.startupBackgroundGameObject(
                     new Point(65, 65),
                     "Media/bigisland.png",
                     ZLayers.BACKGROUND_Z)
@@ -468,7 +442,7 @@ namespace AuditoryGames.GameFramework
             }*/
         }
 
-        public void shutdown()
+        public override void shutdown()
         {
             SavedScore = Score;
         }

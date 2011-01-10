@@ -112,7 +112,7 @@ namespace AuditoryGames.Submarine
                 DispatcherTimer timer = new DispatcherTimer();
                 timer.Tick += delegate(object sender, EventArgs e)
                 {
-                    //ApplicationManager.Instance.Score = 0; ;
+                    //SubmarineApplicationManager.Instance.Score = 0; ;
                     StateManager.Instance.setState(States.START_STATE);
                     (sender as DispatcherTimer).Stop();
 

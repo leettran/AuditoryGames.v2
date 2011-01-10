@@ -21,7 +21,7 @@
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>AuditorySubmarine.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>AuditoryGames.GameFramework.AuditoryGameApp</SilverlightAppEntry>
+    <SilverlightAppEntry>AuditoryGames.Submarine.SubmarineApp</SilverlightAppEntry>
     <TestPageFileName>AuditorySubmarineTestPage.html</TestPageFileName>
     <CreateTestPage>true</CreateTestPage>
     <ValidateXaml>true</ValidateXaml>
@@ -70,68 +70,10 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\GameFramework\Core\AnimatedGameObject.cs">
-      <Link>Game\AnimatedGameObject.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\Core\BackgroundGameObject.cs">
-      <Link>Game\BackgroundGameObject.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\Core\BaseObject.cs">
-      <Link>Game\BaseObject.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\Core\CollisionIdentifiers.cs">
-      <Link>Game\CollisionIdentifiers.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\Core\CollisionManager.cs">
-      <Link>Game\CollisionManager.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\Core\GameObject.cs">
-      <Link>Game\GameObject.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\Core\KeyHandler.cs">
-      <Link>Game\KeyHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\Core\ResourceHelper.cs">
-      <Link>Game\ResourceHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\Core\ResourcePool.cs">
-      <Link>Game\ResourcePool.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\Core\StateManager.cs">
-      <Link>Game\StateManager.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\Core\ZLayers.cs">
-      <Link>Game\ZLayers.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\UI\App.xaml.cs">
-      <Link>Game\App.xaml.cs</Link>
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="..\GameFramework\UI\ButtonIcon.xaml.cs">
-      <Link>Game\ButtonIcon.xaml.cs</Link>
-      <DependentUpon>ButtonIcon.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="..\GameFramework\UI\GameParameters.xaml.cs">
-      <Link>Game\GameParameters.xaml.cs</Link>
-      <DependentUpon>GameParameters.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="..\GameFramework\UI\Page.xaml.cs">
-      <Link>Game\Page.xaml.cs</Link>
-      <DependentUpon>Page.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="..\GameFramework\UI\ScoreControl.xaml.cs">
-      <Link>Game\ScoreControl.xaml.cs</Link>
-      <DependentUpon>ScoreControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="..\GameFramework\Utility\MathUtil.cs">
-      <Link>Game\MathUtil.cs</Link>
-    </Compile>
-    <Compile Include="..\GameFramework\Utility\StopwatchPlus.cs">
-      <Link>Game\StopwatchPlus.cs</Link>
-    </Compile>
     <Compile Include="GateObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationManager.cs" />
+    <Compile Include="SubmarineApp.cs" />
     <Compile Include="SubmarinePlayer.cs" />
     <Compile Include="WallObject.cs" />
   </ItemGroup>
@@ -143,36 +85,13 @@
       <Project>{401B2150-4296-486E-8247-3C2A93E1DB68}</Project>
       <Name>_AudioFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameFramework\_GameFramework.csproj">
+      <Project>{3627F8E4-8316-4C58-8E03-549CC1924B80}</Project>
+      <Name>_GameFramework</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\OutOfBrowserSettings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="..\GameFramework\UI\App.xaml">
-      <Link>Game\App.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\GameFramework\UI\ButtonIcon.xaml">
-      <Link>Game\ButtonIcon.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\GameFramework\UI\GameParameters.xaml">
-      <Link>Game\GameParameters.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\GameFramework\UI\Page.xaml">
-      <Link>Game\Page.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="..\GameFramework\UI\ScoreControl.xaml">
-      <Link>Game\ScoreControl.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Media\asub1.png" />

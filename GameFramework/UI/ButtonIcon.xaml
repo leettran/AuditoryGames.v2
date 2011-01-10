@@ -8,8 +8,8 @@
     <StackPanel Orientation="Horizontal">
         <Image Source="/AuditoryTreasureHunter;component/Media/blueplane2.png"
 					Width="16"
-					Height="16" Name="Icon" />
-        <TextBlock Text="Add User" Margin="10,0,0,0" Name="TextContent" />
+					Height="16" Name="_Icon" />
+        <TextBlock Text="Add User" Margin="10,0,0,0" Name="_TextContent" />
     </StackPanel>
     </Button.Content>
 

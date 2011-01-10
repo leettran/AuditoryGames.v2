@@ -8,17 +8,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using AuditoryGames.GameFramework;
 
-namespace AuditoryGames.GameFramework
+namespace AuditoryGames.TreasureHunter
 {
-    public class BackgroundGameObject : GameObject
+    public class BackgroundTreasureGameObject : GameObject
     {
         protected const double SPEED = 35;
 
         public Boolean ShowZone { set; get; }
         public Polyline[] Zones = { };
 
-        public BackgroundGameObject()
+        public BackgroundTreasureGameObject()
         {
             this.ImageStretch = Stretch.None;
             this.ShowZone = false;
@@ -48,7 +49,7 @@ namespace AuditoryGames.GameFramework
             }
         }
 
-        public BackgroundGameObject startupBackgroundGameObject(Point dimensions, string image, int zLayer)
+        public BackgroundTreasureGameObject startupBackgroundGameObject(Point dimensions, string image, int zLayer)
         {
             base.startupGameObject(dimensions, image, zLayer);
             Zones = new Polyline[GameLevelInfo._nbTreasureZones];
