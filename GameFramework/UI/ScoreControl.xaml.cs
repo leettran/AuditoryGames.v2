@@ -12,6 +12,9 @@ using System.Windows.Shapes;
 
 namespace AuditoryTreasureHunter
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class ScoreControl : UserControl
     {
         public ScoreControl()

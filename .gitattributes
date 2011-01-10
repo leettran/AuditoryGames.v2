@@ -103,6 +103,7 @@ AuditoryWhackAMole/MainPage.xaml.cs -text
 AuditoryWhackAMole/Properties/AppManifest.xml -text
 AuditoryWhackAMole/Properties/AssemblyInfo.cs -text
 AuditoryWhackAMole/Properties/OutOfBrowserSettings.xml -text
+/DosxygenTag.cs -text
 GameFramework/Core/AnimatedGameObject.cs -text
 GameFramework/Core/BackgroundGameObject.cs -text
 GameFramework/Core/BaseObject.cs -text
@@ -165,3 +166,4 @@ TestSequencer/Properties/AppManifest.xml -text
 TestSequencer/Properties/AssemblyInfo.cs -text
 TestSequencer/Properties/OutOfBrowserSettings.xml -text
 TestSequencer/TestSequencer.csproj -text
+/csharp.tag -text

@@ -354,7 +354,7 @@ HIDE_UNDOC_MEMBERS     = NO
 # If set to NO (the default) these classes will be included in the various 
 # overviews. This option has no effect if EXTRACT_ALL is enabled.
 
-HIDE_UNDOC_CLASSES     = NO
+HIDE_UNDOC_CLASSES     = YES
 
 # If the HIDE_FRIEND_COMPOUNDS tag is set to YES, Doxygen will hide all 
 # friend (class|struct|union) declarations. 
@@ -663,7 +663,9 @@ EXCLUDE_SYMLINKS       = NO
 # against the file with absolute path, so to exclude all test directories 
 # for example use the pattern */test/*
 
-EXCLUDE_PATTERNS       = 
+EXCLUDE_PATTERNS       = */obj/* \
+                         */bin/* \
+                         */.svn/*
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names 
 # (namespaces, classes, functions, etc.) that should be excluded from the 
@@ -1434,7 +1436,7 @@ SKIP_FUNCTION_MACROS   = YES
 # If a tag file is not located in the directory in which doxygen 
 # is run, you must also specify the path to the tagfile here.
 
-TAGFILES               = 
+TAGFILES               = csharp.tag
 
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create 
 # a tag file that is based on the input files it reads.

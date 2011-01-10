@@ -12,6 +12,9 @@ using AuditoryGames.GameFramework;
 
 namespace AuditoryGames.Submarine
 {
+    /// <summary>
+    /// Submarine application
+    /// </summary>
     public class SubmarineApp : AuditoryGameApp
     {
         public SubmarineApp()

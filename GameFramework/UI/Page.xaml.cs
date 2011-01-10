@@ -12,6 +12,9 @@ using System.Windows.Shapes;
 
 namespace AuditoryGames.GameFramework
 {
+    /// <summary>
+    /// Common UI page for all auditory games.
+    /// </summary>
     public partial class GamePage : UserControl
     {
         public delegate void EnterFrame(double dt);

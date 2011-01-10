@@ -6,8 +6,14 @@ using System.Windows.Media;
 
 namespace Kindohm.KSynth.Library
 {
-    //much of this code borrowed from Charles Petzold
-    //http://charlespetzold.com/blog/2009/07/Simple-Electronic-Music-Sequencer-for-Silverlight.html
+    //
+    
+    /// <summary>
+    /// .
+    /// 
+    /// much of this code borrowed from Charles Petzold
+    /// @see http://charlespetzold.com/blog/2009/07/Simple-Electronic-Music-Sequencer-for-Silverlight.html
+    /// </summary>
     public class SynthMediaStreamSource : MediaStreamSource
     {
         const int BitsPerSample = 16;

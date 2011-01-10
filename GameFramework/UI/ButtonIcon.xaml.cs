@@ -12,6 +12,9 @@ using System.Windows.Shapes;
 
 namespace AuditoryTreasureHunter
 {
+    /// <summary>
+    /// A simple wrapper to Button, for changing icons.
+    /// </summary>
     public partial class ButtonIcon : Button
     {
 

@@ -12,6 +12,9 @@ using System.Windows.Shapes;
 
 namespace AuditoryGames.GameFramework
 {
+    /// <summary>
+    /// Common Application class for all auditory games
+    /// </summary>
     public partial class AuditoryGameApp : Application
     {
 

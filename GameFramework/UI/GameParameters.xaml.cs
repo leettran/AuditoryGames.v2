@@ -13,6 +13,9 @@ using AuditoryGames.GameFramework;
 
 namespace AuditoryTreasureHunter
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class GameParameters : UserControl
     {
         public GameParameters()
