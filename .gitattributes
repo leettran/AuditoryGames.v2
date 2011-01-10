@@ -30,10 +30,12 @@ AudioFramework/_AudioFramework.csproj -text
 AuditoryBubbleBlast/App.xaml -text
 AuditoryBubbleBlast/App.xaml.cs -text
 AuditoryBubbleBlast/AuditoryBubbleBlast.csproj -text
+AuditoryBubbleBlast/Cell.cs -text
 AuditoryBubbleBlast/MainPage.xaml -text
 AuditoryBubbleBlast/MainPage.xaml.cs -text
 AuditoryBubbleBlast/Properties/AppManifest.xml -text
 AuditoryBubbleBlast/Properties/AssemblyInfo.cs -text
+AuditoryBubbleBlast/Properties/OutOfBrowserSettings.xml -text
 /AuditoryGame.dox -text
 /AuditoryGames.v2.sln -text
 AuditorySubmarine/ApplicationManager.cs -text

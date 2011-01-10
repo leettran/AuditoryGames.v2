@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace AuditoryBubbleBlast
 {
@@ -27,6 +28,24 @@ namespace AuditoryBubbleBlast
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             this.RootVisual = new MainPage();
+
+            Grid gg = new Grid();
+            //gg._grid[3, 2]._val = 1;
+            gg._grid[3, 2]._bullets.Add(new Bullet(Bullet.Direction.Left));
+            gg._grid[3, 2]._bullets.Add(new Bullet(Bullet.Direction.Up));
+            gg._grid[3, 2]._bullets.Add(new Bullet(Bullet.Direction.Right));
+            gg._grid[3, 2]._bullets.Add(new Bullet(Bullet.Direction.Down));
+
+            gg._grid[3, 5]._val = 3;
+            gg._grid[6, 2]._val = 1;
+
+            gg._nbBullets = 4;
+            while (gg._nbBullets != 0)
+            {
+                Debug.WriteLine("{0}", gg._nbBullets);
+                gg.dedbug();
+                gg.fire();
+            }
         }
 
         private void Application_Exit(object sender, EventArgs e)
