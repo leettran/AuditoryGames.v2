@@ -165,7 +165,7 @@ namespace AuditoryGames.GameFramework
             btnStart.Click += delegate(object sender, RoutedEventArgs e) { 
                 StateManager.Instance.setState(SubmarineStates.LEVEL_STATE); 
             };
-            (App.Current.RootVisual as Page).LayoutRoot.Children.Add(btnStart);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
 
             //StatusPanelControl ctr = new StatusPanelControl();
             //(GameApplication.Current.RootVisual as GamePage).GetLayoutElt().Children.Add(ctr);
@@ -194,7 +194,7 @@ namespace AuditoryGames.GameFramework
 
         protected void removeAllCanvasChildren()
         {
-            UIElementCollection children = (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children;
+            UIElementCollection children = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
             while (children.Count != 0)
                 children.RemoveAt(0);
         }
@@ -234,7 +234,7 @@ namespace AuditoryGames.GameFramework
                 ZLayers.PLAYER_Z);
             _submarine.Position = new Point(0, 75);
 
-            Canvas zone = (App.Current.RootVisual as Page).LayoutRoot;
+            Canvas zone = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot;
 
             Point dim = new Point(zone.ActualWidth,zone.ActualHeight);
 
@@ -264,8 +264,8 @@ namespace AuditoryGames.GameFramework
             txtbScore.SetValue(Canvas.LeftProperty, 10.0);
             txtbScore.SetValue(Canvas.TopProperty, 10.0);
             // we have to insert any non GameObjects at the end of the children collection
-            (App.Current.RootVisual as Page).LayoutRoot.Children.Insert(
-                (App.Current.RootVisual as Page).LayoutRoot.Children.Count, txtbScore);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(
+                (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Count, txtbScore);
 
             ///_synthEx.Arpeggiator.Notes[0].Frequency = 5000;
             ///_synthEx.Arpeggiator.Notes[2].Frequency = (float)(5000 - 50*(_gate.Position.Y - _submarine.Position.Y)/10.0);
@@ -281,7 +281,7 @@ namespace AuditoryGames.GameFramework
                 GameObject.gameObjects[0].shutdown();
 
             removeAllCanvasChildren();
-            UIElementCollection children = (App.Current.RootVisual as Page).LayoutTitle.Children;
+            UIElementCollection children = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children;
             while (children.Count != 0)
                 children.RemoveAt(0);
 

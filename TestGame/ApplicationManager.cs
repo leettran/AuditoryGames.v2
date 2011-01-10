@@ -75,7 +75,7 @@ namespace AuditoryGames.GameFramework
 
         protected void removeAllCanvasChildren()
         {
-            UIElementCollection children = (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children;
+            UIElementCollection children = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
             while (children.Count != 0)
                 children.RemoveAt(0);
         }
@@ -104,7 +104,7 @@ namespace AuditoryGames.GameFramework
             btnStart.SetValue(Canvas.LeftProperty, 490.0);
             btnStart.SetValue(Canvas.TopProperty, 355.0);
             btnStart.Click += delegate(object sender, RoutedEventArgs e) { StateManager.Instance.setState("game"); };
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Add(btnStart);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
 
             Button btnFull = new Button();
             btnFull.Content = "Start Game";
@@ -113,9 +113,9 @@ namespace AuditoryGames.GameFramework
             btnFull.SetValue(Canvas.LeftProperty, 50.0);
             btnFull.SetValue(Canvas.TopProperty, 50.0);
             btnFull.Click += delegate(object sender, RoutedEventArgs e) {
-                App.Current.Host.Content.IsFullScreen = !App.Current.Host.Content.IsFullScreen;
+                AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
             };
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Add(btnFull);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
 
         }
 
@@ -149,8 +149,8 @@ namespace AuditoryGames.GameFramework
             txtbScore.SetValue(Canvas.LeftProperty, 10.0);
             txtbScore.SetValue(Canvas.TopProperty, 10.0);
             // we have to insert any non GameObjects at the end of the children collection
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Insert(
-                (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Count, txtbScore);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(
+                (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Count, txtbScore);
         }
 
         public void exitGame()
@@ -185,7 +185,7 @@ namespace AuditoryGames.GameFramework
                     10,
                     ZLayers.PLAYER_Z)
                     .Position =
-                        new Point(rand.Next(0, (int)(AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.ActualWidth), -32);
+                        new Point(rand.Next(0, (int)(AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth), -32);
             }
 
             if (timeSinceLastBackground <= 0)
@@ -197,7 +197,7 @@ namespace AuditoryGames.GameFramework
                     "Media/bigisland.png",
                     ZLayers.BACKGROUND_Z)
                     .Position =
-                        new Point(rand.Next(0, (int)(AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.ActualHeight), -65);
+                        new Point(rand.Next(0, (int)(AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight), -65);
             }
         }
 

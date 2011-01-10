@@ -28,13 +28,13 @@ namespace AuditoryGames.GameFramework
         
         public void startupBaseObject()
         {
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).enterFrame += new Page.EnterFrame(enterFrame);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).enterFrame += new GamePage.EnterFrame(enterFrame);
             inUse = true;
         }
 
         virtual public void shutdown()
         {
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).enterFrame -= new Page.EnterFrame(enterFrame);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).enterFrame -= new GamePage.EnterFrame(enterFrame);
             inUse = false;
         }
 

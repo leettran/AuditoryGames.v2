@@ -60,7 +60,7 @@ namespace AuditoryGames.GameFramework
 
         public override void shutdown()
         {
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Remove(rect);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Remove(rect);
             rect = null;
             base.shutdown();
         }

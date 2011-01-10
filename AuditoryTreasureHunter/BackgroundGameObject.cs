@@ -70,7 +70,7 @@ namespace AuditoryGames.GameFramework
                 {
                     Zones[i].Fill = new SolidColorBrush(Color.FromArgb(25, 255, 0, 0));
                 }
-                (App.Current.RootVisual as Page).LayoutRoot.Children.Add(Zones[i]);
+                (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(Zones[i]);
             }
             return this;
         }

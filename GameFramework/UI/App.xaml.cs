@@ -12,10 +12,10 @@ using System.Windows.Shapes;
 
 namespace AuditoryGames.GameFramework
 {
-    public partial class App : Application
+    public partial class AuditoryGameApp : Application
     {
 
-        public App()
+        public AuditoryGameApp()
         {
             this.Startup += this.Application_Startup;
             this.Exit += this.Application_Exit;
@@ -25,8 +25,8 @@ namespace AuditoryGames.GameFramework
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            this.RootVisual = new Page();
-            KeyHandler.Instance.startupKeyHandler(this.RootVisual as Page);
+            this.RootVisual = new GamePage();
+            KeyHandler.Instance.startupKeyHandler(this.RootVisual as GamePage);
             ApplicationManager.Instance.startupApplicationManager();
             StateManager.Instance.startupStateManager();
         }

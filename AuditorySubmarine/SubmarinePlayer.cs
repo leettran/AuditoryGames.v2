@@ -62,12 +62,12 @@ namespace AuditoryGames.Submarine
             
 
              // keep the player bound to the screen
-            if (Position.X > (App.Current.RootVisual as Page).LayoutRoot.ActualWidth - dimensions.X)
-                Position = new Point((App.Current.RootVisual as Page).LayoutRoot.ActualWidth - dimensions.X, Position.Y);
+            if (Position.X > (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - dimensions.X)
+                Position = new Point((AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - dimensions.X, Position.Y);
             else if (Position.X < 0)
                 Position = new Point(0, Position.Y);
-            if (Position.Y > (App.Current.RootVisual as Page).LayoutRoot.ActualHeight - dimensions.Y)
-                Position = new Point(Position.X, (App.Current.RootVisual as Page).LayoutRoot.ActualHeight - dimensions.Y);
+            if (Position.Y > (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - dimensions.Y)
+                Position = new Point(Position.X, (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - dimensions.Y);
             else if (Position.Y < 0)
                 Position = new Point(Position.X, 0);
         }

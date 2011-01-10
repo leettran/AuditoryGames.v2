@@ -21,7 +21,7 @@
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>AuditoryTreasureHunter.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>AuditoryGames.GameFramework.App</SilverlightAppEntry>
+    <SilverlightAppEntry>AuditoryGames.GameFramework.AuditoryGameApp</SilverlightAppEntry>
     <TestPageFileName>AuditoryTreasureHunterTestPage.html</TestPageFileName>
     <CreateTestPage>true</CreateTestPage>
     <ValidateXaml>true</ValidateXaml>

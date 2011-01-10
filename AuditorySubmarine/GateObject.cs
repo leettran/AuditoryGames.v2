@@ -75,8 +75,8 @@ namespace AuditoryGames.Submarine
             _bottom.Tag = this;
             base.startupGameObject(dimensions, image, zLayer);
             this.collisionName = CollisionIdentifiers.ENEMY;
-            (App.Current.RootVisual as Page).LayoutRoot.Children.Add(_top);
-            (App.Current.RootVisual as Page).LayoutRoot.Children.Add(_bottom);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(_top);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(_bottom);
             this.Visibility = Visibility.Collapsed;
 
         }
@@ -91,7 +91,7 @@ namespace AuditoryGames.Submarine
                 AlignmentY = AlignmentY.Top
             };*/
             rect.Fill = new SolidColorBrush(Colors.Red);// 
-            rect.Fill=(App.Current.RootVisual as Page).LayoutRoot.Background;
+            rect.Fill = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background;
             _top.Fill = new SolidColorBrush(Colors.Green);
             _bottom.Fill = new SolidColorBrush(Colors.Green);
 
@@ -116,9 +116,9 @@ namespace AuditoryGames.Submarine
 
         public override void shutdown()
         {
-            (App.Current.RootVisual as Page).LayoutRoot.Children.Remove(_bottom);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Remove(_bottom);
             _bottom = null;
-            (App.Current.RootVisual as Page).LayoutRoot.Children.Remove(_top);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Remove(_top);
             _top = null;
             //_imgBrush = null;
             base.shutdown();

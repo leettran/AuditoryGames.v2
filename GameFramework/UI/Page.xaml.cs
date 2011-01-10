@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 
 namespace AuditoryGames.GameFramework
 {
-    public partial class Page : UserControl
+    public partial class GamePage : UserControl
     {
         public delegate void EnterFrame(double dt);
         public event EnterFrame enterFrame;
@@ -20,7 +20,7 @@ namespace AuditoryGames.GameFramework
         protected DateTime lastTick;
         
         
-        public Page()
+        public GamePage()
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(CompositionTarget_onLoaded);
@@ -45,7 +45,7 @@ namespace AuditoryGames.GameFramework
 
         void CompositionTarget_onLoaded(object sender, EventArgs e)
         {
-            App.Current.Host.Content.IsFullScreen = true;
+            AuditoryGameApp.Current.Host.Content.IsFullScreen = true;
         }
     }
 }

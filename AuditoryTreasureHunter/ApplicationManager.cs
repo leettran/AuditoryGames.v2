@@ -155,7 +155,7 @@ namespace AuditoryGames.GameFramework
                 _synthEx.FrequencyTimer.stimuliStarted += new FrequencyTimer.StimuliStarted(AppMgr_StimuliStarted);
                 _synthEx.FrequencyTimer.stimuliStopped += new FrequencyTimer.StimuliStopped(AppMgr_StimuliStopped);
             }*/
-            MediaElement children = (AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
+            MediaElement children = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
             _synthEx = new Frequency3IGenerator(children);
 
         }
@@ -175,7 +175,7 @@ namespace AuditoryGames.GameFramework
 
         protected void removeAllCanvasChildren()
         {
-            UIElementCollection children = (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children;
+            UIElementCollection children = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
             while (children.Count != 0)
                 children.RemoveAt(0);
         }
@@ -210,7 +210,7 @@ namespace AuditoryGames.GameFramework
                 GameLevelInfo._gameMode = 0;
                 StateManager.Instance.setState("game"); 
             };
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Add(btnStart);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
 
             btnStart = new ButtonIcon();
             btnStart.TextContent.Text = "Start Game (Value mode)";
@@ -225,7 +225,7 @@ namespace AuditoryGames.GameFramework
                 GameLevelInfo._gameMode = 1;
                 StateManager.Instance.setState("game");
             };
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Add(btnStart);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
 
             btnStart = new ButtonIcon();
             btnStart.TextContent.Text = "Start Game (distance mode)";
@@ -240,7 +240,7 @@ namespace AuditoryGames.GameFramework
                 GameLevelInfo._gameMode = 2;
                 StateManager.Instance.setState("game");
             };
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Add(btnStart);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
 
             
             Button btnFull = new Button();
@@ -250,9 +250,9 @@ namespace AuditoryGames.GameFramework
             btnFull.SetValue(Canvas.LeftProperty, 50.0);
             btnFull.SetValue(Canvas.TopProperty, 50.0);
             btnFull.Click += delegate(object sender, RoutedEventArgs e) {
-                App.Current.Host.Content.IsFullScreen = !App.Current.Host.Content.IsFullScreen;
+                AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
             };
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Add(btnFull);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
 
 
             GameParameters param = new GameParameters();
@@ -260,7 +260,7 @@ namespace AuditoryGames.GameFramework
 
             param.SetValue(Canvas.LeftProperty, 490.0);
             param.SetValue(Canvas.TopProperty, 50.0);
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Add(param);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(param);
         }
 
         public void endMainMenu()
@@ -276,7 +276,7 @@ namespace AuditoryGames.GameFramework
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYERWEAPON, CollisionIdentifiers.ENEMY);
 
             // 
-            Canvas cv = (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot;
+            Canvas cv = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot;
             //GameLevelInfo._nbTreasureZones++;
             GameLevelInfo._sizeZones = ((int)cv.ActualWidth) / GameLevelInfo._nbTreasureZones;
 
@@ -358,8 +358,8 @@ namespace AuditoryGames.GameFramework
             ScoreControl ff = new ScoreControl();
             ff.SetValue(Canvas.LeftProperty, 10.0);
             ff.SetValue(Canvas.TopProperty, 10.0);
-            (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Insert(
-                (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Count, ff);
+            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(
+                (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Count, ff);
 
             float freqL = 0;
             float freqM = 0;
