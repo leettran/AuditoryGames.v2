@@ -133,14 +133,11 @@ GameFramework/_Sample/Enemy.cs -text
 GameFramework/_Sample/Player.cs -text
 GameFramework/_Sample/Weapon.cs -text
 TestGame/ApplicationManager.cs -text
-TestGame/Enemy.cs -text
-TestGame/Player.cs -text
 TestGame/Properties/AppManifest.xml -text
 TestGame/Properties/AssemblyInfo.cs -text
 TestGame/Properties/OutOfBrowserSettings.xml -text
 TestGame/TestApp.cs -text
 TestGame/TestGame.csproj -text
-TestGame/Weapon.cs -text
 TestGame/media/Explosion1.png -text
 TestGame/media/Explosion2.png -text
 TestGame/media/Explosion3.png -text
