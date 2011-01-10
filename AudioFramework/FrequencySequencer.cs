@@ -63,6 +63,33 @@ namespace AudioFramework
     /// </summary>
     public abstract class IFrequencySequencer
     {
+        public class Stimulus 
+        {
+            public Boolean _isSilent = false;
+            public int _start = 0;
+            public int _duration = 0;
+            public double _frequency = 0;
+
+            public Stimulus(double f,int s,int d)
+            {
+                _isSilent = false;
+                _start = s;
+                _duration = d;
+                _frequency = f;
+
+            }
+
+            public Stimulus(int s, int d)
+            {
+                _isSilent = true;
+                _start = s;
+                _duration = d;
+                _frequency = 0;
+            }
+
+        }
+
+        protected List<Stimulus> _StimuliStructure = null;
 
         /// <summary>
         /// Instance of the sequencer to be used for the stimuli generation.
@@ -107,6 +134,8 @@ namespace AudioFramework
         {
             this._elt = elt;
             this._sequencer = new SequencerExt();
+
+
             this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepChangedHook);
             this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEndedHook);
             this._sequencer._stepStartedHook += new SequencerExt.StepStarted(_sequencer__stepStartedHook);
@@ -116,7 +145,10 @@ namespace AudioFramework
             SynthMediaStreamSource source = new SynthMediaStreamSource(44100, 2);
             source.SampleMaker = this._sequencer;
 
-            this._sequencer.Tempo = 60 * 10; // 1 beat per 10th second
+            this._sequencer.Tempo = 60;             // 1 beat per second
+            this._sequencer.Tempo = 60 * 10;        // 1 beat per 100 ms
+            this._sequencer.Tempo = 60 * 10 * 2;    // 1 beat per 50 ms
+            this._sequencer.Tempo = 60 * 10 * 4;    // 1 beat per 25 ms
             this._elt.SetSource(source);
         }
 
@@ -129,19 +161,41 @@ namespace AudioFramework
 
             this._intervalVoices = new Dictionary<int, ISampleMaker>();
             int inc = 0;
-            int intervalNb = 2;// interIdx;
+            //int intervalNb = 2;// interIdx;
 
-            double[] inter = { 5000.0, 3000.0, 1000.0, 3000.0 };
+            //double[] inter = { 5000.0, 3000.0, 1000.0, 3000.0 };
 
-            this._sequencer.StepCount = 19;
-            this._sequencer.VoiceCount = 3;
+            this._sequencer.VoiceCount = 1;
+            
             double percent = 10 / 100d;
             uint value = (uint)(15000 * percent);
 
-            int[] pos = { 0, 2, 7, 2,0,19};
+            //int[] pos = { 0, 2, 7, 2,0,19};
+            Stimulus st = null;
+            for (int i = 0; i < _StimuliStructure.Count; i++)
+            {
+                st = _StimuliStructure[i];
+                if (st._isSilent) continue;
 
+                IWaveForm wform = new SineWaveForm();
+                Oscillator osc1 = new Oscillator();
+                osc1.WaveForm = wform;
+
+                Voice voice = new Voice();
+                voice.Attenuation = 0;
+                voice.Envelope.Attack = value;
+                voice.Envelope.Decay = value;
+                voice.Oscillators.AddRange(new List<Oscillator>() { osc1 });
+                
+                voice.Frequency = st._frequency;
+
+                this._intervalVoices.Add(inc++, voice);
+                this._sequencer.AddNote(voice, st._start, st._duration);
+            }
+
+            this._sequencer.StepCount = st._duration + st._start;
  
-            for (inc = 0; inc < intervalNb; inc++)
+/*            for (inc = 0; inc < intervalNb; inc++)
             {
                 //Pitch pitch = new Pitch(11, 3);
                 IWaveForm form = new SineWaveForm();
@@ -161,7 +215,7 @@ namespace AudioFramework
                 //this.sequencer.AddNote(voice, (3 + 2) * inc + 1, 3);
                 this._sequencer.AddNote(voice, pos[2 * inc], pos[2 * inc + 1]);
 
-            }
+            }*/
 
             if (false)
            {
@@ -218,6 +272,12 @@ namespace AudioFramework
     {
         public Frequency3IGenerator(MediaElement elt) : base(elt)
         {
+            _StimuliStructure = new List<Stimulus>();
+            _StimuliStructure.Add(new Stimulus(5000, 0, 4*2));
+            _StimuliStructure.Add(new Stimulus(4*2, 20*2));
+            _StimuliStructure.Add(new Stimulus(3000, 24*2, 4*2));
+            _StimuliStructure.Add(new Stimulus(28*2, 20*2));
+
             setSequencer(3);
             this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEnded3IHook);
         }
@@ -248,6 +308,23 @@ namespace AudioFramework
             Debug.WriteLine("SEQUENCER - ENDED ## SHUT IT DOWN : " + this._sequencer.StepIndex);
             //this.Stop();
             //ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc));
+            Voice vc = this._intervalVoices[1] as Voice;
+            Stimulus st = this._StimuliStructure[2] as Stimulus;
+            if (vc!=null && st!=null)
+            {
+                //this.//_sequencer.AddNote(voice, st._start, st._duration);#
+                this._sequencer.DeleteNote(vc, st._start);
+                st._start-=2;
+                if (st._start < 5)
+                {
+                    st._start = 5;
+                }
+                else
+                    this._sequencer.StepCount-=2;
+
+                this._sequencer.AddNote(vc, st._start, st._duration);
+                
+            }
         }
     }
 

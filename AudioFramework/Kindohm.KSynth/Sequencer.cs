@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Diagnostics;
 
 namespace Kindohm.KSynth.Library
 {
@@ -95,7 +96,12 @@ namespace Kindohm.KSynth.Library
                 return;
 
             if (stepEvent.VoiceNotes.ContainsKey(voice))
-                stepEvent.VoiceNotes.Remove(voice);
+            {
+                bool f = stepEvent.VoiceNotes.Remove(voice);
+                this.stepEvents.Remove(step);
+                Debug.WriteLine(f);
+                this.stepChanged = true;
+            }
         }
 
         public void ModifyNote(ISampleMaker voice, int step, int newDuration)
