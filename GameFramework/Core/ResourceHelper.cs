@@ -11,7 +11,7 @@ using System.Windows.Resources;
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace AuditoryGames.GameFramework
+namespace LSRI.AuditoryGames.GameFramework
 {
     public class ResourceHelper
     {

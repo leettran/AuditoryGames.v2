@@ -10,7 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
 
-namespace AuditoryGames.GameFramework
+namespace LSRI.AuditoryGames.GameFramework
 {
     /*
         A game object with a static image
@@ -123,37 +123,37 @@ namespace AuditoryGames.GameFramework
             // when it finds the first GameObject with a higher zOrder, or before any non GameObjects (which keeps
             // the gui elements at the end of the collection, and therefor they will be drawn above all the GameObjects)
             bool inserted = false;
-            for (int i = 0; i < (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Count; ++i)
+            for (int i = 0; i < (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Count; ++i)
             {
-                Rectangle childRect = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children[i] as Rectangle;
+                Rectangle childRect = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children[i] as Rectangle;
                 if (childRect != null)
                 {
                     GameObject gameObject = childRect.Tag as GameObject;
 
                     if (gameObject == null || gameObject.ZLayer > zLayer)
                     {
-                        (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(i, rect);
+                        (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(i, rect);
                         inserted = true;
                         break;
                     }
                 }
                 else
                 {
-                    (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(i, rect);
+                    (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(i, rect);
                     inserted = true;
                     break;
                 }
             }
 
             if (!inserted)
-                (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(rect);
+                (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(rect);
           
             prepareImage(image);
         }
 
         public override void shutdown()
         {
-            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Remove(rect);
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Remove(rect);
             rect = null;
             imageBrush = null;
             gameObjects.Remove(this);
@@ -176,9 +176,9 @@ namespace AuditoryGames.GameFramework
         {
             if (inUse)
             {
-                if (Position.X > (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth ||
+                if (Position.X > (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth ||
                     Position.X < -dimensions.X ||
-                    Position.Y > (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight ||
+                    Position.Y > (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight ||
                     Position.Y < -dimensions.Y)
                 {
                     shutdown();
@@ -191,18 +191,18 @@ namespace AuditoryGames.GameFramework
         protected void cropToWindow()
         {
             // resize the rectangles so the game object doesn't appear to go off the screen
-            if (Position.Y > (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - dimensions.Y)
+            if (Position.Y > (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - dimensions.Y)
             {
-                double height = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - Position.Y;
+                double height = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - Position.Y;
                 if (height <= 0)
                     shutdown();
                 else
                     if (rect!=null) rect.Height = height;
             }
 
-            if (Position.X > (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - dimensions.X)
+            if (Position.X > (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - dimensions.X)
             {
-                double width = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - Position.X;
+                double width = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - Position.X;
                 if (width <= 0)
                     shutdown();
                 else

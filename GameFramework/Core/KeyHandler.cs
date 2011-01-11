@@ -3,7 +3,7 @@ using System.Windows.Input;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace AuditoryGames.GameFramework
+namespace LSRI.AuditoryGames.GameFramework
 {
     /*
         Code originally from http://www.bluerosegames.com/silverlight-games-101/ 

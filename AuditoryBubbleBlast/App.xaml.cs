@@ -11,7 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 
-namespace AuditoryBubbleBlast
+namespace LSRI.AuditoryBubbleBlast
 {
     public partial class App : Application
     {

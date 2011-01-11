@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace AuditoryGames.GameFramework
+namespace LSRI.AuditoryGames.GameFramework
 {
     public class Weapon : GameObject
     {

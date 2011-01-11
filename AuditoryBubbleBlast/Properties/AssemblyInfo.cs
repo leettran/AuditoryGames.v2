@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AuditoryBubbleBlast")]
+[assembly: AssemblyTitle("LSRI.AuditoryBubbleBlast")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The University of Nottingham")]
-[assembly: AssemblyProduct("AuditoryBubbleBlast")]
+[assembly: AssemblyProduct("LSRI.AuditoryBubbleBlast")]
 [assembly: AssemblyCopyright("Copyright © The University of Nottingham 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

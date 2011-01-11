@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace AuditoryGames.Utils
+namespace LSRI.AuditoryGames.Utils
 {
     /// <summary>
     /// StopwatchPlus is used to measure the general performance of Silverlight functionality. 
@@ -17,7 +17,7 @@ namespace AuditoryGames.Utils
     ///  sp1.Stop();    // this will call the stopAction defined in the constructor
     /// @endcode
     /// @author Aaron &lt; http://www.wiredprairie.us/blog/index.php/archives/1030 &gt;
-    /// @author Nicolas Van Labeke
+    /// @author Nicolas Van Labeke &lt; http://www.lsri.nottingham.ac.uk/nvl/ &gt;
     /// @version 1.0 Added StopWatchPlus into project
     /// @version 1.1 Added Step action point
     public sealed class StopwatchPlus : IDisposable

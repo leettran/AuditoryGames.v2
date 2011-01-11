@@ -10,10 +10,13 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace AuditoryGames.GameFramework
+namespace LSRI.AuditoryGames.GameFramework
 {
     /// <summary>
     /// Common UI page for all auditory games.
+    /// 
+    /// @author Matthew Casperson  &lt; http://www.brighthub.com/hubfolio/matthew-casperson.aspx &gt;
+    /// @author Nicolas Van Labeke &lt; http://www.lsri.nottingham.ac.uk/nvl/ &gt;
     /// </summary>
     public partial class GamePage : UserControl
     {
@@ -22,7 +25,9 @@ namespace AuditoryGames.GameFramework
         
         protected DateTime lastTick;
 
-
+        /// <summary>
+        /// Public access to the root canvas of the game
+        /// </summary>
         public Canvas LayoutRoot
         {
             get
@@ -30,8 +35,10 @@ namespace AuditoryGames.GameFramework
                 return this._LayoutRoot;
             }
         }
-
-
+        
+        /// <summary>
+        /// Public access to the media player
+        /// </summary>
         public MediaElement AudioPlayer
         {
             get
@@ -40,9 +47,9 @@ namespace AuditoryGames.GameFramework
             }
         }
 
-
-        
-
+        /// <summary>
+        /// Public access to the title bar of the game
+        /// </summary>
         public Canvas LayoutTitle
         {
             get

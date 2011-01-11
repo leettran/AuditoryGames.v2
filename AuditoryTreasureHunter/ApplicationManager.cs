@@ -12,11 +12,10 @@ using System.IO.IsolatedStorage;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
-using AudioFramework;
-using AuditoryTreasureHunter;
-using AuditoryGames.GameFramework;
+using LSRI.AuditoryGames.AudioFramework;
+using LSRI.AuditoryGames.GameFramework;
 
-namespace AuditoryGames.TreasureHunter
+namespace LSRI.TreasureHunter
 {
 
     public static class GameLevelInfo
@@ -146,14 +145,14 @@ namespace AuditoryGames.TreasureHunter
 
         protected void removeAllCanvasChildren()
         {
-            UIElementCollection children = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
+            UIElementCollection children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
             while (children.Count != 0)
                 children.RemoveAt(0);
         }
 
         public override void startupApplicationManager()
         {
-            MediaElement children = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
+            MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
             _synthEx = new Frequency3IGenerator(children);
 
             StateManager.Instance.registerStateChange(
@@ -184,7 +183,7 @@ namespace AuditoryGames.TreasureHunter
                 GameLevelInfo._gameMode = 0;
                 StateManager.Instance.setState("game"); 
             };
-            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
 
             btnStart = new ButtonIcon();
             btnStart.TextContent.Text = "Start Game (Value mode)";
@@ -199,7 +198,7 @@ namespace AuditoryGames.TreasureHunter
                 GameLevelInfo._gameMode = 1;
                 StateManager.Instance.setState("game");
             };
-            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
 
             btnStart = new ButtonIcon();
             btnStart.TextContent.Text = "Start Game (distance mode)";
@@ -214,7 +213,7 @@ namespace AuditoryGames.TreasureHunter
                 GameLevelInfo._gameMode = 2;
                 StateManager.Instance.setState("game");
             };
-            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
 
             
             Button btnFull = new Button();
@@ -226,7 +225,7 @@ namespace AuditoryGames.TreasureHunter
             btnFull.Click += delegate(object sender, RoutedEventArgs e) {
                 AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
             };
-            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
 
 
            /* GameParameters param = new GameParameters();
@@ -234,7 +233,7 @@ namespace AuditoryGames.TreasureHunter
 
             param.SetValue(Canvas.LeftProperty, 490.0);
             param.SetValue(Canvas.TopProperty, 50.0);
-            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(param);*/
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(param);*/
         }
 
         public void endMainMenu()
@@ -250,7 +249,7 @@ namespace AuditoryGames.TreasureHunter
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYERWEAPON, CollisionIdentifiers.ENEMY);
 
             // 
-            Canvas cv = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot;
+            Canvas cv = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot;
             //GameLevelInfo._nbTreasureZones++;
             GameLevelInfo._sizeZones = ((int)cv.ActualWidth) / GameLevelInfo._nbTreasureZones;
 
@@ -326,14 +325,14 @@ namespace AuditoryGames.TreasureHunter
             txtbScore.SetValue(Canvas.TopProperty, 10.0);
 
             // we have to insert any non GameObjects at the end of the children collection
-           // (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Insert(
-            //    (AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Count, txtbScore);
+           // (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Insert(
+            //    (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Count, txtbScore);
 
             ScoreControl ff = new ScoreControl();
             ff.SetValue(Canvas.LeftProperty, 10.0);
             ff.SetValue(Canvas.TopProperty, 10.0);
-            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(
-                (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Count, ff);
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(
+                (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Count, ff);
 
             float freqL = 0;
             float freqM = 0;
@@ -383,7 +382,7 @@ namespace AuditoryGames.TreasureHunter
             _synthEx.Arpeggiator.Notes[2].Frequency = freqM;
             _synthEx.Arpeggiator.Notes[4].Frequency = freqR;
             _synthEx.Arpeggiator.Start();*/
-            //MediaElement children = (AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
+            //MediaElement children = (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
             //this._synthEx.sequencer.StepIndex = this._synthEx.sequencer.StepCount - 1;
             //this._synthEx.ResetSequencer();
            // children.Play();
@@ -393,7 +392,7 @@ namespace AuditoryGames.TreasureHunter
         public void exitGame()
         {
             this._synthEx.Stop();
-            //MediaElement children = (AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
+            //MediaElement children = (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
             //children.Stop();
             //this._synthEx.sequencer.Reset();
             while (GameObject.gameObjects.Count != 0)
@@ -426,7 +425,7 @@ namespace AuditoryGames.TreasureHunter
                     10,
                     ZLayers.PLAYER_Z)
                     .Position =
-                        new Point(rand.Next(0, (int)(AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.ActualWidth), 32);
+                        new Point(rand.Next(0, (int)(LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.ActualWidth), 32);
             }*/
 
         /*    if (timeSinceLastBackground <= 0)
@@ -438,7 +437,7 @@ namespace AuditoryGames.TreasureHunter
                     "Media/bigisland.png",
                     ZLayers.BACKGROUND_Z)
                     .Position =
-                        new Point(rand.Next(0, (int)(AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.ActualHeight), -65);
+                        new Point(rand.Next(0, (int)(LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.ActualHeight), -65);
             }*/
         }
 

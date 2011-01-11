@@ -8,11 +8,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using AuditoryGames.GameFramework;
+using LSRI.AuditoryGames.GameFramework;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
 
-namespace AuditoryGames.Submarine
+namespace LSRI.Submarine
 {
     public class WallObject : GameObject
     {

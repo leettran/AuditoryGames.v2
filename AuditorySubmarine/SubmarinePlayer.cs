@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using AuditoryGames.GameFramework;
+using LSRI.AuditoryGames.GameFramework;
 
-namespace AuditoryGames.Submarine
+namespace LSRI.Submarine
 {
     /// <summary>
     /// 

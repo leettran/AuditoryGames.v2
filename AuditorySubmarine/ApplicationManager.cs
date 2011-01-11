@@ -4,13 +4,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using AuditoryGames.Utils;
-using AuditoryGames.GameFramework;
-using AuditoryGames.Submarine;
+using LSRI.AuditoryGames.Utils;
+using LSRI.AuditoryGames.GameFramework;
+using LSRI.Submarine;
 
 
 
-namespace AuditoryGames.Submarine
+namespace LSRI.Submarine
 {
 
     /// <summary>
@@ -189,7 +189,7 @@ namespace AuditoryGames.Submarine
 
         protected void removeAllCanvasChildren()
         {
-            UIElementCollection children = (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
+            UIElementCollection children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
             while (children.Count != 0)
                 children.RemoveAt(0);
         }

@@ -1,7 +1,7 @@
-<OutOfBrowserSettings ShortName="AuditoryBubbleBlast Application" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
-  <OutOfBrowserSettings.Blurb>AuditoryBubbleBlast Application on your desktop; at home, at work or on the go.</OutOfBrowserSettings.Blurb>
+<OutOfBrowserSettings ShortName="LSRI.AuditoryBubbleBlast Application" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
+  <OutOfBrowserSettings.Blurb>LSRI.AuditoryBubbleBlast Application on your desktop; at home, at work or on the go.</OutOfBrowserSettings.Blurb>
   <OutOfBrowserSettings.WindowSettings>
-    <WindowSettings Title="AuditoryBubbleBlast Application" />
+    <WindowSettings Title="LSRI.AuditoryBubbleBlast Application" />
   </OutOfBrowserSettings.WindowSettings>
   <OutOfBrowserSettings.Icons />
 </OutOfBrowserSettings>

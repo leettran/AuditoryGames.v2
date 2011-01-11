@@ -8,9 +8,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using AuditoryGames.GameFramework;
+using LSRI.AuditoryGames.GameFramework;
 
-namespace AuditoryGames.Submarine
+namespace LSRI.Submarine
 {
     public class GateObject : GameObject
     {

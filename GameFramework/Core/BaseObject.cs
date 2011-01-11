@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace AuditoryGames.GameFramework
+namespace LSRI.AuditoryGames.GameFramework
 {
     /*
         The base for all game objects 
@@ -28,13 +28,13 @@ namespace AuditoryGames.GameFramework
         
         public void startupBaseObject()
         {
-            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).enterFrame += new GamePage.EnterFrame(enterFrame);
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).enterFrame += new GamePage.EnterFrame(enterFrame);
             inUse = true;
         }
 
         virtual public void shutdown()
         {
-            (AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).enterFrame -= new GamePage.EnterFrame(enterFrame);
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).enterFrame -= new GamePage.EnterFrame(enterFrame);
             inUse = false;
         }
 

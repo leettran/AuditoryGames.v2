@@ -9,9 +9,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using AuditoryGames.GameFramework;
+using LSRI.AuditoryGames.GameFramework;
 
-namespace AuditoryTreasureHunter
+namespace LSRI.AuditoryGames.GameFramework
 {
     /// <summary>
     /// 

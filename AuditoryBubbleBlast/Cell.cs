@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace AuditoryBubbleBlast
+namespace LSRI.AuditoryBubbleBlast
 {
     /// <summary>
     /// 

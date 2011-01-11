@@ -7,8 +7,8 @@ namespace Kindohm.KSynth.Library
 {
     /// <summary>
     /// Implementation of a basic sequencer.
-    /// @author Kindohm
-    /// @author Nicolas Van Labeke
+    /// @author Mike Hodnick &lt; http://kindohm.com/ &gt;
+    /// @author Nicolas Van Labeke &lt; http://www.lsri.nottingham.ac.uk/nvl/ &gt;
     /// @version 1.0 - changed access to methods ProcessCurrentStep(), ProcessPreSampleTick() and ProcessPostSampleTick() to allow override.  
     /// </summary>
     public class Sequencer : ISampleMaker

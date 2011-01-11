@@ -13,18 +13,39 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
-namespace AudioFramework
+namespace LSRI.AuditoryGames.AudioFramework
 {
+    /// <summary>
+    /// Extended version of the default sequencer.
+    /// 
+    /// - Added support for delegates on start, step and end of sequence.
+    /// 
+    /// @author Nicolas Van Labeke &lt; http://www.lsri.nottingham.ac.uk/nvl/ &gt;
+    /// </summary>
     public class SequencerExt : Sequencer
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public delegate void StepStarted();
+
+        /// <summary>
+        /// 
+        /// </summary>
         public delegate void StepChanged();
+
+        /// <summary>
+        /// 
+        /// </summary>
         public delegate void StepEnded();
 
         public event StepStarted _stepStartedHook = null;
         public event StepChanged _stepChangedHook = null;
         public event StepEnded _stepEndedHook = null;
 
+        /// <summary>
+        /// 
+        /// </summary>
         override protected void ProcessCurrentStep()
         {
             if (this.stepIndex == 0)
@@ -34,6 +55,9 @@ namespace AudioFramework
             base.ProcessCurrentStep();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         override protected void ProcessPreSampleTick()
         {
             sampleCounter++;
@@ -56,10 +80,12 @@ namespace AudioFramework
             }
         }
     }
+
+
     /// <summary>
     /// Abstract wrapper for auditory stimuli generator
     /// 
-    /// @author Nicolas Van Labeke
+    /// @author Nicolas Van Labeke &lt; http://www.lsri.nottingham.ac.uk/nvl/ &gt;
     /// </summary>
     public abstract class IFrequencySequencer
     {
@@ -70,6 +96,12 @@ namespace AudioFramework
             public int _duration = 0;
             public double _frequency = 0;
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="f"></param>
+            /// <param name="s"></param>
+            /// <param name="d"></param>
             public Stimulus(double f,int s,int d)
             {
                 _isSilent = false;
@@ -79,6 +111,11 @@ namespace AudioFramework
 
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="s"></param>
+            /// <param name="d"></param>
             public Stimulus(int s, int d)
             {
                 _isSilent = true;
@@ -89,6 +126,9 @@ namespace AudioFramework
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected List<Stimulus> _StimuliStructure = null;
 
         /// <summary>
@@ -266,7 +306,8 @@ namespace AudioFramework
 
     /// <summary>
     /// Implementation of a 2-Interval stimuli generator
-    /// @author Nicolas Van Labeke
+    /// 
+    /// @author Nicolas Van Labeke &lt; http://www.lsri.nottingham.ac.uk/nvl/ &gt;
     /// </summary>
     public class Frequency3IGenerator : IFrequencySequencer
     {
@@ -330,7 +371,8 @@ namespace AudioFramework
 
     /// <summary>
     /// Implementation of a 3-Interval stimuli generator
-    /// @author Nicolas Van Labeke
+    /// 
+    /// @author Nicolas Van Labeke &lt; http://www.lsri.nottingham.ac.uk/nvl/ &gt;
     /// </summary>
     public class Frequency2IGenerator : IFrequencySequencer
     {
