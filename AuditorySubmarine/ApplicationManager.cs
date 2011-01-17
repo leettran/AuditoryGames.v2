@@ -7,6 +7,7 @@ using System.Windows.Media;
 using LSRI.AuditoryGames.Utils;
 using LSRI.AuditoryGames.GameFramework;
 using LSRI.Submarine;
+using LSRI.AuditoryGames.AudioFramework;
 
 
 
@@ -23,6 +24,11 @@ namespace LSRI.Submarine
         public static string OPTION_STATE = "start_option";
     }
 
+    public static class GameLevelDescriptor
+    {
+        public static int CurrentLevel { get; set; }
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -35,9 +41,11 @@ namespace LSRI.Submarine
         private WallObject _wall = null;
         private GateObject _gate = null;
         private Random _random;
-        private double _posRatio = .5;
+        private double _posRatio = .15;
 
         private StopwatchPlus sp1;
+
+        public Frequency2IGenerator _synthEx = null;
 
         //protected static SubmarineApplicationManager instance = null;
         
@@ -79,12 +87,16 @@ namespace LSRI.Submarine
                 new StateChangeInfo.StateFunction(startGame),
                 new StateChangeInfo.StateFunction(exitGame));
 
+            GameLevelDescriptor.CurrentLevel = 1;
+
             //Score = SavedScore;
 
             //(GameApplication.Current.RootVisual as GamePage).GetPlayer().Loaded += delegate(object sender, RoutedEventArgs e) { Debug.WriteLine("SOUND LOADED"); };
             //(GameApplication.Current.RootVisual as GamePage).GetPlayer().CurrentStateChanged += delegate(object sender, RoutedEventArgs e) { Debug.WriteLine("CurrentStateChanged"); };
            //Page pp = (App.Current.RootVisual as Page);
            // (GameApplication.Current.RootVisual as GamePage).GetPlayer().SetSource(_synthEx);
+            MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
+            _synthEx = new Frequency2IGenerator(children);
 
         }
 
@@ -200,6 +212,10 @@ namespace LSRI.Submarine
         }
         private void startGame()
         {
+            //MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
+            //_synthEx = new Frequency2IGenerator(children);
+            _synthEx.ResetSequencer();
+
             //ScorePanelControl score = new ScorePanelControl();
             //(GameApplication.Current.RootVisual as GamePage).GetTitleElt().Children.Add(score);
             //score.Width = (GameApplication.Current.RootVisual as GamePage).GetTitleElt().ActualWidth;
@@ -266,12 +282,15 @@ namespace LSRI.Submarine
             ///_synthEx.Arpeggiator.Notes[2].Frequency = (float)(5000 - 50*(_gate.Position.Y - _submarine.Position.Y)/10.0);
             ///_synthEx.Arpeggiator.Start();
             //_synth.TriggerNote(new Note(Notes.F, 5));
-
+            this._synthEx.SetTrainingFrequency(5000);
+            this._synthEx.SetTargetFrequency((5000 - 50 * (_gate.Position.Y - _submarine.Position.Y) / 10.0),true);
+            this._synthEx.Start();
 
 
         }
         private void exitGame()
         {
+            this._synthEx.Stop(); 
             while (GameObject.gameObjects.Count != 0)
                 GameObject.gameObjects[0].shutdown();
 

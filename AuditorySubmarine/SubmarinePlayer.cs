@@ -41,22 +41,27 @@ namespace LSRI.Submarine
             if (KeyHandler.Instance.isKeyPressed(Key.Up))
             {
                 Position = new Point(Position.X, Position.Y - 10/*5*SPEED * dt*/);
+                (IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(-50);
+
                 //Note ss = (IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Notes[2];
                // ss.Frequency -= 50;
                 //Note ss2 = _synthEx.Arpeggiator.Notes[1];
                 //float gg = ss2.Frequency;
                 //Debug.WriteLine("Frequency : {0}", ss.Frequency);
                 KeyHandler.Instance.clearKeyPresses();
+                Debug.WriteLine("position : {0}", Position.Y);
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Down))
             {
                 Position = new Point(Position.X, Position.Y + 10/*5*SPEED * dt*/);
-               // Note ss = (IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Notes[2];
+                (IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(50);
+                // Note ss = (IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Notes[2];
                // ss.Frequency += 50;
                 //Note ss2 = _synthEx.Arpeggiator.Notes[1];
                 //float gg = ss2.Frequency;
                 //Debug.WriteLine("Frequency : {0}", ss.Frequency);
                 KeyHandler.Instance.clearKeyPresses();
+                Debug.WriteLine("position : {0}", Position.Y);
             }
             Position = new Point(Position.X + SPEED/4 * dt, Position.Y);
             

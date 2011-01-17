@@ -153,17 +153,17 @@ namespace LSRI.AuditoryGames.AudioFramework
 
         void _sequencer__stepChangedHook()
         {
-            Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
+            //Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
         }
 
         void _sequencer__stepEndedHook()
         {
-            Debug.WriteLine("SEQUENCER - LAST STEP ##### : " + this._sequencer.StepIndex);
+            //Debug.WriteLine("SEQUENCER - LAST STEP ##### : " + this._sequencer.StepIndex);
         }
 
         void _sequencer__stepStartedHook()
         {
-            Debug.WriteLine("SEQUENCER - STARTED ##### : " + this._sequencer.StepIndex);
+           // Debug.WriteLine("SEQUENCER - STARTED ##### : " + this._sequencer.StepIndex);
         }
 
         /// <summary>
@@ -376,16 +376,79 @@ namespace LSRI.AuditoryGames.AudioFramework
     /// </summary>
     public class Frequency2IGenerator : IFrequencySequencer
     {
+        private double _freqBuffer = double.NaN;
+
         public Frequency2IGenerator(MediaElement elt) : base(elt)
         {
             //this.sequencer.StepCount = (int)this.stepBox.Value;
             //this._sequencer.Reset();
+            _StimuliStructure = new List<Stimulus>();
+            _StimuliStructure.Add(new Stimulus(5000, 0, 4 * 2));
+            _StimuliStructure.Add(new Stimulus(4 * 2, 10 * 2));
+            _StimuliStructure.Add(new Stimulus(3000, 14 * 2, 4 * 2));
+            _StimuliStructure.Add(new Stimulus(28 * 2, 20 * 2));
+
+            setSequencer(3);
+            this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEnded2IHook);
+        }
+
+        public void SetTrainingFrequency(double fq)
+        {
+            Voice st1 = this._intervalVoices[0] as Voice;
+            if (!double.IsNaN(fq) && fq != st1.Frequency)
+            {
+                st1.Frequency = _freqBuffer;
+            }
+        }
+
+        public void SetTargetFrequency(double fq)
+        {
+            _freqBuffer = fq;
+        }
+
+        public void ChangeTargetFrequency(double fq)
+        {
+            Voice st1 = this._intervalVoices[1] as Voice;
+            _freqBuffer = st1.Frequency + fq;
+        }
+
+        public void SetTargetFrequency(double fq, bool now)
+        {
+            if (now)
+            {
+                _freqBuffer = fq;
+                _sequencer__stepEnded2IHook();
+            }
+            else
+                SetTargetFrequency(fq);
+        }
+
+        void _sequencer__stepEnded2IHook()
+        {
+            //Voice st1 = this._intervalVoices[0] as Voice;
+            Voice st2 = this._intervalVoices[1] as Voice;
+            if (!double.IsNaN(_freqBuffer) && _freqBuffer != st2.Frequency)
+            {
+                st2.Frequency = _freqBuffer;
+                _freqBuffer = double.NaN;
+                Debug.WriteLine("FREQUENCIES : {0} / {1}", (this._intervalVoices[0] as Voice).Frequency,
+                    (this._intervalVoices[1] as Voice).Frequency);
+            }
         }
 
         public override void ResetSequencer()
         {
             //this.sequencer.StepCount = (int)this.stepBox.Value;
-            //this._sequencer.Reset();
+            this._sequencer.Reset();
+
+ 
+            _StimuliStructure = new List<Stimulus>();
+            _StimuliStructure.Add(new Stimulus(5000, 0, 4 * 2));
+            _StimuliStructure.Add(new Stimulus(4 * 2, 10 * 2));
+            _StimuliStructure.Add(new Stimulus(3000, 14 * 2, 4 * 2));
+            _StimuliStructure.Add(new Stimulus(28 * 2, 20 * 2));
+
+            setSequencer(3);
         }
 
    }
