@@ -16,6 +16,7 @@ namespace LSRI.Submarine
         /// 
         /// </summary>
         protected const double SPEED = 200;
+        protected double _acceleration = 0;
 
         /// <summary>
         /// 
@@ -28,6 +29,7 @@ namespace LSRI.Submarine
         {
             base.startupAnimatedGameObject(dimensions, animationData, zLayer, false);
             this.collisionName = CollisionIdentifiers.PLAYER;
+            _acceleration = 0;
         }
 
         /// <summary>
@@ -38,7 +40,11 @@ namespace LSRI.Submarine
         {
             base.enterFrame(dt);
 
-            if (KeyHandler.Instance.isKeyPressed(Key.Up))
+            if (KeyHandler.Instance.isKeyPressed(Key.Right))
+            {
+                _acceleration += 50;
+            }
+            else if (KeyHandler.Instance.isKeyPressed(Key.Up))
             {
                 Position = new Point(Position.X, Position.Y - 10/*5*SPEED * dt*/);
                 (IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(-50);
@@ -63,7 +69,7 @@ namespace LSRI.Submarine
                 KeyHandler.Instance.clearKeyPresses();
                 Debug.WriteLine("position : {0}", Position.Y);
             }
-            Position = new Point(Position.X + SPEED/4 * dt, Position.Y);
+            Position = new Point(Position.X + (SPEED + _acceleration) / 4 * dt, Position.Y);
             
 
              // keep the player bound to the screen
@@ -129,8 +135,18 @@ namespace LSRI.Submarine
             }
             else if (other is GateObject)
             {
+                GameLevelDescriptor.CurrentGate--;
+                if (GameLevelDescriptor.CurrentGate == 0)
+                {
+                    GameLevelDescriptor.CurrentLevel++;
+                    GameLevelDescriptor.CurrentGate=5;
+                    GameLevelDescriptor.ThresholdFrequency = (int)(GameLevelDescriptor.ThresholdFrequency * 0.90);
+                }
+
                 //IApplicationManager.Instance.Score += 50;;
                 this.shutdown();
+                (IAppManager.Instance as SubmarineApplicationManager)._synthEx.Stop();
+
                 DispatcherTimer timer = new DispatcherTimer();
                 timer.Tick += delegate(object sender, EventArgs e)
                 {

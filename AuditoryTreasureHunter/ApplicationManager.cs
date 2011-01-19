@@ -504,6 +504,7 @@ namespace LSRI.TreasureHunter
 
             a.updateNotes(newnote);
             _synthEx.Arpeggiator.Start();*/
+            this._synthEx.Start();
         }
 
     }

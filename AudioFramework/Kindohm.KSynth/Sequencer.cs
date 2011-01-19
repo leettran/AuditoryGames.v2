@@ -22,8 +22,8 @@ namespace Kindohm.KSynth.Library
         protected int elapsedSampleTicks = 0;
         protected bool stepChanged;
 
-        Dictionary<int, StepEvent> stepEvents;
-        List<VoiceNote> voicesInPlay;
+        public Dictionary<int, StepEvent> stepEvents;
+        public List<VoiceNote> voicesInPlay;
 
         public Sequencer()
         {

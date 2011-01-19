@@ -26,7 +26,45 @@ namespace LSRI.Submarine
 
     public static class GameLevelDescriptor
     {
+        private static TextBlock _debugUI = null;
         public static int CurrentLevel { get; set; }
+        public static int CurrentGate { get; set; }
+        public static int TrainingFrequency { get; set; }
+        public static int ThresholdFrequency { get; set; }
+
+        public static void Attach(GamePage pg)
+        {
+            if (pg == null) return;
+            if (_debugUI == null)
+            {
+                _debugUI = new TextBlock();
+                _debugUI.Text = "150";// SubmarineApplicationManager.Instance.Score.ToString();
+                _debugUI.Name = "txtbScore";
+                _debugUI.Width = 100;
+                _debugUI.Height = 35;
+                _debugUI.FontSize = 11;
+                _debugUI.FontFamily = new FontFamily("Courier New");
+                _debugUI.Foreground = new SolidColorBrush(Colors.White);
+                _debugUI.SetValue(Canvas.LeftProperty, 10.0);
+                _debugUI.SetValue(Canvas.TopProperty, pg.LayoutRoot.ActualHeight - 75);
+            }
+            // we have to insert any non GameObjects at the end of the children collection
+            pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, _debugUI);
+        }
+
+        public static void Debug()
+        {
+            if (_debugUI == null) return;
+            _debugUI.Text = String.Format(
+                "Training Fq : {0} Hz\n"+
+                "Delta       : {1} Hz\n-----\n"+
+                "Level       : {2}\n"+
+                "Gates       : {3}",
+                TrainingFrequency, 
+                ThresholdFrequency,
+                CurrentLevel,
+                CurrentGate);
+        }
     }
 
     /// <summary>
@@ -88,6 +126,11 @@ namespace LSRI.Submarine
                 new StateChangeInfo.StateFunction(exitGame));
 
             GameLevelDescriptor.CurrentLevel = 1;
+            GameLevelDescriptor.CurrentGate = 5;
+            GameLevelDescriptor.TrainingFrequency = 5000;
+            GameLevelDescriptor.ThresholdFrequency = 200;
+
+
 
             //Score = SavedScore;
 
@@ -102,7 +145,7 @@ namespace LSRI.Submarine
 
         public override void enterFrame(double dt)
         {
-            if (KeyHandler.Instance.isKeyPressed(Key.Escape) && StateManager.Instance.CurrentState.Equals(SubmarineStates.LEVEL_STATE))
+            if (KeyHandler.Instance.isKeyPressed(Key.Q) && StateManager.Instance.CurrentState.Equals(SubmarineStates.LEVEL_STATE))
                 StateManager.Instance.setState(States.START_STATE);
 
           /* if (KeyHandler.Instance.isKeyPressed(Key.Up))
@@ -197,8 +240,25 @@ namespace LSRI.Submarine
             (GameApplication.Current.RootVisual as GamePage).GetLayoutElt().Children.Insert(
                  (GameApplication.Current.RootVisual as GamePage).GetLayoutElt().Children.Count, media);*/
 
-        }
+            ButtonIcon btnFull = new ButtonIcon();
+            btnFull.TextContent.Text = "Full Screen Mode";
+            btnFull.Icon.Source = ResourceHelper.GetBitmap("Media/fullscreen.png");
+            btnFull.Icon.Height = 22;
+            btnFull.Icon.Width = 31;
+            btnFull.Width = 150;
+            btnFull.Height = 40;
+            btnFull.SetValue(Canvas.LeftProperty, 50.0);
+            btnFull.SetValue(Canvas.TopProperty, 50.0);
+            btnFull.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
+            };
+           
 
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
+
+        }
+     
         protected void removeAllCanvasChildren()
         {
             UIElementCollection children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
@@ -210,11 +270,13 @@ namespace LSRI.Submarine
         {
             removeAllCanvasChildren();
         }
+
+
         private void startGame()
         {
             //MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
             //_synthEx = new Frequency2IGenerator(children);
-            _synthEx.ResetSequencer();
+            _synthEx.Stop();
 
             //ScorePanelControl score = new ScorePanelControl();
             //(GameApplication.Current.RootVisual as GamePage).GetTitleElt().Children.Add(score);
@@ -249,39 +311,32 @@ namespace LSRI.Submarine
 
             Point dim = new Point(zone.ActualWidth,zone.ActualHeight);
 
+ 
+            double perc = _random.NextDouble();
+            _gate = new GateObject();
+            _gate.startupGameObject(
+                new Point(21, 60),
+                "Media/wall.png",
+                ZLayers.BACKGROUND_Z + 5);
+            _gate.Position = new Point(dim.X - 21, (dim.Y - 60) * perc);
+
             _wall = new WallObject();
             _wall.startupGameObject(
                 new Point(20, dim.Y),
                 "Media/wall.png",
                 ZLayers.BACKGROUND_Z);
-            _wall.Position = new Point(dim.X-20, 0);
+            _wall.Position = new Point(dim.X - 20, 0);
 
-            double perc = _random.NextDouble();
-            _gate = new GateObject();
-            _gate.startupGameObject(
-                new Point(21, 50),
-                "Media/wall.png",
-                ZLayers.BACKGROUND_Z + 5);
-            _gate.Position = new Point(dim.X - 21, (dim.Y - 50) * perc);
- 
 
-            TextBlock txtbScore = new TextBlock();
-            txtbScore.Text = "150";// SubmarineApplicationManager.Instance.Score.ToString();
-            txtbScore.Name = "txtbScore";
-            txtbScore.Width = 100;
-            txtbScore.Height = 35;
-            txtbScore.FontSize = 20;
-            txtbScore.Foreground = new SolidColorBrush(Colors.White);
-            txtbScore.SetValue(Canvas.LeftProperty, 10.0);
-            txtbScore.SetValue(Canvas.TopProperty, 10.0);
-            // we have to insert any non GameObjects at the end of the children collection
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(
-                (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Count, txtbScore);
+            GameLevelDescriptor.Attach(AuditoryGameApp.Current.RootVisual as GamePage);
+            GameLevelDescriptor.Debug();
+
 
             ///_synthEx.Arpeggiator.Notes[0].Frequency = 5000;
             ///_synthEx.Arpeggiator.Notes[2].Frequency = (float)(5000 - 50*(_gate.Position.Y - _submarine.Position.Y)/10.0);
             ///_synthEx.Arpeggiator.Start();
             //_synth.TriggerNote(new Note(Notes.F, 5));
+            this._synthEx.ResetSequencer();
             this._synthEx.SetTrainingFrequency(5000);
             this._synthEx.SetTargetFrequency((5000 - 50 * (_gate.Position.Y - _submarine.Position.Y) / 10.0),true);
             this._synthEx.Start();
