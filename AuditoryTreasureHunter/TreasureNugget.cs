@@ -71,6 +71,7 @@ namespace LSRI.TreasureHunter
 
             base.startupAnimatedGameObject(dimensions, animationData, ZLayers.PLAYER_Z, false);
 
+            this.Visibility = System.Windows.Visibility.Collapsed;
             enemyLogic = new NuggetLogic(this.basicEnemyLogic);
             this.collisionName = CollisionIdentifiers.ENEMY;
             this.score = 10;
@@ -95,31 +96,34 @@ namespace LSRI.TreasureHunter
         {
             base.collision(other);
 
-            if (this.Type == TreasureType.TREASURE_NONE) return;
-            
-            AnimatedGameObject.UnusedAnimatedGameObject.startupAnimatedGameObject(
-                new Point(55, 55),
-                new AnimationData(
-                    new string[] { 
-                        "Media/Explosion1.png", 
-                        "Media/Explosion2.png", 
-                        "Media/Explosion3.png", 
-                        "Media/Explosion4.png", 
-                        "Media/Explosion5.png", 
-                        "Media/Explosion6.png", 
-                        "Media/Explosion7.png" },
-                    20),
-                    ZLayers.PLAYER_Z,
-                    true).Position = new Point(
-                        Position.X + Dimensions.X / 2 - 55 / 2, 
-                        Position.Y + Dimensions.Y / 2 - 55 / 2);
+            if (this.Type != TreasureType.TREASURE_NONE)
+            {
 
-            TreasureApplicationManager.Instance.Score += score;
-            this.Type = TreasureType.TREASURE_NONE;
-            string newString = GameLevelInfo._curSetup.Substring(0, index) + "0" + GameLevelInfo._curSetup.Substring(index+1);
-            GameLevelInfo._curSetup = newString;
-            animationData.frames[currentFrame] = "media/hole1.png";
-            prepareImage(animationData.frames[currentFrame]);
+                AnimatedGameObject.UnusedAnimatedGameObject.startupAnimatedGameObject(
+                    new Point(55, 55),
+                    new AnimationData(
+                        new string[] { 
+                            "Media/Explosion1.png", 
+                            "Media/Explosion2.png", 
+                            "Media/Explosion3.png", 
+                            "Media/Explosion4.png", 
+                            "Media/Explosion5.png", 
+                            "Media/Explosion6.png", 
+                            "Media/Explosion7.png" },
+                        20),
+                        ZLayers.PLAYER_Z,
+                        true).Position = new Point(
+                            Position.X + Dimensions.X / 2 - 55 / 2,
+                            Position.Y + Dimensions.Y / 2 - 55 / 2);
+
+                TreasureApplicationManager.Instance.Score += score;
+                this.Type = TreasureType.TREASURE_NONE;
+                string newString = GameLevelInfo._curSetup.Substring(0, index) + "0" + GameLevelInfo._curSetup.Substring(index + 1);
+                GameLevelInfo._curSetup = newString;
+                this.Visibility = System.Windows.Visibility.Visible;
+                animationData.frames[currentFrame] = "media/hole1.png";
+                prepareImage(animationData.frames[currentFrame]);
+            }
             (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound();
            // this.shutdown();
         }

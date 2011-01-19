@@ -95,7 +95,7 @@ namespace LSRI.TreasureHunter
 
         public static Boolean PLAY_CUES_ONCE = true;
 
-        public IFrequencySequencer _synthEx = null;
+        public Frequency3IGenerator _synthEx = null;
 
         /// <summary>
         /// 
@@ -386,7 +386,8 @@ namespace LSRI.TreasureHunter
             //this._synthEx.sequencer.StepIndex = this._synthEx.sequencer.StepCount - 1;
             //this._synthEx.ResetSequencer();
            // children.Play();
-            this._synthEx.Start();
+            //this._synthEx.Start();
+            UpdateSound();
         }
 
         public void exitGame()
@@ -449,9 +450,9 @@ namespace LSRI.TreasureHunter
 
         public void UpdateSound()
         {
-            float freqL = 0;
-            float freqM = 0;
-            float freqR = 0;
+            double freqL = 0;
+            double freqM = 0;
+            double freqR = 0;
             if (GameLevelInfo._gameMode == 0)
             {
                 freqL = ((_player.CurrentZone - 1) >= 0 && GameLevelInfo._curSetup[_player.CurrentZone - 1] == '1') ? 5000 : 3000;
@@ -504,6 +505,7 @@ namespace LSRI.TreasureHunter
 
             a.updateNotes(newnote);
             _synthEx.Arpeggiator.Start();*/
+            this._synthEx.ResetSequencer(freqL, freqM, freqR);
             this._synthEx.Start();
         }
 
