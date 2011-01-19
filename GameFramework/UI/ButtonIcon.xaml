@@ -9,7 +9,7 @@
         <Image Source="/AuditoryTreasureHunter;component/Media/blueplane2.png"
 					Width="16"
 					Height="16" Name="_Icon" />
-        <TextBlock Text="Add User" Margin="10,0,0,0" Name="_TextContent" />
+        <TextBlock Text="Add User" Margin="10,0,0,0" Name="_TextContent" TextAlignment="Left" VerticalAlignment="Center" />
     </StackPanel>
     </Button.Content>
 
