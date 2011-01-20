@@ -12,6 +12,9 @@ using LSRI.AuditoryGames.GameFramework;
 
 namespace LSRI.TreasureHunter
 {
+    /// <summary>
+    /// Simple implementation of the Hunter's grapping tool
+    /// </summary>
     public class HunterWeapon : GameObject
     {
         protected const double SPEED = 200;
