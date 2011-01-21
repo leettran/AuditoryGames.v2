@@ -105,6 +105,8 @@ AuditorySubmarine/Properties/AppManifest.xml -text
 AuditorySubmarine/Properties/AssemblyInfo.cs -text
 AuditorySubmarine/Properties/OutOfBrowserSettings.xml -text
 AuditorySubmarine/SubmarineApp.cs -text
+AuditorySubmarine/SubmarineOptions.xaml -text
+AuditorySubmarine/SubmarineOptions.xaml.cs -text
 AuditorySubmarine/SubmarinePlayer.cs -text
 AuditorySubmarine/WallObject.cs -text
 AuditoryTreasureHunter/ApplicationManager.cs -text
@@ -161,6 +163,9 @@ GameFramework/Core/ResourceHelper.cs -text
 GameFramework/Core/ResourcePool.cs -text
 GameFramework/Core/StateManager.cs -text
 GameFramework/Core/ZLayers.cs -text
+GameFramework/Media/background-title.png -text
+GameFramework/Media/buttonIn.jpg -text
+GameFramework/Media/buttonOut.jpg -text
 GameFramework/Properties/AssemblyInfo.cs -text
 GameFramework/UI/App.xaml -text
 GameFramework/UI/App.xaml.cs -text

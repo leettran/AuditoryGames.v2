@@ -25,10 +25,10 @@ namespace LSRI.AuditoryGames.GameFramework
         }
     }
 
-    public static class States
+    public class States
     {
-        public static string START_STATE = "start";
-        public static string END_STATE = "end";
+        public const string START_STATE = "start";
+        public const string END_STATE = "end";
     }
 
     public class StateManager

@@ -143,13 +143,6 @@ namespace LSRI.TreasureHunter
             PREVENT_AUDIO_CHANGES = false;
         }
 
-        protected void removeAllCanvasChildren()
-        {
-            UIElementCollection children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
-            while (children.Count != 0)
-                children.RemoveAt(0);
-        }
-
         public override void startupApplicationManager()
         {
             MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;

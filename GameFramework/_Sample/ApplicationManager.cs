@@ -28,9 +28,32 @@ namespace LSRI.AuditoryGames.GameFramework
         public int SavedScore;
         public int Score;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dt"></param>
         public abstract void enterFrame(double dt);
+
+        /// <summary>
+        /// 
+        /// </summary>
         public abstract void shutdown();
+
+        /// <summary>
+        /// 
+        /// </summary>
         public abstract void startupApplicationManager();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected void removeAllCanvasChildren()
+        {
+            UIElementCollection children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
+            while (children.Count != 0)
+                children.RemoveAt(0);
+        }
+
     }
 
     public class ApplicationManager : IAppManager
@@ -93,12 +116,12 @@ namespace LSRI.AuditoryGames.GameFramework
 
         }
 
-        protected void removeAllCanvasChildren()
+        /*protected void removeAllCanvasChildren()
         {
             UIElementCollection children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
             while (children.Count != 0)
                 children.RemoveAt(0);
-        }
+        }*/
 
         public override void startupApplicationManager()
         {

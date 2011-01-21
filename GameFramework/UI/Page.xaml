@@ -7,6 +7,10 @@
             <RowDefinition Height="40" MaxHeight="40" MinHeight="40" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <!--<Canvas x:Name="_LayoutRoot" Grid.Row="1">
+            <Canvas.Background>
+                <ImageBrush ImageSource="/GameFramework;component/Media/background-title.png" Stretch="UniformToFill" />
+            </Canvas.Background>-->
         <Canvas x:Name="_LayoutRoot" Background="#FF0043AB" Grid.Row="1">
         </Canvas>
         <MediaElement x:Name="_AudioPlayer" AutoPlay="False" Visibility="Collapsed" Margin="558,0,0,0" Width="30" Height="30" Canvas.Left="-429" Canvas.Top="4" />

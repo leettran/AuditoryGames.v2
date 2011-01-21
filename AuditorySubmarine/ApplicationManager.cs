@@ -18,10 +18,11 @@ namespace LSRI.Submarine
     /// 
     /// </summary>
     /// @see States
-    public static class SubmarineStates
+    public class SubmarineStates : States
     {
-        public static string LEVEL_STATE = "start_Level";
-        public static string OPTION_STATE = "start_option";
+        public const string LEVEL_STATE = "start_Level";
+        public const string OPTION_STATE = "start_option";
+        public const string LOG_STATE = "start_log";
     }
 
     public static class GameLevelDescriptor
@@ -75,7 +76,7 @@ namespace LSRI.Submarine
         /// <summary>
         /// 
         /// </summary>
-        private SubmarinePlayer _submarine = null;
+        public SubmarinePlayer _submarine = null;
         private WallObject _wall = null;
         private GateObject _gate = null;
         private Random _random;
@@ -84,6 +85,8 @@ namespace LSRI.Submarine
         private StopwatchPlus sp1;
 
         public Frequency2IGenerator _synthEx = null;
+
+        private Brush bg = null;
 
         //protected static SubmarineApplicationManager instance = null;
         
@@ -124,6 +127,12 @@ namespace LSRI.Submarine
                 SubmarineStates.LEVEL_STATE,
                 new StateChangeInfo.StateFunction(startGame),
                 new StateChangeInfo.StateFunction(exitGame));
+
+
+            StateManager.Instance.registerStateChange(
+                SubmarineStates.OPTION_STATE,
+                new StateChangeInfo.StateFunction(startOptions),
+                new StateChangeInfo.StateFunction(exitOptions));
 
             GameLevelDescriptor.CurrentLevel = 1;
             GameLevelDescriptor.CurrentGate = 5;
@@ -216,6 +225,7 @@ namespace LSRI.Submarine
                 StateManager.Instance.setState(SubmarineStates.LEVEL_STATE); 
             };
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
+            bg = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background;
 
             //StatusPanelControl ctr = new StatusPanelControl();
             //(GameApplication.Current.RootVisual as GamePage).GetLayoutElt().Children.Add(ctr);
@@ -253,27 +263,38 @@ namespace LSRI.Submarine
             {
                 AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
             };
+
            
 
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
 
-        }
-     
-        protected void removeAllCanvasChildren()
-        {
-            UIElementCollection children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
-            while (children.Count != 0)
-                children.RemoveAt(0);
+            ButtonIcon btnOption = new ButtonIcon();
+            btnOption.TextContent.Text = "Options";
+            btnOption.Icon.Source = ResourceHelper.GetBitmap("Media/fullscreen.png");
+            btnOption.Icon.Height = 22;
+            btnOption.Icon.Width = 31;
+            btnOption.Width = 150;
+            btnOption.Height = 150;
+            btnOption.SetValue(Canvas.LeftProperty, 50.0);
+            btnOption.SetValue(Canvas.TopProperty,250.0);
+            btnOption.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                StateManager.Instance.setState(SubmarineStates.OPTION_STATE);
+            };
+
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnOption);
+
         }
 
         private void endMainMenu()
         {
-            removeAllCanvasChildren();
+            base.removeAllCanvasChildren();
         }
 
 
         private void startGame()
         {
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background = new SolidColorBrush(Color.FromArgb(255,0,67,171));
             //MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
             //_synthEx = new Frequency2IGenerator(children);
             _synthEx.Stop();
@@ -357,7 +378,28 @@ namespace LSRI.Submarine
             //_synthEx.Arpeggiator.Stop();
             //txtbScore = null;
             sp1.Stop();
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background = bg;
+
         }
+
+
+        #region Application Manager 
+
+        private void startOptions()
+        {
+            SubmarineOptions panel = new SubmarineOptions();
+            panel.SetValue(Canvas.LeftProperty, 50.0);
+            panel.SetValue(Canvas.TopProperty, 50.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(panel);
+
+        }
+
+        private void exitOptions()
+        {
+            removeAllCanvasChildren();
+        }
+
+        #endregion
 
     }
 
