@@ -75,12 +75,12 @@ namespace TestGame
 
         }
 
-        protected void removeAllCanvasChildren()
+     /*   protected void removeAllCanvasChildren()
         {
             UIElementCollection children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
             while (children.Count != 0)
                 children.RemoveAt(0);
-        }
+        }*/
 
         public override void startupApplicationManager()
         {
