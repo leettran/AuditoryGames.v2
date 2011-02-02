@@ -227,6 +227,11 @@ namespace LSRI.TreasureHunter
             param.SetValue(Canvas.LeftProperty, 490.0);
             param.SetValue(Canvas.TopProperty, 50.0);
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(param);*/
+
+            MapViewer mp = new MapViewer();
+            mp.SetValue(Canvas.LeftProperty, 50.0);
+            mp.SetValue(Canvas.TopProperty, 250.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(mp);
         }
 
         public void endMainMenu()

@@ -112,6 +112,8 @@ AuditorySubmarine/WallObject.cs -text
 AuditoryTreasureHunter/ApplicationManager.cs -text
 AuditoryTreasureHunter/AuditoryTreasureHunter.csproj -text
 AuditoryTreasureHunter/BackgroundGameObject.cs -text
+AuditoryTreasureHunter/MapViewer.xaml -text
+AuditoryTreasureHunter/MapViewer.xaml.cs -text
 AuditoryTreasureHunter/Media/Explosion1.png -text
 AuditoryTreasureHunter/Media/Explosion2.png -text
 AuditoryTreasureHunter/Media/Explosion3.png -text
@@ -130,6 +132,7 @@ AuditoryTreasureHunter/Media/bob.png -text
 AuditoryTreasureHunter/Media/gold1.png -text
 AuditoryTreasureHunter/Media/hole1.png -text
 AuditoryTreasureHunter/Media/hook.png -text
+AuditoryTreasureHunter/Media/map.jpg -text
 AuditoryTreasureHunter/Media/metal1.png -text
 AuditoryTreasureHunter/Media/rail.png -text
 AuditoryTreasureHunter/Media/rope.png -text
