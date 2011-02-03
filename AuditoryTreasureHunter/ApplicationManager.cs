@@ -22,7 +22,7 @@ namespace LSRI.TreasureHunter
     {
         public static int _gameMode = 0;
         public static int _curLevel = 1;
-        public static int _nbTreasureZones = 5;
+        public static int _nbTreasureZones = 10;
         public static int _sizeZones = 0;
         public static String _curSetup = "";
 
@@ -407,6 +407,19 @@ namespace LSRI.TreasureHunter
         {
             if (KeyHandler.Instance.isKeyPressed(Key.Escape) && StateManager.Instance.CurrentState.Equals("game"))
                 StateManager.Instance.setState(States.START_STATE);
+
+            if (KeyHandler.Instance.isKeyPressed(Key.Down) && StateManager.Instance.CurrentState.Equals("game"))
+            {
+                Visibility? vis = null;
+                for (int i = 0; i < GameObject.gameObjects.Count; ++i)
+                {
+                    TreasureNugget nug = GameObject.gameObjects[i] as TreasureNugget;
+                    if (nug == null) continue;
+                    if (nug.Type == TreasureNugget.TreasureType.TREASURE_NONE) continue;
+                    if (vis == null) vis = (nug.Visibility == Visibility.Collapsed) ? Visibility.Visible : Visibility.Collapsed;
+                    nug.Visibility = (Visibility)vis;
+                }
+            }
 
             
             timeSinceLastEnemy -= dt;

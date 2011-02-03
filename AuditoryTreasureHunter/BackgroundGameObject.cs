@@ -67,10 +67,10 @@ namespace LSRI.TreasureHunter
                 Zones[i].StrokeThickness = 3;
                 Zones[i].Height = dimensions.Y;
                 Zones[i].Width = Dimensions.X;
-                if (i == (GameLevelInfo._nbTreasureZones / 2))
+                /*if (i == (GameLevelInfo._nbTreasureZones / 2))
                 {
                     Zones[i].Fill = new SolidColorBrush(Color.FromArgb(25, 255, 0, 0));
-                }
+                }*/
                 (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(Zones[i]);
             }
             return this;

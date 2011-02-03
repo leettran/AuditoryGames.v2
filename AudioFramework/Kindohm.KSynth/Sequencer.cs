@@ -147,18 +147,26 @@ namespace Kindohm.KSynth.Library
             {
                 int left = 0;
                 int right = 0;
-                foreach (VoiceNote item in this.voicesInPlay)
+                try
                 {
-                    StereoSample voiceSample = item.Voice.GetSample();
-                    left += voiceSample.LeftSample;
-                    right += voiceSample.RightSample;
-                    if (item.Voice is WavPlayer == false)
+                    foreach (VoiceNote item in this.voicesInPlay)
                     {
-                        delayedSample.LeftSample += voiceSample.LeftSample;
-                        delayedSample.RightSample += voiceSample.RightSample;
+                        StereoSample voiceSample = item.Voice.GetSample();
+                        left += voiceSample.LeftSample;
+                        right += voiceSample.RightSample;
+                        if (item.Voice is WavPlayer == false)
+                        {
+                            delayedSample.LeftSample += voiceSample.LeftSample;
+                            delayedSample.RightSample += voiceSample.RightSample;
+                        }
                     }
-                }
 
+                }
+                catch (Exception)
+                {
+                    
+                   // throw;
+                }
                 sample.LeftSample = (short)left;
                 sample.RightSample = (short)right;
             }

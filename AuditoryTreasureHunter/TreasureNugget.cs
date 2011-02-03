@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using LSRI.AuditoryGames.GameFramework;
+using System.Windows.Threading;
 
 namespace LSRI.TreasureHunter
 {
@@ -28,6 +29,9 @@ namespace LSRI.TreasureHunter
         protected NuggetLogic enemyLogic = null;
         protected int score = 0;
         protected int index = 0;
+
+        protected const double TIME_EXPOSURE = 2;
+        protected double timeSinceExposure = -1;
 
         static public TreasureNugget UnusedNuggets
         {
@@ -51,15 +55,6 @@ namespace LSRI.TreasureHunter
         {
         }
 
-        public override void enterFrame(double dt)
-        {
-            base.enterFrame(dt);
-
-            if (inUse)
-            {
-                if (enemyLogic != null) enemyLogic(dt);
-            }
-        }
 
         //public TreasureNugget startupBasicNugget(Point dimensions, AnimationData animationData, int score, int zLayer)
         public TreasureNugget startupBasicNugget(Point dimensions, int index, TreasureType type, int zLayer)
@@ -67,7 +62,7 @@ namespace LSRI.TreasureHunter
             AnimationData animationData = new AnimationData(
                     new string[] { 
                         type==TreasureType.TREASURE_GOLD ? "Media/gold1.png" : "Media/metal1.png" },
-                        .02);
+                        0.0005);
 
             base.startupAnimatedGameObject(dimensions, animationData, ZLayers.PLAYER_Z, false);
 
@@ -92,13 +87,50 @@ namespace LSRI.TreasureHunter
             offscreenCheck();
         }
 
+        private void ExposeNugget()
+        {
+         }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            if (this != null && this.Rect != null)
+                this.Rect.Dispatcher.BeginInvoke(() => this.ExposeNugget());
+            (sender as DispatcherTimer).Stop();
+        }
+
+
+        public override void enterFrame(double dt)
+        {
+            base.enterFrame(dt);
+
+            if (inUse)
+            {
+                if (enemyLogic != null) enemyLogic(dt);
+            }
+
+            if (this.timeSinceExposure >= 0)
+            {
+                timeSinceExposure -= dt;
+                if (timeSinceExposure <= 0)
+                {
+                    animationData.fps = 0.0005;
+                    animationData.frames = new string[] { "Media/hole1.png" };
+                    currentFrame = 0;
+                    //animationData.frames[currentFrame] = "media/hole1.png";
+                    prepareImage(animationData.frames[currentFrame]);
+                    this.Type = TreasureType.TREASURE_NONE;
+                }
+            }
+        }
+
+
         public override void collision(GameObject other)
         {
             base.collision(other);
 
             if (this.Type != TreasureType.TREASURE_NONE)
             {
-
+                // Show explosion animation
                 AnimatedGameObject.UnusedAnimatedGameObject.startupAnimatedGameObject(
                     new Point(55, 55),
                     new AnimationData(
@@ -117,13 +149,21 @@ namespace LSRI.TreasureHunter
                             Position.Y + Dimensions.Y / 2 - 55 / 2);
 
                 TreasureApplicationManager.Instance.Score += score;
-                this.Type = TreasureType.TREASURE_NONE;
                 string newString = GameLevelInfo._curSetup.Substring(0, index) + "0" + GameLevelInfo._curSetup.Substring(index + 1);
                 GameLevelInfo._curSetup = newString;
+
+                // Change visibility and initiate exposure animation
                 this.Visibility = System.Windows.Visibility.Visible;
-                animationData.frames[currentFrame] = "media/hole1.png";
+                this.timeSinceExposure = TreasureNugget.TIME_EXPOSURE;
+                animationData.fps = 10;
+                animationData.frames = new string[] { 
+                            "Media/hole1.png", 
+                            this.Type==TreasureType.TREASURE_GOLD ? "Media/gold1.png" : "Media/metal1.png"
+                };
+                currentFrame = 0;
                 prepareImage(animationData.frames[currentFrame]);
-            }
+
+             }
             (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound();
            // this.shutdown();
         }
