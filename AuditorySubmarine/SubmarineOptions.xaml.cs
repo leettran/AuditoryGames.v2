@@ -20,50 +20,13 @@ namespace LSRI.Submarine
             InitializeComponent();
         }
 
-        private void onChanged(object sender, TextChangedEventArgs e)
+
+        private void userModelEditor1_Loaded(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void hyperlinkButton1_MouseEnter(object sender, MouseEventArgs e)
-        {
-            this._hyperlinkButton1.Background = new ImageBrush()
-            {
-                ImageSource = new BitmapImage(
-                    new Uri(@"/GameFramework;component/Media/buttonIn.jpg", UriKind.Relative)
-                )
-
-            };
-
-            Thickness? dd = this._hyperlinkButton1.GetValue(Grid.MarginProperty) as Thickness?;
-            if (dd.HasValue)
-            {
-                Thickness cc = dd.Value;
-                cc.Top -= 10;
-                this._hyperlinkButton1.SetValue(Grid.MarginProperty, cc);
-            }
-        }
-
-        private void _hyperlinkButton1_MouseLeave(object sender, MouseEventArgs e)
-        {
-            this._hyperlinkButton1.Background = new ImageBrush()
-            {
-                ImageSource = new BitmapImage(
-                    new Uri(@"/GameFramework;component/Media/buttonOut.jpg", UriKind.Relative)
-                )
-
-            };
-            Thickness? dd = this._hyperlinkButton1.GetValue(Grid.MarginProperty) as Thickness?;
-            if (dd.HasValue)
-            {
-                Thickness cc = dd.Value;
-                cc.Top += 10;
-                this._hyperlinkButton1.SetValue(Grid.MarginProperty, cc);
-            }
-
-        }
-
-        private void _hyperlinkButton1_Click(object sender, RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
 
         }

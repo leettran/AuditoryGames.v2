@@ -180,6 +180,9 @@ GameFramework/UI/Page.xaml -text
 GameFramework/UI/Page.xaml.cs -text
 GameFramework/UI/ScoreControl.xaml -text
 GameFramework/UI/ScoreControl.xaml.cs -text
+GameFramework/UserModel/UserModel.cs -text
+GameFramework/UserModel/UserModelEditor.xaml -text
+GameFramework/UserModel/UserModelEditor.xaml.cs -text
 GameFramework/Utility/MathUtil.cs -text
 GameFramework/Utility/StopwatchPlus.cs -text
 GameFramework/_GameFramework.csproj -text

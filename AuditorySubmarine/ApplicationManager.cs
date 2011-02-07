@@ -8,6 +8,7 @@ using LSRI.AuditoryGames.Utils;
 using LSRI.AuditoryGames.GameFramework;
 using LSRI.Submarine;
 using LSRI.AuditoryGames.AudioFramework;
+using LSRI.AuditoryGames.GameFramework.Data;
 
 
 
@@ -388,8 +389,15 @@ namespace LSRI.Submarine
         private void startOptions()
         {
             SubmarineOptions panel = new SubmarineOptions();
+           // UserModelEditor panel = new UserModelEditor();
+           // panel.AddModel(UserModel.Beginner());
             panel.SetValue(Canvas.LeftProperty, 50.0);
             panel.SetValue(Canvas.TopProperty, 50.0);
+          /*  panel._ValidateModelHook += delegate() 
+            {
+                StateManager.Instance.setState(States.START_STATE);
+            };*/
+
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(panel);
 
         }

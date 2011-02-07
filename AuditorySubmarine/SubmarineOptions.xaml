@@ -3,33 +3,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" 
+    xmlns:my="clr-namespace:LSRI.AuditoryGames.GameFramework;assembly=GameFramework" 
     mc:Ignorable="d"
-    d:DesignHeight="323" d:DesignWidth="458" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
-    
-    <Grid x:Name="LayoutRoot" DataContext="{Binding ElementName=LayoutRoot}">
-        <toolkit:NumericUpDown Height="22" HorizontalAlignment="Left" Margin="12,12,0,0" Name="numericUpDown1" VerticalAlignment="Top" Width="74" />
-        <sdk:TabControl Height="177" HorizontalAlignment="Left" Margin="41,156,0,0" Name="tabControl1" VerticalAlignment="Top" Width="348">
-            <sdk:TabItem Header="tabItem1" Name="tabItem1">
-                <Grid>
-                    <HyperlinkButton Height="61" HorizontalAlignment="Left" Margin="6,5,0,0" Name="_hyperlinkButton1" VerticalAlignment="Top" Width="100" MouseEnter="hyperlinkButton1_MouseEnter" MouseLeave="_hyperlinkButton1_MouseLeave" Content="dfdfdfdf" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFFEFE98" FontWeight="Bold" FontSize="10">
-                        <HyperlinkButton.Background>
-                            <ImageBrush ImageSource="/GameFramework;component/Media/buttonOut.jpg" Stretch="None" AlignmentY="Top" />
-                        </HyperlinkButton.Background>
-                        <HyperlinkButton.Effect>
-                            <DropShadowEffect BlurRadius="10" Direction="315" ShadowDepth="5" Color="Black" />
-                        </HyperlinkButton.Effect>
-                    </HyperlinkButton>
-                </Grid>
-            </sdk:TabItem>
-            <sdk:TabItem Header="tabItem2" Name="tabItem2">
-                <Grid>
-                    <Button Height="23" HorizontalAlignment="Left" Margin="50,24,0,0" Name="button1" VerticalAlignment="Top" Width="75">
-                        <Button.Content>
-                            <Image Source="/AuditoryTreasureHunter;component/Media/blueplane2.png" />
-                        </Button.Content>
-                    </Button>
-                </Grid>
-            </sdk:TabItem>
-        </sdk:TabControl>
+    d:DesignHeight="403" d:DesignWidth="465" Loaded="UserControl_Loaded">
+
+
+    <Grid x:Name="LayoutRoot">
+        <my:UserModelEditor Name="userModelEditor1" HorizontalAlignment="Left" Width="382" Height="308" VerticalAlignment="Top" />
+        <Grid HorizontalAlignment="Left" Margin="0,314,0,53" Name="grid1" Width="382">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="100*" />
+            </Grid.ColumnDefinitions>
+            <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="80,6,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
+            <Button Content="Button" Height="23" Margin="0,6,79,0" Name="button2" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Right" Width="75" />
+        </Grid>
     </Grid>
 </UserControl>

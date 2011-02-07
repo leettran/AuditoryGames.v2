@@ -67,6 +67,10 @@
     <Compile Include="UI\ScoreControl.xaml.cs">
       <DependentUpon>ScoreControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserModel\UserModel.cs" />
+    <Compile Include="UserModel\UserModelEditor.xaml.cs">
+      <DependentUpon>UserModelEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utility\StopwatchPlus.cs" />
     <Compile Include="_Sample\ApplicationManager.cs">
       <SubType>Code</SubType>
@@ -120,6 +124,10 @@
     <Page Include="UI\ScoreControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserModel\UserModelEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
