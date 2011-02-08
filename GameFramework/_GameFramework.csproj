@@ -47,10 +47,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
+    <Reference Include="System.ComponentModel.DataAnnotations, Version=2.0.5.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=MSIL" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Controls.Data.DataForm.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Data.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Data.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Toolkit.Internals, Version=4.0.5.0, Culture=neutral, PublicKeyToken=2c5c654d367bf4a7, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
@@ -67,8 +70,9 @@
     <Compile Include="UI\ScoreControl.xaml.cs">
       <DependentUpon>ScoreControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\SuperDataForm.cs" />
     <Compile Include="UserModel\UserModel.cs" />
-    <Compile Include="UserModel\UserModelEditor.xaml.cs">
+    <Compile Include="UI\UserModelEditor.xaml.cs">
       <DependentUpon>UserModelEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\StopwatchPlus.cs" />
@@ -125,7 +129,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserModel\UserModelEditor.xaml">
+    <Page Include="UI\UserModelEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

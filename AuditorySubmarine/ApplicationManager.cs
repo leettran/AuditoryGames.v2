@@ -391,12 +391,12 @@ namespace LSRI.Submarine
             SubmarineOptions panel = new SubmarineOptions();
            // UserModelEditor panel = new UserModelEditor();
            // panel.AddModel(UserModel.Beginner());
-            panel.SetValue(Canvas.LeftProperty, 50.0);
-            panel.SetValue(Canvas.TopProperty, 50.0);
-          /*  panel._ValidateModelHook += delegate() 
+            panel.SetValue(Canvas.LeftProperty, 10.0);
+            panel.SetValue(Canvas.TopProperty, 10.0);
+            panel.OnCompleteTask += delegate() 
             {
                 StateManager.Instance.setState(States.START_STATE);
-            };*/
+            };
 
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(panel);
 

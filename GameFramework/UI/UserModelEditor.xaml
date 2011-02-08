@@ -1,13 +1,14 @@
-﻿<UserControl x:Class="LSRI.AuditoryGames.GameFramework.UserModelEditor"
+﻿<UserControl x:Class="LSRI.AuditoryGames.GameFramework.UI.UserModelEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:data="clr-namespace:LSRI.AuditoryGames.GameFramework.Data"
-    mc:Ignorable="d" Height="308" Width="382">
+    mc:Ignorable="d" Height="308" Width="382" xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit">
 
     <UserControl.Resources>
         <data:UserModelContainer x:Key="ContainerObject" />
+        <toolkit:DataFormToStringConverter x:Key="DataFormToStringConverter1" />
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot" DataContext="{Binding Source={StaticResource ContainerObject}}">
@@ -41,5 +42,6 @@
         <Button Name="_btnCancel" Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="14,55,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Grid.Row="6" Click="button2_Click" Visibility="Collapsed" />
         <TextBlock FontWeight="Bold" Height="23" HorizontalAlignment="Left" Margin="6,0,0,0" Name="textBlock6" Text="User" TextAlignment="Left" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" Width="176" />
         <TextBlock FontWeight="Normal" Height="23" HorizontalAlignment="Left" Margin="12,0,0,0" Name="textBlock2" Text="Profile" TextAlignment="Right" VerticalAlignment="Bottom" Width="52" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="6,0,0,91" Name="textBox4" Text="{Binding Path=CurrentModel.GatesOpening2.Count, Mode=TwoWay, Converter={StaticResource DataFormToStringConverter1}}" VerticalAlignment="Bottom" Width="83" Grid.Column="1" Grid.Row="6" DataContext="{Binding}" />
     </Grid>
 </UserControl>

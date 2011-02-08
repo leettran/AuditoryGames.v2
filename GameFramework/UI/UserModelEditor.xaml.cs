@@ -11,7 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using LSRI.AuditoryGames.GameFramework.Data;
 
-namespace LSRI.AuditoryGames.GameFramework
+namespace LSRI.AuditoryGames.GameFramework.UI
 {
     public partial class UserModelEditor : UserControl
     {
