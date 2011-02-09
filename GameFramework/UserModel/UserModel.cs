@@ -21,6 +21,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
     /// </summary>
     public abstract class UserModelEntity : INotifyPropertyChanged, IEditableObject
     {
+        #region INotifyPropertyChanged UserModelEntity
+
         /// <summary>
         /// interface
         /// </summary>
@@ -37,19 +39,67 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
+        #endregion
 
+        #region IEditableObject UserModelEntity
 
+        /// <summary>
+        /// 
+        /// </summary>
         abstract public void BeginEdit();
 
+        /// <summary>
+        /// 
+        /// </summary>
         abstract public void CancelEdit();
 
+        /// <summary>
+        /// 
+        /// </summary>
         abstract public void EndEdit();
+
+        #endregion
     }
 
+
+    public class WinPattern : UserModelEntity
+    {
+        public bool Level1 { set; get; }
+        public bool Level2 { set; get; }
+        public bool Level3 { set; get; }
+
+        public WinPattern()
+        {
+            this.Level1 = this.Level2 = this.Level3 = true;
+        }
+
+        public override void BeginEdit()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public override void CancelEdit()
+        {
+           // throw new NotImplementedException();
+        }
+
+        public override void EndEdit()
+        {
+            //throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class Gates : UserModelEntity
     {
         private double[] _name;
  
+        /// <summary>
+        /// 
+        /// </summary>
+        [Range(0.0,1.0)]
         public double Gate1
         {
             get { return _name[0]; }
@@ -62,6 +112,11 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Range(0.0, 1.0)]
         public double Gate2
         {
             get { return _name[1]; }
@@ -74,6 +129,11 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Range(0.0, 1.0)]
         public double Gate3
         {
             get { return _name[2]; }
@@ -86,6 +146,11 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Range(0.0, 1.0)]
         public double Gate4
         {
             get { return _name[3]; }
@@ -98,6 +163,11 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Range(0.0, 1.0)]
         public double Gate5
         {
             get { return _name[4]; }
@@ -111,7 +181,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public Gates()
         {
             _name = new double[] { 
@@ -149,20 +221,46 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class UserModel : UserModelEntity
     {
-        string _Name;
-        double _FqTraining;
-        double _FqComparison;
-        Gates _gate;
+        /// <summary>
+        /// 
+        /// </summary>
+        public enum UserType
+        {
+            User,       ///< dfdfdf
+            Stereotype   ///<
+        }
+
+        string  _Name;
+        double  _FqTraining;
+        double  _FqComparison; 
+        int     _currLevel;
+        UserType _userType;
+        Gates   _gate;
 
         //string[] _tt;
-        ObservableCollection<string> _hh;
+        //ObservableCollection<string> _hh;
 
+        public UserType Type
+        {
+            get { return _userType; }
+            set
+            {
+                if (_userType != value)
+                {
+                    _userType = value;
+                    OnPropertyChanged("Type");
+                }
+            }
+        }
          /// <summary>
         /// 
         /// </summary>
-        [Display(Name = "Name", GroupName = "Identification", Description = "Name of user")]
+        [Display(Name = "Name", Description = "Name/identifier of user")]
         [Required]
         public string Name
         {
@@ -180,7 +278,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         /// <summary>
         /// 
         /// </summary>
-        [Display(Name = "Training", GroupName = "Frequency", Description = "Phone number of the form (###) ###-####")]
+        [Display(Name = "Training", GroupName = "Frequency", Description = "Training frequency of the user")]
         [Required]
         public double FrequencyTraining
         {
@@ -198,7 +296,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         /// <summary>
         /// 
         /// </summary>
-        [Display(Name = "Comparison", GroupName = "Frequency", Description = "Phone number of the form (###) ###-####")]
+        [Display(Name = "Delta (Fq)", GroupName = "Frequency", Description = "Limit of theoretical audible frequency difference")]
         [Required]
         public double FrequencyComparison
         {
@@ -212,6 +310,25 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Display(Name = "Current Level", Description = "Current maximum level reached in the game")]
+        [Range(1,1000)]
+        public int CurrentLevel
+        {
+            get { return _currLevel; }
+            set
+            {
+                if (_currLevel != value)
+                {
+                    _currLevel = value;
+                    OnPropertyChanged("CurrentLevel");
+                }
+            }
+        }
+
 
         /// <summary>
         /// 
@@ -230,47 +347,20 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
-
-        /*
-        public string[] GatesOpening
-        {
-            get { return _tt; }
-            set
-            {
-                if (_tt != value)
-                {
-                    _tt = value;
-                    OnPropertyChanged("GatesOpening");
-                }
-            }
-        }
-
-        */
-        public ObservableCollection<string> GatesOpening2
-        {
-            get { return _hh; }
-            set
-            {
-                if (_hh != value)
-                {
-                    _hh = value;
-                    OnPropertyChanged("GatesOpening2");
-                }
-            }
-        }
+        public WinPattern Pattern { set; get; }
 
         /// <summary>
         /// 
         /// </summary>
         public UserModel()
         {
+            this._userType = UserType.Stereotype;
             this.Name = "";
             this.Gates = new Gates();
+            this.Pattern = new WinPattern();
             this.FrequencyTraining = 5000;
             this.FrequencyComparison = 3000;
-            //this.GatesOpening = new String[]{"a","b","c"};
-            this.GatesOpening2 = new ObservableCollection<string> { "sddf" };
-            //this._name = new string[] { "0", "1", "2", "3", "4" };
+            this.CurrentLevel = 1;
 
         }
 
@@ -281,32 +371,24 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         public UserModel Clone()
         {
             UserModel tmp = new UserModel();
+            tmp._userType = this.Type;
             tmp.Name = this.Name;
+            tmp.CurrentLevel = this.CurrentLevel;
             tmp.FrequencyTraining = this.FrequencyComparison;
             tmp.FrequencyComparison = this.FrequencyComparison;
             tmp.Gates = this.Gates;
-            tmp.GatesOpening2 = new ObservableCollection<string>();
-            foreach (string s in this.GatesOpening2)
-            {
-                string tt = "" + s;
-                tmp.GatesOpening2.Add(tt);
-            }
 
             return tmp;
         }
 
         public void Copy(UserModel tmp)
         {
+            this._userType = tmp.Type; 
             this.Name = tmp.Name;
+            this.CurrentLevel = tmp.CurrentLevel;
             this.FrequencyTraining = tmp.FrequencyComparison;
             this.FrequencyComparison = tmp.FrequencyComparison;
             this.Gates = tmp.Gates;
-            this.GatesOpening2 = new ObservableCollection<string>();
-            while (tmp.GatesOpening2.Count != 0)
-            {
-                this.GatesOpening2.Add(tmp.GatesOpening2[0]);
-                tmp.GatesOpening2.RemoveAt(0);
-            }
         }
 
 
@@ -319,8 +401,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             return new UserModel
             {
                 Name = "Beginner",
-                FrequencyComparison = 3000
-            };
+                FrequencyComparison = 3000,
+                CurrentLevel = 1
+           };
         }
 
         /// <summary>
@@ -332,7 +415,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             var GG =  new UserModel
             {
                 Name = "Expert",
-                FrequencyComparison = 4500
+                FrequencyComparison = 4500,
+                CurrentLevel = 10
             };
             return GG;
         }
@@ -406,6 +490,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 UserModel.Beginner(),
                 UserModel.Expert(),
                 new UserModel{
+                    Type = UserModel.UserType.User,
                     Name = "Current User"
                 }
 

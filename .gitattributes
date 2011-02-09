@@ -176,6 +176,8 @@ GameFramework/UI/ButtonIcon.xaml -text
 GameFramework/UI/ButtonIcon.xaml.cs -text
 GameFramework/UI/GameParameters.xaml -text
 GameFramework/UI/GameParameters.xaml.cs -text
+GameFramework/UI/HighScore.xaml -text
+GameFramework/UI/HighScore.xaml.cs -text
 GameFramework/UI/Page.xaml -text
 GameFramework/UI/Page.xaml.cs -text
 GameFramework/UI/ScoreControl.xaml -text
@@ -184,6 +186,7 @@ GameFramework/UI/SuperDataForm.cs -text
 GameFramework/UI/UserModelEditor.xaml -text
 GameFramework/UI/UserModelEditor.xaml.cs -text
 GameFramework/UserModel/AuditoryModel.cs -text
+GameFramework/UserModel/HighScores.cs -text
 GameFramework/UserModel/UserModel.cs -text
 GameFramework/Utility/MathUtil.cs -text
 GameFramework/Utility/StopwatchPlus.cs -text

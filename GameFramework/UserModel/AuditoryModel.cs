@@ -15,6 +15,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
     {
         double _base;
         double _step;
+        
 
         public double Base
         {
@@ -40,6 +41,12 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                     OnPropertyChanged("Step");
                 }
             }
+        }
+
+        public AuditoryModel()
+        {
+            this.Base = .50;
+            this.Step = .04;
         }
 
 

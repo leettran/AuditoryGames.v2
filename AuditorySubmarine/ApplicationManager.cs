@@ -9,6 +9,7 @@ using LSRI.AuditoryGames.GameFramework;
 using LSRI.Submarine;
 using LSRI.AuditoryGames.AudioFramework;
 using LSRI.AuditoryGames.GameFramework.Data;
+using GameFramework.UI;
 
 
 
@@ -285,6 +286,12 @@ namespace LSRI.Submarine
 
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnOption);
 
+
+            HighScoreControl ct = new HighScoreControl();
+            ct.SetValue(Canvas.LeftProperty, 350.0);
+            ct.SetValue(Canvas.TopProperty, 50.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(ct);
+
         }
 
         private void endMainMenu()
@@ -388,12 +395,13 @@ namespace LSRI.Submarine
 
         private void startOptions()
         {
-            SubmarineOptions panel = new SubmarineOptions();
+            SubmarineOptionPanel panel = new SubmarineOptionPanel();
            // UserModelEditor panel = new UserModelEditor();
            // panel.AddModel(UserModel.Beginner());
             panel.SetValue(Canvas.LeftProperty, 10.0);
             panel.SetValue(Canvas.TopProperty, 10.0);
-            panel.OnCompleteTask += delegate() 
+
+            panel.OnCompleteTask += delegate(SubmarineOptionPanel.CompleteTaskArgs arg) 
             {
                 StateManager.Instance.setState(States.START_STATE);
             };

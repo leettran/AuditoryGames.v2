@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LSRI.Submarine.SubmarineOptions"
+﻿<UserControl x:Class="LSRI.Submarine.SubmarineOptionPanel"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,8 +7,7 @@
     xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"  
     xmlns:data="clr-namespace:LSRI.AuditoryGames.GameFramework.Data;assembly=GameFramework"
     xmlns:gamefw="clr-namespace:LSRI.AuditoryGames.GameFramework.UI;assembly=GameFramework"
-    mc:Ignorable="d"
-    d:DesignHeight="465" d:DesignWidth="668" Loaded="UserControl_Loaded" FontSize="9" FontWeight="Normal" FontStretch="Normal">
+    mc:Ignorable="d" Loaded="UserControl_Loaded" FontSize="9" FontWeight="Normal" FontStretch="Normal" d:DesignHeight="465" d:DesignWidth="700">
 
     <UserControl.Resources>
         <data:UserModelContainer x:Key="ContainerObject" />
@@ -17,20 +16,27 @@
 
 
     <Grid x:Name="LayoutRoot">
-        <gamefw:SuperDataForm Height="414" HorizontalAlignment="Left" Name="_xPeople" VerticalAlignment="Top" Width="284" AutoCommit="False" AutoEdit="True" CommandButtonsVisibility="Navigation, Commit, Cancel" CancelButtonContent="Cancel" CommitButtonContent="Commit" HeaderVisibility="Collapsed" Header="User Profiles" AutoGenerateFields="True" ItemsSource="{Binding Source={StaticResource ContainerObject}, Path=UserModels}" DataContext="{Binding}" UseLayoutRounding="True">
-        </gamefw:SuperDataForm>
-        <gamefw:SuperDataForm 
-            AutoCommit="False" AutoEdit="True" AutoGenerateFields="True" 
-            CancelButtonContent="Cancel" 
-            CommandButtonsVisibility="Commit, Cancel, Navigation" 
-            CommitButtonContent="Commit" 
-            Header="Staircase" 
-            HeaderVisibility="Collapsed" 
-            Height="170" 
-            HorizontalAlignment="Left" 
-            ItemsSource="{Binding Source={StaticResource StaircaseObject}}" Margin="308,0,0,0" Name="_xStaircase" 
-            UseLayoutRounding="True" VerticalAlignment="Top" Width="284" DataContext="{Binding Source={StaticResource StaircaseObject}}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="16" />
+            <RowDefinition Height="180" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280" />
+            <ColumnDefinition Width="16" />
+            <ColumnDefinition Width="240" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="12,431,0,0" Name="btnOK" VerticalAlignment="Top" Width="75" Click="btnOK_Click" />
+      
+
+      
+        <gamefw:SuperDataForm AutoCommit="False" AutoEdit="True" AutoGenerateFields="True" CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" CommitButtonContent="Commit" CurrentItem="{Binding Source={StaticResource StaircaseObject}}" DataContext="{Binding Source={StaticResource StaircaseObject}}" Header="Game Options" HeaderVisibility="Visible" Name="superDataForm1" UseLayoutRounding="True" Grid.Column="2" Grid.Row="2" />
+
+        <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="0,22,0,0" Name="btnOK" VerticalAlignment="Top" Width="75" Click="btnOK_Click" Grid.Row="3" />
+        
+        <gamefw:SuperDataForm Name="_xStaircase" AutoCommit="False" AutoEdit="True" AutoGenerateFields="True" CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" CommitButtonContent="Commit" Header="Staircase" HeaderVisibility="Visible" UseLayoutRounding="True" CurrentItem="{Binding Source={StaticResource StaircaseObject}}" DataContext="{Binding Source={StaticResource StaircaseObject}}" Grid.Column="2" />
+        <gamefw:SuperDataForm Name="_xPeople" AutoCommit="False" AutoEdit="True" CommandButtonsVisibility="Navigation, Commit, Cancel" CancelButtonContent="Cancel" CommitButtonContent="Commit" HeaderVisibility="Collapsed" Header="User Profiles" AutoGenerateFields="True" ItemsSource="{Binding Source={StaticResource ContainerObject}, Path=UserModels}" DataContext="{Binding}" UseLayoutRounding="True" Grid.RowSpan="3"></gamefw:SuperDataForm>
     </Grid>
 </UserControl>

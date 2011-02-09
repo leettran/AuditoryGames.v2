@@ -50,13 +50,13 @@ namespace LSRI.AuditoryGames.GameFramework.UI
 
                 control.CommandButtonsVisibility = DataFormCommandButtonsVisibility.None;
                 control.IsReadOnly = false;
-                control.AutoCommit = true;
+                control.AutoCommit = false;
                 
                 Controls.Add(control);
                 Binding binding = new Binding(e.PropertyName);
                 binding.Mode = BindingMode.TwoWay;
                 binding.ValidatesOnExceptions = true;
-                binding.NotifyOnValidationError = true;
+                binding.NotifyOnValidationError = false;
                 control.SetBinding(DataForm.CurrentItemProperty, binding);
                 e.Field.IsReadOnly = false;
                 e.Field.Content = control;
@@ -82,6 +82,9 @@ namespace LSRI.AuditoryGames.GameFramework.UI
 
         }
 
+        protected override void OnItemEditEnding(DataFormEditEndingEventArgs e)
+        {
+        }
 
 
     }

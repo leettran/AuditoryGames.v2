@@ -14,12 +14,17 @@ using LSRI.AuditoryGames.GameFramework.Data;
 
 namespace LSRI.Submarine
 {
-    public partial class SubmarineOptions : UserControl
+    public partial class SubmarineOptionPanel : UserControl
     {
-        public delegate void OnCompleteTaskEvent();
+        public class CompleteTaskArgs : EventArgs
+        {
+            private int _currUser;
+
+        }
+        public delegate void OnCompleteTaskEvent(CompleteTaskArgs arg);
         public event OnCompleteTaskEvent OnCompleteTask;
 
-        public SubmarineOptions()
+        public SubmarineOptionPanel()
         {
             InitializeComponent();
            // _xPeople.ItemsSource = new UserModelContainer().UserModels;
@@ -40,7 +45,7 @@ namespace LSRI.Submarine
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            if (this.OnCompleteTask != null) this.OnCompleteTask();
+            if (this.OnCompleteTask != null) this.OnCompleteTask(new CompleteTaskArgs());
         }
     }
 }

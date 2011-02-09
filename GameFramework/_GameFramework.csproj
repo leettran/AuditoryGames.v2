@@ -51,11 +51,21 @@
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Controls.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Windows.Controls.Data.DataForm.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Data.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Data.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Theming.BubbleCreme, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Theming.BureauBlack, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Theming.BureauBlue, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Theming.ExpressionDark, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Theming.ExpressionLight, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Theming.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Theming.TwilightBlue, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Theming.WhistlerBlue, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Windows.Controls.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Toolkit.Internals, Version=4.0.5.0, Culture=neutral, PublicKeyToken=2c5c654d367bf4a7, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Browser" />
@@ -67,11 +77,15 @@
     <Compile Include="UI\GameParameters.xaml.cs">
       <DependentUpon>GameParameters.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\HighScore.xaml.cs">
+      <DependentUpon>HighScore.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ScoreControl.xaml.cs">
       <DependentUpon>ScoreControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\SuperDataForm.cs" />
     <Compile Include="UserModel\AuditoryModel.cs" />
+    <Compile Include="UserModel\HighScores.cs" />
     <Compile Include="UserModel\UserModel.cs" />
     <Compile Include="UI\UserModelEditor.xaml.cs">
       <DependentUpon>UserModelEditor.xaml</DependentUpon>
@@ -121,6 +135,10 @@
     <Page Include="UI\GameParameters.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\HighScore.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Page.xaml">
       <Generator>MSBuild:Compile</Generator>
