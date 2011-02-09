@@ -71,6 +71,7 @@
       <DependentUpon>ScoreControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\SuperDataForm.cs" />
+    <Compile Include="UserModel\AuditoryModel.cs" />
     <Compile Include="UserModel\UserModel.cs" />
     <Compile Include="UI\UserModelEditor.xaml.cs">
       <DependentUpon>UserModelEditor.xaml</DependentUpon>

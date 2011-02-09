@@ -8,57 +8,29 @@
     xmlns:data="clr-namespace:LSRI.AuditoryGames.GameFramework.Data;assembly=GameFramework"
     xmlns:gamefw="clr-namespace:LSRI.AuditoryGames.GameFramework.UI;assembly=GameFramework"
     mc:Ignorable="d"
-    d:DesignHeight="466" d:DesignWidth="484" Loaded="UserControl_Loaded">
+    d:DesignHeight="465" d:DesignWidth="668" Loaded="UserControl_Loaded" FontSize="9" FontWeight="Normal" FontStretch="Normal">
 
     <UserControl.Resources>
         <data:UserModelContainer x:Key="ContainerObject" />
+        <data:AuditoryModel x:Key="StaircaseObject" />
     </UserControl.Resources>
 
 
     <Grid x:Name="LayoutRoot">
-        <gamefw:SuperDataForm Height="361" HorizontalAlignment="Left" Name="_xPeople" VerticalAlignment="Top" Width="284" AutoCommit="False" AutoEdit="True" CommandButtonsVisibility="Navigation, Commit, Cancel" CancelButtonContent="Cancel" CommitButtonContent="Commit" HeaderVisibility="Collapsed" Header="User Profiles" AutoGenerateFields="True" ItemsSource="{Binding Source={StaticResource ContainerObject}, Path=UserModels}" DataContext="{Binding}" UseLayoutRounding="True">
-           <!--
-            <toolkit:DataForm.EditTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <toolkit:DataField>
-                            <TextBox Text="{Binding Name, Mode=TwoWay}" />
-                        </toolkit:DataField>
-                        <toolkit:DataField>
-                            <TextBox Text="{Binding FrequencyTraining, Mode=TwoWay}" />
-                        </toolkit:DataField>
-                        <toolkit:DataField >
-                            <ItemsControl x:Name="icX" ItemsSource="{Binding GatesOpening2}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-
-                                        <StackPanel Orientation="Horizontal">
-
-                                        </StackPanel>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Width="70" Margin="5">
-                                            
-                                            <StackPanel>
-                                                <TextBlock Margin="3,3,3,0" FontSize="12" HorizontalAlignment="Center"
-                   Text="{Binding Path=Length}"/>
-                                                <TextBox Margin="3,0,3,7" FontSize="12" HorizontalAlignment="Center"
-                   Text="{Binding}"/>
-                                            </StackPanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-
-                            </ItemsControl>
-                        </toolkit:DataField>
-                
-                    </StackPanel>
-                </DataTemplate>
-            </toolkit:DataForm.EditTemplate>  -->
-
+        <gamefw:SuperDataForm Height="414" HorizontalAlignment="Left" Name="_xPeople" VerticalAlignment="Top" Width="284" AutoCommit="False" AutoEdit="True" CommandButtonsVisibility="Navigation, Commit, Cancel" CancelButtonContent="Cancel" CommitButtonContent="Commit" HeaderVisibility="Collapsed" Header="User Profiles" AutoGenerateFields="True" ItemsSource="{Binding Source={StaticResource ContainerObject}, Path=UserModels}" DataContext="{Binding}" UseLayoutRounding="True">
         </gamefw:SuperDataForm>
+        <gamefw:SuperDataForm 
+            AutoCommit="False" AutoEdit="True" AutoGenerateFields="True" 
+            CancelButtonContent="Cancel" 
+            CommandButtonsVisibility="Commit, Cancel, Navigation" 
+            CommitButtonContent="Commit" 
+            Header="Staircase" 
+            HeaderVisibility="Collapsed" 
+            Height="170" 
+            HorizontalAlignment="Left" 
+            ItemsSource="{Binding Source={StaticResource StaircaseObject}}" Margin="308,0,0,0" Name="_xStaircase" 
+            UseLayoutRounding="True" VerticalAlignment="Top" Width="284" DataContext="{Binding Source={StaticResource StaircaseObject}}" />
+
         <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="12,431,0,0" Name="btnOK" VerticalAlignment="Top" Width="75" Click="btnOK_Click" />
     </Grid>
 </UserControl>
