@@ -62,6 +62,8 @@ namespace LSRI.AuditoryGames.GameFramework
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(CompositionTarget_onLoaded);
+            Application.Current.Host.Content.FullScreenChanged += new EventHandler(Content_FullScreenChanged);
+
 
             CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
             lastTick = DateTime.Now;
@@ -85,5 +87,24 @@ namespace LSRI.AuditoryGames.GameFramework
         {
             AuditoryGameApp.Current.Host.Content.IsFullScreen = true;
         }
+
+        void Content_FullScreenChanged(object sender, EventArgs e)
+        {
+            //scale content if we are in full screen.
+            if (Application.Current.Host.Content.IsFullScreen)
+            {
+                double heightRatio = Application.Current.Host.Content.ActualHeight / this.Height;
+                double widthRatio = Application.Current.Host.Content.ActualWidth / this.Width;
+                ScaleTransform scale = new ScaleTransform();
+                scale.ScaleX = widthRatio;
+                scale.ScaleY = heightRatio;
+                this.RenderTransform = scale;
+            }
+            else
+            {
+                this.RenderTransform = null;
+            }
+        }
+
     }
 }
