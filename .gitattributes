@@ -186,6 +186,7 @@ GameFramework/UI/SuperDataForm.cs -text
 GameFramework/UI/UserModelEditor.xaml -text
 GameFramework/UI/UserModelEditor.xaml.cs -text
 GameFramework/UserModel/AuditoryModel.cs -text
+GameFramework/UserModel/GameOptions.cs -text
 GameFramework/UserModel/HighScores.cs -text
 GameFramework/UserModel/UserModel.cs -text
 GameFramework/Utility/MathUtil.cs -text

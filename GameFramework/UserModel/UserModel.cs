@@ -32,7 +32,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         /// 
         /// </summary>
         /// <param name="propName"></param>
-        protected void OnPropertyChanged(string propName)
+        protected virtual void OnPropertyChanged(string propName)
         {
             if (PropertyChanged != null)
             {
@@ -64,8 +64,23 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
     public class WinPattern : UserModelEntity
     {
+        /// <summary>
+        /// 
+        /// </summary>
+         
+        [Display(Name = "Level -1", Description = "Success of last level")]
         public bool Level1 { set; get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Display(Name = "Level -2", Description = "Success of last-but-1 level")]
         public bool Level2 { set; get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Display(Name = "Level -3", Description = "Success of last-but-two level")]
         public bool Level3 { set; get; }
 
         public WinPattern()
@@ -237,14 +252,16 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
         string  _Name;
         double  _FqTraining;
-        double  _FqComparison; 
-        int     _currLevel;
+        double  _FqComparison;
+        int _currLevel;
+        int _currGate;
         UserType _userType;
         Gates   _gate;
 
         //string[] _tt;
         //ObservableCollection<string> _hh;
 
+        [Display(Name = "Type", Description = "Either a real or a Stereotypical user")]
         public UserType Type
         {
             get { return _userType; }
@@ -315,7 +332,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         /// 
         /// </summary>
         [Display(Name = "Current Level", Description = "Current maximum level reached in the game")]
-        [Range(1,1000)]
+        [Range(1, 1000)]
         public int CurrentLevel
         {
             get { return _currLevel; }
@@ -325,6 +342,24 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 {
                     _currLevel = value;
                     OnPropertyChanged("CurrentLevel");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Display(Name = "Current Gate", Description = "Number of gates crossed during the current level")]
+        [Range(0, 4)]
+        public int CurrentGate
+        {
+            get { return _currGate; }
+            set
+            {
+                if (_currGate != value)
+                {
+                    _currGate = value;
+                    OnPropertyChanged("CurrentGate");
                 }
             }
         }
@@ -342,12 +377,23 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 if (_gate != value)
                 {
                     _gate = value;
-                    OnPropertyChanged("Name");
+                    OnPropertyChanged("Gates");
                 }
             }
         }
 
+        [Display(Name = "Success Pattern", Description = "The outcomes (success or failure) of the last three levels")]
         public WinPattern Pattern { set; get; }
+
+
+        protected override void OnPropertyChanged(string propName)
+        {
+            base.OnPropertyChanged(propName);
+            if (propName == "CurrentLevel" && _tmpModel!=null && this.Type == UserType.Stereotype)
+            {
+                this.FrequencyTraining /= 2; 
+            }
+        }
 
         /// <summary>
         /// 
@@ -355,13 +401,13 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         public UserModel()
         {
             this._userType = UserType.Stereotype;
-            this.Name = "";
+            this._Name = "";
+            this._FqTraining = 5000;
+            this._FqComparison = 3000;
+            this._currLevel = 1;
+            this._currGate = 0;
             this.Gates = new Gates();
             this.Pattern = new WinPattern();
-            this.FrequencyTraining = 5000;
-            this.FrequencyComparison = 3000;
-            this.CurrentLevel = 1;
-
         }
 
         /// <summary>
@@ -372,23 +418,27 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         {
             UserModel tmp = new UserModel();
             tmp._userType = this.Type;
-            tmp.Name = this.Name;
-            tmp.CurrentLevel = this.CurrentLevel;
-            tmp.FrequencyTraining = this.FrequencyComparison;
-            tmp.FrequencyComparison = this.FrequencyComparison;
+            tmp._Name = this.Name;
+            tmp._currLevel = this.CurrentLevel;
+            tmp._currGate = this._currGate;
+            tmp._FqTraining = this.FrequencyTraining;
+            tmp._FqComparison = this.FrequencyComparison;
             tmp.Gates = this.Gates;
+            tmp.Pattern = this.Pattern;
 
             return tmp;
         }
 
         public void Copy(UserModel tmp)
         {
-            this._userType = tmp.Type; 
-            this.Name = tmp.Name;
-            this.CurrentLevel = tmp.CurrentLevel;
-            this.FrequencyTraining = tmp.FrequencyComparison;
-            this.FrequencyComparison = tmp.FrequencyComparison;
+            this._userType = tmp.Type;
+            this._Name = tmp.Name;
+            this._currLevel = tmp.CurrentLevel;
+            this._currGate = tmp._currGate;
+            this._FqTraining = tmp.FrequencyTraining;
+            this._FqComparison = tmp.FrequencyComparison;
             this.Gates = tmp.Gates;
+            this.Pattern = tmp.Pattern;
         }
 
 
@@ -495,7 +545,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 }
 
             };
-            CurrentModel = UserModels[0];
+            CurrentModel = UserModels[2];
         }
 
         #region IEditableObject

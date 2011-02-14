@@ -27,7 +27,8 @@ namespace LSRI.Submarine
         public SubmarineOptionPanel()
         {
             InitializeComponent();
-           // _xPeople.ItemsSource = new UserModelContainer().UserModels;
+            _xPeople.ItemsSource = GameLevelDescriptor.cont;
+            //_xPeople.ItemsSource = new UserModelContainer().UserModels;
             
             
         }

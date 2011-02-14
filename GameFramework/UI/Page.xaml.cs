@@ -63,6 +63,7 @@ namespace LSRI.AuditoryGames.GameFramework
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(CompositionTarget_onLoaded);
             Application.Current.Host.Content.FullScreenChanged += new EventHandler(Content_FullScreenChanged);
+            //Application.Current.Host.Content.Resized +=new EventHandler(Content_Resized);
 
 
             CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
@@ -105,6 +106,21 @@ namespace LSRI.AuditoryGames.GameFramework
                 this.RenderTransform = null;
             }
         }
+
+        void Content_Resized(object sender, EventArgs e)
+        {
+            if (!Application.Current.Host.Content.IsFullScreen)
+            {
+                double heightRatio = Application.Current.Host.Content.ActualHeight / this.Height;
+                double widthRatio = Application.Current.Host.Content.ActualWidth / this.Width;
+                ScaleTransform scale = new ScaleTransform();
+                scale.ScaleX = widthRatio;
+                scale.ScaleY = heightRatio;
+                this.RenderTransform = scale;
+            }
+           //scale content if we are in full screen.
+        }
+
 
     }
 }

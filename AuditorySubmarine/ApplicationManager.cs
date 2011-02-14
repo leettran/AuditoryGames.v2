@@ -10,6 +10,7 @@ using LSRI.Submarine;
 using LSRI.AuditoryGames.AudioFramework;
 using LSRI.AuditoryGames.GameFramework.Data;
 using GameFramework.UI;
+using System.Collections.ObjectModel;
 
 
 
@@ -30,10 +31,40 @@ namespace LSRI.Submarine
     public static class GameLevelDescriptor
     {
         private static TextBlock _debugUI = null;
-        public static int CurrentLevel { get; set; }
         public static int CurrentGate { get; set; }
         public static int TrainingFrequency { get; set; }
         public static int ThresholdFrequency { get; set; }
+
+        private static UserModelContainer _container = new UserModelContainer();
+
+        public static ObservableCollection<UserModel> cont
+        {
+            get
+            {
+                return _container.UserModels;
+            }
+        }
+
+        public static UserModel CurrentModel
+        {
+            get
+            {
+                return _container.CurrentModel;
+            }
+        }
+
+        public static int CurrentLevel {
+            get
+            {
+                return _container.CurrentModel.CurrentLevel;
+
+            }
+            set
+            {
+                _container.CurrentModel.CurrentLevel = value;
+            }
+        }
+
 
         public static void Attach(GamePage pg)
         {
@@ -110,7 +141,7 @@ namespace LSRI.Submarine
         /// </summary>
         protected SubmarineApplicationManager()
         {
-            KeyHandler.Instance.IskeyUpOnly = true;
+            KeyHandler.Instance.IskeyUpOnly = false;
             //_synthEx = new Frequency2IGenerator();
             _random = new Random();
         }

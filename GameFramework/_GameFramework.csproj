@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="UI\SuperDataForm.cs" />
     <Compile Include="UserModel\AuditoryModel.cs" />
+    <Compile Include="UserModel\GameOptions.cs" />
     <Compile Include="UserModel\HighScores.cs" />
     <Compile Include="UserModel\UserModel.cs" />
     <Compile Include="UI\UserModelEditor.xaml.cs">
