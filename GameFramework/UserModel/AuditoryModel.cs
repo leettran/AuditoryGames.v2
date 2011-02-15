@@ -16,22 +16,32 @@ namespace LSRI.AuditoryGames.GameFramework.Data
     {
         double _base;
         double _step;
+        Staircase _rule;
 
         /// <summary>
         /// 
         /// </summary>
         public enum Staircase
         {
-            [Display(Name = "One-down, One-up", Description = "dfdffdfddf")]
             One_One,       ///< dfdfdf
-            [Display(Name = "Two-down, One-up", Description = "dfdffdfddf")]
             Two_One,  ///<
-            [Display(Name = "Three-down, One-up", Description = "dfdffdfddf")]
-            Three_One,  ///<
+            Three_One  ///<
         }
 
         [Display(Name = "Rule", Description = "The staircase adaptive rule to use (number of success to move 'down' and failure to move 'up'")]
-        public Staircase StaircaseRule { get; set; }
+        public Staircase StaircaseRule
+        {
+            get { return _rule; }
+            set
+            {
+                if (_rule != value)
+                {
+                    _rule = value;
+                    OnPropertyChanged("Rule");
+                }
+            }
+        }
+
 
         [Display(Name = "Base", Description = "The initial value for the frequency delta (in percent of the training frequency)")]
         public double Base
@@ -65,7 +75,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         {
             this.Base = .50;
             this.Step = .04;
-            this.StaircaseRule = Staircase.Two_One;
+            this._rule = Staircase.Two_One;
         }
 
         public AuditoryModel Clone()
@@ -73,7 +83,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             AuditoryModel tmp = new AuditoryModel();
             tmp.Base = this.Base;
             tmp.Step = this.Step;
-            tmp.StaircaseRule = this.StaircaseRule;
+            tmp._rule = this._rule;
             return tmp;
         }
 
@@ -81,7 +91,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         {
             this.Base = tmp.Base;
             this.Step = tmp.Step;
-            this.StaircaseRule = tmp.StaircaseRule;
+            this._rule = tmp._rule;
         }
 
 

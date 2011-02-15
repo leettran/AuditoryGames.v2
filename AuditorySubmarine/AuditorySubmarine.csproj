@@ -82,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GateObject.cs" />
+    <Compile Include="StartLevelPanel.xaml.cs">
+      <DependentUpon>StartLevelPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubmarineOptions.xaml.cs">
       <DependentUpon>SubmarineOptions.xaml</DependentUpon>
     </Compile>
@@ -127,6 +130,10 @@
     <Resource Include="Media\fullscreen.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="StartLevelPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SubmarineOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

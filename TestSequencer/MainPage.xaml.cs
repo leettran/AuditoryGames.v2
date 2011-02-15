@@ -110,7 +110,7 @@ namespace TestSequencer
             if (this.media == null) return; ;
             Button_Click(null,null);
             RadioButton rb = sender as RadioButton;
-            Debug.WriteLine("You chose: " + rb.GroupName + ": " + rb.Name);
+            //Debug.WriteLine("You chose: " + rb.GroupName + ": " + rb.Name);
             this.sequencer.Reset();  
             setSequencer((rb.Name== "c3I")? 3 : 2);
         }

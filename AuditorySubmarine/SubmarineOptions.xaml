@@ -13,27 +13,49 @@
         <data:UserModelContainer x:Key="ContainerObject" />
         <data:AuditoryModel x:Key="StaircaseObject" />
         <data:GameOptions x:Key="GameOptionsObject" />
+        <Style TargetType="Border" x:Key="NVLBorde2r">
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="4"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="20" Color="Black" Direction="-45" Opacity="0.75" ShadowDepth="10"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.75,1" StartPoint="0.25,0">
+                        <GradientStop Color="#33FFFFFF" Offset="0"/>
+                        <GradientStop Color="#C0FFFFFF" Offset="0.287"/>
+                        <GradientStop Color="#4011322D" Offset="0.683"/>
+                        <GradientStop Color="#33FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
     </UserControl.Resources>
 
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Height="494">
         <Grid.RowDefinitions>
-            <RowDefinition Height="200" />
+            <RowDefinition Height="220" />
             <RowDefinition Height="16" />
-            <RowDefinition Height="180" />
+            <RowDefinition Height="200" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280" />
+            <ColumnDefinition Width="300" />
             <ColumnDefinition Width="16" />
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="220" />
             <ColumnDefinition Width="16" />
             <ColumnDefinition Width="200*" />
         </Grid.ColumnDefinitions>
 
 
-        <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="0,22,0,0" Name="btnOK" VerticalAlignment="Top" Width="75" Click="btnOK_Click" Grid.Row="3" />
-        
+        <Button Content="OK" Height="23" Margin="0,23,0,0" Name="btnOK" VerticalAlignment="Top" Click="btnOK_Click" Grid.Row="3" HorizontalAlignment="Right" Width="75" />
+
+        <Border  Grid.Column="2" Style="{StaticResource NVLBorde2r}">
         <gamefw:SuperDataForm Name="_xStaircase" 
                               Header="Staircase" 
                               AutoCommit="False" 
@@ -45,11 +67,12 @@
                               HeaderVisibility="Visible" 
                               UseLayoutRounding="True" 
                               CurrentItem="{Binding Source={StaticResource StaircaseObject}}" 
-                              DataContext="{Binding Source={StaticResource StaircaseObject}}" 
-                              Grid.Column="2">
-        </gamefw:SuperDataForm>
-        
-        <gamefw:SuperDataForm Name="_xPeople" 
+                              DataContext="{Binding Source={StaticResource StaircaseObject}}" Margin="10">
+            </gamefw:SuperDataForm>
+        </Border>
+
+        <Border  Grid.RowSpan="3" Style="{StaticResource NVLBorde2r}">
+            <gamefw:SuperDataForm Name="_xPeople" 
                               Header="User Profiles" 
                               AutoCommit="False" 
                               AutoEdit="True" 
@@ -59,12 +82,14 @@
                               HeaderVisibility="Visible" 
                               ItemsSource="{Binding Source={StaticResource ContainerObject}, Path=UserModels}" 
                               DataContext="{Binding}" 
-                              UseLayoutRounding="True" 
-                              Grid.RowSpan="3">
-        </gamefw:SuperDataForm>
-        <gamefw:SuperDataForm Name="_xGameOption" 
+                              UseLayoutRounding="True" Margin="10">
+            </gamefw:SuperDataForm>
+        </Border>
+
+        <Border Grid.Column="2" Grid.Row="2" Style="{StaticResource NVLBorde2r}">
+            <gamefw:SuperDataForm Name="_xGameOption" 
                               Header="Game Options" 
-                              AutoCommit="False" 
+                              AutoCommit="True" 
                               AutoEdit="True" 
                               AutoGenerateFields="True" 
                               CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" 
@@ -73,8 +98,9 @@
                               DataContext="{Binding Source={StaticResource GameOptionsObject}}" 
                               HeaderVisibility="Visible" 
                               UseLayoutRounding="True" 
-                              Grid.Column="2" Grid.Row="2">
-        </gamefw:SuperDataForm>
+                                  Margin="10">
+            </gamefw:SuperDataForm>
+        </Border>
 
     </Grid>
 </UserControl>

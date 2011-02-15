@@ -4,16 +4,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:data="clr-namespace:LSRI.AuditoryGames.GameFramework.Data;assembly=GameFramework"
-    mc:Ignorable="d" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" DataContext="{Binding}" xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit" d:DesignHeight="297" d:DesignWidth="351">
+    mc:Ignorable="d" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" DataContext="{Binding}" xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit" Height="320" Width="300">
 
     <UserControl.Resources>
         <data:HighScoreContainer x:Key="ContainerObject" />
     </UserControl.Resources>
-    
-    <Grid x:Name="LayoutRoot" Background="White">
-        <toolkit:BubbleCremeTheme HorizontalAlignment="Left" Name="bubbleCremeTheme1" VerticalAlignment="Top">
-            <sdk:DataGrid AutoGenerateColumns="True" Height="272" HorizontalAlignment="Left" Name="dataGrid1" VerticalAlignment="Top" Width="269" 
-                     ItemsSource="{Binding Source={StaticResource ContainerObject}, Path=HighScores}" DataContext="{Binding}" IsReadOnly="True"  />
-        </toolkit:BubbleCremeTheme>
+
+    <Border Style="{StaticResource NVLBorder}">
+    <Grid x:Name="LayoutRoot">
+        <!--<toolkit:BubbleCremeTheme HorizontalAlignment="Left" Name="bubbleCremeTheme1" VerticalAlignment="Top">-->
+            <sdk:DataGrid AutoGenerateColumns="True" Height="270" HorizontalAlignment="Left" Name="dataGrid1" VerticalAlignment="Top" Width="260" 
+                     ItemsSource="{Binding Source={StaticResource ContainerObject}, Path=HighScores}" DataContext="{Binding}" IsReadOnly="True" Margin="20,20,0,0" />
+        <!--</toolkit:BubbleCremeTheme>-->
     </Grid>
+    </Border>
 </UserControl>

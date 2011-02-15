@@ -43,11 +43,15 @@ namespace LSRI.Submarine
             if (KeyHandler.Instance.isKeyPressed(Key.Right))
             {
                 _acceleration += 50;
+                KeyHandler.Instance.clearKeyPresses();
+                Debug.WriteLine("Speed : {0}", (SPEED + _acceleration) / 4);
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Up))
             {
-                Position = new Point(Position.X, Position.Y - 10/*5*SPEED * dt*/);
-                (IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(-50);
+                Position = new Point(Position.X, Position.Y - 15/*5*SPEED * dt*/);
+                double deltaf = 2500 * .1;
+                double dfpix = deltaf / 4;
+                (IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(-dfpix);
 
                 //Note ss = (IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Notes[2];
                // ss.Frequency -= 50;
@@ -59,8 +63,10 @@ namespace LSRI.Submarine
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Down))
             {
-                Position = new Point(Position.X, Position.Y + 10/*5*SPEED * dt*/);
-                (IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(50);
+                Position = new Point(Position.X, Position.Y + 15/*5*SPEED * dt*/);
+                double deltaf = 2500 * .1;
+                double dfpix = deltaf / 4;
+                (IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(dfpix);
                 // Note ss = (IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Notes[2];
                // ss.Frequency += 50;
                 //Note ss2 = _synthEx.Arpeggiator.Notes[1];
@@ -69,7 +75,7 @@ namespace LSRI.Submarine
                 KeyHandler.Instance.clearKeyPresses();
                 Debug.WriteLine("position : {0}", Position.Y);
             }
-            Position = new Point(Position.X + (SPEED + _acceleration) / 4 * dt, Position.Y);
+            Position = new Point(Position.X + (SPEED + _acceleration) / 5 * dt, Position.Y);
             
 
              // keep the player bound to the screen
@@ -135,6 +141,10 @@ namespace LSRI.Submarine
             }
             else if (other is GateObject)
             {
+                double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
+                double cf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();
+
+                Debug.WriteLine("Success : {0} - {1}", tf, cf);
                 GameLevelDescriptor.CurrentGate--;
                 if (GameLevelDescriptor.CurrentGate == 0)
                 {

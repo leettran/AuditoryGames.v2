@@ -248,16 +248,68 @@ namespace LSRI.Submarine
 
         private void startMainMenu()
         {
-            Button btnStart = new Button();
-            btnStart.Content = "Start Game";
-            btnStart.Width = 100;
-            btnStart.Height = 35;
-            btnStart.SetValue(Canvas.LeftProperty, 490.0);
-            btnStart.SetValue(Canvas.TopProperty, 355.0);
-            btnStart.Click += delegate(object sender, RoutedEventArgs e) { 
-                StateManager.Instance.setState(SubmarineStates.LEVEL_STATE); 
+            HighScoreControl ct = new HighScoreControl();
+            ct.SetValue(Canvas.LeftProperty, 350.0);
+            ct.SetValue(Canvas.TopProperty, 50.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(ct);
+
+            StartLevelPanel pp = new StartLevelPanel();
+            pp.SetValue(Canvas.LeftProperty, 10.0);
+            pp.SetValue(Canvas.TopProperty, 50.0);
+            pp.StartBtn.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
             };
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pp);
+
+
+            ButtonIcon btnFull = new ButtonIcon();
+            btnFull.TextContent.Text = "Full Screen Mode";
+            btnFull.Icon.Source = ResourceHelper.GetBitmap("Media/fullscreen.png");
+            btnFull.Icon.Height = 22;
+            btnFull.Icon.Width = 31;
+            btnFull.Width = 150;
+            btnFull.Height = 40;
+            btnFull.SetValue(Canvas.LeftProperty, 50.0);
+            btnFull.SetValue(Canvas.TopProperty, 350.0);
+            btnFull.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
+            };
+
+
+
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
+
+            ButtonIcon btnOption = new ButtonIcon();
+            btnOption.TextContent.Text = "Options";
+            btnOption.Icon.Source = ResourceHelper.GetBitmap("Media/fullscreen.png");
+            btnOption.Icon.Height = 22;
+            btnOption.Icon.Width = 31;
+            btnOption.Width = 150;
+            btnOption.Height = 40;
+            btnOption.SetValue(Canvas.LeftProperty, 50.0);
+            btnOption.SetValue(Canvas.TopProperty, 400.0);
+            btnOption.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                StateManager.Instance.setState(SubmarineStates.OPTION_STATE);
+            };
+
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnOption);
+            
+            /*  Button btnStart = new Button();
+              btnStart.Content = "Start Game";
+              btnStart.Width = 100;
+              btnStart.Height = 35;
+              btnStart.SetValue(Canvas.LeftProperty, 490.0);
+              btnStart.SetValue(Canvas.TopProperty, 355.0);
+              btnStart.Click += delegate(object sender, RoutedEventArgs e) { 
+                  StateManager.Instance.setState(SubmarineStates.LEVEL_STATE); 
+              };
+              (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
+             */
+
+
             bg = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background;
 
             //StatusPanelControl ctr = new StatusPanelControl();
@@ -283,45 +335,9 @@ namespace LSRI.Submarine
             (GameApplication.Current.RootVisual as GamePage).GetLayoutElt().Children.Insert(
                  (GameApplication.Current.RootVisual as GamePage).GetLayoutElt().Children.Count, media);*/
 
-            ButtonIcon btnFull = new ButtonIcon();
-            btnFull.TextContent.Text = "Full Screen Mode";
-            btnFull.Icon.Source = ResourceHelper.GetBitmap("Media/fullscreen.png");
-            btnFull.Icon.Height = 22;
-            btnFull.Icon.Width = 31;
-            btnFull.Width = 150;
-            btnFull.Height = 40;
-            btnFull.SetValue(Canvas.LeftProperty, 50.0);
-            btnFull.SetValue(Canvas.TopProperty, 50.0);
-            btnFull.Click += delegate(object sender, RoutedEventArgs e)
-            {
-                AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
-            };
+ 
 
-           
-
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
-
-            ButtonIcon btnOption = new ButtonIcon();
-            btnOption.TextContent.Text = "Options";
-            btnOption.Icon.Source = ResourceHelper.GetBitmap("Media/fullscreen.png");
-            btnOption.Icon.Height = 22;
-            btnOption.Icon.Width = 31;
-            btnOption.Width = 150;
-            btnOption.Height = 150;
-            btnOption.SetValue(Canvas.LeftProperty, 50.0);
-            btnOption.SetValue(Canvas.TopProperty,250.0);
-            btnOption.Click += delegate(object sender, RoutedEventArgs e)
-            {
-                StateManager.Instance.setState(SubmarineStates.OPTION_STATE);
-            };
-
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnOption);
-
-
-            HighScoreControl ct = new HighScoreControl();
-            ct.SetValue(Canvas.LeftProperty, 350.0);
-            ct.SetValue(Canvas.TopProperty, 50.0);
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(ct);
+ 
 
         }
 
@@ -355,7 +371,7 @@ namespace LSRI.Submarine
 
             _submarine = new SubmarinePlayer();
             _submarine.startupSubmarine(
-                new Point(48,32),
+                new Point(48,30),
                 new AnimationData(
                     new string[] { 
                         "Media/asub1.png", 
@@ -371,7 +387,20 @@ namespace LSRI.Submarine
 
             Point dim = new Point(zone.ActualWidth,zone.ActualHeight);
 
- 
+            int nbStep = 36;
+            int nbgate = 4;
+            int margin = 2;
+            int nbinc = 15;
+            int nmin = 0 + margin;
+            int nmax = (nbStep - 4) - 1 - 2*margin;
+            int fff = _random.Next(nmin, nmax);
+            int fff2 = _random.Next(nmin, nmax);
+            //fff = nmax;
+            int ggg = nbinc + margin * nbinc + fff * nbinc;
+            int ggg2 = nbinc + margin * nbinc + fff2 * nbinc;
+
+            _submarine.Position = new Point(0, ggg2+30-15);
+
             double perc = _random.NextDouble();
             _gate = new GateObject();
             _gate.startupGameObject(
@@ -379,6 +408,7 @@ namespace LSRI.Submarine
                 "Media/wall.png",
                 ZLayers.BACKGROUND_Z + 5);
             _gate.Position = new Point(dim.X - 21, (dim.Y - 60) * perc);
+            _gate.Position = new Point(dim.X - 21, ggg);
 
             _wall = new WallObject();
             _wall.startupGameObject(
@@ -387,9 +417,14 @@ namespace LSRI.Submarine
                 ZLayers.BACKGROUND_Z);
             _wall.Position = new Point(dim.X - 20, 0);
 
+            double dd = (_gate.Position.Y+30-15 - _submarine.Position.Y)/15;
+            double deltaf = 2500 * .1;
+            double dfpix = deltaf / 4;
 
             GameLevelDescriptor.Attach(AuditoryGameApp.Current.RootVisual as GamePage);
             GameLevelDescriptor.Debug();
+
+             
 
 
             ///_synthEx.Arpeggiator.Notes[0].Frequency = 5000;
@@ -397,10 +432,14 @@ namespace LSRI.Submarine
             ///_synthEx.Arpeggiator.Start();
             //_synth.TriggerNote(new Note(Notes.F, 5));
             this._synthEx.ResetSequencer();
-            this._synthEx.SetTrainingFrequency(5000);
-            this._synthEx.SetTargetFrequency((5000 - 50 * (_gate.Position.Y - _submarine.Position.Y) / 10.0),true);
+            this._synthEx.SetTrainingFrequency(2500);
+            //this._synthEx.SetTargetFrequency((5000 - 50 * (_gate.Position.Y + 30 - 15 - _submarine.Position.Y) / 10.0), true);
+            this._synthEx.SetTargetFrequency(2500 - dfpix * dd, true);
             this._synthEx.Start();
+            double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
+            double cf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();
 
+            Debug.WriteLine("Start : {0} , {1} : {2}", tf, cf, deltaf);
 
         }
         private void exitGame()

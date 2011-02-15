@@ -99,7 +99,7 @@ namespace LSRI.Submarine
             {
                 Point pt = (IAppManager.Instance as SubmarineApplicationManager)._submarine.Position;
                 this.Rect.Opacity = (Position.X - pt.X+200) / (Position.X);
-                Debug.WriteLine("OPACITY : {0}", this.Rect.Opacity);
+                //Debug.WriteLine("OPACITY : {0}", this.Rect.Opacity);
             }
         }
 

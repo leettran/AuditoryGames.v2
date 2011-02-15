@@ -99,7 +99,7 @@ namespace Kindohm.KSynth.Library
             {
                 bool f = stepEvent.VoiceNotes.Remove(voice);
                 this.stepEvents.Remove(step);
-                Debug.WriteLine(f);
+                //Debug.WriteLine(f);
                 this.stepChanged = true;
             }
         }

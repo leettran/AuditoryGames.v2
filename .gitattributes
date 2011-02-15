@@ -104,6 +104,8 @@ AuditorySubmarine/Media/wall.png -text
 AuditorySubmarine/Properties/AppManifest.xml -text
 AuditorySubmarine/Properties/AssemblyInfo.cs -text
 AuditorySubmarine/Properties/OutOfBrowserSettings.xml -text
+AuditorySubmarine/StartLevelPanel.xaml -text
+AuditorySubmarine/StartLevelPanel.xaml.cs -text
 AuditorySubmarine/SubmarineApp.cs -text
 AuditorySubmarine/SubmarineOptions.xaml -text
 AuditorySubmarine/SubmarineOptions.xaml.cs -text

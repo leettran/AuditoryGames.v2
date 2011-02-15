@@ -153,7 +153,7 @@ namespace LSRI.AuditoryGames.AudioFramework
 
         void _sequencer__stepChangedHook()
         {
-            Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
+            //Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
         }
 
         void _sequencer__stepEndedHook()
@@ -365,7 +365,7 @@ namespace LSRI.AuditoryGames.AudioFramework
 
         void _sequencer__stepEnded3IHook()
         {
-            Debug.WriteLine("SEQUENCER - ENDED ## SHUT IT DOWN : " + this._sequencer.StepIndex);
+            //Debug.WriteLine("SEQUENCER - ENDED ## SHUT IT DOWN : " + this._sequencer.StepIndex);
             this._elt.Dispatcher.BeginInvoke(() => this.Stop());
             return;
            /* //ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc));
@@ -414,6 +414,18 @@ namespace LSRI.AuditoryGames.AudioFramework
             //this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepEnded2IHook);
         }
 
+        public double GetTrainingFrequency()
+        {
+            Voice st1 = this._intervalVoices[0] as Voice;
+            return st1.Frequency;
+        }
+
+        public double GetTargetFrequency()
+        {
+            Voice st2 = this._intervalVoices[1] as Voice;
+            return st2.Frequency;
+        }
+
         public void SetTrainingFrequency(double fq)
         {
             Voice st1 = this._intervalVoices[0] as Voice;
@@ -431,7 +443,7 @@ namespace LSRI.AuditoryGames.AudioFramework
             }*/
             _freqBuffer = fq;
             myqueue.Enqueue(fq);
-            Debug.WriteLine("FREQUENCY -> queued change to {0}", fq);
+            //Debug.WriteLine("FREQUENCY -> queued change to {0}", fq);
         }
 
         public void ChangeTargetFrequency(double delta)
@@ -453,7 +465,7 @@ namespace LSRI.AuditoryGames.AudioFramework
             SetTargetFrequency(fq);
             if (now)
             {
-                Debug.WriteLine("FREQUENCY -> change now to {0}",fq);
+                //Debug.WriteLine("FREQUENCY -> change now to {0}",fq);
                 _sequencer__stepEnded2IHook();
             }
         }
@@ -465,7 +477,7 @@ namespace LSRI.AuditoryGames.AudioFramework
            // double last = double.NaN;
            // while (myqueue.Count !=0)
              //  last= myqueue.Dequeue();
-            Debug.WriteLine("Voice in play : {0}", _sequencer.voicesInPlay.Count);
+            //Debug.WriteLine("Voice in play : {0}", _sequencer.voicesInPlay.Count);
             foreach (VoiceNote item in _sequencer.voicesInPlay)
             {
                 Type ff = item.Voice.GetType();

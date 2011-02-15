@@ -15,25 +15,40 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 {
     public class GameOptions : UserModelEntity
     {
+        private bool _keypress;
 
         [Display(Name = "Key Down Mode", Description = "Indicates whether the game works on KeyDown or KeyUp basis")]
-        public bool KeyPressed { get; set; }
+        public bool KeyPressed
+        {
+            get
+            {
+                return _keypress;
+            }
+            set
+            {
+                if (_keypress != value)
+                {
+                    _keypress = value;
+                    OnPropertyChanged("KeyPressed");
+                }
+            }
+        }
 
         public GameOptions()
         {
-            this.KeyPressed = true;
+            this._keypress = true;
         }
 
         public GameOptions Clone()
         {
             GameOptions tmp = new GameOptions();
-            tmp.KeyPressed = this.KeyPressed;
+            tmp._keypress = this._keypress;
             return tmp;
         }
 
         public void Copy(GameOptions tmp)
         {
-            this.KeyPressed = tmp.KeyPressed;
+            this._keypress = tmp._keypress;
         }
 
         #region IEditableObject

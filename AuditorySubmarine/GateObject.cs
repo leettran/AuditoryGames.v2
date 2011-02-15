@@ -75,8 +75,8 @@ namespace LSRI.Submarine
             _bottom.Tag = this;
             base.startupGameObject(dimensions, image, zLayer);
             this.collisionName = CollisionIdentifiers.ENEMY;
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(_top);
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(_bottom);
+            //(AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(_top);
+           // (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(_bottom);
             this.Visibility = Visibility.Collapsed;
 
         }
