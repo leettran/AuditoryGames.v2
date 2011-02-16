@@ -12,6 +12,9 @@ using System.Windows.Shapes;
 using System.Windows.Media.Imaging;
 using LSRI.AuditoryGames.GameFramework.Data;
 using System.Collections.ObjectModel;
+using System.IO.IsolatedStorage;
+using System.IO;
+//using System.Xml.Serialization;
 
 namespace LSRI.Submarine
 {
@@ -28,10 +31,10 @@ namespace LSRI.Submarine
         public SubmarineOptionPanel()
         {
             InitializeComponent();
-            _xPeople.ItemsSource = GameLevelDescriptor.UserLists;
+            _xPeople.ItemsSource = SubOptions.Instance.UserLists;
             //_xPeople.ItemsSource = new UserModelContainer().UserModels;
-            _xStaircase.CurrentItem = GameLevelDescriptor.Auditory;
-            _xGameOption.CurrentItem = GameLevelDescriptor.Game;
+            _xStaircase.CurrentItem = SubOptions.Instance.Auditory;
+            _xGameOption.CurrentItem = SubOptions.Instance.Game;
         }
 
 
@@ -48,6 +51,22 @@ namespace LSRI.Submarine
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             if (this.OnCompleteTask != null) this.OnCompleteTask(new CompleteTaskArgs());
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+       /*     IsolatedStorageSettings.ApplicationSettings["foo"] = SubOptions.Instance;
+            using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream isoStream = store.OpenFile(@"ApplicationSettings.xml", FileMode.Create))
+                {
+                    XmlSerializer s = new XmlSerializer(typeof(SubOptions));
+                    TextWriter writer = new StreamWriter(isoStream);
+                    s.Serialize(writer, SubOptions.Instance);
+                    writer.Close();       
+                }
+            }*/
+
         }
     }
 }

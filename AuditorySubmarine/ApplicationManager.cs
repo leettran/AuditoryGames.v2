@@ -127,6 +127,46 @@ namespace LSRI.Submarine
         }
     }
 
+
+
+    public sealed class SubOptions : IConfigurationManager
+    {
+        class Nested
+        {
+            // Explicit static constructor to tell C# compiler
+            // not to mark type as beforefieldinit
+            static Nested()
+            {
+            }
+
+            internal static readonly SubOptions instance = new SubOptions();
+        }
+
+        private GameOptions _gOption = new GameOptions();
+
+        public GameOptions Game
+        {
+            get
+            {
+                return _gOption;
+            }
+            set
+            {
+                _gOption = value;
+            }
+        }
+
+ 
+
+        public new static SubOptions Instance
+        {
+            get
+            {
+                return Nested.instance;
+            }
+        }
+    }
+
     /// <summary>
     /// 
     /// </summary>

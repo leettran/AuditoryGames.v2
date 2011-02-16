@@ -54,51 +54,27 @@
         </Grid.ColumnDefinitions>
 
 
-        <Button Content="OK" Height="23" Name="btnOK" VerticalAlignment="Top" Click="btnOK_Click" Grid.Row="4" HorizontalAlignment="Right" Width="75" Grid.Column="4" />
+        <Button Content="OK" Height="23" Name="btnOK" VerticalAlignment="Top" Click="btnOK_Click" Grid.Row="4" HorizontalAlignment="Right" Width="75" Grid.Column="2" Margin="0,0,145,0" />
+        <Border Style="{StaticResource NVLBorde2r}" Grid.RowSpan="3" Grid.ColumnSpan="3" >
+            <sdk:TabControl Name="tabControl1" Margin="10">
+                <sdk:TabItem Header="User Model" Name="tabItem1">
+                    <StackPanel Orientation="Horizontal">
+                    <gamefw:SuperDataForm Name="_xPeople" Header="User Profiles" AutoCommit="False" AutoEdit="True" AutoGenerateFields="True" CommandButtonsVisibility="Navigation, Commit, Cancel, Add, Delete" CancelButtonContent="Cancel" CommitButtonContent="Commit" HeaderVisibility="Visible" ItemsSource="{Binding Source={StaticResource ContainerObject}, Path=UserModels}" DataContext="{Binding}" UseLayoutRounding="True" Margin="10"></gamefw:SuperDataForm>
+                    </StackPanel>
 
-        <Border  Grid.Column="2" Style="{StaticResource NVLBorde2r}">
-        <gamefw:SuperDataForm Name="_xStaircase" 
-                              Header="Staircase" 
-                              AutoCommit="True" 
-                              AutoEdit="True" 
-                              AutoGenerateFields="True" 
-                              CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" 
-                              CommitButtonContent="Commit" 
-
-                              HeaderVisibility="Visible" 
-                              UseLayoutRounding="True" 
-                                  Margin="10" DataContext="{Binding}">
-            </gamefw:SuperDataForm>
+                </sdk:TabItem>
+                <sdk:TabItem Header="Auditory Model" Name="tabItem2">
+                    <StackPanel Orientation="Horizontal">
+                        <gamefw:SuperDataForm Name="_xStaircase" Header="Staircase" AutoCommit="True" AutoEdit="True" AutoGenerateFields="True" CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" CommitButtonContent="Commit" HeaderVisibility="Visible" UseLayoutRounding="True" Margin="10"></gamefw:SuperDataForm>
+                    </StackPanel>
+                </sdk:TabItem>
+                <sdk:TabItem Header="Game Options" Name="tabItem3">
+                    <StackPanel Orientation="Horizontal">
+                        <gamefw:SuperDataForm Name="_xGameOption" Header="Game Options" AutoCommit="True" AutoEdit="True" AutoGenerateFields="True" CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" CommitButtonContent="Commit" HeaderVisibility="Visible" UseLayoutRounding="True" Margin="10"></gamefw:SuperDataForm>
+                    </StackPanel>
+                </sdk:TabItem>
+            </sdk:TabControl>
         </Border>
-
-        <Border  Grid.RowSpan="3" Style="{StaticResource NVLBorde2r}">
-            <gamefw:SuperDataForm Name="_xPeople" 
-                              Header="User Profiles" 
-                              AutoCommit="False" 
-                              AutoEdit="True" 
-                              AutoGenerateFields="True" 
-                              CommandButtonsVisibility="Navigation, Commit, Cancel, Add, Delete" 
-                              CancelButtonContent="Cancel" CommitButtonContent="Commit" 
-                              HeaderVisibility="Visible" 
-                              ItemsSource="{Binding Source={StaticResource ContainerObject}, Path=UserModels}" 
-                              DataContext="{Binding}" 
-                              UseLayoutRounding="True" Margin="10">
-            </gamefw:SuperDataForm>
-        </Border>
-
-        <Border Grid.Column="2" Grid.Row="2" Style="{StaticResource NVLBorde2r}">
-            <gamefw:SuperDataForm Name="_xGameOption" 
-                              Header="Game Options" 
-                              AutoCommit="True" 
-                              AutoEdit="True" 
-                              AutoGenerateFields="True" 
-                              CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" 
-                              CommitButtonContent="Commit" 
-
-                              HeaderVisibility="Visible" 
-                              UseLayoutRounding="True" 
-                                  Margin="10">
-            </gamefw:SuperDataForm>
-        </Border>
+        <Button Content="Button" Grid.Row="4" Height="23" HorizontalAlignment="Left" Margin="80,0,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
     </Grid>
 </UserControl>
