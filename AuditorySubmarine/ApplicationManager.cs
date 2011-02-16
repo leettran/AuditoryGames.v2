@@ -36,8 +36,34 @@ namespace LSRI.Submarine
         public static int ThresholdFrequency { get; set; }
 
         private static UserModelContainer _container = new UserModelContainer();
+        private static AuditoryModel _auditory = new AuditoryModel();
+        private static GameOptions _gOption = new GameOptions();
 
-        public static ObservableCollection<UserModel> cont
+        public static GameOptions Game
+        {
+            get
+            {
+                return _gOption;
+            }
+            set
+            {
+                _gOption = value;
+            }
+        }
+
+        public static AuditoryModel Auditory
+        {
+            get
+            {
+                return _auditory;
+            }
+            set
+            {
+                _auditory = value;
+            }
+        }
+
+        public static ObservableCollection<UserModel> UserLists
         {
             get
             {

@@ -12,23 +12,25 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LSRI.AuditoryGames.GameFramework.Data
 {
+
     public class AuditoryModel : UserModelEntity
     {
-        double _base;
-        double _step;
-        Staircase _rule;
+        private double _base;
+        private double _step;
+        private bool _keypress;
+        private Staircase _rule;
 
         /// <summary>
         /// 
         /// </summary>
         public enum Staircase
         {
-            One_One,       ///< dfdfdf
-            Two_One,  ///<
-            Three_One  ///<
+            One_One,        ///< dfdfdf
+            Two_One,        ///<
+            Three_One       ///<
         }
 
-        [Display(Name = "Rule", Description = "The staircase adaptive rule to use (number of success to move 'down' and failure to move 'up'")]
+        [Display(Name = "Rule", Description = "The adaptive staircase rule to use (number of success to move 'down' and failure to move 'up'")]
         public Staircase StaircaseRule
         {
             get { return _rule; }
@@ -41,7 +43,6 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 }
             }
         }
-
 
         [Display(Name = "Base", Description = "The initial value for the frequency delta (in percent of the training frequency)")]
         public double Base
@@ -71,30 +72,48 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
+        public bool KeyPressed
+        {
+            get
+            {
+                return _keypress;
+            }
+            set
+            {
+                if (_keypress != value)
+                {
+                    _keypress = value;
+                    OnPropertyChanged("KeyPressed");
+                }
+            }
+        }
+
         public AuditoryModel()
         {
-            this.Base = .50;
-            this.Step = .04;
-            this._rule = Staircase.Two_One;
+            this._base = .50;
+            this._step = .04;
+            this._keypress = true;
+            this._rule = Staircase.One_One;
         }
 
         public AuditoryModel Clone()
         {
             AuditoryModel tmp = new AuditoryModel();
-            tmp.Base = this.Base;
-            tmp.Step = this.Step;
+            tmp._keypress = this._keypress;
             tmp._rule = this._rule;
+            tmp._base = this._base;
+            tmp._step = this._step;
             return tmp;
         }
 
         public void Copy(AuditoryModel tmp)
         {
-            this.Base = tmp.Base;
-            this.Step = tmp.Step;
+            if (tmp == null) return;
+            this._keypress = tmp._keypress;
+            this._base = tmp._base;
+            this._step = tmp._step;
             this._rule = tmp._rule;
         }
-
-
 
         #region IEditableObject
 
@@ -108,6 +127,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         override public void CancelEdit()
         {
             this.Copy(_tmpModel);
+            _tmpModel = null;
         }
 
         override public void EndEdit()
@@ -117,4 +137,5 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         #endregion
 
     }
+
 }

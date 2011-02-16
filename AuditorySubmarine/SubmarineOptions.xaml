@@ -7,7 +7,7 @@
     xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"  
     xmlns:data="clr-namespace:LSRI.AuditoryGames.GameFramework.Data;assembly=GameFramework"
     xmlns:gamefw="clr-namespace:LSRI.AuditoryGames.GameFramework.UI;assembly=GameFramework"
-    mc:Ignorable="d" Loaded="UserControl_Loaded" FontSize="9" FontWeight="Normal" FontStretch="Normal" d:DesignHeight="0" d:DesignWidth="736">
+    mc:Ignorable="d" Loaded="UserControl_Loaded" FontSize="9" FontWeight="Normal" FontStretch="Normal" d:DesignHeight="578" d:DesignWidth="736">
 
     <UserControl.Resources>
         <data:UserModelContainer x:Key="ContainerObject" />
@@ -37,12 +37,13 @@
     </UserControl.Resources>
 
 
-    <Grid x:Name="LayoutRoot" Height="494">
+    <Grid x:Name="LayoutRoot" Height="578">
         <Grid.RowDefinitions>
             <RowDefinition Height="220" />
             <RowDefinition Height="16" />
             <RowDefinition Height="200" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="24*" />
+            <RowDefinition Height="118*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300" />
@@ -53,21 +54,20 @@
         </Grid.ColumnDefinitions>
 
 
-        <Button Content="OK" Height="23" Margin="0,23,0,0" Name="btnOK" VerticalAlignment="Top" Click="btnOK_Click" Grid.Row="3" HorizontalAlignment="Right" Width="75" />
+        <Button Content="OK" Height="23" Name="btnOK" VerticalAlignment="Top" Click="btnOK_Click" Grid.Row="4" HorizontalAlignment="Right" Width="75" Grid.Column="4" />
 
         <Border  Grid.Column="2" Style="{StaticResource NVLBorde2r}">
         <gamefw:SuperDataForm Name="_xStaircase" 
                               Header="Staircase" 
-                              AutoCommit="False" 
+                              AutoCommit="True" 
                               AutoEdit="True" 
                               AutoGenerateFields="True" 
-                              CancelButtonContent="Cancel" 
-                              CommandButtonsVisibility="Commit, Cancel" 
+                              CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" 
                               CommitButtonContent="Commit" 
+
                               HeaderVisibility="Visible" 
                               UseLayoutRounding="True" 
-                              CurrentItem="{Binding Source={StaticResource StaircaseObject}}" 
-                              DataContext="{Binding Source={StaticResource StaircaseObject}}" Margin="10">
+                                  Margin="10" DataContext="{Binding}">
             </gamefw:SuperDataForm>
         </Border>
 
@@ -94,13 +94,11 @@
                               AutoGenerateFields="True" 
                               CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" 
                               CommitButtonContent="Commit" 
-                              CurrentItem="{Binding Source={StaticResource GameOptionsObject}}" 
-                              DataContext="{Binding Source={StaticResource GameOptionsObject}}" 
+
                               HeaderVisibility="Visible" 
                               UseLayoutRounding="True" 
                                   Margin="10">
             </gamefw:SuperDataForm>
         </Border>
-
     </Grid>
 </UserControl>

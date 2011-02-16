@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Media.Imaging;
 using LSRI.AuditoryGames.GameFramework.Data;
+using System.Collections.ObjectModel;
 
 namespace LSRI.Submarine
 {
@@ -27,10 +28,10 @@ namespace LSRI.Submarine
         public SubmarineOptionPanel()
         {
             InitializeComponent();
-            _xPeople.ItemsSource = GameLevelDescriptor.cont;
+            _xPeople.ItemsSource = GameLevelDescriptor.UserLists;
             //_xPeople.ItemsSource = new UserModelContainer().UserModels;
-            
-            
+            _xStaircase.CurrentItem = GameLevelDescriptor.Auditory;
+            _xGameOption.CurrentItem = GameLevelDescriptor.Game;
         }
 
 
