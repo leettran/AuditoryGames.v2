@@ -19,4 +19,10 @@ namespace LSRI.AuditoryGames.GameFramework
         public const string PLAYERWEAPON = "playerweapon";
         public const string ENEMYWEAPON = "enemyweapon";
     }
+
+    public static class CollisionTypeIdentifiers
+    {
+        public const string TIP = "tip";
+        public const string BOX = "box";
+    }
 }

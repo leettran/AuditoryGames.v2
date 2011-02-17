@@ -61,6 +61,7 @@ namespace LSRI.AuditoryGames.GameFramework
         public GamePage()
         {
             InitializeComponent();
+
             this.Loaded += new RoutedEventHandler(CompositionTarget_onLoaded);
             Application.Current.Host.Content.FullScreenChanged += new EventHandler(Content_FullScreenChanged);
             //Application.Current.Host.Content.Resized +=new EventHandler(Content_Resized);
@@ -96,9 +97,18 @@ namespace LSRI.AuditoryGames.GameFramework
             {
                 double heightRatio = Application.Current.Host.Content.ActualHeight / this.Height;
                 double widthRatio = Application.Current.Host.Content.ActualWidth / this.Width;
+
+                double _oldHeight = this.Height;
+                double _oldWidth = this.Width; 
+                double currentWidth = Application.Current.Host.Content.ActualWidth;
+                double currentHeight = Application.Current.Host.Content.ActualHeight;
+
+                double uniformScaleAmount = Math.Min((currentWidth / _oldWidth), (currentHeight / _oldHeight));
+
+
                 ScaleTransform scale = new ScaleTransform();
-                scale.ScaleX = widthRatio;
-                scale.ScaleY = heightRatio;
+                scale.ScaleX = uniformScaleAmount;
+                scale.ScaleY = uniformScaleAmount;
                 this.RenderTransform = scale;
             }
             else

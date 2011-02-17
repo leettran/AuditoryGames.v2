@@ -78,6 +78,8 @@
     <Reference Include="System.Windows.Controls.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Windows.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GateObject.cs" />
@@ -137,6 +139,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\warp1.png" />
+    <Resource Include="Media\warp2.png" />
+    <Resource Include="Media\warp3.png" />
+    <Resource Include="Media\warp4.png" />
+    <Resource Include="Media\warp5.png" />
+    <Resource Include="Media\warp6.png" />
+    <Resource Include="Media\warp7.png" />
+    <Resource Include="Media\warp8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\submask.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

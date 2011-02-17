@@ -24,16 +24,24 @@ namespace LSRI.AuditoryGames.GameFramework
         public static bool PointInRect(Rectangle rectangle1, Rectangle rectangle2)
         {
             Point pt1 = new Point(
-                (double)rectangle1.GetValue(Canvas.LeftProperty) + rectangle1.Width/2,
+                (double)rectangle1.GetValue(Canvas.LeftProperty) + rectangle1.Width,
                 (double)rectangle1.GetValue(Canvas.TopProperty) + rectangle1.Height / 2
             );
 
+            double x1 = (double)rectangle2.GetValue(Canvas.LeftProperty);
+            double x2 = (double)rectangle2.GetValue(Canvas.LeftProperty) + rectangle2.Width;
+            double y1 = (double)rectangle2.GetValue(Canvas.TopProperty);
+            double y2 = (double)rectangle2.GetValue(Canvas.TopProperty) + rectangle2.Height;
+
             return
+                (pt1.X >= x1 && pt1.X <= x2) && (pt1.Y >= y1 && pt1.Y <= y2);
+
+ /*           return
                 (pt1.X >= ((double)rectangle2.GetValue(Canvas.LeftProperty))) &&
                 (pt1.X <= ((double)rectangle2.GetValue(Canvas.LeftProperty) + rectangle2.Width)) &&
                 (pt1.Y >= ((double)rectangle2.GetValue(Canvas.TopProperty))) &&
                 (pt1.Y <= ((double)rectangle2.GetValue(Canvas.TopProperty) + rectangle2.Height))
-                ;
+                ;*/
         }
 
     }

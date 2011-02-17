@@ -22,7 +22,8 @@ namespace LSRI.AuditoryGames.GameFramework
         protected Point position = new Point();
         protected Point dimensions = new Point();
         protected int zLayer = 0;
-        protected string collisionName = CollisionIdentifiers.NONE;
+        protected string _collisionName = CollisionIdentifiers.NONE;
+        protected string _collisionType = CollisionTypeIdentifiers.BOX;
         public static List<GameObject> gameObjects = new List<GameObject>();
 
         public Stretch ImageStretch { set; get; }
@@ -52,7 +53,15 @@ namespace LSRI.AuditoryGames.GameFramework
         {
             get
             {
-                return collisionName;
+                return _collisionName;
+            }
+        }
+
+        public string CollisionType
+        {
+            get
+            {
+                return _collisionType;
             }
         }
 

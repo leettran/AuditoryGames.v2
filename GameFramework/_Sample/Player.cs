@@ -25,7 +25,7 @@ namespace LSRI.AuditoryGames.GameFramework
         public void startupPlayer(Point dimensions, AnimationData animationData, int zLayer)
         {
             base.startupAnimatedGameObject(dimensions, animationData, zLayer, false);
-            this.collisionName = CollisionIdentifiers.PLAYER;
+            this._collisionName = CollisionIdentifiers.PLAYER;
         }
 
         public override void enterFrame(double dt)

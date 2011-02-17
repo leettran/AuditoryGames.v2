@@ -45,7 +45,7 @@ namespace LSRI.TreasureHunter
         {
             base.startupGameObject(new Point(17, 15), "Media/twobullets.png", zLayer);
             weaponLogic = new WeaponLogic(this.basicPlayerWeaponLogic);
-            this.collisionName = CollisionIdentifiers.PLAYERWEAPON;
+            this._collisionName = CollisionIdentifiers.PLAYERWEAPON;
             return this;
         }
 
@@ -53,7 +53,7 @@ namespace LSRI.TreasureHunter
         {
             base.startupGameObject(new Point(17, 15), "Media/twobullets.png", zLayer);
             weaponLogic = new WeaponLogic(this.basicEnemyWeaponLogic);
-            this.collisionName = CollisionIdentifiers.ENEMYWEAPON;
+            this._collisionName = CollisionIdentifiers.ENEMYWEAPON;
             return this;
         }
 

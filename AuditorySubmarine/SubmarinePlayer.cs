@@ -28,7 +28,8 @@ namespace LSRI.Submarine
         public void startupSubmarine(Point dimensions, AnimationData animationData, int zLayer)
         {
             base.startupAnimatedGameObject(dimensions, animationData, zLayer, false);
-            this.collisionName = CollisionIdentifiers.PLAYER;
+            this._collisionName = CollisionIdentifiers.PLAYER;
+            this._collisionType = CollisionTypeIdentifiers.TIP;
             _acceleration = 0;
         }
 
@@ -139,7 +140,7 @@ namespace LSRI.Submarine
                 timer.Start();
 
             }
-            else if (other is GateObject)
+            else if (other is GateObject || other is GateAnimatedObject)
             {
                 double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
                 double cf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();

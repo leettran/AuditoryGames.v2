@@ -12,44 +12,16 @@ using System.Collections.ObjectModel;
 
 namespace LSRI.AuditoryGames.GameFramework.Data
 {
-    public abstract class IConfigurationManager
+    public interface IConfigurationManager
     {
-        protected UserModelContainer _container = new UserModelContainer();
-        protected AuditoryModel _auditory = new AuditoryModel();
+        /// <summary>
+        /// 
+        /// </summary>
+        void SaveConfiguration();
 
-        public static IConfigurationManager Instance { get; set; }
-
-        public void Save()
-        {
-            
-        }
-
-        public AuditoryModel Auditory
-        {
-            get
-            {
-                return _auditory;
-            }
-            set
-            {
-                _auditory = value;
-            }
-        }
-
-        public ObservableCollection<UserModel> UserLists
-        {
-            get
-            {
-                return _container.UserModels;
-            }
-        }
-
-        public UserModel CurrentModel
-        {
-            get
-            {
-                return _container.CurrentModel;
-            }
-        }
+        /// <summary>
+        /// 
+        /// </summary>
+        void RetrieveConfiguration();
     }
 }

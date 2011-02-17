@@ -101,6 +101,14 @@ AuditorySubmarine/Media/fullscreen.png -text
 AuditorySubmarine/Media/gate_bottom.png -text
 AuditorySubmarine/Media/gate_top.png -text
 AuditorySubmarine/Media/wall.png -text
+AuditorySubmarine/Media/warp1.png -text
+AuditorySubmarine/Media/warp2.png -text
+AuditorySubmarine/Media/warp3.png -text
+AuditorySubmarine/Media/warp4.png -text
+AuditorySubmarine/Media/warp5.png -text
+AuditorySubmarine/Media/warp6.png -text
+AuditorySubmarine/Media/warp7.png -text
+AuditorySubmarine/Media/warp8.png -text
 AuditorySubmarine/Properties/AppManifest.xml -text
 AuditorySubmarine/Properties/AssemblyInfo.cs -text
 AuditorySubmarine/Properties/OutOfBrowserSettings.xml -text

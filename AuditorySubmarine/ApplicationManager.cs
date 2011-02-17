@@ -33,6 +33,7 @@ namespace LSRI.Submarine
         private static TextBlock _debugUI = null;
         public static int CurrentGate { get; set; }
         public static int TrainingFrequency { get; set; }
+        public static double ComparisonFrequency { get; set; }
         public static int ThresholdFrequency { get; set; }
 
         private static UserModelContainer _container = new UserModelContainer();
@@ -106,7 +107,7 @@ namespace LSRI.Submarine
                 _debugUI.FontFamily = new FontFamily("Courier New");
                 _debugUI.Foreground = new SolidColorBrush(Colors.White);
                 _debugUI.SetValue(Canvas.LeftProperty, 10.0);
-                _debugUI.SetValue(Canvas.TopProperty, pg.LayoutRoot.ActualHeight - 75);
+                _debugUI.SetValue(Canvas.TopProperty, 0.0);
             }
             // we have to insert any non GameObjects at the end of the children collection
             pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, _debugUI);
@@ -117,13 +118,15 @@ namespace LSRI.Submarine
             if (_debugUI == null) return;
             _debugUI.Text = String.Format(
                 "Training Fq : {0} Hz\n"+
-                "Delta       : {1} Hz\n-----\n"+
-                "Level       : {2}\n"+
+                "Delta       : {1} Hz\n-----\n" +
+                "Comparison  : {4} Hz\n-----\n" +
+                "Level       : {2}\n" +
                 "Gates       : {3}",
                 TrainingFrequency, 
                 ThresholdFrequency,
                 CurrentLevel,
-                CurrentGate);
+                CurrentGate,
+                ComparisonFrequency);
         }
     }
 
@@ -142,6 +145,8 @@ namespace LSRI.Submarine
             internal static readonly SubOptions instance = new SubOptions();
         }
 
+        private UserModelContainer _container = new UserModelContainer();
+        private AuditoryModel _auditory = new AuditoryModel();
         private GameOptions _gOption = new GameOptions();
 
         public GameOptions Game
@@ -156,14 +161,50 @@ namespace LSRI.Submarine
             }
         }
 
- 
+        public AuditoryModel Auditory
+        {
+            get
+            {
+                return _auditory;
+            }
+            set
+            {
+                _auditory = value;
+            }
+        }
 
-        public new static SubOptions Instance
+        public ObservableCollection<UserModel> UserLists
+        {
+            get
+            {
+                return _container.UserModels;
+            }
+        }
+
+        public UserModel CurrentModel
+        {
+            get
+            {
+                return _container.CurrentModel;
+            }
+        }
+
+        public static SubOptions Instance
         {
             get
             {
                 return Nested.instance;
             }
+        }
+
+        public void SaveConfiguration()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RetrieveConfiguration()
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -177,7 +218,7 @@ namespace LSRI.Submarine
         /// </summary>
         public SubmarinePlayer _submarine = null;
         private WallObject _wall = null;
-        private GateObject _gate = null;
+        private GateAnimatedObject _gate = null;
         private Random _random;
         private double _posRatio = .15;
 
@@ -437,7 +478,7 @@ namespace LSRI.Submarine
 
             _submarine = new SubmarinePlayer();
             _submarine.startupSubmarine(
-                new Point(48,30),
+                new Point(48,32),
                 new AnimationData(
                     new string[] { 
                         "Media/asub1.png", 
@@ -453,6 +494,16 @@ namespace LSRI.Submarine
 
             Point dim = new Point(zone.ActualWidth,zone.ActualHeight);
 
+            int stepSize = 15;
+            int nbUnit = (int)dim.Y / stepSize;
+            int screenMargin = ((int)dim.Y % stepSize)/2;
+            int gateUnit = 7;
+
+            int nbRangeforgate = nbUnit - gateUnit;
+            int bias = 2;
+
+            int Gatepos = _random.Next(bias + 1, nbRangeforgate - 1 - bias);
+
             int nbStep = 36;
             int nbgate = 4;
             int margin = 2;
@@ -465,16 +516,16 @@ namespace LSRI.Submarine
             int ggg = nbinc + margin * nbinc + fff * nbinc;
             int ggg2 = nbinc + margin * nbinc + fff2 * nbinc;
 
-            _submarine.Position = new Point(0, ggg2+30-15);
+            _submarine.Position = new Point(0, ggg+30-15);
 
             double perc = _random.NextDouble();
-            _gate = new GateObject();
+            _gate = new GateAnimatedObject();
             _gate.startupGameObject(
-                new Point(21, 60),
+                new Point(25, 60),
                 "Media/wall.png",
                 ZLayers.BACKGROUND_Z + 5);
-            _gate.Position = new Point(dim.X - 21, (dim.Y - 60) * perc);
-            _gate.Position = new Point(dim.X - 21, ggg);
+            _gate.Position = new Point(dim.X - 25, (dim.Y - 60) * perc);
+            _gate.Position = new Point(dim.X - 25, ggg);
 
             _wall = new WallObject();
             _wall.startupGameObject(
@@ -488,7 +539,7 @@ namespace LSRI.Submarine
             double dfpix = deltaf / 4;
 
             GameLevelDescriptor.Attach(AuditoryGameApp.Current.RootVisual as GamePage);
-            GameLevelDescriptor.Debug();
+           
 
              
 
@@ -501,6 +552,8 @@ namespace LSRI.Submarine
             this._synthEx.SetTrainingFrequency(2500);
             //this._synthEx.SetTargetFrequency((5000 - 50 * (_gate.Position.Y + 30 - 15 - _submarine.Position.Y) / 10.0), true);
             this._synthEx.SetTargetFrequency(2500 - dfpix * dd, true);
+            GameLevelDescriptor.ComparisonFrequency = 2500 - dfpix * dd;
+            GameLevelDescriptor.Debug(); 
             this._synthEx.Start();
             double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
             double cf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();

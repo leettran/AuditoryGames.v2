@@ -68,7 +68,7 @@ namespace LSRI.TreasureHunter
 
             this.Visibility = System.Windows.Visibility.Collapsed;
             enemyLogic = new NuggetLogic(this.basicEnemyLogic);
-            this.collisionName = CollisionIdentifiers.ENEMY;
+            this._collisionName = CollisionIdentifiers.ENEMY;
             this.score = 10;
             this.Type = type;
             this.index = index;

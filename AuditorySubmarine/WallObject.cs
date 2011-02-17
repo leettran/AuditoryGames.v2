@@ -32,7 +32,7 @@ namespace LSRI.Submarine
        new  public void startupGameObject(Point dimensions, string image, int zLayer)
         {
             base.startupGameObject(dimensions, image, zLayer);
-            this.collisionName = CollisionIdentifiers.ENEMYWEAPON;
+            this._collisionName = CollisionIdentifiers.ENEMYWEAPON;
         }
 
         /// <summary>

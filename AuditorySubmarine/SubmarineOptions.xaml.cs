@@ -14,6 +14,7 @@ using LSRI.AuditoryGames.GameFramework.Data;
 using System.Collections.ObjectModel;
 using System.IO.IsolatedStorage;
 using System.IO;
+using System.Xml.Serialization;
 //using System.Xml.Serialization;
 
 namespace LSRI.Submarine
@@ -55,7 +56,9 @@ namespace LSRI.Submarine
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-       /*     IsolatedStorageSettings.ApplicationSettings["foo"] = SubOptions.Instance;
+            IsolatedStorageSettings.ApplicationSettings["Submarine.configuration"] = SubOptions.Instance;
+            IsolatedStorageSettings.ApplicationSettings.Save();
+
             using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 using (IsolatedStorageFileStream isoStream = store.OpenFile(@"ApplicationSettings.xml", FileMode.Create))
@@ -65,7 +68,20 @@ namespace LSRI.Submarine
                     s.Serialize(writer, SubOptions.Instance);
                     writer.Close();       
                 }
-            }*/
+            }
+
+            using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream isoStream = store.OpenFile(@"ApplicationSettings.xml", FileMode.Open))
+                {
+                    XmlSerializer s = new XmlSerializer(typeof(SubOptions));
+                    TextReader writer = new StreamReader(isoStream);
+                    SubOptions tt = s.Deserialize(writer) as SubOptions;
+                    writer.Close();
+                }
+            }
+
+            SubOptions sss = IsolatedStorageSettings.ApplicationSettings["Submarine.configuration"] as SubOptions;
 
         }
     }

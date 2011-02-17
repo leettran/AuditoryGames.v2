@@ -54,7 +54,7 @@ namespace LSRI.AuditoryGames.GameFramework
         {
             base.startupAnimatedGameObject(dimensions, animationData, zLayer, false);
             enemyLogic = new EnemyLogic(this.basicEnemyLogic);
-            this.collisionName = CollisionIdentifiers.ENEMY;
+            this._collisionName = CollisionIdentifiers.ENEMY;
             this.score = score;
             return this;
         }

@@ -71,9 +71,9 @@ namespace LSRI.AuditoryGames.GameFramework
 				         collisionMapEntryExists &&
 				         testForCollision)
 			        {
-                        if (gameObjectJ.CollisionName == CollisionIdentifiers.PLAYERWEAPON)
+                        if (gameObjectI.CollisionType == CollisionTypeIdentifiers.TIP)
                         {
-                            if (MathUtil.PointInRect(gameObjectJ.Rect, gameObjectI.Rect))
+                            if (MathUtil.PointInRect(gameObjectI.Rect, gameObjectJ.Rect))
                             {
                                 gameObjectI.collision(gameObjectJ);
                                 gameObjectJ.collision(gameObjectI);
