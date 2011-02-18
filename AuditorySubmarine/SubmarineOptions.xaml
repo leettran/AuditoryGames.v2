@@ -65,12 +65,12 @@
                 </sdk:TabItem>
                 <sdk:TabItem Header="Auditory Model" Name="tabItem2">
                     <StackPanel Orientation="Horizontal">
-                        <gamefw:SuperDataForm Name="_xStaircase" Header="Staircase" AutoCommit="True" AutoEdit="True" AutoGenerateFields="True" CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" CommitButtonContent="Commit" HeaderVisibility="Visible" UseLayoutRounding="True" Margin="10"></gamefw:SuperDataForm>
+                        <gamefw:SuperDataForm Name="_xStaircase" Header="Staircase" AutoCommit="True" AutoEdit="True" AutoGenerateFields="True" CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" CommitButtonContent="Commit" HeaderVisibility="Visible" UseLayoutRounding="True" Margin="10" MinWidth="220"></gamefw:SuperDataForm>
                     </StackPanel>
                 </sdk:TabItem>
                 <sdk:TabItem Header="Game Options" Name="tabItem3">
                     <StackPanel Orientation="Horizontal">
-                        <gamefw:SuperDataForm Name="_xGameOption" Header="Game Options" AutoCommit="True" AutoEdit="True" AutoGenerateFields="True" CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" CommitButtonContent="Commit" HeaderVisibility="Visible" UseLayoutRounding="True" Margin="10"></gamefw:SuperDataForm>
+                        <gamefw:SuperDataForm Name="_xGameOption" Header="Game Options" AutoCommit="True" AutoEdit="True" AutoGenerateFields="True" CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" CommitButtonContent="Commit" HeaderVisibility="Visible" UseLayoutRounding="True" Margin="10" MinWidth="220"></gamefw:SuperDataForm>
                     </StackPanel>
                 </sdk:TabItem>
             </sdk:TabControl>

@@ -15,40 +15,62 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 {
     public class GameOptions : UserModelEntity
     {
-        private bool _keypress;
+        private int _unit;
+        private int _sizeGate;
 
-        [Display(Name = "Key Down Mode", Description = "Indicates whether the game works on KeyDown or KeyUp basis")]
-        public bool KeyPressed
+        [Display(Name = "Unit Size", Description = "Size (in pixel) of the elementary game unit (for grid-based movement and location")]
+        [Range(5,30)]
+        public int UnitSize
         {
             get
             {
-                return _keypress;
+                return _unit;
             }
             set
             {
-                if (_keypress != value)
+                if (_unit != value)
                 {
-                    _keypress = value;
-                    OnPropertyChanged("KeyPressed");
+                    _unit = value;
+                    OnPropertyChanged("UnitSize");
                 }
             }
         }
 
+        [Display(Name = "Gate Size", Description = "Size (in game unit) of the gate")]
+        [Range(1, 11)]
+        public int GateSize
+        {
+            get
+            {
+                return _sizeGate;
+            }
+            set
+            {
+                if (_sizeGate != value)
+                {
+                    _sizeGate = value;
+                    OnPropertyChanged("GateSize");
+                }
+            }
+        }
+
+
         public GameOptions()
         {
-            this._keypress = true;
+            this._unit = 15;
+            this._sizeGate = 5;
         }
 
         public GameOptions Clone()
         {
             GameOptions tmp = new GameOptions();
-            tmp._keypress = this._keypress;
+            tmp._unit = this._unit;
             return tmp;
         }
 
         public void Copy(GameOptions tmp)
         {
-            this._keypress = tmp._keypress;
+            this._unit = tmp._unit;
         }
 
         #region IEditableObject

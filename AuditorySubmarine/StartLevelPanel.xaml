@@ -37,7 +37,7 @@
             <my:ButtonIcon Height="42" Name="_btnStart" Width="150" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="17,123,125,0"></my:ButtonIcon>
             <TextBlock Height="23" Name="textBlock1" Text="You are at" VerticalAlignment="Top" FontSize="14" HorizontalAlignment="Left" Width="83" TextAlignment="Right" Margin="6,6,0,0" />
             <TextBlock Height="23" HorizontalAlignment="Left" Name="_txtLevel" Text="Level 0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Margin="105,6,0,0" />
-            <TextBlock FontSize="11" Height="23" Name="_txtGates" Text="You have managed XX gates out of 5" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Width="216" Margin="59,43,0,0" />
+            <TextBlock FontSize="11" Height="23" Name="_txtGates" Text="You went through XX gates out of 5" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Width="216" Margin="59,43,0,0" />
         </Grid>
     </Border>
 </UserControl>

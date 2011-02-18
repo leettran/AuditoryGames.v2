@@ -25,9 +25,18 @@ namespace LSRI.Submarine
         /// <param name="dimensions"></param>
         /// <param name="animationData"></param>
         /// <param name="zLayer"></param>
-        public void startupSubmarine(Point dimensions, AnimationData animationData, int zLayer)
+        public void startupSubmarine(Point dimensions, int zLayer)
         {
-            base.startupAnimatedGameObject(dimensions, animationData, zLayer, false);
+            base.startupAnimatedGameObject(
+                dimensions, 
+                new AnimationData(new string[] {
+                    "Media/asub1.png", 
+                    "Media/asub3.png", 
+                    "Media/asub4.png", 
+                    "Media/asub2.png"
+                },50), 
+                zLayer, false);
+
             this._collisionName = CollisionIdentifiers.PLAYER;
             this._collisionType = CollisionTypeIdentifiers.TIP;
             _acceleration = 0;
@@ -49,9 +58,12 @@ namespace LSRI.Submarine
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Up))
             {
-                Position = new Point(Position.X, Position.Y - 15/*5*SPEED * dt*/);
-                double deltaf = 2500 * .1;
-                double dfpix = deltaf / 4;
+                Position = new Point(Position.X, Position.Y - SubOptions.Instance.Game.UnitSize/*5*SPEED * dt*/);
+                double fqTraining = SubOptions.Instance.User.FrequencyTraining;
+                double fqDiff = SubOptions.Instance.User.FrequencyComparison;
+
+                double deltaf = fqDiff;//  fqTraining * .2;
+                double dfpix = deltaf / ((SubOptions.Instance.Game.GateSize - 1) / 2);
                 (IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(-dfpix);
 
                 //Note ss = (IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Notes[2];
@@ -64,9 +76,12 @@ namespace LSRI.Submarine
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Down))
             {
-                Position = new Point(Position.X, Position.Y + 15/*5*SPEED * dt*/);
-                double deltaf = 2500 * .1;
-                double dfpix = deltaf / 4;
+                Position = new Point(Position.X, Position.Y + SubOptions.Instance.Game.UnitSize/*5*SPEED * dt*/);
+                double fqTraining = SubOptions.Instance.User.FrequencyTraining;
+                double fqDiff = SubOptions.Instance.User.FrequencyComparison;
+
+                double deltaf = fqDiff;//  fqTraining * .2;
+                double dfpix = deltaf / ((SubOptions.Instance.Game.GateSize - 1) / 2);
                 (IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(dfpix);
                 // Note ss = (IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Notes[2];
                // ss.Frequency += 50;
@@ -145,14 +160,14 @@ namespace LSRI.Submarine
                 double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
                 double cf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();
 
-                Debug.WriteLine("Success : {0} - {1}", tf, cf);
+                /*Debug.WriteLine("Success : {0} - {1}", tf, cf);
                 GameLevelDescriptor.CurrentGate--;
                 if (GameLevelDescriptor.CurrentGate == 0)
                 {
                     GameLevelDescriptor.CurrentLevel++;
                     GameLevelDescriptor.CurrentGate=5;
                     GameLevelDescriptor.ThresholdFrequency = (int)(GameLevelDescriptor.ThresholdFrequency * 0.90);
-                }
+                }*/
 
                 //IApplicationManager.Instance.Score += 50;;
                 this.shutdown();

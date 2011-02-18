@@ -52,7 +52,7 @@ namespace LSRI.Submarine
             }
         }
 
-        new public void startupGameObject(Point dimensions, string image, int zLayer)
+        public void startupGameObject(Point dimensions, int zLayer)
         {
              
             base.startupAnimatedGameObject(dimensions, new AnimationData(
@@ -153,7 +153,7 @@ namespace LSRI.Submarine
 
 
 
-       new  public void startupGameObject(Point dimensions, string image, int zLayer)
+       public void startupGameObject(Point dimensions, int zLayer)
         {
             _top = new Rectangle()
             {
@@ -170,7 +170,7 @@ namespace LSRI.Submarine
             _bottom.SetValue(Canvas.LeftProperty, 0.0d);
             _bottom.SetValue(Canvas.TopProperty, 0.0d);
             _bottom.Tag = this;
-            base.startupGameObject(dimensions, image, zLayer);
+            base.startupGameObject(dimensions, "Media/wall.png", zLayer);
             this._collisionName = CollisionIdentifiers.ENEMY;
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(_top);
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(_bottom);

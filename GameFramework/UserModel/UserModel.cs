@@ -402,8 +402,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         {
             this._userType = UserType.Stereotype;
             this._Name = "";
-            this._FqTraining = 5000;
-            this._FqComparison = 3000;
+            this._FqTraining = 2500;
+            this._FqComparison = 500;
             this._currLevel = 1;
             this._currGate = 0;
             this.Gates = new Gates();
@@ -537,15 +537,15 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         {
             UserModels = new ObservableCollection<UserModel>
             {
-                UserModel.Beginner(),
-                UserModel.Expert(),
-                new UserModel{
+                 new UserModel{
                     Type = UserModel.UserType.User,
                     Name = "Current User"
-                }
+                },
+               UserModel.Beginner(),
+                UserModel.Expert()
 
             };
-            CurrentModel = UserModels[2];
+            CurrentModel = UserModels[0];
         }
 
         #region IEditableObject

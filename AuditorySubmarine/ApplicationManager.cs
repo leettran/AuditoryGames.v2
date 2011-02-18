@@ -28,7 +28,7 @@ namespace LSRI.Submarine
         public const string LOG_STATE = "start_log";
     }
 
-    public static class GameLevelDescriptor
+  /*  public static class GameLevelDescriptor
     {
         private static TextBlock _debugUI = null;
         public static int CurrentGate { get; set; }
@@ -128,7 +128,7 @@ namespace LSRI.Submarine
                 CurrentGate,
                 ComparisonFrequency);
         }
-    }
+    }*/
 
 
 
@@ -138,10 +138,7 @@ namespace LSRI.Submarine
         {
             // Explicit static constructor to tell C# compiler
             // not to mark type as beforefieldinit
-            static Nested()
-            {
-            }
-
+            static Nested() {}
             internal static readonly SubOptions instance = new SubOptions();
         }
 
@@ -181,7 +178,7 @@ namespace LSRI.Submarine
             }
         }
 
-        public UserModel CurrentModel
+        public UserModel User
         {
             get
             {
@@ -274,10 +271,10 @@ namespace LSRI.Submarine
                 new StateChangeInfo.StateFunction(startOptions),
                 new StateChangeInfo.StateFunction(exitOptions));
 
-            GameLevelDescriptor.CurrentLevel = 1;
-            GameLevelDescriptor.CurrentGate = 5;
-            GameLevelDescriptor.TrainingFrequency = 5000;
-            GameLevelDescriptor.ThresholdFrequency = 200;
+            //GameLevelDescriptor.CurrentLevel = 1;
+            //GameLevelDescriptor.CurrentGate = 5;
+            //GameLevelDescriptor.TrainingFrequency = 5000;
+            //GameLevelDescriptor.ThresholdFrequency = 200;
 
 
 
@@ -361,6 +358,9 @@ namespace LSRI.Submarine
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(ct);
 
             StartLevelPanel pp = new StartLevelPanel();
+            pp.CurrentLevel = SubOptions.Instance.User.CurrentLevel;
+            pp.CurrentGate = SubOptions.Instance.User.CurrentGate;
+
             pp.SetValue(Canvas.LeftProperty, 10.0);
             pp.SetValue(Canvas.TopProperty, 50.0);
             pp.StartBtn.Click += delegate(object sender, RoutedEventArgs e)
@@ -373,8 +373,8 @@ namespace LSRI.Submarine
             ButtonIcon btnFull = new ButtonIcon();
             btnFull.TextContent.Text = "Full Screen Mode";
             btnFull.Icon.Source = ResourceHelper.GetBitmap("Media/fullscreen.png");
-            btnFull.Icon.Height = 22;
-            btnFull.Icon.Width = 31;
+            //btnFull.Icon.Height = 22;
+            //btnFull.Icon.Width = 31;
             btnFull.Width = 150;
             btnFull.Height = 40;
             btnFull.SetValue(Canvas.LeftProperty, 50.0);
@@ -456,77 +456,54 @@ namespace LSRI.Submarine
 
         private void startGame()
         {
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background = new SolidColorBrush(Color.FromArgb(255,0,67,171));
-            //MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
-            //_synthEx = new Frequency2IGenerator(children);
-            _synthEx.Stop();
-
-            //ScorePanelControl score = new ScorePanelControl();
-            //(GameApplication.Current.RootVisual as GamePage).GetTitleElt().Children.Add(score);
-            //score.Width = (GameApplication.Current.RootVisual as GamePage).GetTitleElt().ActualWidth;
-
+            //GameLevelDescriptor.Attach(AuditoryGameApp.Current.RootVisual as GamePage);
             sp1 = new StopwatchPlus(
                     sw => Debug.WriteLine("Game Started"),
                     sw => Debug.WriteLine("Time! {0}", sw.EllapsedMilliseconds),
                     sw => Debug.WriteLine("totot {0}", sw.EllapsedMilliseconds)
 
                 );
+
+            // stop audio (just in case)
+            _synthEx.Stop();
+            
             // initialise collisions
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMY);
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMYWEAPON);
-            //CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYERWEAPON, CollisionIdentifiers.ENEMY);
 
-            _submarine = new SubmarinePlayer();
-            _submarine.startupSubmarine(
-                new Point(48,32),
-                new AnimationData(
-                    new string[] { 
-                        "Media/asub1.png", 
-                        "Media/asub3.png", 
-                        "Media/asub4.png", 
-                        "Media/asub2.png"
-                    },
-                    50),
-                ZLayers.PLAYER_Z);
-            _submarine.Position = new Point(0, 75);
+            // initialise game layout and position grid
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background = new SolidColorBrush(Color.FromArgb(255, 0, 67, 171));
 
             Canvas zone = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot;
+            Point dim = new Point(zone.ActualWidth, zone.ActualHeight);
 
-            Point dim = new Point(zone.ActualWidth,zone.ActualHeight);
-
-            int stepSize = 15;
-            int nbUnit = (int)dim.Y / stepSize;
+            int stepSize = SubOptions.Instance.Game.UnitSize;
+            int nbUnitsInScreen = (int)dim.Y / stepSize;
             int screenMargin = ((int)dim.Y % stepSize)/2;
-            int gateUnit = 7;
+            int gateUnit = SubOptions.Instance.Game.GateSize;
 
-            int nbRangeforgate = nbUnit - gateUnit;
+            int nbRangeforgate = nbUnitsInScreen - gateUnit;
             int bias = 2;
 
-            int Gatepos = _random.Next(bias + 1, nbRangeforgate - 1 - bias);
+            int Gatepos = _random.Next(bias, nbRangeforgate - 1 - bias);
+            Gatepos = 10;
+            double GateLoc = screenMargin + Gatepos * stepSize;
 
-            int nbStep = 36;
-            int nbgate = 4;
-            int margin = 2;
-            int nbinc = 15;
-            int nmin = 0 + margin;
-            int nmax = (nbStep - 4) - 1 - 2*margin;
-            int fff = _random.Next(nmin, nmax);
-            int fff2 = _random.Next(nmin, nmax);
-            //fff = nmax;
-            int ggg = nbinc + margin * nbinc + fff * nbinc;
-            int ggg2 = nbinc + margin * nbinc + fff2 * nbinc;
+            int Subpos = _random.Next(bias, nbRangeforgate - 1 - bias);
+            Subpos = 10;
+            double SubLoc = screenMargin + Subpos * stepSize;
 
-            _submarine.Position = new Point(0, ggg+30-15);
+            // create submarine object
+            _submarine = new SubmarinePlayer();
+            _submarine.startupSubmarine(new Point(48, 32), ZLayers.PLAYER_Z);
 
-            double perc = _random.NextDouble();
+            // create gate object
             _gate = new GateAnimatedObject();
             _gate.startupGameObject(
-                new Point(25, 60),
-                "Media/wall.png",
+                new Point(25, gateUnit * stepSize),
                 ZLayers.BACKGROUND_Z + 5);
-            _gate.Position = new Point(dim.X - 25, (dim.Y - 60) * perc);
-            _gate.Position = new Point(dim.X - 25, ggg);
 
+            // create wall object
             _wall = new WallObject();
             _wall.startupGameObject(
                 new Point(20, dim.Y),
@@ -534,26 +511,24 @@ namespace LSRI.Submarine
                 ZLayers.BACKGROUND_Z);
             _wall.Position = new Point(dim.X - 20, 0);
 
-            double dd = (_gate.Position.Y+30-15 - _submarine.Position.Y)/15;
-            double deltaf = 2500 * .1;
-            double dfpix = deltaf / 4;
+            _gate.Position = new Point(dim.X - 25, GateLoc);
+            _submarine.Position = new Point(0, SubLoc + _gate.Dimensions.Y / 2 - _submarine.Dimensions.Y / 2);
 
-            GameLevelDescriptor.Attach(AuditoryGameApp.Current.RootVisual as GamePage);
-           
+            // initialise auditory stimuli
+            double fqTraining = SubOptions.Instance.User.FrequencyTraining;
+            double fqDiff = SubOptions.Instance.User.FrequencyComparison;
 
-             
+            double deltapos = Gatepos - Subpos;
+            double deltaf = fqDiff;//  fqTraining * .2;
+            double dfpix = deltaf / ((gateUnit-1)/2);
 
-
-            ///_synthEx.Arpeggiator.Notes[0].Frequency = 5000;
-            ///_synthEx.Arpeggiator.Notes[2].Frequency = (float)(5000 - 50*(_gate.Position.Y - _submarine.Position.Y)/10.0);
-            ///_synthEx.Arpeggiator.Start();
-            //_synth.TriggerNote(new Note(Notes.F, 5));
             this._synthEx.ResetSequencer();
-            this._synthEx.SetTrainingFrequency(2500);
-            //this._synthEx.SetTargetFrequency((5000 - 50 * (_gate.Position.Y + 30 - 15 - _submarine.Position.Y) / 10.0), true);
-            this._synthEx.SetTargetFrequency(2500 - dfpix * dd, true);
-            GameLevelDescriptor.ComparisonFrequency = 2500 - dfpix * dd;
-            GameLevelDescriptor.Debug(); 
+            this._synthEx.SetTrainingFrequency(fqTraining);
+            this._synthEx.SetTargetFrequency(fqTraining - dfpix * deltapos, true);
+
+            //GameLevelDescriptor.ComparisonFrequency = 2500 - dfpix * deltapos;
+           // GameLevelDescriptor.Debug(); 
+
             this._synthEx.Start();
             double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
             double cf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();

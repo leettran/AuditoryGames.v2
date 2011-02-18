@@ -165,6 +165,7 @@ AuditoryWhackAMole/Properties/AppManifest.xml -text
 AuditoryWhackAMole/Properties/AssemblyInfo.cs -text
 AuditoryWhackAMole/Properties/OutOfBrowserSettings.xml -text
 /DosxygenTag.cs -text
+GameFramework/Assets/Styles.xaml -text
 GameFramework/Core/AnimatedGameObject.cs -text
 GameFramework/Core/BackgroundGameObject.cs -text
 GameFramework/Core/BaseObject.cs -text
@@ -179,6 +180,7 @@ GameFramework/Core/ZLayers.cs -text
 GameFramework/Media/background-title.png -text
 GameFramework/Media/buttonIn.jpg -text
 GameFramework/Media/buttonOut.jpg -text
+GameFramework/Media/fullscreen.png -text
 GameFramework/Properties/AssemblyInfo.cs -text
 GameFramework/UI/App.xaml -text
 GameFramework/UI/App.xaml.cs -text

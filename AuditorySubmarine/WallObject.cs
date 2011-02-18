@@ -95,12 +95,12 @@ namespace LSRI.Submarine
 
         override public void enterFrame(double dt)
         {
-            if (GameLevelDescriptor.CurrentGate != 5)
+            /*if (GameLevelDescriptor.CurrentGate != 5)
             {
                 Point pt = (IAppManager.Instance as SubmarineApplicationManager)._submarine.Position;
                 this.Rect.Opacity = (Position.X - pt.X+200) / (Position.X);
                 //Debug.WriteLine("OPACITY : {0}", this.Rect.Opacity);
-            }
+            }*/
         }
 
 
