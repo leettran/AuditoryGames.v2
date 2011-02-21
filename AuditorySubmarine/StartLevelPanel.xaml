@@ -6,6 +6,23 @@
     mc:Ignorable="d" xmlns:my="clr-namespace:LSRI.AuditoryGames.GameFramework;assembly=GameFramework" Background="White" Height="188" Width="294" Style="{Binding}">
     
     <UserControl.Resources>
+        <Style x:Key="FullScreenButtonStyle22" TargetType="Button">
+            <Setter Property="Width" Value="150" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/GameFramework;component/Media/fullscreen.png" 
+								Width="30" 
+								Height="22" />
+                            <ContentPresenter Content="{Binding}" Margin="10,3,0,0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style TargetType="Border" x:Key="NVLBorde2r">
             <Setter Property="CornerRadius" Value="20"/>
             <Setter Property="BorderBrush" Value="Black"/>

@@ -15,10 +15,17 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
     public class AuditoryModel : UserModelEntity
     {
+        private Staircase _rule;
         private double _base;
         private double _step;
-        private bool _keypress;
-        private Staircase _rule;
+        private double _minFq;
+        private double _maxFq;
+
+        private double _lBeat;
+        private int _lStim;
+        private int _lIntStim;
+        private int _lIntSignal;
+
 
         /// <summary>
         /// 
@@ -72,18 +79,89 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
-        public bool KeyPressed
+        [Display(Name = "Frequency Min", GroupName = "Frequency", Description = "The mininum frequency to be played.")]
+        [Required]
+        public double MinFrequency
         {
-            get
-            {
-                return _keypress;
-            }
+            get { return _minFq; }
             set
             {
-                if (_keypress != value)
+                if (_minFq != value)
                 {
-                    _keypress = value;
-                    OnPropertyChanged("KeyPressed");
+                    _minFq = value;
+                    OnPropertyChanged("MinFrequency");
+                }
+            }
+        }
+
+        [Display(Name = "Frequency Max", GroupName = "Frequency", Description = "The maximum frequency to be played.")]
+        [Required]
+        public double MaxFrequency
+        {
+            get { return _maxFq; }
+            set
+            {
+                if (_maxFq != value)
+                {
+                    _maxFq = value;
+                    OnPropertyChanged("MaxFrequency");
+                }
+            }
+        }
+
+        [Display(Name = "Beat length", GroupName = "Stimuli", Description = "Duration (ms) of the elementary stimulus beat")]
+        public double DurationBeat
+        {
+            get { return _lBeat; }
+            set
+            {
+                if (_lBeat != value)
+                {
+                    _lBeat = value;
+                    OnPropertyChanged("DurationBeat");
+                }
+            }
+        }
+
+
+        [Display(Name = "Stimuli duration", GroupName = "Stimuli", Description = "Duration (in beats) of the stimuli")]
+        public int DurationStimuli
+        {
+            get { return _lStim; }
+            set
+            {
+                if (_lStim != value)
+                {
+                    _lStim = value;
+                    OnPropertyChanged("DurationStimuli");
+                }
+            }
+        }
+
+        [Display(Name = "Inter-Stimuli duration", GroupName = "Stimuli", Description = "Duration (maximum) of the silence between stimuli")]
+        public int DurationInterStimuli
+        {
+            get { return _lIntStim; }
+            set
+            {
+                if (_lIntStim != value)
+                {
+                    _lIntStim = value;
+                    OnPropertyChanged("DurationInterStimuli");
+                }
+            }
+        }
+
+        [Display(Name = "Inter-Signals duration", GroupName = "Stimuli", Description = "Duration (maximum) of the silence between each pair of stimuli")]
+        public int DurationInterSignal
+        {
+            get { return _lIntSignal; }
+            set
+            {
+                if (_lIntSignal != value)
+                {
+                    _lIntSignal = value;
+                    OnPropertyChanged("DurationInterSignal");
                 }
             }
         }
@@ -92,27 +170,43 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         {
             this._base = .50;
             this._step = .04;
-            this._keypress = true;
+            this._minFq = 500;
+            this._maxFq = 5000;
+            this._lBeat = 25.0;
+            this._lStim = 8;
+            this._lIntStim = 10;
+            this._lIntSignal = 20;
             this._rule = Staircase.One_One;
         }
 
         public AuditoryModel Clone()
         {
             AuditoryModel tmp = new AuditoryModel();
-            tmp._keypress = this._keypress;
             tmp._rule = this._rule;
             tmp._base = this._base;
             tmp._step = this._step;
+            tmp._minFq = this._minFq;
+            tmp._maxFq = this._maxFq;
+            tmp._lBeat = this._lBeat;
+            tmp._lStim = this._lStim;
+            tmp._lIntStim = this._lIntStim;
+            tmp._lIntSignal = this._lIntSignal;
             return tmp;
         }
 
         public void Copy(AuditoryModel tmp)
         {
             if (tmp == null) return;
-            this._keypress = tmp._keypress;
             this._base = tmp._base;
             this._step = tmp._step;
             this._rule = tmp._rule;
+            this._minFq = tmp._minFq;
+            this._maxFq = tmp._maxFq;
+
+            this._lBeat = tmp._lBeat;
+            this._lStim = tmp._lStim;
+            this._lIntStim = tmp._lIntStim;
+            this._lIntSignal = tmp._lIntSignal;
         }
 
         #region IEditableObject

@@ -403,13 +403,14 @@ namespace LSRI.AuditoryGames.AudioFramework
         {
             //this.sequencer.StepCount = (int)this.stepBox.Value;
             //this._sequencer.Reset();
-            _StimuliStructure = new List<Stimulus>();
+            ResetSequencer();
+           /* _StimuliStructure = new List<Stimulus>();
             _StimuliStructure.Add(new Stimulus(5000, 0, 4 * 2));
             _StimuliStructure.Add(new Stimulus(4 * 2, 10 * 2));
             _StimuliStructure.Add(new Stimulus(3000, 14 * 2, 4 * 2));
             _StimuliStructure.Add(new Stimulus(28 * 2, 20 * 2));
 
-            setSequencer(3);
+            setSequencer(3);*/
             this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEnded2IHook);
             //this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepEnded2IHook);
         }

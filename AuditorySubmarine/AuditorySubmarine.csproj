@@ -93,6 +93,9 @@
     <Compile Include="ApplicationManager.cs" />
     <Compile Include="SubmarineApp.cs" />
     <Compile Include="SubmarinePlayer.cs" />
+    <Compile Include="SubmarineToolbox.xaml.cs">
+      <DependentUpon>SubmarineToolbox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WallObject.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +139,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SubmarineOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SubmarineToolbox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

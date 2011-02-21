@@ -118,6 +118,8 @@ AuditorySubmarine/SubmarineApp.cs -text
 AuditorySubmarine/SubmarineOptions.xaml -text
 AuditorySubmarine/SubmarineOptions.xaml.cs -text
 AuditorySubmarine/SubmarinePlayer.cs -text
+AuditorySubmarine/SubmarineToolbox.xaml -text
+AuditorySubmarine/SubmarineToolbox.xaml.cs -text
 AuditorySubmarine/WallObject.cs -text
 AuditoryTreasureHunter/ApplicationManager.cs -text
 AuditoryTreasureHunter/AuditoryTreasureHunter.csproj -text

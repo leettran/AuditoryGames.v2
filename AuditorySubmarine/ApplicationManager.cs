@@ -23,9 +23,9 @@ namespace LSRI.Submarine
     /// @see States
     public class SubmarineStates : States
     {
-        public const string LEVEL_STATE = "start_Level";
-        public const string OPTION_STATE = "start_option";
-        public const string LOG_STATE = "start_log";
+        public const string LEVEL_STATE = "start_Level";    ///< Starting a new level @deprecated  Not in use, see 
+        public const string OPTION_STATE = "start_option";  ///< Starting the option page
+        public const string LOG_STATE = "start_log";        ///< Starting the log page
     }
 
   /*  public static class GameLevelDescriptor
@@ -131,21 +131,34 @@ namespace LSRI.Submarine
     }*/
 
 
-
+    /// <summary>
+    /// General wrapper for the submarine game configuration
+    /// </summary>
     public sealed class SubOptions : IConfigurationManager
     {
-        class Nested
+        /// <summary>
+        /// private subclass to handle the 
+        /// </summary>
+        private class Nested
         {
-            // Explicit static constructor to tell C# compiler
-            // not to mark type as beforefieldinit
+            /// <summary>
+            /// Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
+            /// </summary>
             static Nested() {}
             internal static readonly SubOptions instance = new SubOptions();
         }
+        
+        private static TextBlock _debugUI = null;   ///< placeholder for the debug panel
+
 
         private UserModelContainer _container = new UserModelContainer();
         private AuditoryModel _auditory = new AuditoryModel();
         private GameOptions _gOption = new GameOptions();
 
+
+        /// <summary>
+        /// Access to the game configuration
+        /// </summary>
         public GameOptions Game
         {
             get
@@ -158,6 +171,9 @@ namespace LSRI.Submarine
             }
         }
 
+        /// <summary>
+        /// Access to the auditory system configuration
+        /// </summary>
         public AuditoryModel Auditory
         {
             get
@@ -170,6 +186,9 @@ namespace LSRI.Submarine
             }
         }
 
+        /// <summary>
+        /// Access to the list of users
+        /// </summary>
         public ObservableCollection<UserModel> UserLists
         {
             get
@@ -178,6 +197,9 @@ namespace LSRI.Submarine
             }
         }
 
+        /// <summary>
+        /// Access to the current user
+        /// </summary>
         public UserModel User
         {
             get
@@ -194,15 +216,73 @@ namespace LSRI.Submarine
             }
         }
 
+
+        /// <summary>
+        /// Save the configuration into isolated storage
+        /// </summary>
         public void SaveConfiguration()
         {
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+        /// Load configuration from the isolated storage
+        /// </summary>
         public void RetrieveConfiguration()
         {
             throw new NotImplementedException();
         }
+
+        #region Debug Display Mode
+
+        /// <summary>
+        /// Add the debug information panel on the game page
+        /// </summary>
+        /// <param name="pg">A reference to the game's main page</param>
+        public void AttachDebug(GamePage pg)
+        {
+            if (pg == null) return;
+            if (_debugUI == null)
+            {
+                _debugUI = new TextBlock();
+                _debugUI.Text = "### Debug information ###";
+                _debugUI.Name = "txtbScore";
+                _debugUI.Width = 100;
+                _debugUI.Height = 35;
+                _debugUI.FontSize = 9;
+                _debugUI.FontFamily = new FontFamily("Courier New");
+                _debugUI.Foreground = new SolidColorBrush(Colors.White);
+                _debugUI.SetValue(Canvas.LeftProperty, 10.0);
+                _debugUI.SetValue(Canvas.TopProperty, 10.0);
+            }
+
+            // we have to insert any non GameObjects at the end of the children collection
+            pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, _debugUI);
+        }
+
+        /// <summary>
+        /// Update the content of the debug panel
+        /// </summary>
+        public void UpdateDebug()
+        {
+            if (_debugUI == null) return;
+            _debugUI.Text = String.Format(
+                "Training Fq : {0} Hz\n" +
+                "Delta       : {1} Hz\n" + 
+                "-----\n" +
+                "Comparison  : {2} Hz\n" +
+                "-----\n" +
+                "Level       : {3}\n" +
+                "Gates       : {4}",
+                this.User.FrequencyTraining,
+                this.User.FrequencyDelta,
+                this.User.FrequencyComparison,
+                this.User.CurrentLevel,
+                this.User.CurrentGate);
+        }
+        #endregion
+
     }
 
     /// <summary>
@@ -210,23 +290,16 @@ namespace LSRI.Submarine
     /// </summary>
     public class SubmarineApplicationManager : IAppManager
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public SubmarinePlayer _submarine = null;
-        private WallObject _wall = null;
-        private GateAnimatedObject _gate = null;
-        private Random _random;
-        private double _posRatio = .15;
+        public SubmarinePlayer _submarine = null;   ///< Reference to the submarine object
+        public GateAnimatedObject _gate = null;     ///< Reference to the gate object
+        public WallObject _wall = null;             ///< Reference to the wall object
 
+        public Frequency2IGenerator _synthEx = null;    ///< Reference to the the auditory stimuli generator
+
+        private Random _random; ///< Random number generation
         private StopwatchPlus sp1;
-
-        public Frequency2IGenerator _synthEx = null;
-
         private Brush bg = null;
 
-        //protected static SubmarineApplicationManager instance = null;
-        
         /// <summary>
         /// 
         /// </summary>
@@ -271,19 +344,14 @@ namespace LSRI.Submarine
                 new StateChangeInfo.StateFunction(startOptions),
                 new StateChangeInfo.StateFunction(exitOptions));
 
-            //GameLevelDescriptor.CurrentLevel = 1;
-            //GameLevelDescriptor.CurrentGate = 5;
-            //GameLevelDescriptor.TrainingFrequency = 5000;
-            //GameLevelDescriptor.ThresholdFrequency = 200;
-
-
-
             //Score = SavedScore;
 
             //(GameApplication.Current.RootVisual as GamePage).GetPlayer().Loaded += delegate(object sender, RoutedEventArgs e) { Debug.WriteLine("SOUND LOADED"); };
             //(GameApplication.Current.RootVisual as GamePage).GetPlayer().CurrentStateChanged += delegate(object sender, RoutedEventArgs e) { Debug.WriteLine("CurrentStateChanged"); };
            //Page pp = (App.Current.RootVisual as Page);
            // (GameApplication.Current.RootVisual as GamePage).GetPlayer().SetSource(_synthEx);
+
+            /// Associate the stimuli generator with the media element of the game page
             MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
             _synthEx = new Frequency2IGenerator(children);
 
@@ -294,52 +362,29 @@ namespace LSRI.Submarine
             if (KeyHandler.Instance.isKeyPressed(Key.Q) && StateManager.Instance.CurrentState.Equals(SubmarineStates.LEVEL_STATE))
                 StateManager.Instance.setState(States.START_STATE);
 
-          /* if (KeyHandler.Instance.isKeyPressed(Key.Up))
-            {
-                 //KeyHandler.Instance.clearKeyPresses();
-            }
-            else if (KeyHandler.Instance.isKeyPressed(Key.Down))
-            {
-
-            }
-            else*/ if (KeyHandler.Instance.isKeyPressed(Key.Space))
+            // cheat code for showing the gate
+            if (KeyHandler.Instance.isKeyPressed(Key.G))
             {
                 if (_gate==null) return;
                 Visibility isVis = _gate.Visibility;
-                /*if (_gate.InUse)
-                {
-                    _gate.shutdown();
-                    KeyHandler.Instance.clearKeyPresses();
-                }
-                else
-                {
-                    Point tt = _gate.Position;
-                    _gate.startupGameObject(
-                          new Point(21, 50),
-                          "Media/wall.png",
-                          ZLayers.BACKGROUND_Z + 5);
-                    _gate.Position = tt;
-                    KeyHandler.Instance.clearKeyPresses();
-                }*/
                 if (isVis == Visibility.Visible)
                     _gate.Visibility = Visibility.Collapsed;
                 else
                     _gate.Visibility = Visibility.Visible;
                 KeyHandler.Instance.clearKeyPresses();
             }
-            double s = _submarine.Position.X;
-            double g = _gate.Position.X;
-            double r = s / g;
 
-            double K= 1;
-            double gr = .1;
-            //double lg = K * (1 - Math.Exp(-gr * _score/50));
-           // Debug.WriteLine("##### SCORE : {0}",lg);
 
-            if (r > _posRatio)
+            /// Check for visibility of gate
+            double r = (_gate.Position.X-_submarine.Position.X) / _gate.Position.X;
+            if (SubOptions.Instance.User.IsGateVisible(r))
             {
-                _gate.Visibility = Visibility.Visible;
+                if (_gate.Visibility != Visibility.Visible)
+                    _gate.Visibility = Visibility.Visible;
             }
+
+            SubOptions.Instance.UpdateDebug(); 
+
                             
 
         }
@@ -349,6 +394,8 @@ namespace LSRI.Submarine
             //SavedScore = Score;
         }
 
+
+        #region Application State: Main Menu
 
         private void startMainMenu()
         {
@@ -453,16 +500,20 @@ namespace LSRI.Submarine
             base.removeAllCanvasChildren();
         }
 
+        #endregion
+
+        #region Application State: Game
 
         private void startGame()
         {
-            //GameLevelDescriptor.Attach(AuditoryGameApp.Current.RootVisual as GamePage);
-            sp1 = new StopwatchPlus(
+            SubOptions.Instance.AttachDebug(AuditoryGameApp.Current.RootVisual as GamePage);
+
+            /*sp1 = new StopwatchPlus(
                     sw => Debug.WriteLine("Game Started"),
                     sw => Debug.WriteLine("Time! {0}", sw.EllapsedMilliseconds),
                     sw => Debug.WriteLine("totot {0}", sw.EllapsedMilliseconds)
 
-                );
+                );*/
 
             // stop audio (just in case)
             _synthEx.Stop();
@@ -470,6 +521,13 @@ namespace LSRI.Submarine
             // initialise collisions
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMY);
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMYWEAPON);
+
+            // initialise toolbox
+            SubmarineToolbox tbox = new SubmarineToolbox();
+            tbox.SetValue(Canvas.LeftProperty, 0.0);
+            tbox.SetValue(Canvas.TopProperty, 0.0);
+
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(tbox);
 
             // initialise game layout and position grid
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background = new SolidColorBrush(Color.FromArgb(255, 0, 67, 171));
@@ -480,7 +538,7 @@ namespace LSRI.Submarine
             int stepSize = SubOptions.Instance.Game.UnitSize;
             int nbUnitsInScreen = (int)dim.Y / stepSize;
             int screenMargin = ((int)dim.Y % stepSize)/2;
-            int gateUnit = SubOptions.Instance.Game.GateSize;
+            int gateUnit = 2*SubOptions.Instance.Game.GateSize + 1;
 
             int nbRangeforgate = nbUnitsInScreen - gateUnit;
             int bias = 2;
@@ -490,7 +548,7 @@ namespace LSRI.Submarine
             double GateLoc = screenMargin + Gatepos * stepSize;
 
             int Subpos = _random.Next(bias, nbRangeforgate - 1 - bias);
-            Subpos = 10;
+            Subpos = 8;
             double SubLoc = screenMargin + Subpos * stepSize;
 
             // create submarine object
@@ -514,20 +572,26 @@ namespace LSRI.Submarine
             _gate.Position = new Point(dim.X - 25, GateLoc);
             _submarine.Position = new Point(0, SubLoc + _gate.Dimensions.Y / 2 - _submarine.Dimensions.Y / 2);
 
+
+            double theodur = (_wall.Position.X - _submarine.Dimensions.X) / _submarine.Speed;
+            Debug.WriteLine("Theoretical timing : {0}", theodur*1000);
+
             // initialise auditory stimuli
             double fqTraining = SubOptions.Instance.User.FrequencyTraining;
-            double fqDiff = SubOptions.Instance.User.FrequencyComparison;
+            double deltaf = SubOptions.Instance.User.FrequencyDelta;
 
             double deltapos = Gatepos - Subpos;
-            double deltaf = fqDiff;//  fqTraining * .2;
-            double dfpix = deltaf / ((gateUnit-1)/2);
+            //double deltaf = fqDiff;//  fqTraining * .2;
+            double dfpix = deltaf / SubOptions.Instance.Game.GateSize;
+
+            SubOptions.Instance.User.FrequencyComparison = fqTraining - dfpix * deltapos;
 
             this._synthEx.ResetSequencer();
             this._synthEx.SetTrainingFrequency(fqTraining);
-            this._synthEx.SetTargetFrequency(fqTraining - dfpix * deltapos, true);
+            this._synthEx.SetTargetFrequency(SubOptions.Instance.User.FrequencyComparison, true);
 
-            //GameLevelDescriptor.ComparisonFrequency = 2500 - dfpix * deltapos;
-           // GameLevelDescriptor.Debug(); 
+           
+            SubOptions.Instance.UpdateDebug(); 
 
             this._synthEx.Start();
             double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
@@ -543,25 +607,21 @@ namespace LSRI.Submarine
                 GameObject.gameObjects[0].shutdown();
 
             removeAllCanvasChildren();
-            UIElementCollection children = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children;
-            while (children.Count != 0)
-                children.RemoveAt(0);
 
             //_synthEx.Arpeggiator.Stop();
             //txtbScore = null;
-            sp1.Stop();
+           // sp1.Stop();
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background = bg;
 
         }
 
+        #endregion
 
-        #region Application Manager 
+        #region Application State: Options
 
         private void startOptions()
         {
             SubmarineOptionPanel panel = new SubmarineOptionPanel();
-           // UserModelEditor panel = new UserModelEditor();
-           // panel.AddModel(UserModel.Beginner());
             panel.SetValue(Canvas.LeftProperty, 10.0);
             panel.SetValue(Canvas.TopProperty, 10.0);
 

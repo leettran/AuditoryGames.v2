@@ -12,6 +12,9 @@ using System.Collections.ObjectModel;
 
 namespace LSRI.AuditoryGames.GameFramework.Data
 {
+    /// <summary>
+    /// TEST INTERFACE
+    /// </summary>
     public interface IConfigurationManager
     {
         /// <summary>

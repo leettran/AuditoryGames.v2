@@ -55,7 +55,7 @@
 
 
         <Button Content="OK" Height="23" Name="btnOK" VerticalAlignment="Top" Click="btnOK_Click" Grid.Row="4" HorizontalAlignment="Right" Width="75" Grid.Column="2" Margin="0,0,145,0" />
-        <Border Style="{StaticResource NVLBorde2r}" Grid.RowSpan="3" Grid.ColumnSpan="3" >
+        <Border Style="{StaticResource NVLBorder}" Grid.RowSpan="3" Grid.ColumnSpan="3" >
             <sdk:TabControl Name="tabControl1" Margin="10">
                 <sdk:TabItem Header="User Model" Name="tabItem1">
                     <StackPanel Orientation="Horizontal">

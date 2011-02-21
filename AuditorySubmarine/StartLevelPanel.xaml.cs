@@ -25,6 +25,8 @@ namespace LSRI.Submarine
             this.CurrentLevel = 0;
             this.CurrentGate = 2;
 
+            //this.button1.Style = Application.Current.Resources["FullScreenButtonStyle"] as Style;
+
         }
 
         public int CurrentLevel

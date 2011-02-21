@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using LSRI.AuditoryGames.GameFramework;
+using LSRI.AuditoryGames.Utils;
 
 namespace LSRI.Submarine
 {
@@ -15,8 +16,25 @@ namespace LSRI.Submarine
         /// <summary>
         /// 
         /// </summary>
-        protected const double SPEED = 200;
-        protected double _acceleration = 0;
+        protected double _subSpeed = 50;
+        protected double _subAccel = 0;
+
+        private double _accTime = 0;
+
+        StopwatchPlus sp1;
+
+
+        public double Speed
+        {
+            get { return _subSpeed; }
+            set { _subSpeed = value; }
+        }
+
+        public double Acceleration
+        {
+            get { return _subAccel; }
+            set { _subAccel = value; }
+        }
 
         /// <summary>
         /// 
@@ -39,7 +57,17 @@ namespace LSRI.Submarine
 
             this._collisionName = CollisionIdentifiers.PLAYER;
             this._collisionType = CollisionTypeIdentifiers.TIP;
-            _acceleration = 0;
+            this.Speed = SubOptions.Instance.Game.SubmarineSpeed;
+            this.Acceleration = 0;
+
+            _accTime = 0;
+
+            sp1 = new StopwatchPlus(
+                            sw => Debug.WriteLine("Submarine starts at {0}", sw.EllapsedMilliseconds),
+                            sw => Debug.WriteLine("Submarine stops at {0}", sw.EllapsedMilliseconds),
+                            (sw,msg) => Debug.WriteLine("{0} at {1}", msg, sw.EllapsedMilliseconds)
+            );
+            sp1.Start();
         }
 
         /// <summary>
@@ -49,21 +77,31 @@ namespace LSRI.Submarine
         public override void enterFrame(double dt)
         {
             base.enterFrame(dt);
+            _accTime += dt;
 
             if (KeyHandler.Instance.isKeyPressed(Key.Right))
             {
-                _acceleration += 50;
+                _subAccel += SubOptions.Instance.Game.SubmarineAcceleration;
                 KeyHandler.Instance.clearKeyPresses();
-                Debug.WriteLine("Speed : {0}", (SPEED + _acceleration) / 4);
+                Debug.WriteLine("Speed : {0}", (_subSpeed + _subAccel));
+                sp1.Step("Submarine accelerated");
+            }
+            else if (KeyHandler.Instance.isKeyPressed(Key.Space))
+            {
+                _subAccel = 500;
+                KeyHandler.Instance.clearKeyPresses();
+                sp1.Step("Submarine in booster mode");
+
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Up))
             {
-                Position = new Point(Position.X, Position.Y - SubOptions.Instance.Game.UnitSize/*5*SPEED * dt*/);
+                Position = new Point(Position.X, Position.Y - SubOptions.Instance.Game.UnitSize);
                 double fqTraining = SubOptions.Instance.User.FrequencyTraining;
-                double fqDiff = SubOptions.Instance.User.FrequencyComparison;
+                double fqDiff = SubOptions.Instance.User.FrequencyDelta;
+                double dfpix = fqDiff / SubOptions.Instance.Game.GateSize;
 
-                double deltaf = fqDiff;//  fqTraining * .2;
-                double dfpix = deltaf / ((SubOptions.Instance.Game.GateSize - 1) / 2);
+                SubOptions.Instance.User.FrequencyComparison -= dfpix;
+                SubOptions.Instance.UpdateDebug(); 
                 (IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(-dfpix);
 
                 //Note ss = (IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Notes[2];
@@ -73,15 +111,17 @@ namespace LSRI.Submarine
                 //Debug.WriteLine("Frequency : {0}", ss.Frequency);
                 KeyHandler.Instance.clearKeyPresses();
                 Debug.WriteLine("position : {0}", Position.Y);
+                sp1.Step("Submarine moved up");
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Down))
             {
-                Position = new Point(Position.X, Position.Y + SubOptions.Instance.Game.UnitSize/*5*SPEED * dt*/);
+                Position = new Point(Position.X, Position.Y + SubOptions.Instance.Game.UnitSize);
                 double fqTraining = SubOptions.Instance.User.FrequencyTraining;
-                double fqDiff = SubOptions.Instance.User.FrequencyComparison;
+                double fqDiff = SubOptions.Instance.User.FrequencyDelta;
+                double dfpix = fqDiff / SubOptions.Instance.Game.GateSize;
 
-                double deltaf = fqDiff;//  fqTraining * .2;
-                double dfpix = deltaf / ((SubOptions.Instance.Game.GateSize - 1) / 2);
+                SubOptions.Instance.User.FrequencyComparison += dfpix;
+                SubOptions.Instance.UpdateDebug();
                 (IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(dfpix);
                 // Note ss = (IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Notes[2];
                // ss.Frequency += 50;
@@ -90,8 +130,9 @@ namespace LSRI.Submarine
                 //Debug.WriteLine("Frequency : {0}", ss.Frequency);
                 KeyHandler.Instance.clearKeyPresses();
                 Debug.WriteLine("position : {0}", Position.Y);
+                sp1.Step("Submarine moved down");
             }
-            Position = new Point(Position.X + (SPEED + _acceleration) / 5 * dt, Position.Y);
+            Position = new Point(Position.X + (this.Speed + this.Acceleration) * dt, Position.Y);
             
 
              // keep the player bound to the screen
@@ -120,8 +161,14 @@ namespace LSRI.Submarine
         public override void collision(GameObject other)
         {
             base.collision(other);
-            //(IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Stop();
+            sp1.Stop();
 
+            // stop the auditory stimuli
+            (IAppManager.Instance as SubmarineApplicationManager)._synthEx.Stop();
+
+            // show the gate
+            (IAppManager.Instance as SubmarineApplicationManager)._gate.Visibility = Visibility.Visible;
+            
             if (other is WallObject)
             {
                 AnimatedGameObject.UnusedAnimatedGameObject.startupAnimatedGameObject(
@@ -146,6 +193,8 @@ namespace LSRI.Submarine
                 timer.Tick += delegate(object sender, EventArgs e)
                 {
                     //SubmarineApplicationManager.Instance.Score = 0; ;
+                    SubOptions.Instance.User.CurrentLife -= 1;
+
                     StateManager.Instance.setState(States.START_STATE);
                     (sender as DispatcherTimer).Stop();
 
@@ -157,6 +206,7 @@ namespace LSRI.Submarine
             }
             else if (other is GateObject || other is GateAnimatedObject)
             {
+                (IAppManager.Instance as SubmarineApplicationManager)._gate.Visibility = Visibility.Visible;
                 double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
                 double cf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();
 
@@ -171,7 +221,7 @@ namespace LSRI.Submarine
 
                 //IApplicationManager.Instance.Score += 50;;
                 this.shutdown();
-                (IAppManager.Instance as SubmarineApplicationManager)._synthEx.Stop();
+                
 
                 DispatcherTimer timer = new DispatcherTimer();
                 timer.Tick += delegate(object sender, EventArgs e)

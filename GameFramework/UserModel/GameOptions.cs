@@ -17,6 +17,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
     {
         private int _unit;
         private int _sizeGate;
+        private int _subSpeed;
+        private int _subAccel;
+        private double _timeGate;
 
         [Display(Name = "Unit Size", Description = "Size (in pixel) of the elementary game unit (for grid-based movement and location")]
         [Range(5,30)]
@@ -36,8 +39,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
-        [Display(Name = "Gate Size", Description = "Size (in game unit) of the gate")]
-        [Range(1, 11)]
+        [Display(Name = "Gate Range", Description = "Number of zones (in game unit) in both side of the gate")]
+        [Range(1, 5)]
         public int GateSize
         {
             get
@@ -54,23 +57,91 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
+        [Display(Name = "Submarine speed", Description = "Basic speed (in pixel per second) of the submarine")]
+        [Range(25, 200)]
+        public int SubmarineSpeed
+        {
+            get
+            {
+                return _subSpeed;
+            }
+            set
+            {
+                if (_subSpeed != value)
+                {
+                    _subSpeed = value;
+                    double ff = 800.0 - 20.0 - 48.0;
+                    double gg = _subSpeed;
+
+                    TimeOnGate = ff/gg;
+                    OnPropertyChanged("SubmarineSpeed");
+                }
+            }
+        }
+
+        [Display(Name = "Submarine Acceleration", Description = "Basic increment (in pixel per second) of submarine speed when accelerating")]
+        [Range(25, 200)]
+        public int SubmarineAcceleration
+        {
+            get
+            {
+                return _subAccel;
+            }
+            set
+            {
+                if (_subAccel != value)
+                {
+                    _subAccel = value;
+                    OnPropertyChanged("SubmarineAcceleration");
+                }
+            }
+        }
+
+        [Display(Name = "Gate Max Time", Description = "Maximum time (ms) to get through each gate",Prompt="DDDDDD",ShortName="fddfdf")]
+        [DisplayFormat(DataFormatString="{0:G")]
+        [ReadOnly(true)]
+        public double TimeOnGate
+        {
+            get
+            {
+                return _timeGate;
+            }
+            set
+            {
+                if (_timeGate != value)
+                {
+                    _timeGate = value;
+                    OnPropertyChanged("TimeOnGate");
+                }
+            }
+        }
+
 
         public GameOptions()
         {
             this._unit = 15;
-            this._sizeGate = 5;
+            this._sizeGate = 2;
+            this._subSpeed = 50;
+            this._subAccel = 50;
+            this._timeGate = (800 - 20 - 48) / _subSpeed;
         }
 
         public GameOptions Clone()
         {
             GameOptions tmp = new GameOptions();
             tmp._unit = this._unit;
+            tmp._sizeGate = this._sizeGate;
+            tmp._subSpeed = this._subSpeed;
+            tmp._subAccel = this._subAccel;
             return tmp;
         }
 
         public void Copy(GameOptions tmp)
         {
             this._unit = tmp._unit;
+            this._sizeGate = tmp._sizeGate;
+            this._subSpeed = tmp._subSpeed;
+            this._subAccel = tmp._subAccel;
         }
 
         #region IEditableObject
@@ -93,5 +164,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         }
         #endregion
 
+        protected override void OnPropertyChanged(string propName)
+        {
+            base.OnPropertyChanged(propName);
+        }
     }
 }

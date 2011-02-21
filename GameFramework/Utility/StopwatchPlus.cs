@@ -31,7 +31,7 @@ namespace LSRI.AuditoryGames.Utils
         private String _name;
         private Action<StopwatchPlus> _startAction;
         private Action<StopwatchPlus> _stopAction;
-        private Action<StopwatchPlus> _stepAction;
+        private Action<StopwatchPlus,String> _stepAction;
 
         /// <summary>
         /// Creates an instance of the StopwatchPlus class and starts the timer. By
@@ -48,7 +48,7 @@ namespace LSRI.AuditoryGames.Utils
         /// </summary>
         /// <param name="stopAction">Action to take when the Stop method is called.</param>
         public StopwatchPlus(Action<StopwatchPlus> stopAction)
-            :this(null, stopAction)
+            :this(null, null, stopAction, null)
         {
         }
 
@@ -59,7 +59,7 @@ namespace LSRI.AuditoryGames.Utils
         /// <param name="stopAction">Action to take when the Stop method is called.</param>
         public StopwatchPlus(Action<StopwatchPlus> startAction,
             Action<StopwatchPlus> stopAction)
-            :this(null, startAction, stopAction)
+            :this(null, startAction, stopAction,null)
         {
         }
 
@@ -70,7 +70,7 @@ namespace LSRI.AuditoryGames.Utils
         /// <param name="stopAction">Action to take when the Stop method is called.</param>
         public StopwatchPlus(Action<StopwatchPlus> startAction,
             Action<StopwatchPlus> stopAction,
-            Action<StopwatchPlus> stepAction)
+            Action<StopwatchPlus,String> stepAction)
             : this(null, startAction, stopAction,stepAction)
         {
         }
@@ -84,7 +84,7 @@ namespace LSRI.AuditoryGames.Utils
         public StopwatchPlus(string name,
             Action<StopwatchPlus> startAction,
             Action<StopwatchPlus> stopAction,
-            Action<StopwatchPlus> stepAction)
+            Action<StopwatchPlus,String> stepAction)
         {
             _name = name;
             _startAction = startAction;
@@ -137,7 +137,7 @@ namespace LSRI.AuditoryGames.Utils
                 _elapsed += GetCurrentTicks() - _startTick;
                 if (_stepAction != null)
                 {
-                    _stepAction(this);
+                    _stepAction(this, comment);
                 }
             }
         }
@@ -242,16 +242,16 @@ namespace LSRI.AuditoryGames.Utils
             Debug.WriteLine("END\t{0}\t{1}", sw._name, sw.EllapsedMilliseconds);
         }
 
-        private static void WriteStep(StopwatchPlus sw)
+        private static void WriteStep(StopwatchPlus sw, String msg)
         {
-            WriteStepInternal(sw);
+            WriteStepInternal(sw,msg);
         }
 
         // This is not called in a Release build
         [Conditional("DEBUG")]
-        private static void WriteStepInternal(StopwatchPlus sw)
+        private static void WriteStepInternal(StopwatchPlus sw, String msg)
         {
-            Debug.WriteLine("BEGIN\t{0}", sw._name);
+            Debug.WriteLine("BEGIN\t{0} : {1}", sw._name, msg);
 
         }
 

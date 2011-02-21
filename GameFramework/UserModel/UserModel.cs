@@ -67,9 +67,17 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         /// <summary>
         /// 
         /// </summary>
+        private List<bool> _name;
+
+        /// <summary>
+        /// 
+        /// </summary>
          
         [Display(Name = "Level -1", Description = "Success of last level")]
-        public bool Level1 { set; get; }
+        public bool Level1 { 
+            set; 
+            get; 
+        }
 
         /// <summary>
         /// 
@@ -83,11 +91,16 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         [Display(Name = "Level -3", Description = "Success of last-but-two level")]
         public bool Level3 { set; get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public WinPattern()
         {
             this.Level1 = this.Level2 = this.Level3 = true;
+            _name = new List<bool>();
         }
 
+        #region IEditableObject Gates
         public override void BeginEdit()
         {
             //throw new NotImplementedException();
@@ -102,6 +115,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         {
             //throw new NotImplementedException();
         }
+        #endregion
     }
 
     /// <summary>
@@ -109,8 +123,32 @@ namespace LSRI.AuditoryGames.GameFramework.Data
     /// </summary>
     public class Gates : UserModelEntity
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private double[] _name;
- 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Display(AutoGenerateField = false)]
+        public double[] Data
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                }
+            }
+
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -246,22 +284,27 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         /// </summary>
         public enum UserType
         {
-            User,       ///< dfdfdf
-            Stereotype   ///<
+            User,       ///< Indicate the current (real) user
+            Stereotype  ///< Indicate a stereotypical user (for debuggin and testing purpose)
         }
 
-        string  _Name;
-        double  _FqTraining;
-        double  _FqComparison;
-        int _currLevel;
-        int _currGate;
-        UserType _userType;
-        Gates   _gate;
+        string  _Name;          ///< Name of the user
+        double  _FqTraining;    ///< Training frequency of the user
+        double _FqDelta;        ///< Frequency Difference limen (theoretical) of the user
+        int _currLevel;         ///< Current level of the game played by the user
+        int _currGate;          ///< Current gate crossed by the user
+        int _currLife;          ///< Current number of remaining lives
+         
+        UserType _userType;     ///< Type of the user
+        Gates   _gate;          ///<  ddd
 
-        //string[] _tt;
-        //ObservableCollection<string> _hh;
+
+        double _FqComparison;   ///< Current  comparison frequency played
+
+
 
         [Display(Name = "Type", Description = "Either a real or a Stereotypical user")]
+        [ReadOnly(true)] 
         public UserType Type
         {
             get { return _userType; }
@@ -315,18 +358,35 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         /// </summary>
         [Display(Name = "Delta (Fq)", GroupName = "Frequency", Description = "Limit of theoretical audible frequency difference")]
         [Required]
+        public double FrequencyDelta
+        {
+            get { return _FqDelta; }
+            set
+            {
+                if (_FqDelta != value)
+                {
+                    _FqDelta = value;
+                    OnPropertyChanged("FrequencyDelta");
+                }
+            }
+        }
+
+
+        [Display(AutoGenerateField = false)]
         public double FrequencyComparison
         {
+
             get { return _FqComparison; }
             set
             {
                 if (_FqComparison != value)
                 {
                     _FqComparison = value;
-                    OnPropertyChanged("FrequencyComparison");
                 }
             }
         }
+
+
 
         /// <summary>
         /// 
@@ -364,6 +424,21 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
+        [Display(Name = "Lives", Description = "Number of remaining lives to finish the current level")]
+        [Range(1, 4)]
+        public int CurrentLife
+        {
+            get { return _currLife; }
+            set
+            {
+                if (_currLife != value)
+                {
+                    _currGate = value;
+                    OnPropertyChanged("CurrentLife");
+                }
+            }
+        }
+
 
         /// <summary>
         /// 
@@ -386,15 +461,6 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         public WinPattern Pattern { set; get; }
 
 
-        protected override void OnPropertyChanged(string propName)
-        {
-            base.OnPropertyChanged(propName);
-            if (propName == "CurrentLevel" && _tmpModel!=null && this.Type == UserType.Stereotype)
-            {
-                this.FrequencyTraining /= 2; 
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -403,9 +469,11 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._userType = UserType.Stereotype;
             this._Name = "";
             this._FqTraining = 2500;
-            this._FqComparison = 500;
+            this._FqDelta = 500;
+            this._FqComparison = 0;
             this._currLevel = 1;
             this._currGate = 0;
+            this._currLife = 4;
             this.Gates = new Gates();
             this.Pattern = new WinPattern();
         }
@@ -421,8 +489,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             tmp._Name = this.Name;
             tmp._currLevel = this.CurrentLevel;
             tmp._currGate = this._currGate;
+            tmp._currLife = this._currLife;
             tmp._FqTraining = this.FrequencyTraining;
-            tmp._FqComparison = this.FrequencyComparison;
+            tmp._FqDelta = this.FrequencyDelta;
             tmp.Gates = this.Gates;
             tmp.Pattern = this.Pattern;
 
@@ -435,13 +504,21 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._Name = tmp.Name;
             this._currLevel = tmp.CurrentLevel;
             this._currGate = tmp._currGate;
+            this._currLife = tmp._currLife;
             this._FqTraining = tmp.FrequencyTraining;
-            this._FqComparison = tmp.FrequencyComparison;
+            this._FqDelta = tmp.FrequencyDelta;
             this.Gates = tmp.Gates;
             this.Pattern = tmp.Pattern;
         }
 
 
+        public bool IsGateVisible(double posRatio)
+        {
+            double vis = Gates.Data[this.CurrentGate];
+            return posRatio < vis;
+        }
+
+        #region Stereotypes
         /// <summary>
         /// 
         /// </summary>
@@ -451,7 +528,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             return new UserModel
             {
                 Name = "Beginner",
-                FrequencyComparison = 3000,
+                FrequencyDelta = 3000,
                 CurrentLevel = 1
            };
         }
@@ -465,12 +542,13 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             var GG =  new UserModel
             {
                 Name = "Expert",
-                FrequencyComparison = 4500,
+                FrequencyDelta = 4500,
                 CurrentLevel = 10
             };
             return GG;
         }
 
+        #endregion
 
         #region IEditableObject
 
@@ -496,10 +574,13 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class UserModelContainer : UserModelEntity
     {
         ObservableCollection<UserModel> _usermodels;
-        UserModel _currentmodel;
+        UserModel _currentmodel;    
 
         /// <summary>
         /// 
@@ -517,6 +598,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public UserModel CurrentModel
         {
             get { return _currentmodel; }

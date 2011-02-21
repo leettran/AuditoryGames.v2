@@ -23,7 +23,7 @@ namespace LSRI.Submarine
     {
         public class CompleteTaskArgs : EventArgs
         {
-            private int _currUser;
+            //private int _currUser;
 
         }
         public delegate void OnCompleteTaskEvent(CompleteTaskArgs arg);

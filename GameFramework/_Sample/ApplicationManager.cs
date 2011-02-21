@@ -49,7 +49,11 @@ namespace LSRI.AuditoryGames.GameFramework
         /// </summary>
         protected void removeAllCanvasChildren()
         {
-            UIElementCollection children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
+            UIElementCollection children = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children;
+            while (children.Count != 0)
+                children.RemoveAt(0);
+
+            children = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children;
             while (children.Count != 0)
                 children.RemoveAt(0);
         }
