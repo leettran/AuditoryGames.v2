@@ -40,7 +40,7 @@ namespace Kindohm.KSynth.Library
             byteRate = sampleRate * channelCount * BitsPerSample / 8;
             blockAlign = (short)(channelCount * (BitsPerSample / 8));
             memoryStream = new MemoryStream();
-            //this.AudioBufferLength = 15;
+            this.AudioBufferLength = 15;
         }
 
         protected override void OpenMediaAsync()

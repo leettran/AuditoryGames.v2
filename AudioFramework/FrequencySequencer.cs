@@ -39,9 +39,16 @@ namespace LSRI.AuditoryGames.AudioFramework
         /// </summary>
         public delegate void StepEnded();
 
+        public delegate void FrequencyChanged(int idx, double fq);
+        public delegate void FrequencyPlayed(string msg);
+        public delegate void FrequencyStopped(string msg);
+
         public event StepStarted _stepStartedHook = null;
         public event StepChanged _stepChangedHook = null;
         public event StepEnded _stepEndedHook = null;
+        public event FrequencyChanged _freqChangedHook = null;
+        public event FrequencyPlayed _freqPlayedHook = null;
+        public event FrequencyStopped _freqStoppedHook = null;
 
         /// <summary>
         /// 
@@ -52,8 +59,28 @@ namespace LSRI.AuditoryGames.AudioFramework
             {
                 if (_stepStartedHook != null) this._stepStartedHook();
             }
+            if (_stepChangedHook != null) this._stepChangedHook();
             base.ProcessCurrentStep();
         }
+
+        virtual public void OnFrequencyChanged(int idx, double fq)
+        {
+            if (this._freqChangedHook != null)
+                this._freqChangedHook(idx,fq);
+        }
+
+        virtual public void OnFrequencyPlayed(string msg)
+        {
+            if (this._freqPlayedHook != null)
+                this._freqPlayedHook(msg);
+        }
+
+        virtual public void OnFrequencyStopped(string msg)
+        {
+            if (this._freqStoppedHook != null)
+                this._freqStoppedHook(msg);
+        }
+
 
         /// <summary>
         /// 
@@ -75,7 +102,7 @@ namespace LSRI.AuditoryGames.AudioFramework
                 }
                 else
                 {
-                    if (_stepChangedHook != null) this._stepChangedHook();
+                   // if (_stepChangedHook != null) this._stepChangedHook();
                 }
             }
         }
@@ -150,6 +177,14 @@ namespace LSRI.AuditoryGames.AudioFramework
 
         public abstract void ResetSequencer();
 
+        public SequencerExt Sequencer
+        {
+            get
+            {
+                return this._sequencer;
+            }
+
+        }
 
         void _sequencer__stepChangedHook()
         {
@@ -176,13 +211,14 @@ namespace LSRI.AuditoryGames.AudioFramework
             this._sequencer = new SequencerExt();
 
 
-            this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepChangedHook);
-            this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEndedHook);
-            this._sequencer._stepStartedHook += new SequencerExt.StepStarted(_sequencer__stepStartedHook);
+            //this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepChangedHook);
+           // this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEndedHook);
+           // this._sequencer._stepStartedHook += new SequencerExt.StepStarted(_sequencer__stepStartedHook);
 
             this._intervalVoices = new Dictionary<int, ISampleMaker>();
 
             SynthMediaStreamSource source = new SynthMediaStreamSource(44100, 2);
+            
             source.SampleMaker = this._sequencer;
 
             this._sequencer.Tempo = 60;             // 1 beat per second
@@ -412,7 +448,7 @@ namespace LSRI.AuditoryGames.AudioFramework
 
             setSequencer(3);*/
             this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEnded2IHook);
-            //this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepEnded2IHook);
+            this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepChangedHook);
         }
 
         public double GetTrainingFrequency()
@@ -471,6 +507,41 @@ namespace LSRI.AuditoryGames.AudioFramework
             }
         }
 
+        void _sequencer__stepChangedHook()
+        {
+            int st1 = _StimuliStructure[0]._start;
+            int sp1 = _StimuliStructure[0]._duration;
+            int st2 = _StimuliStructure[2]._start;
+            int sp2 = _StimuliStructure[2]._duration;
+            if (this._sequencer.StepIndex == st1)
+            {
+                Voice v = this._intervalVoices[0] as Voice;
+
+                this._sequencer.OnFrequencyPlayed(String.Format("\t[AUD] \t stimuli 1 played: {0}", v.Frequency));
+            }
+            if (this._sequencer.StepIndex == (st1+sp1))
+            {
+                Voice v = this._intervalVoices[0] as Voice;
+
+                this._sequencer.OnFrequencyStopped(String.Format("\t[AUD] \t stimuli 1 stopped: {0}", v.Frequency));
+            }
+            if (this._sequencer.StepIndex == st2)
+            {
+                Voice v = this._intervalVoices[1] as Voice;
+
+                this._sequencer.OnFrequencyPlayed(String.Format("\t[AUD] \t stimuli 2 played: {0}", v.Frequency));
+            }
+            if (this._sequencer.StepIndex == (st2+sp2))
+            {
+                Voice v = this._intervalVoices[1] as Voice;
+
+                this._sequencer.OnFrequencyStopped(String.Format("\t[AUD] \t stimuli 2 stopped: {0}", v.Frequency));
+            }
+
+            //Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
+        }
+
+
         void _sequencer__stepEnded2IHook()
         {
             //Voice st1 = this._intervalVoices[0] as Voice;
@@ -482,7 +553,6 @@ namespace LSRI.AuditoryGames.AudioFramework
             foreach (VoiceNote item in _sequencer.voicesInPlay)
             {
                 Type ff = item.Voice.GetType();
-
             }
 
             //_freqBuffer = last;
@@ -510,8 +580,8 @@ namespace LSRI.AuditoryGames.AudioFramework
                 
                 st2.Frequency = _freqBuffer;
                 _freqBuffer = double.NaN;
-                Debug.WriteLine("FREQUENCIES : {0} / {1}", (this._intervalVoices[0] as Voice).Frequency,
-                    (this._intervalVoices[1] as Voice).Frequency);
+
+                this.Sequencer.OnFrequencyChanged(1,(this._intervalVoices[1] as Voice).Frequency);
             }
         }
 

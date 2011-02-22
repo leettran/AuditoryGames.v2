@@ -133,7 +133,7 @@ namespace LSRI.TreasureHunter
 
         private void AppMgr_StimuliStarted()
         {
-            Debug.WriteLine("---> AUDIO CUE started " + DateTime.Now.ToString("HH:MM:ss.FFFFFF"));
+            //Debug.WriteLine("---> AUDIO CUE started " + DateTime.Now.ToString("HH:MM:ss.FFFFFF"));
             PREVENT_AUDIO_CHANGES = true;
         }
 

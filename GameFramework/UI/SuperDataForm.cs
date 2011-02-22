@@ -39,12 +39,12 @@ namespace LSRI.AuditoryGames.GameFramework.UI
         {
             // normally change this condition to check it is one of your complex types
             // or that it is not a basic type.
-            if (e.PropertyType == typeof(ObservableCollection<string>))
+            if (e.Field.IsReadOnly == true)
             {
-               e.Field.Label = e.PropertyName;
-       
+                e.Field.DescriptionViewerVisibility = Visibility.Visible;
             }
-            else if (e.PropertyType.BaseType == typeof(UserModelEntity))
+            
+            if (e.PropertyType.BaseType == typeof(UserModelEntity))
             {
                 var control = new SuperDataForm();
 

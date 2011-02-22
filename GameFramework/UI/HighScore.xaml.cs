@@ -18,5 +18,13 @@ namespace GameFramework.UI
         {
             InitializeComponent();
         }
+
+        public DataGrid Source
+        {
+            get
+            {
+                return dataGrid1;
+            }
+        }
     }
 }

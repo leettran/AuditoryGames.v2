@@ -84,5 +84,10 @@ namespace LSRI.Submarine
             SubOptions sss = IsolatedStorageSettings.ApplicationSettings["Submarine.configuration"] as SubOptions;
 
         }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

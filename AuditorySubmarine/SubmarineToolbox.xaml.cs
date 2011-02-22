@@ -15,32 +15,89 @@ namespace LSRI.Submarine
 {
     public partial class SubmarineToolbox : UserControl
     {
+        private bool _fullMode = false;
+
+        public bool FullMode
+        {
+            get
+            {
+                return _fullMode;
+            }
+            set
+            {
+                _fullMode = value;
+                _SubGatePanel.Visibility = (!_fullMode) ? Visibility.Collapsed : Visibility.Visible;
+                _SubLevelPanel.Visibility = (!_fullMode) ? Visibility.Collapsed : Visibility.Visible;
+                _SubLifePanel.Visibility = (!_fullMode) ? Visibility.Collapsed : Visibility.Visible;
+                _SubTitlePanel.Visibility = (_fullMode) ? Visibility.Collapsed : Visibility.Visible;
+
+            }
+
+        }
+
+        public int Life
+        {
+            set
+            {
+                for (int i = 0; i < value; i++)
+                    _SubLifePanel.Children.Add(new Image()
+                    {
+                        Name = "_xSubLife" + i,
+                        Height = 18,
+                        Margin = (i == 0) ? new Thickness(16, 0, 0, 0) : new Thickness(0),
+                        Source = new BitmapImage()
+                        {
+                            UriSource = new Uri(@"/AuditorySubmarine;component/Media/asub1.png", UriKind.RelativeOrAbsolute)
+                        }
+                    });
+
+            }
+        }
+
+        public int Gates
+        {
+            set
+            {
+                _xGateProgessBar.Maximum = value;
+            }
+        }
+
+        public int Gate
+        {
+            set
+            {
+                _xGateProgessBar.Value = value;
+            }
+        }
+
+
+        public int Level
+        {
+            set
+            {
+                _xLevel.Text = value.ToString();
+            }
+        }
+
+        public int Score
+        {
+            set
+            {
+                _xScore.Text = value.ToString();
+            }
+        }
+
         public SubmarineToolbox()
         {
             InitializeComponent();
             while (_SubLifePanel.Children.Count != 0)
                 _SubLifePanel.Children.RemoveAt(0);
-            Image subLife = new Image()
-            {
-                Height = 20,
-                Margin = new Thickness(1),
-                Source = new BitmapImage()
-                {
-                    UriSource = new Uri(@"/AuditorySubmarine;component/Media/asub1.png", UriKind.RelativeOrAbsolute)
-                }
-            };
+            //LayoutRoot.DataContext = SubOptions.Instance.User;
+        }
 
-            for (int i=0;i<3;i++)
-                _SubLifePanel.Children.Add(new Image()
-                {
-                    Name = "_xSubLife" + i,
-                    Height = 18,
-                    Margin = (i == 0) ? new Thickness(16,2,2,2) : new Thickness(2),
-                    Source = new BitmapImage()
-                    {
-                        UriSource = new Uri(@"/AuditorySubmarine;component/Media/asub1.png", UriKind.RelativeOrAbsolute)
-                    }
-                });
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

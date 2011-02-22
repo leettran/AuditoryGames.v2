@@ -20,6 +20,45 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         private int _subSpeed;
         private int _subAccel;
         private double _timeGate;
+        private int _maxGates;
+        private int _maxLives;
+
+        [Display(Name = "Gates Number", Description = "Number of gates to cross (including final one) in each level")]
+        [Range(1, 10)]
+        public int MaxGates
+        {
+            get
+            {
+                return _maxGates;
+            }
+            set
+            {
+                if (_maxGates != value)
+                {
+                    _maxGates = value;
+                    OnPropertyChanged("MaxGates");
+                }
+            }
+        }
+
+        [Display(Name = "Lives", Description = "Number of lives available at each level")]
+        [Range(1, 10)]
+        public int MaxLives
+        {
+            get
+            {
+                return _maxLives;
+            }
+            set
+            {
+                if (_maxLives != value)
+                {
+                    _maxLives = value;
+                    OnPropertyChanged("MaxLives");
+                }
+            }
+        }
+
 
         [Display(Name = "Unit Size", Description = "Size (in pixel) of the elementary game unit (for grid-based movement and location")]
         [Range(5,30)]
@@ -99,7 +138,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
         [Display(Name = "Gate Max Time", Description = "Maximum time (ms) to get through each gate",Prompt="DDDDDD",ShortName="fddfdf")]
         [DisplayFormat(DataFormatString="{0:G")]
-        [ReadOnly(true)]
+        [Editable(false)]
         public double TimeOnGate
         {
             get
@@ -123,6 +162,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._sizeGate = 2;
             this._subSpeed = 50;
             this._subAccel = 50;
+            this._maxGates = 5;
+            this._maxLives = 4;
+
             this._timeGate = (800 - 20 - 48) / _subSpeed;
         }
 
@@ -133,6 +175,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             tmp._sizeGate = this._sizeGate;
             tmp._subSpeed = this._subSpeed;
             tmp._subAccel = this._subAccel;
+            tmp._maxGates = this._maxGates;
+            tmp._maxLives = this._maxLives;
             return tmp;
         }
 
@@ -142,6 +186,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._sizeGate = tmp._sizeGate;
             this._subSpeed = tmp._subSpeed;
             this._subAccel = tmp._subAccel;
+            this._maxGates = tmp._maxGates;
+            this._maxLives = tmp._maxLives;
         }
 
         #region IEditableObject
@@ -164,9 +210,5 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         }
         #endregion
 
-        protected override void OnPropertyChanged(string propName)
-        {
-            base.OnPropertyChanged(propName);
-        }
     }
 }

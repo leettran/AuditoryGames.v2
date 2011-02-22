@@ -134,7 +134,7 @@ namespace LSRI.AuditoryGames.Utils
         {
             if (_isRunning)
             {
-                _elapsed += GetCurrentTicks() - _startTick;
+                _elapsed = GetCurrentTicks() - _startTick;
                 if (_stepAction != null)
                 {
                     _stepAction(this, comment);
@@ -149,7 +149,7 @@ namespace LSRI.AuditoryGames.Utils
         {
             if (_isRunning)
             {
-                _elapsed += GetCurrentTicks() - _startTick;
+                _elapsed = GetCurrentTicks() - _startTick;
                 _isRunning = false;
                 if (_stopAction != null)
                 {
@@ -199,7 +199,7 @@ namespace LSRI.AuditoryGames.Utils
         /// <returns>Number of ticks</returns>
         private long GetCurrentElapsedTicks()
         {
-            return (long)(this._elapsed + (IsRunning ? (GetCurrentTicks() - _startTick) : 0));
+            return (long)(/*this._elapsed + */(IsRunning ? (GetCurrentTicks() - _startTick) : this._elapsed));
         }
 
         private long GetCurrentTicks()

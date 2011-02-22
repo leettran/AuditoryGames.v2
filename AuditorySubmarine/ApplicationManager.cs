@@ -148,13 +148,12 @@ namespace LSRI.Submarine
             internal static readonly SubOptions instance = new SubOptions();
         }
         
-        private static TextBlock _debugUI = null;   ///< placeholder for the debug panel
-
-
         private UserModelContainer _container = new UserModelContainer();
         private AuditoryModel _auditory = new AuditoryModel();
         private GameOptions _gOption = new GameOptions();
 
+
+        public string Beat { set; get; }
 
         /// <summary>
         /// Access to the game configuration
@@ -236,6 +235,8 @@ namespace LSRI.Submarine
 
         #region Debug Display Mode
 
+        private static TextBlock _debugUI = null;   ///< placeholder for the debug panel
+
         /// <summary>
         /// Add the debug information panel on the game page
         /// </summary>
@@ -274,12 +275,16 @@ namespace LSRI.Submarine
                 "Comparison  : {2} Hz\n" +
                 "-----\n" +
                 "Level       : {3}\n" +
-                "Gates       : {4}",
+                "Gates       : {4}\n\n" + 
+                "{5}",
                 this.User.FrequencyTraining,
                 this.User.FrequencyDelta,
                 this.User.FrequencyComparison,
                 this.User.CurrentLevel,
-                this.User.CurrentGate);
+                this.User.CurrentGate,
+                this.Beat
+                );
+
         }
         #endregion
 
@@ -293,11 +298,12 @@ namespace LSRI.Submarine
         public SubmarinePlayer _submarine = null;   ///< Reference to the submarine object
         public GateAnimatedObject _gate = null;     ///< Reference to the gate object
         public WallObject _wall = null;             ///< Reference to the wall object
+        public SubmarineToolbox tbox = null;
 
         public Frequency2IGenerator _synthEx = null;    ///< Reference to the the auditory stimuli generator
 
         private Random _random; ///< Random number generation
-        private StopwatchPlus sp1;
+        private StopwatchPlus _watch;
         private Brush bg = null;
 
         /// <summary>
@@ -310,6 +316,18 @@ namespace LSRI.Submarine
                 if (_instance == null)
                     _instance = new SubmarineApplicationManager();
                 return _instance;
+            }
+        }
+
+        public StopwatchPlus Logger
+        {
+            get
+            {
+                return _watch;
+            }
+            set
+            {
+                _watch = value;
             }
         }
 
@@ -355,7 +373,31 @@ namespace LSRI.Submarine
             MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
             _synthEx = new Frequency2IGenerator(children);
 
+            this._synthEx.Sequencer._freqChangedHook += new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
+            this._synthEx.Sequencer._freqPlayedHook += new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
+            this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
         }
+
+        void Sequencer__freqChangedHook(int idx,double fq)
+        {
+            this.Logger.Step(String.Format("\t[AUD] \t Changed stimuli {0} : {1}",idx+1,fq));
+        }
+
+        void Sequencer__freqStartHook(string msg)
+        {
+            this.Logger.Step(msg);
+            SubOptions.Instance.Beat = "●●●●●●●●●●";
+            //(AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Dispatcher.BeginInvoke(() => SubOptions.Instance.UpdateDebug());
+
+            
+        }
+        void Sequencer__freqStopHook(string msg)
+        {
+            this.Logger.Step(msg);
+            SubOptions.Instance.Beat = "";
+           // (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Dispatcher.BeginInvoke(() => SubOptions.Instance.UpdateDebug());
+        }
+
 
         public override void enterFrame(double dt)
         {
@@ -399,9 +441,20 @@ namespace LSRI.Submarine
 
         private void startMainMenu()
         {
+            // initialise toolbox
+            this.tbox = new SubmarineToolbox()
+            {
+                FullMode = false
+            };
+            tbox.SetValue(Canvas.LeftProperty, 0.0);
+            tbox.SetValue(Canvas.TopProperty, 0.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(tbox);
+
             HighScoreControl ct = new HighScoreControl();
             ct.SetValue(Canvas.LeftProperty, 350.0);
             ct.SetValue(Canvas.TopProperty, 50.0);
+            ct.Source.ItemsSource = SubOptions.Instance.User.Scores.Data;
+
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(ct);
 
             StartLevelPanel pp = new StartLevelPanel();
@@ -515,15 +568,29 @@ namespace LSRI.Submarine
 
                 );*/
 
+            this.Logger = new StopwatchPlus(
+                            sw => Debug.WriteLine("Submarine starts \t TIMESTAMP = {0}", sw.EllapsedMilliseconds),
+                            sw => Debug.WriteLine("Submarine stops \t TIMESTAMP = {0}", sw.EllapsedMilliseconds),
+                            (sw, msg) => Debug.WriteLine("{0} \t TIMESTAMP = {1} ms", msg, sw.EllapsedMilliseconds)
+            );
+
             // stop audio (just in case)
-            _synthEx.Stop();
+            //_synthEx.Stop();
             
             // initialise collisions
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMY);
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMYWEAPON);
 
             // initialise toolbox
-            SubmarineToolbox tbox = new SubmarineToolbox();
+            this.tbox = new SubmarineToolbox()
+            {
+                FullMode = true,
+                Life = SubOptions.Instance.User.CurrentLife,
+                Gate = SubOptions.Instance.User.CurrentGate,
+                Gates = SubOptions.Instance.Game.MaxGates,
+                Score = SubOptions.Instance.User.CurrentScore,
+                Level = SubOptions.Instance.User.CurrentLevel
+            };
             tbox.SetValue(Canvas.LeftProperty, 0.0);
             tbox.SetValue(Canvas.TopProperty, 0.0);
 
@@ -574,7 +641,7 @@ namespace LSRI.Submarine
 
 
             double theodur = (_wall.Position.X - _submarine.Dimensions.X) / _submarine.Speed;
-            Debug.WriteLine("Theoretical timing : {0}", theodur*1000);
+            //Debug.WriteLine("Theoretical timing : {0}", theodur*1000);
 
             // initialise auditory stimuli
             double fqTraining = SubOptions.Instance.User.FrequencyTraining;
@@ -591,13 +658,12 @@ namespace LSRI.Submarine
             this._synthEx.SetTargetFrequency(SubOptions.Instance.User.FrequencyComparison, true);
 
            
-            SubOptions.Instance.UpdateDebug(); 
+            SubOptions.Instance.UpdateDebug();
 
             this._synthEx.Start();
-            double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
-            double cf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();
-
-            Debug.WriteLine("Start : {0} , {1} : {2}", tf, cf, deltaf);
+            //double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
+            //double cf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();
+            //Debug.WriteLine("Start : {0} , {1} : {2}", tf, cf, deltaf);
 
         }
         private void exitGame()
@@ -644,3 +710,4 @@ namespace LSRI.Submarine
     }
 
 }
+

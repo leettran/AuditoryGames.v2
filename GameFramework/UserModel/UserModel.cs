@@ -294,13 +294,29 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         int _currLevel;         ///< Current level of the game played by the user
         int _currGate;          ///< Current gate crossed by the user
         int _currLife;          ///< Current number of remaining lives
-         
+        int _currScore;         ///< current score (at current level)
         UserType _userType;     ///< Type of the user
         Gates   _gate;          ///<  ddd
+                                
+        HighScoreContainer _scores;
 
 
         double _FqComparison;   ///< Current  comparison frequency played
 
+
+        [Display(AutoGenerateField = false)]
+        public HighScoreContainer Scores
+        {
+            get
+            {
+                return _scores;
+            }
+            set
+            {
+                _scores = value;
+            }
+
+        }
 
 
         [Display(Name = "Type", Description = "Either a real or a Stereotypical user")]
@@ -433,11 +449,27 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             {
                 if (_currLife != value)
                 {
-                    _currGate = value;
+                    _currLife = value;
                     OnPropertyChanged("CurrentLife");
                 }
             }
         }
+
+        [Display(Name = "Score", Description = "Current score at the current level")]
+        [ReadOnly(true)]
+        public int CurrentScore
+        {
+            get { return _currScore; }
+            set
+            {
+                if (_currScore != value)
+                {
+                    _currScore = value;
+                    OnPropertyChanged("CurrentScore");
+                }
+            }
+        }
+
 
 
         /// <summary>
@@ -474,6 +506,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._currLevel = 1;
             this._currGate = 0;
             this._currLife = 4;
+            this._currScore = 0;
+            this._scores = new HighScoreContainer();
             this.Gates = new Gates();
             this.Pattern = new WinPattern();
         }
@@ -492,6 +526,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             tmp._currLife = this._currLife;
             tmp._FqTraining = this.FrequencyTraining;
             tmp._FqDelta = this.FrequencyDelta;
+            tmp._currScore = this._currScore;
             tmp.Gates = this.Gates;
             tmp.Pattern = this.Pattern;
 
@@ -507,6 +542,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._currLife = tmp._currLife;
             this._FqTraining = tmp.FrequencyTraining;
             this._FqDelta = tmp.FrequencyDelta;
+            this._currScore = tmp._currScore;
             this.Gates = tmp.Gates;
             this.Pattern = tmp.Pattern;
         }
@@ -514,7 +550,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
         public bool IsGateVisible(double posRatio)
         {
-            double vis = Gates.Data[this.CurrentGate];
+            double vis = -1;
+            if (this.CurrentGate < Gates.Data.Length)
+                vis = Gates.Data[this.CurrentGate];
             return posRatio < vis;
         }
 

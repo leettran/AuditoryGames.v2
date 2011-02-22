@@ -23,7 +23,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
     {
         ObservableCollection<HighScore> _scores;
 
-        public ObservableCollection<HighScore> HighScores
+        public ObservableCollection<HighScore> Data
         {
             get { return _scores; }
             set
@@ -37,17 +37,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
         public HighScoreContainer()
         {
-            HighScores = new ObservableCollection<HighScore>
-            {
-                new HighScore(){ Level = 1, Delta=200, Score=50},
-                new HighScore(){ Level = 2, Delta=180, Score=50},
-                new HighScore(){ Level = 3, Delta=170, Score=0},
-                new HighScore(){ Level = 3, Delta=175, Score=0},
-                new HighScore(){ Level = 3, Delta=180, Score=70},
-                new HighScore(){ Level = 4, Delta=170, Score=50},
-                new HighScore(){ Level = 5, Delta=160, Score=50},
-                new HighScore(){ Level = 6, Delta=150, Score=50}
-            };
+            Data = new ObservableCollection<HighScore>();
         }
     }
 }
