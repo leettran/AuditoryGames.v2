@@ -596,25 +596,6 @@ namespace LSRI.AuditoryGames.AudioFramework
             Voice st2 = this._intervalVoices[1] as Voice;
             if (!double.IsNaN(_freqBuffer) && _freqBuffer != st2.Frequency)
             {
-
-            /*    if (_sequencer.stepEvents.ContainsKey(_sequencer.StepIndex))
-                {
-                    StepEvent stepEvent = _sequencer.stepEvents[_sequencer.StepIndex];
-                    if (stepEvent != null)
-                    {
-                        foreach (ISampleMaker key in stepEvent.VoiceNotes.Keys)
-                        {
-                            VoiceNote nt = stepEvent.VoiceNotes[key];
-                            Voice st2s = this._intervalVoices[1] as Voice;
-                            if (st2s == nt.Voice)
-                            {
-                                return;
-                            }
-                        }
-                    }
-                }*/
-                
-                
                 st2.Frequency = _freqBuffer;
                 _freqBuffer = double.NaN;
 
@@ -632,9 +613,32 @@ namespace LSRI.AuditoryGames.AudioFramework
             _StimuliStructure.Add(new Stimulus(5000, 0, 4 * 2));
             _StimuliStructure.Add(new Stimulus(4 * 2, 10 * 2));
             _StimuliStructure.Add(new Stimulus(3000, 14 * 2, 4 * 2));
-            _StimuliStructure.Add(new Stimulus(28 * 2, 20 * 2));
+            _StimuliStructure.Add(new Stimulus(18 * 2, 15 * 2));
 
             setSequencer(3);
+        }
+
+        public virtual void SetSignalDelay(int delay)
+        {
+        
+            Voice vc = this._intervalVoices[1] as Voice;
+            Stimulus st = this._StimuliStructure[2] as Stimulus;
+            if (vc != null && st != null)
+            {
+                //this.//_sequencer.AddNote(voice, st._start, st._duration);#
+                this._sequencer.DeleteNote(vc, st._start);
+                double ns = (double)st._start -3;
+
+                if (ns < (4 * 2 + 1))
+                {
+                    ns = 4 * 2 + 1;
+                }
+                else 
+                    this._sequencer.StepCount -= (int)2*3;
+
+                st._start = (int)ns;
+                this._sequencer.AddNote(vc, st._start, st._duration);
+            }
         }
 
    }

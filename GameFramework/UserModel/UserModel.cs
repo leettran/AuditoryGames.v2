@@ -501,7 +501,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._userType = UserType.Stereotype;
             this._Name = "";
             this._FqTraining = 2500;
-            this._FqDelta = 500;
+            this._FqDelta = 300;
             this._FqComparison = 0;
             this._currLevel = 1;
             this._currGate = 0;

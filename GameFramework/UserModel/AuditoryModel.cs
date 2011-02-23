@@ -192,7 +192,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._lStim = 8;
             this._lIntStim = 10;
             this._lIntSignal = 20;
-            this._nBufferSize = 100;
+            this._nBufferSize = 500;
             this._rule = Staircase.One_One;
         }
 

@@ -16,6 +16,9 @@ namespace LSRI.Submarine
     {
         protected Rectangle _bkg;
 
+        public int CanvasIndex { set; get; }
+
+
         public override void shutdown()
         {
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Remove(_bkg);
@@ -113,6 +116,8 @@ namespace LSRI.Submarine
     {
         protected Rectangle _top;
         protected Rectangle _bottom;
+
+        public int CanvasIndex { set; get; }
 
         public GateObject()
         {

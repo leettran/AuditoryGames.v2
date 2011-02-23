@@ -362,41 +362,40 @@ namespace LSRI.Submarine
                 new StateChangeInfo.StateFunction(startOptions),
                 new StateChangeInfo.StateFunction(exitOptions));
 
-            //Score = SavedScore;
-
-            //(GameApplication.Current.RootVisual as GamePage).GetPlayer().Loaded += delegate(object sender, RoutedEventArgs e) { Debug.WriteLine("SOUND LOADED"); };
-            //(GameApplication.Current.RootVisual as GamePage).GetPlayer().CurrentStateChanged += delegate(object sender, RoutedEventArgs e) { Debug.WriteLine("CurrentStateChanged"); };
-           //Page pp = (App.Current.RootVisual as Page);
-           // (GameApplication.Current.RootVisual as GamePage).GetPlayer().SetSource(_synthEx);
 
             /// Associate the stimuli generator with the media element of the game page
             MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
-             _synthEx = new Frequency2IGenerator(children);
-             this._synthEx.Sequencer._freqChangedHook += new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
-             this._synthEx.Sequencer._freqPlayedHook += new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
-             this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
-             _synthEx.Stop();
+            _synthEx = new Frequency2IGenerator(children,SubOptions.Instance.Auditory.BufferLength);
+            this._synthEx.Sequencer._freqChangedHook += new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
+            this._synthEx.Sequencer._freqPlayedHook += new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
+            this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
+            this._synthEx.Sequencer._stepEndedHook +=new SequencerExt.StepEnded(Sequencer__stepEndedHook);
+            _synthEx.Stop();
 
         }
 
+        void Sequencer__stepEndedHook()
+        {
+
+            this._synthEx.SetSignalDelay(2);
+        }
         void Sequencer__freqChangedHook(int idx,double fq)
         {
-            if (this.Logger!=null) this.Logger.Step(String.Format("\t[AUD] \t Changed stimuli {0} : {1}", idx + 1, fq));
+            if (this.Logger!=null) 
+                this.Logger.Step(String.Format("\t[AUD] \t Changed stimuli {0} : {1}", idx + 1, fq));
+            SubOptions.Instance.User.FrequencyComparison = fq;
+
         }
 
         void Sequencer__freqStartHook(string msg)
         {
             if (this.Logger != null) this.Logger.Step(msg);
             SubOptions.Instance.Beat = "●●●●●●●●●●";
-            //(AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Dispatcher.BeginInvoke(() => SubOptions.Instance.UpdateDebug());
-
-            
         }
         void Sequencer__freqStopHook(string msg)
         {
             if (this.Logger != null) this.Logger.Step(msg);
             SubOptions.Instance.Beat = "";
-           // (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Dispatcher.BeginInvoke(() => SubOptions.Instance.UpdateDebug());
         }
 
 
@@ -607,27 +606,27 @@ namespace LSRI.Submarine
             int stepSize = SubOptions.Instance.Game.UnitSize;
             int nbUnitsInScreen = (int)dim.Y / stepSize;
             int screenMargin = ((int)dim.Y % stepSize)/2;
-            int gateUnit = 2*SubOptions.Instance.Game.GateSize + 1;
+            int gateExtent = SubOptions.Instance.Game.GateSize;
+            int gateSize = 1+2*SubOptions.Instance.Game.GateSize;
 
-            int nbRangeforgate = nbUnitsInScreen - gateUnit;
             int bias = 2;
+            int Gatepos = _random.Next(bias+gateExtent, nbUnitsInScreen - bias - gateExtent);
+            int Subpos = _random.Next(bias+gateExtent, nbUnitsInScreen - bias - gateExtent);
 
-            int Gatepos = _random.Next(bias, nbRangeforgate - 1 - bias);
-            Gatepos = 10;
-            double GateLoc = screenMargin + Gatepos * stepSize;
+            //Gatepos = nbUnitsInScreen - bias - gateExtent;
+          //  Subpos = nbUnitsInScreen - bias - gateExtent;
 
-            int Subpos = _random.Next(bias, nbRangeforgate - 1 - bias);
-            Subpos = 8;
+            double GateLoc = screenMargin + (Gatepos - gateExtent) * stepSize;
             double SubLoc = screenMargin + Subpos * stepSize;
 
             // create submarine object
-            _submarine = new SubmarinePlayer();
+            _submarine = new SubmarinePlayer() { CanvasIndex = Subpos };
             _submarine.startupSubmarine(new Point(48, 32), ZLayers.PLAYER_Z);
 
             // create gate object
-            _gate = new GateAnimatedObject();
+            _gate = new GateAnimatedObject() { CanvasIndex = Gatepos };
             _gate.startupGameObject(
-                new Point(25, gateUnit * stepSize),
+                new Point(25, gateSize * stepSize),
                 ZLayers.BACKGROUND_Z + 5);
 
             // create wall object
@@ -639,8 +638,10 @@ namespace LSRI.Submarine
             _wall.Position = new Point(dim.X - 20, 0);
 
             _gate.Position = new Point(dim.X - 25, GateLoc);
-            _submarine.Position = new Point(0, SubLoc + _gate.Dimensions.Y / 2 - _submarine.Dimensions.Y / 2);
 
+            _submarine.Position = new Point(0, SubLoc - _submarine.Dimensions.Y / 2 + stepSize / 2);
+
+           // _submarine.CanvasIndex = _gate.Dimensions.Y / 2 - _submarine.Dimensions.Y / 2;
 
             double theodur = (_wall.Position.X - _submarine.Dimensions.X) / _submarine.Speed;
             //Debug.WriteLine("Theoretical timing : {0}", theodur*1000);
@@ -652,8 +653,12 @@ namespace LSRI.Submarine
             double deltapos = Gatepos - Subpos;
             //double deltaf = fqDiff;//  fqTraining * .2;
             double dfpix = deltaf / SubOptions.Instance.Game.GateSize;
+            Debug.WriteLine("*********** Gatepos = {0}", Gatepos);
 
-            SubOptions.Instance.User.FrequencyComparison = fqTraining - dfpix * deltapos;
+            double fqComp = fqTraining - dfpix * deltapos;
+            if (fqComp >= SubOptions.Instance.Auditory.MaxFrequency) fqComp = SubOptions.Instance.Auditory.MaxFrequency;
+            if (fqComp <= SubOptions.Instance.Auditory.MinFrequency) fqComp = SubOptions.Instance.Auditory.MinFrequency;
+            SubOptions.Instance.User.FrequencyComparison = fqComp;
 
             this._synthEx.ResetSequencer();
             this._synthEx.SetTrainingFrequency(fqTraining);
@@ -663,10 +668,6 @@ namespace LSRI.Submarine
             SubOptions.Instance.UpdateDebug();
 
             this._synthEx.Start();
-            //double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
-            //double cf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();
-            //Debug.WriteLine("Start : {0} , {1} : {2}", tf, cf, deltaf);
-
         }
         private void exitGame()
         {
@@ -676,9 +677,6 @@ namespace LSRI.Submarine
 
             removeAllCanvasChildren();
 
-            //_synthEx.Arpeggiator.Stop();
-            //txtbScore = null;
-           // sp1.Stop();
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background = bg;
 
         }
@@ -698,6 +696,8 @@ namespace LSRI.Submarine
                 this._synthEx.Sequencer._freqChangedHook -= new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
                 this._synthEx.Sequencer._freqPlayedHook -= new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
                 this._synthEx.Sequencer._freqStoppedHook -= new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
+                this._synthEx.Sequencer._stepEndedHook -= new SequencerExt.StepEnded(Sequencer__stepEndedHook);
+
                 
                 MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
                 //children = new MediaElement();
@@ -706,6 +706,7 @@ namespace LSRI.Submarine
                 this._synthEx.Sequencer._freqChangedHook += new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
                 this._synthEx.Sequencer._freqPlayedHook += new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
                 this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
+                this._synthEx.Sequencer._stepEndedHook += new SequencerExt.StepEnded(Sequencer__stepEndedHook);
                 _synthEx.Start();
                 _synthEx.Stop();
                 StateManager.Instance.setState(States.START_STATE);
