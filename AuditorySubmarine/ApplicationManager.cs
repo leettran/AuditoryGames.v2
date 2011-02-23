@@ -371,21 +371,22 @@ namespace LSRI.Submarine
 
             /// Associate the stimuli generator with the media element of the game page
             MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
-            _synthEx = new Frequency2IGenerator(children);
+             _synthEx = new Frequency2IGenerator(children);
+             this._synthEx.Sequencer._freqChangedHook += new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
+             this._synthEx.Sequencer._freqPlayedHook += new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
+             this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
+             _synthEx.Stop();
 
-            this._synthEx.Sequencer._freqChangedHook += new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
-            this._synthEx.Sequencer._freqPlayedHook += new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
-            this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
         }
 
         void Sequencer__freqChangedHook(int idx,double fq)
         {
-            this.Logger.Step(String.Format("\t[AUD] \t Changed stimuli {0} : {1}",idx+1,fq));
+            if (this.Logger!=null) this.Logger.Step(String.Format("\t[AUD] \t Changed stimuli {0} : {1}", idx + 1, fq));
         }
 
         void Sequencer__freqStartHook(string msg)
         {
-            this.Logger.Step(msg);
+            if (this.Logger != null) this.Logger.Step(msg);
             SubOptions.Instance.Beat = "●●●●●●●●●●";
             //(AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Dispatcher.BeginInvoke(() => SubOptions.Instance.UpdateDebug());
 
@@ -393,7 +394,7 @@ namespace LSRI.Submarine
         }
         void Sequencer__freqStopHook(string msg)
         {
-            this.Logger.Step(msg);
+            if (this.Logger != null) this.Logger.Step(msg);
             SubOptions.Instance.Beat = "";
            // (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Dispatcher.BeginInvoke(() => SubOptions.Instance.UpdateDebug());
         }
@@ -542,8 +543,8 @@ namespace LSRI.Submarine
             (GameApplication.Current.RootVisual as GamePage).GetLayoutElt().Children.Insert(
                  (GameApplication.Current.RootVisual as GamePage).GetLayoutElt().Children.Count, media);*/
 
- 
 
+            _synthEx.Stop();
  
 
         }
@@ -551,6 +552,7 @@ namespace LSRI.Submarine
         private void endMainMenu()
         {
             base.removeAllCanvasChildren();
+            _synthEx.Stop();
         }
 
         #endregion
@@ -693,6 +695,19 @@ namespace LSRI.Submarine
 
             panel.OnCompleteTask += delegate(SubmarineOptionPanel.CompleteTaskArgs arg) 
             {
+                this._synthEx.Sequencer._freqChangedHook -= new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
+                this._synthEx.Sequencer._freqPlayedHook -= new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
+                this._synthEx.Sequencer._freqStoppedHook -= new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
+                
+                MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
+                //children = new MediaElement();
+                int bug = SubOptions.Instance.Auditory.BufferLength;
+                _synthEx = new Frequency2IGenerator(children,bug);
+                this._synthEx.Sequencer._freqChangedHook += new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
+                this._synthEx.Sequencer._freqPlayedHook += new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
+                this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
+                _synthEx.Start();
+                _synthEx.Stop();
                 StateManager.Instance.setState(States.START_STATE);
             };
 
@@ -703,6 +718,7 @@ namespace LSRI.Submarine
         private void exitOptions()
         {
             removeAllCanvasChildren();
+            _synthEx.Stop();
         }
 
         #endregion

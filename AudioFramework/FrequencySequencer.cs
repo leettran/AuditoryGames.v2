@@ -205,6 +205,24 @@ namespace LSRI.AuditoryGames.AudioFramework
         /// Default Constructor.
         /// </summary>
         /// <param name="elt">Reference to the media element of the GUI</param>
+        protected IFrequencySequencer(MediaElement elt, int buffer)
+        {
+            this._elt = elt;
+            this._sequencer = new SequencerExt();
+
+            this._intervalVoices = new Dictionary<int, ISampleMaker>();
+
+            SynthMediaStreamSource source = new SynthMediaStreamSource(44100, 2, buffer);
+
+            source.SampleMaker = this._sequencer;
+
+            this._sequencer.Tempo = 60;             // 1 beat per second
+            this._sequencer.Tempo = 60 * 10;        // 1 beat per 100 ms
+            this._sequencer.Tempo = 60 * 10 * 2;    // 1 beat per 50 ms
+            this._sequencer.Tempo = 60 * 10 * 4;    // 1 beat per 25 ms
+            this._elt.SetSource(source);
+        }
+
         protected IFrequencySequencer(MediaElement elt)
         {
             this._elt = elt;
@@ -450,6 +468,25 @@ namespace LSRI.AuditoryGames.AudioFramework
             this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEnded2IHook);
             this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepChangedHook);
         }
+
+        public Frequency2IGenerator(MediaElement elt, int buffer)
+            : base(elt,buffer)
+        {
+            //this.sequencer.StepCount = (int)this.stepBox.Value;
+            //this._sequencer.Reset();
+            ResetSequencer();
+            /* _StimuliStructure = new List<Stimulus>();
+             _StimuliStructure.Add(new Stimulus(5000, 0, 4 * 2));
+             _StimuliStructure.Add(new Stimulus(4 * 2, 10 * 2));
+             _StimuliStructure.Add(new Stimulus(3000, 14 * 2, 4 * 2));
+             _StimuliStructure.Add(new Stimulus(28 * 2, 20 * 2));
+
+             setSequencer(3);*/
+            this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEnded2IHook);
+            this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepChangedHook);
+        }
+
+
 
         public double GetTrainingFrequency()
         {

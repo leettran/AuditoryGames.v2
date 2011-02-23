@@ -21,6 +21,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         private double _minFq;
         private double _maxFq;
 
+        private int _nBufferSize;
         private double _lBeat;
         private int _lStim;
         private int _lIntStim;
@@ -166,6 +167,21 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
+        [Display(Name = "Audio Buffer Length", GroupName = "Synthesiser", Description = "Length of the audio buffer (in ms); results in latency or clicks")]
+        [Range(15,1000)]
+        public int BufferLength
+        {
+            get { return _nBufferSize; }
+            set
+            {
+                if (_nBufferSize != value)
+                {
+                    _nBufferSize = value;
+                    OnPropertyChanged("BufferLength");
+                }
+            }
+        }
+
         public AuditoryModel()
         {
             this._base = .50;
@@ -176,6 +192,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._lStim = 8;
             this._lIntStim = 10;
             this._lIntSignal = 20;
+            this._nBufferSize = 100;
             this._rule = Staircase.One_One;
         }
 
@@ -191,6 +208,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             tmp._lStim = this._lStim;
             tmp._lIntStim = this._lIntStim;
             tmp._lIntSignal = this._lIntSignal;
+            tmp._nBufferSize = this._nBufferSize;
             return tmp;
         }
 
@@ -207,6 +225,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._lStim = tmp._lStim;
             this._lIntStim = tmp._lIntStim;
             this._lIntSignal = tmp._lIntSignal;
+            this._nBufferSize = tmp._nBufferSize;
         }
 
         #region IEditableObject
