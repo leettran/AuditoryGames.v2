@@ -15,13 +15,13 @@
             <ColumnDefinition Width="170*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Name="_SubTitlePanel" Orientation="Horizontal" Visibility="Collapsed">
+        <StackPanel Name="_SubTitlePanel" HorizontalAlignment="Right" Orientation="Horizontal" Visibility="Collapsed" Width="290">
             <StackPanel.Background>
                 <ImageBrush ImageSource="/GameFramework;component/Media/buttonIn.jpg" />
             </StackPanel.Background>
-            <TextBlock Name="textBlock1" Text="auditory" FontSize="18" VerticalAlignment="Stretch" FontWeight="Normal" Padding="0,10,0,0" Foreground="#FFEBDE45" Margin="25,0,0,0" />
-            <TextBlock FontSize="22" Name="textBlock3" Text="Submarine" VerticalAlignment="Stretch" FontWeight="Bold" Padding="0,6,0,0" Foreground="#FFEBDE45" />
-            <TextBlock FontSize="11" FontWeight="Normal" Foreground="#FFEBDE45" Name="textBlock2" Padding="0,17,0,0" Text="v1.0" Margin="6,0,0,0" />
+            <TextBlock Name="textBlock1" Text="auditory" FontSize="14" VerticalAlignment="Stretch" FontWeight="Normal" Padding="0,12,0,0" Foreground="#FFEBDE45" Margin="25,0,0,0" HorizontalAlignment="Center" />
+            <TextBlock FontSize="18" Name="textBlock3" Text="Submarine" VerticalAlignment="Stretch" FontWeight="Bold" Padding="0,8,0,0" Foreground="#FFEBDE45" />
+            <TextBlock FontSize="11" FontWeight="Normal" Foreground="#FFEBDE45" Name="_xVersion" Padding="0,15,0,0" Text="v2.1.111" Margin="6,0,0,0" Width="67" />
         </StackPanel>
         <StackPanel Name="_SubLevelPanel" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" Width="205">
             <TextBlock FontSize="18" FontWeight="Normal" Foreground="#FFEBDE45" Text="Lvl" VerticalAlignment="Stretch" Margin="25,9,10,0" />

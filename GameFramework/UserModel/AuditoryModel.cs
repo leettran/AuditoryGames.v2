@@ -110,7 +110,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
-        [Display(Name = "Beat length", GroupName = "Stimuli", Description = "Duration (ms) of the elementary stimulus beat")]
+        [Display(Name = "Beat length", GroupName = "Stimuli", Description = "Duration (ms) of the elementary sound beat")]
+        [Range(25,1000)]
         public double DurationBeat
         {
             get { return _lBeat; }
@@ -126,6 +127,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
 
         [Display(Name = "Stimuli duration", GroupName = "Stimuli", Description = "Duration (in beats) of the stimuli")]
+        [Range(1,100)]
         public int DurationStimuli
         {
             get { return _lStim; }
@@ -140,6 +142,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         }
 
         [Display(Name = "Inter-Stimuli duration", GroupName = "Stimuli", Description = "Duration (maximum) of the silence between stimuli")]
+        [Range(1, 100)]
         public int DurationInterStimuli
         {
             get { return _lIntStim; }
@@ -154,6 +157,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         }
 
         [Display(Name = "Inter-Signals duration", GroupName = "Stimuli", Description = "Duration (maximum) of the silence between each pair of stimuli")]
+        [Range(1, 100)]
         public int DurationInterSignal
         {
             get { return _lIntSignal; }

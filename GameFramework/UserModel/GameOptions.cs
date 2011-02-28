@@ -22,6 +22,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         private double _timeGate;
         private int _maxGates;
         private int _maxLives;
+        private Gates _gate;          ///<  ddd
+
 
         [Display(Name = "Gates Number", Description = "Number of gates to cross (including final one) in each level")]
         [Range(1, 10)]
@@ -78,7 +80,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
-        [Display(Name = "Gate Range", Description = "Number of zones (in game unit) in both side of the gate")]
+        [Display(Name = "Gate Range", Description = "Number of zones (in game unit) in both sides of the gate")]
         [Range(1, 5)]
         public int GateSize
         {
@@ -155,6 +157,24 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [Display(Name = "Gates", Description = "Default timing of appearence of each gate (decay will follow auditory staircase")]
+        public Gates Gates
+        {
+            get { return _gate; }
+            set
+            {
+                if (_gate != value)
+                {
+                    _gate = value;
+                    OnPropertyChanged("Gates");
+                }
+            }
+        }
+
+
 
         public GameOptions()
         {
@@ -164,6 +184,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._subAccel = 50;
             this._maxGates = 5;
             this._maxLives = 4;
+            this.Gates = new Gates();
 
             this._timeGate = (800 - 20 - 48) / _subSpeed;
         }
@@ -177,6 +198,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             tmp._subAccel = this._subAccel;
             tmp._maxGates = this._maxGates;
             tmp._maxLives = this._maxLives;
+            tmp.Gates = this.Gates;
             return tmp;
         }
 
@@ -188,6 +210,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._subAccel = tmp._subAccel;
             this._maxGates = tmp._maxGates;
             this._maxLives = tmp._maxLives;
+            this.Gates = tmp.Gates;
         }
 
         #region IEditableObject

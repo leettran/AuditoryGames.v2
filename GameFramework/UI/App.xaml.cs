@@ -23,11 +23,18 @@ namespace LSRI.AuditoryGames.GameFramework
             this.Startup += this.Application_Startup;
             this.Exit += this.Application_Exit;
             this.UnhandledException += this.Application_UnhandledException;
-            InitializeComponent();
+             InitializeComponent();
         }
+
 
         protected virtual void Application_Startup(object sender, StartupEventArgs e)
         {
+            if (Application.Current.IsRunningOutOfBrowser)
+            {
+                //this.CheckAndDownloadUpdateCompleted += new CheckAndDownloadUpdateCompletedEventHandler(Application_CheckAndDownloadUpdateCompleted);
+                //Application.Current.CheckAndDownloadUpdateAsync();
+            }
+
             this.RootVisual = new GamePage();
             KeyHandler.Instance.startupKeyHandler(this.RootVisual as GamePage);
             IAppManager.Instance.startupApplicationManager();
@@ -57,6 +64,7 @@ namespace LSRI.AuditoryGames.GameFramework
                 Deployment.Current.Dispatcher.BeginInvoke(delegate { ReportErrorToDOM(e); });
             }
         }
+
         protected void ReportErrorToDOM(ApplicationUnhandledExceptionEventArgs e)
         {
             try
@@ -70,5 +78,28 @@ namespace LSRI.AuditoryGames.GameFramework
             {
             }
         }
+
+        protected void Application_CheckAndDownloadUpdateCompleted(object sender, CheckAndDownloadUpdateCompletedEventArgs e)
+        {
+            if (e.UpdateAvailable)
+            {
+                MessageBox.Show("An application update has been downloaded. " +
+                    "Restart the application to run the new version.");
+            }
+            else if (e.Error != null)
+            {
+                MessageBox.Show(
+                    "An application update is available, but an error has occurred.\n" +
+                    "This can happen, for example, when the update requires\n" +
+                    "a new version of Silverlight or requires elevated trust.\n" +
+                    "To install the update, visit the application home page.");
+            }
+            else
+            {
+                MessageBox.Show("There is no update available.");
+            }
+
+        }
+
     }
 }

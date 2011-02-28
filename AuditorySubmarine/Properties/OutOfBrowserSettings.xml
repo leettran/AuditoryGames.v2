@@ -1,7 +1,7 @@
-<OutOfBrowserSettings ShortName="AuditorySubmarine Application" EnableGPUAcceleration="True" ShowInstallMenuItem="True">
-  <OutOfBrowserSettings.Blurb>AuditorySubmarine Application on your desktop; at home, at work or on the go.</OutOfBrowserSettings.Blurb>
+<OutOfBrowserSettings ShortName="AuditorySubmarine" EnableGPUAcceleration="True" ShowInstallMenuItem="True">
+  <OutOfBrowserSettings.Blurb>AuditorySubmarine is a Game-based Auditory Learning environment designed by Nicolas Van Labeke at the Learning Sciences Research Institute</OutOfBrowserSettings.Blurb>
   <OutOfBrowserSettings.WindowSettings>
-    <WindowSettings Title="AuditorySubmarine Application" />
+    <WindowSettings Title="AuditorySubmarine" />
   </OutOfBrowserSettings.WindowSettings>
   <OutOfBrowserSettings.SecuritySettings>
     <SecuritySettings ElevatedPermissions="Required" />

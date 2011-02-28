@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Media.Imaging;
+using System.Reflection;
 
 namespace LSRI.Submarine
 {
@@ -30,6 +31,12 @@ namespace LSRI.Submarine
                 _SubLevelPanel.Visibility = (!_fullMode) ? Visibility.Collapsed : Visibility.Visible;
                 _SubLifePanel.Visibility = (!_fullMode) ? Visibility.Collapsed : Visibility.Visible;
                 _SubTitlePanel.Visibility = (_fullMode) ? Visibility.Collapsed : Visibility.Visible;
+
+                AssemblyName assemblyName = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
+                _xVersion.Text = String.Format("v{0}.{1}.{2}",
+                    assemblyName.Version.Major,
+                    assemblyName.Version.Minor,
+                    assemblyName.Version.Build);
 
             }
 
