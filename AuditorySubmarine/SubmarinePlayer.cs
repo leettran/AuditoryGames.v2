@@ -112,7 +112,7 @@ namespace LSRI.Submarine
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Space))
             {
-                _subAccel = 1500;
+                _subAccel = 500;
                 KeyHandler.Instance.clearKeyPresses();
                (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine in booster mode");
                 
@@ -281,6 +281,7 @@ namespace LSRI.Submarine
                     {
                         /// Failure to win level; make it easier and restart
                         SubOptions.Instance.User.CurrentGate = 0;
+                        SubOptions.Instance.User.CurrentScore = 0;
                         SubOptions.Instance.User.CurrentLife = SubOptions.Instance.Game.MaxLives;
                         SubOptions.Instance.User.FrequencyDelta *= (1+SubOptions.Instance.Auditory.Step);
                         for (int i = 0; i < SubOptions.Instance.User.Gates.Data.Length; i++)

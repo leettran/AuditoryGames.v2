@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace LSRI.AuditoryGames.GameFramework.Data
 {
@@ -39,6 +40,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         }
 
         [Display(Name = "Rule", Description = "The adaptive staircase rule to use (number of success to move 'down' and failure to move 'up'")]
+        [ReadOnly(true)]
         public Staircase StaircaseRule
         {
             get { return _rule; }
@@ -196,7 +198,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._lStim = 8;
             this._lIntStim = 10;
             this._lIntSignal = 20;
-            this._nBufferSize = 500;
+            this._nBufferSize = 50;
             this._rule = Staircase.One_One;
         }
 

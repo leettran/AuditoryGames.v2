@@ -12,6 +12,9 @@ using LSRI.AuditoryGames.GameFramework.Data;
 using GameFramework.UI;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
+using System.IO;
+using System.Xml.Serialization;
 
 
 
@@ -131,28 +134,22 @@ namespace LSRI.Submarine
         }
     }*/
 
-
-    /// <summary>
-    /// General wrapper for the submarine game configuration
-    /// </summary>
-    public sealed class SubOptions : IConfigurationManager
+    public class SubOptionsWrapper : IConfigurationManager
     {
-        /// <summary>
-        /// private subclass to handle the 
-        /// </summary>
-        private class Nested
-        {
-            /// <summary>
-            /// Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
-            /// </summary>
-            static Nested() {}
-            internal static readonly SubOptions instance = new SubOptions();
-        }
-        
-        private UserModelContainer _container = new UserModelContainer();
-        private AuditoryModel _auditory = new AuditoryModel();
-        private GameOptions _gOption = new GameOptions();
+        protected UserModelContainer _container = null;// UserModelContainer.Default();
+        protected AuditoryModel _auditory = null;// new AuditoryModel();
+        protected GameOptions _gOption = null;// new GameOptions();
 
+
+        public SubOptionsWrapper Clone()
+        {
+            SubOptionsWrapper tt = new SubOptionsWrapper();
+            tt._auditory = this._auditory;
+            tt._container = this._container;
+            tt._gOption = this._gOption;
+            return tt;
+
+        }
 
         public string Beat { set; get; }
 
@@ -193,7 +190,7 @@ namespace LSRI.Submarine
         {
             get
             {
-                return _container.UserModels;
+                return (_container==null)? null : _container.UserModels;
             }
         }
 
@@ -204,9 +201,120 @@ namespace LSRI.Submarine
         {
             get
             {
-                return _container.CurrentModel;
+                return (_container == null) ? null : _container.CurrentModel;
             }
         }
+
+        /// <summary>
+        /// Save the configuration into isolated storage
+        /// </summary>
+        public void SaveConfiguration()
+        {
+            // IsolatedStorageSettings.ApplicationSettings.Clear();
+            /* var settings = IsolatedStorageSettings.ApplicationSettings;
+             settings["Submarine_configuration"] = SubOptions.Instance;
+             settings["Submarine"] = "test";
+             settings["user"] = SubOptions.Instance.User;
+
+           //  settings.Add("user", SubOptions.Instance.User);
+             IsolatedStorageSettings.ApplicationSettings.Save();
+             //MessageBox.Show("User Profile Saved");*/
+            try
+            {
+                var settings = IsolatedStorageSettings.ApplicationSettings;
+                settings["Submarine_configuration"] = this.Clone();
+                MessageBox.Show("data stored");
+                using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    using (IsolatedStorageFileStream isoStream = store.OpenFile(@"ApplicationSettings.xml", FileMode.Create))
+                    {
+                        XmlSerializer s = new XmlSerializer(typeof(SubOptionsWrapper));
+                        TextWriter writer = new StreamWriter(isoStream);
+                        s.Serialize(writer, this.Clone());
+                        writer.Close();
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                //throw;
+            }
+        }
+
+
+        /// <summary>
+        /// Load configuration from the isolated storage
+        /// </summary>
+        public void RetrieveConfiguration()
+        {
+            /*SubOptions tt;
+            String temp;
+            //UserModel um = null;
+            
+            settings.TryGetValue("Submarine", out temp);
+           // settings.TryGetValue("user", out um);
+            //settings.TryGetValue("Submarine_configuration", out tt);
+            if (settings.Contains("user"))
+            {
+                UserModel um = settings["user"] as UserModel;
+            }
+           // MessageBox.Show("User Profile retrieve : " + (temp==null ? "E<PTY" : temp));*/
+            try
+            {
+                var settings = IsolatedStorageSettings.ApplicationSettings;
+                if (settings.Contains("Submarine_configuration"))
+                {
+                    SubOptionsWrapper um = settings["Submarine_configuration"] as SubOptionsWrapper;
+                    if (um != null)
+                        MessageBox.Show(um.User.CurrentLevel.ToString());
+                }
+                using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    if (store.FileExists(@"ApplicationSettings.xml"))
+                        using (IsolatedStorageFileStream isoStream = store.OpenFile(@"ApplicationSettings.xml", FileMode.Open))
+                        {
+                            XmlSerializer s = new XmlSerializer(typeof(SubOptionsWrapper));
+                            TextReader writer = new StreamReader(isoStream);
+                            SubOptionsWrapper tt = s.Deserialize(writer) as SubOptionsWrapper;
+                            writer.Close();
+                        }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                throw;
+            }
+        }
+    }
+
+    /// <summary>
+    /// General wrapper for the submarine game configuration
+    /// </summary>
+    public sealed class SubOptions : SubOptionsWrapper
+    {
+        /// <summary>
+        /// private subclass to handle the 
+        /// </summary>
+        private class Nested
+        {
+            /// <summary>
+            /// Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
+            /// </summary>
+            static Nested() {}
+            internal static readonly SubOptions instance = new SubOptions()
+                {
+                    _container = UserModelContainer.Default(),
+                    _auditory = new AuditoryModel(),
+                    _gOption = new GameOptions()
+                };
+        }
+
+ 
+
+ 
 
         public static SubOptions Instance
         {
@@ -217,23 +325,7 @@ namespace LSRI.Submarine
         }
 
 
-        /// <summary>
-        /// Save the configuration into isolated storage
-        /// </summary>
-        public void SaveConfiguration()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        /// <summary>
-        /// Load configuration from the isolated storage
-        /// </summary>
-        public void RetrieveConfiguration()
-        {
-            throw new NotImplementedException();
-        }
-
+ 
         #region Debug Display Mode
 
         private static TextBlock _debugUI = null;   ///< placeholder for the debug panel
@@ -340,6 +432,7 @@ namespace LSRI.Submarine
             KeyHandler.Instance.IskeyUpOnly = false;
             //_synthEx = new Frequency2IGenerator();
             _random = new Random();
+            SubOptions.Instance.RetrieveConfiguration();
         }
 
         /// <summary>
@@ -435,6 +528,7 @@ namespace LSRI.Submarine
         public override void shutdown()
         {
             //SavedScore = Score;
+            //SubOptions.Instance.SaveConfiguration();
         }
 
 

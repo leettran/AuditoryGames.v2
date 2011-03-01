@@ -657,8 +657,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         /// </summary>
         public UserModelContainer()
         {
-            UserModels = new ObservableCollection<UserModel>
-            {
+            UserModels = new ObservableCollection<UserModel>();
+            /*{
                  new UserModel{
                     Type = UserModel.UserType.User,
                     Name = "Current User"
@@ -666,8 +666,24 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                UserModel.Beginner(),
                 UserModel.Expert()
 
-            };
-            CurrentModel = UserModels[0];
+            };*/
+            CurrentModel = null;// UserModels[0];
+        }
+
+
+        public static UserModelContainer Default()
+        {
+            UserModelContainer temp = new UserModelContainer();
+            temp.UserModels.Add(new UserModel
+            {
+                Type = UserModel.UserType.User,
+                Name = "Current User"
+            });
+            temp.CurrentModel = temp.UserModels[0];
+            //temp.UserModels.Add(UserModel.Beginner());
+           // temp.UserModels.Add();
+            return temp;
+
         }
 
         #region IEditableObject

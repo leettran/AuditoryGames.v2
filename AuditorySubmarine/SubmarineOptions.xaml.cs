@@ -56,7 +56,8 @@ namespace LSRI.Submarine
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            IsolatedStorageSettings.ApplicationSettings["Submarine.configuration"] = SubOptions.Instance;
+            SubOptions.Instance.SaveConfiguration();
+           /* IsolatedStorageSettings.ApplicationSettings["Submarine.configuration"] = SubOptions.Instance;
             IsolatedStorageSettings.ApplicationSettings.Save();
 
             using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
@@ -81,13 +82,13 @@ namespace LSRI.Submarine
                 }
             }
 
-            SubOptions sss = IsolatedStorageSettings.ApplicationSettings["Submarine.configuration"] as SubOptions;
+            SubOptions sss = IsolatedStorageSettings.ApplicationSettings["Submarine.configuration"] as SubOptions;*/
 
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-
+            SubOptions.Instance.RetrieveConfiguration();
         }
     }
 }
