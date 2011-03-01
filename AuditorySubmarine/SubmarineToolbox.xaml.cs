@@ -54,7 +54,7 @@ namespace LSRI.Submarine
                         Margin = (i == 0) ? new Thickness(16, 0, 0, 0) : new Thickness(0),
                         Source = new BitmapImage()
                         {
-                            UriSource = new Uri(@"/AuditorySubmarine;component/Media/asub1.png", UriKind.RelativeOrAbsolute)
+                            UriSource = new Uri(@"/AuditorySubmarine;component/Media/ysubmarine2.png", UriKind.RelativeOrAbsolute)
                         }
                     });
 

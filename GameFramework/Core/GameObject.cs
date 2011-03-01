@@ -41,6 +41,16 @@ namespace LSRI.AuditoryGames.GameFramework
             }
         }
 
+        public enum CropTo
+        {
+            Both,           ///<
+            WidthOnly,      ///< 
+            HeightOnly,     ///<
+            None            ///< 
+        }
+
+        public CropTo IsCroppable { get; set; }
+
         public Rectangle Rect
         {
             get
@@ -104,6 +114,7 @@ namespace LSRI.AuditoryGames.GameFramework
         public GameObject()
         {
             ImageStretch = Stretch.None;
+            IsCroppable = CropTo.Both;
         }
 
         public void startupGameObject(Point dimensions, string image, int zLayer)
@@ -199,8 +210,10 @@ namespace LSRI.AuditoryGames.GameFramework
 
         protected void cropToWindow()
         {
+            if (IsCroppable==CropTo.None) return;
+
             // resize the rectangles so the game object doesn't appear to go off the screen
-            if (Position.Y > (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - dimensions.Y)
+            if ((IsCroppable==CropTo.HeightOnly || IsCroppable==CropTo.Both) && (Position.Y > (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - dimensions.Y))
             {
                 double height = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - Position.Y;
                 if (height <= 0)
@@ -209,7 +222,7 @@ namespace LSRI.AuditoryGames.GameFramework
                     if (rect!=null) rect.Height = height;
             }
 
-            if (Position.X > (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - dimensions.X)
+            if ((IsCroppable == CropTo.WidthOnly || IsCroppable == CropTo.Both) && (Position.X > (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - dimensions.X))
             {
                 double width = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - Position.X;
                 if (width <= 0)

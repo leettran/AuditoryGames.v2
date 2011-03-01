@@ -50,14 +50,22 @@ namespace LSRI.Submarine
         {
             base.startupAnimatedGameObject(
                 dimensions, 
-                new AnimationData(new string[] {
+            /*    new AnimationData(new string[] {
                     "Media/asub1.png", 
                     "Media/asub3.png", 
                     "Media/asub4.png", 
                     "Media/asub2.png"
-                },50), 
+                },50),*/
+                new AnimationData(new string[] {
+                    "Media/ysubmarine2.png",
+                   "Media/ysubmarine3.png",
+                   "Media/ysubmarine4.png",
+                   "Media/ysubmarine5.png",
+                   "Media/ysubmarine6.png"
+                }, 10), 
                 zLayer, false);
 
+            this.IsCroppable = CropTo.WidthOnly;
             this._collisionName = CollisionIdentifiers.PLAYER;
             this._collisionType = CollisionTypeIdentifiers.TIP;
             this.Speed = SubOptions.Instance.Game.SubmarineSpeed;

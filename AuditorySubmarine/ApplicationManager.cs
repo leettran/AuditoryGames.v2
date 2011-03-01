@@ -709,14 +709,14 @@ namespace LSRI.Submarine
             int Subpos = _random.Next(bias+gateExtent, nbUnitsInScreen - bias - gateExtent);
 
             //Gatepos = nbUnitsInScreen - bias - gateExtent;
-          //  Subpos = nbUnitsInScreen - bias - gateExtent;
+            //Subpos = nbUnitsInScreen - bias - gateExtent;
 
             double GateLoc = screenMargin + (Gatepos - gateExtent) * stepSize;
             double SubLoc = screenMargin + Subpos * stepSize;
 
             // create submarine object
             _submarine = new SubmarinePlayer() { CanvasIndex = Subpos };
-            _submarine.startupSubmarine(new Point(48, 32), ZLayers.PLAYER_Z);
+            _submarine.startupSubmarine(new Point(90, 61), ZLayers.PLAYER_Z);
 
             // create gate object
             _gate = new GateAnimatedObject() { CanvasIndex = Gatepos };
