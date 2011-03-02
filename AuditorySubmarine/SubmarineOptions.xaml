@@ -10,9 +10,7 @@
     mc:Ignorable="d" Loaded="UserControl_Loaded" FontSize="9" FontWeight="Normal" FontStretch="Normal" d:DesignHeight="578" d:DesignWidth="736">
 
     <UserControl.Resources>
-        <data:UserModelContainer x:Key="ContainerObject" />
-        <data:AuditoryModel x:Key="StaircaseObject" />
-        <data:GameOptions x:Key="GameOptionsObject" />
+
         <Style TargetType="Border" x:Key="NVLBorde2r">
             <Setter Property="CornerRadius" Value="20"/>
             <Setter Property="BorderBrush" Value="Black"/>
@@ -59,7 +57,19 @@
             <sdk:TabControl Name="tabControl1" Margin="10">
                 <sdk:TabItem Header="User Model" Name="tabItem1">
                     <StackPanel Orientation="Horizontal">
-                    <gamefw:SuperDataForm Name="_xPeople" Header="User Profiles" AutoCommit="False" AutoEdit="True" AutoGenerateFields="True" CommandButtonsVisibility="Navigation, Commit, Cancel, Add, Delete" CancelButtonContent="Cancel" CommitButtonContent="Commit" HeaderVisibility="Visible" ItemsSource="{Binding Source={StaticResource ContainerObject}, Path=UserModels}" DataContext="{Binding}" UseLayoutRounding="True" Margin="10"></gamefw:SuperDataForm>
+                        <gamefw:SuperDataForm Name="_xPeople" 
+                                              Header="User Profiles" 
+                                              AutoCommit="False" 
+                                              AutoEdit="True" 
+                                              AutoGenerateFields="True" 
+                                              CommandButtonsVisibility="Navigation, Commit, Cancel" 
+                                              CancelButtonContent="Cancel" 
+                                              CommitButtonContent="Commit" 
+                                              HeaderVisibility="Visible" 
+                                              UseLayoutRounding="True" 
+                                              Margin="10"
+                                              MinWidth="220">
+                        </gamefw:SuperDataForm>
                     </StackPanel>
 
                 </sdk:TabItem>

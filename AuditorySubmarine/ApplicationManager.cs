@@ -32,126 +32,60 @@ namespace LSRI.Submarine
         public const string LOG_STATE = "start_log";        ///< Starting the log page
     }
 
-  /*  public static class GameLevelDescriptor
-    {
-        private static TextBlock _debugUI = null;
-        public static int CurrentGate { get; set; }
-        public static int TrainingFrequency { get; set; }
-        public static double ComparisonFrequency { get; set; }
-        public static int ThresholdFrequency { get; set; }
-
-        private static UserModelContainer _container = new UserModelContainer();
-        private static AuditoryModel _auditory = new AuditoryModel();
-        private static GameOptions _gOption = new GameOptions();
-
-        public static GameOptions Game
-        {
-            get
-            {
-                return _gOption;
-            }
-            set
-            {
-                _gOption = value;
-            }
-        }
-
-        public static AuditoryModel Auditory
-        {
-            get
-            {
-                return _auditory;
-            }
-            set
-            {
-                _auditory = value;
-            }
-        }
-
-        public static ObservableCollection<UserModel> UserLists
-        {
-            get
-            {
-                return _container.UserModels;
-            }
-        }
-
-        public static UserModel CurrentModel
-        {
-            get
-            {
-                return _container.CurrentModel;
-            }
-        }
-
-        public static int CurrentLevel {
-            get
-            {
-                return _container.CurrentModel.CurrentLevel;
-
-            }
-            set
-            {
-                _container.CurrentModel.CurrentLevel = value;
-            }
-        }
-
-
-        public static void Attach(GamePage pg)
-        {
-            if (pg == null) return;
-            if (_debugUI == null)
-            {
-                _debugUI = new TextBlock();
-                _debugUI.Text = "150";// SubmarineApplicationManager.Instance.Score.ToString();
-                _debugUI.Name = "txtbScore";
-                _debugUI.Width = 100;
-                _debugUI.Height = 35;
-                _debugUI.FontSize = 11;
-                _debugUI.FontFamily = new FontFamily("Courier New");
-                _debugUI.Foreground = new SolidColorBrush(Colors.White);
-                _debugUI.SetValue(Canvas.LeftProperty, 10.0);
-                _debugUI.SetValue(Canvas.TopProperty, 0.0);
-            }
-            // we have to insert any non GameObjects at the end of the children collection
-            pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, _debugUI);
-        }
-
-        public static void Debug()
-        {
-            if (_debugUI == null) return;
-            _debugUI.Text = String.Format(
-                "Training Fq : {0} Hz\n"+
-                "Delta       : {1} Hz\n-----\n" +
-                "Comparison  : {4} Hz\n-----\n" +
-                "Level       : {2}\n" +
-                "Gates       : {3}",
-                TrainingFrequency, 
-                ThresholdFrequency,
-                CurrentLevel,
-                CurrentGate,
-                ComparisonFrequency);
-        }
-    }*/
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class SubOptionsWrapper : IConfigurationManager
     {
-        protected UserModelContainer _container = null;// UserModelContainer.Default();
-        protected AuditoryModel _auditory = null;// new AuditoryModel();
-        protected GameOptions _gOption = null;// new GameOptions();
+        private static readonly string STORAGE_FILENAME = @"SubmarineSettings.xml";
 
+        /// <summary>
+        /// 
+        /// </summary>
+        protected AuditoryModel _auditory = null;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        protected GameOptions _gOption = null;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected UserModel _user = null;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public SubOptionsWrapper()
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>A deep copy of the Submarine Game options</returns>
         public SubOptionsWrapper Clone()
         {
             SubOptionsWrapper tt = new SubOptionsWrapper();
-            tt._auditory = this._auditory;
-            tt._container = this._container;
-            tt._gOption = this._gOption;
+            tt._auditory = this._auditory.Clone();
+            tt._gOption = this._gOption.Clone();
+            tt._user = this._user.Clone();
             return tt;
 
         }
 
-        public string Beat { set; get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="temp"></param>
+        public void Copy(SubOptionsWrapper temp)
+        {
+            if (temp == null) return;
+            this._auditory = temp._auditory.Clone();
+            this._gOption = temp._gOption.Clone();
+            this._user = temp._user.Clone();
+        }
 
         /// <summary>
         /// Access to the game configuration
@@ -184,24 +118,17 @@ namespace LSRI.Submarine
         }
 
         /// <summary>
-        /// Access to the list of users
-        /// </summary>
-        public ObservableCollection<UserModel> UserLists
-        {
-            get
-            {
-                return (_container==null)? null : _container.UserModels;
-            }
-        }
-
-        /// <summary>
-        /// Access to the current user
+        /// Access to the current user configuration
         /// </summary>
         public UserModel User
         {
             get
             {
-                return (_container == null) ? null : _container.CurrentModel;
+                return _user;
+            }
+            set
+            {
+                _user = value;
             }
         }
 
@@ -210,23 +137,16 @@ namespace LSRI.Submarine
         /// </summary>
         public void SaveConfiguration()
         {
-            // IsolatedStorageSettings.ApplicationSettings.Clear();
-            /* var settings = IsolatedStorageSettings.ApplicationSettings;
-             settings["Submarine_configuration"] = SubOptions.Instance;
-             settings["Submarine"] = "test";
-             settings["user"] = SubOptions.Instance.User;
-
-           //  settings.Add("user", SubOptions.Instance.User);
-             IsolatedStorageSettings.ApplicationSettings.Save();
-             //MessageBox.Show("User Profile Saved");*/
             try
             {
-                var settings = IsolatedStorageSettings.ApplicationSettings;
-                settings["Submarine_configuration"] = this.Clone();
-                MessageBox.Show("data stored");
+                //var settings = IsolatedStorageSettings.ApplicationSettings;
+                //IsolatedStorageSettings.ApplicationSettings["configuration"] = this.Clone();
+                //IsolatedStorageSettings.ApplicationSettings["username"] = User.Name;
+                //settings.Save();
+
                 using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    using (IsolatedStorageFileStream isoStream = store.OpenFile(@"ApplicationSettings.xml", FileMode.Create))
+                    using (IsolatedStorageFileStream isoStream = store.OpenFile(SubOptionsWrapper.STORAGE_FILENAME, FileMode.Create))
                     {
                         XmlSerializer s = new XmlSerializer(typeof(SubOptionsWrapper));
                         TextWriter writer = new StreamWriter(isoStream);
@@ -238,8 +158,7 @@ namespace LSRI.Submarine
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
-                //throw;
+                Debug.WriteLine("SERIALIZATION ERROR : " + e.Message);
             }
         }
 
@@ -249,43 +168,36 @@ namespace LSRI.Submarine
         /// </summary>
         public void RetrieveConfiguration()
         {
-            /*SubOptions tt;
-            String temp;
-            //UserModel um = null;
-            
-            settings.TryGetValue("Submarine", out temp);
-           // settings.TryGetValue("user", out um);
-            //settings.TryGetValue("Submarine_configuration", out tt);
-            if (settings.Contains("user"))
-            {
-                UserModel um = settings["user"] as UserModel;
-            }
-           // MessageBox.Show("User Profile retrieve : " + (temp==null ? "E<PTY" : temp));*/
             try
             {
-                var settings = IsolatedStorageSettings.ApplicationSettings;
-                if (settings.Contains("Submarine_configuration"))
-                {
-                    SubOptionsWrapper um = settings["Submarine_configuration"] as SubOptionsWrapper;
-                    if (um != null)
-                        MessageBox.Show(um.User.CurrentLevel.ToString());
-                }
+                //var settings = IsolatedStorageSettings.ApplicationSettings;
+                //SubOptionsWrapper um2 = null;
+                //String name;
+                //IsolatedStorageSettings.ApplicationSettings.TryGetValue("configuration", out um2);
+                //IsolatedStorageSettings.ApplicationSettings.TryGetValue("username", out name);
+
+                SubOptionsWrapper umXML = null;
                 using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    if (store.FileExists(@"ApplicationSettings.xml"))
-                        using (IsolatedStorageFileStream isoStream = store.OpenFile(@"ApplicationSettings.xml", FileMode.Open))
+                    if (store.FileExists(SubOptionsWrapper.STORAGE_FILENAME))
+                    {
+                        using (IsolatedStorageFileStream isoStream = store.OpenFile(SubOptionsWrapper.STORAGE_FILENAME, FileMode.Open))
                         {
                             XmlSerializer s = new XmlSerializer(typeof(SubOptionsWrapper));
                             TextReader writer = new StreamReader(isoStream);
-                            SubOptionsWrapper tt = s.Deserialize(writer) as SubOptionsWrapper;
+                            umXML = s.Deserialize(writer) as SubOptionsWrapper;
                             writer.Close();
                         }
+                    }
+                }
+                if (umXML != null)
+                {
+                    this.Copy(umXML);
                 }
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
-                throw;
+                Debug.WriteLine("DE-SERIALIZATION ERROR : " + e.Message);
             }
         }
     }
@@ -306,15 +218,17 @@ namespace LSRI.Submarine
             static Nested() {}
             internal static readonly SubOptions instance = new SubOptions()
                 {
-                    _container = UserModelContainer.Default(),
+                    //_container = UserModelContainer.Default(),
                     _auditory = new AuditoryModel(),
-                    _gOption = new GameOptions()
+                    _gOption = new GameOptions(),
+                    _user = new UserModel
+                    {
+                        Type = UserModel.UserType.User,
+                        Name = "Current User",
+                        Scores = HighScoreContainer.Default()
+                    }
                 };
         }
-
- 
-
- 
 
         public static SubOptions Instance
         {
@@ -328,7 +242,15 @@ namespace LSRI.Submarine
  
         #region Debug Display Mode
 
-        private static TextBlock _debugUI = null;   ///< placeholder for the debug panel
+        /// <summary>
+        /// The GUI panel to display the debugging information
+        /// </summary>
+        private static TextBlock _debugUI = null;   
+                      
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Beat { set; get; }    
 
         /// <summary>
         /// Add the debug information panel on the game page
@@ -391,13 +313,15 @@ namespace LSRI.Submarine
         public SubmarinePlayer _submarine = null;   ///< Reference to the submarine object
         public GateAnimatedObject _gate = null;     ///< Reference to the gate object
         public WallObject _wall = null;             ///< Reference to the wall object
-        public SubmarineToolbox tbox = null;
+
+        private SubmarineToolbox tbox = null;
 
         public Frequency2IGenerator _synthEx = null;    ///< Reference to the the auditory stimuli generator
 
         private Random _random; ///< Random number generation
         private StopwatchPlus _watch;
         private Brush bg = null;
+
 
         /// <summary>
         /// 
@@ -432,6 +356,7 @@ namespace LSRI.Submarine
             KeyHandler.Instance.IskeyUpOnly = false;
             //_synthEx = new Frequency2IGenerator();
             _random = new Random();
+            
             SubOptions.Instance.RetrieveConfiguration();
         }
 
@@ -527,8 +452,7 @@ namespace LSRI.Submarine
 
         public override void shutdown()
         {
-            //SavedScore = Score;
-            //SubOptions.Instance.SaveConfiguration();
+            SubOptions.Instance.SaveConfiguration();
         }
 
 

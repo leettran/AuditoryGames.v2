@@ -32,7 +32,8 @@ namespace LSRI.Submarine
         public SubmarineOptionPanel()
         {
             InitializeComponent();
-            _xPeople.ItemsSource = SubOptions.Instance.UserLists;
+            //_xPeople.ItemsSource = SubOptions.Instance.UserLists;
+            _xPeople.CurrentItem = SubOptions.Instance.User;
             //_xPeople.ItemsSource = new UserModelContainer().UserModels;
             _xStaircase.CurrentItem = SubOptions.Instance.Auditory;
             _xGameOption.CurrentItem = SubOptions.Instance.Game;

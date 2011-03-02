@@ -521,14 +521,15 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             UserModel tmp = new UserModel();
             tmp._userType = this.Type;
             tmp._Name = this.Name;
+            tmp._FqTraining = this.FrequencyTraining;
+            tmp._FqDelta = this.FrequencyDelta;
             tmp._currLevel = this.CurrentLevel;
             tmp._currGate = this._currGate;
             tmp._currLife = this._currLife;
-            tmp._FqTraining = this.FrequencyTraining;
-            tmp._FqDelta = this.FrequencyDelta;
             tmp._currScore = this._currScore;
             tmp.Gates = this.Gates;
             tmp.Pattern = this.Pattern;
+            tmp.Scores = this.Scores.Clone();
 
             return tmp;
         }
@@ -545,6 +546,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._currScore = tmp._currScore;
             this.Gates = tmp.Gates;
             this.Pattern = tmp.Pattern;
+            this.Scores = tmp.Scores.Clone();
         }
 
 
@@ -567,7 +569,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             {
                 Name = "Beginner",
                 FrequencyDelta = 3000,
-                CurrentLevel = 1
+                CurrentLevel = 1,
+                Scores = HighScoreContainer.Default()
            };
         }
 
@@ -581,8 +584,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             {
                 Name = "Expert",
                 FrequencyDelta = 4500,
-                CurrentLevel = 10
-            };
+                CurrentLevel = 10,
+                 Scores = HighScoreContainer.Default()
+           };
             return GG;
         }
 

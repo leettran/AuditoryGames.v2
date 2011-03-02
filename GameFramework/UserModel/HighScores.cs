@@ -17,6 +17,16 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         public int Level { get; set; }
         public double Delta { get; set; }
         public double Score { get; set; }
+
+        public HighScore Clone()
+        {
+            return new HighScore
+            {
+                Delta = this.Delta,
+                Level = this.Level,
+                Score = this.Score
+            };
+        }
     }
 
     public class HighScoreContainer
@@ -35,9 +45,27 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
+        public HighScoreContainer Clone()
+        {
+            HighScoreContainer tmp = HighScoreContainer.Default();
+            foreach (HighScore rec in this.Data)
+            {
+                tmp.Data.Add(rec.Clone());
+            }
+            return tmp;
+        }
+
         public HighScoreContainer()
         {
-            Data = new ObservableCollection<HighScore>();
+            //Data = new ObservableCollection<HighScore>();
+        }
+
+        public static HighScoreContainer Default()
+        {
+            return new HighScoreContainer
+            {
+                Data = new ObservableCollection<HighScore>()
+            };
         }
     }
 }
