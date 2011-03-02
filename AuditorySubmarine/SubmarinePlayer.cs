@@ -333,18 +333,30 @@ namespace LSRI.Submarine
                 SubOptions.Instance.User.CurrentGate++;
 
                 double baseScore = 100;
+
                 double deltapos = Math.Abs((IAppManager.Instance as SubmarineApplicationManager)._gate.CanvasIndex - CanvasIndex);
                 double maxpos = SubOptions.Instance.Game.GateSize;
 
-                double dartScore = baseScore * Math.Max(0, 1 - deltapos / (maxpos + 1));
+                double dartScore = Math.Max(0, 1 - deltapos / (maxpos + 1)) * baseScore;
 
                 double sTime = (IAppManager.Instance as SubmarineApplicationManager).Logger.EllapsedMilliseconds;
                 double mTime = SubOptions.Instance.Game.TimeOnGate * 1000;
 
                 double timeScore = (sTime / mTime) * baseScore;
 
+                double maxLife = SubOptions.Instance.Game.MaxLives;
+                double currLife = SubOptions.Instance.User.CurrentLife;
 
-                SubOptions.Instance.User.CurrentScore += (int)(dartScore + timeScore);
+                double lifeScore = (currLife / maxLife) * baseScore;
+
+                SubOptions.Instance._scoreBuffer.Add(new SubOptions.ScorePattern
+                {
+                    Gate = dartScore,
+                    Life = 0,
+                    Time = timeScore
+                });
+
+                SubOptions.Instance.User.CurrentScore += (int)(dartScore + timeScore + 0);
 
 
                 if (SubOptions.Instance.User.CurrentGate == SubOptions.Instance.Game.MaxGates)
@@ -357,6 +369,7 @@ namespace LSRI.Submarine
                         Level = SubOptions.Instance.User.CurrentLevel,
                         Score = SubOptions.Instance.User.CurrentScore
                     });
+                    SubOptions.Instance._scoreBuffer.Clear();
                     SubOptions.Instance.User.FrequencyDelta *= (1 - SubOptions.Instance.Auditory.Step);
                     for (int i = 0; i < SubOptions.Instance.User.Gates.Data.Length; i++)
                     {

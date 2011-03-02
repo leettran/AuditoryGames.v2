@@ -242,10 +242,18 @@ namespace LSRI.Submarine
  
         #region Debug Display Mode
 
+        public class ScorePattern
+        {
+            public double Gate { get; set; }
+            public double Time { get; set; }
+            public double Life { get; set; }
+        }
+
         /// <summary>
         /// The GUI panel to display the debugging information
         /// </summary>
-        private static TextBlock _debugUI = null;   
+        private static TextBlock _debugUI = null;
+        public Collection<ScorePattern> _scoreBuffer = new Collection<ScorePattern>();
                       
         /// <summary>
         /// 
