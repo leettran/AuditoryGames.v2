@@ -31,6 +31,7 @@
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <LinkedServerProject>
     </LinkedServerProject>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -43,7 +44,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -120,6 +120,9 @@
     <Compile Include="ApplicationManager.cs" />
     <Compile Include="SubmarineApp.cs" />
     <Compile Include="SubmarinePlayer.cs" />
+    <Compile Include="SubmarineScorePanel.xaml.cs">
+      <DependentUpon>SubmarineScorePanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubmarineToolbox.xaml.cs">
       <DependentUpon>SubmarineToolbox.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SubmarineScorePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SubmarineToolbox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -205,6 +212,9 @@
     <Resource Include="Media\ysubmarine5.png" />
     <Resource Include="Media\ysubmarine6.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\sublife.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -218,7 +228,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" />
+      <UserProperties BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_AssemblyInfoFilename="" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

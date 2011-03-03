@@ -50,11 +50,11 @@ namespace LSRI.Submarine
                     _SubLifePanel.Children.Add(new Image()
                     {
                         Name = "_xSubLife" + i,
-                        Height = 18,
+                        Height = 26,
                         Margin = (i == 0) ? new Thickness(16, 0, 0, 0) : new Thickness(0),
                         Source = new BitmapImage()
                         {
-                            UriSource = new Uri(@"/AuditorySubmarine;component/Media/ysubmarine2.png", UriKind.RelativeOrAbsolute)
+                            UriSource = new Uri(@"/AuditorySubmarine;component/Media/sublife.png", UriKind.RelativeOrAbsolute)
                         }
                     });
 

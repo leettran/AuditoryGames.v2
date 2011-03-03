@@ -100,6 +100,7 @@ AuditorySubmarine/Media/asub4.png -text
 AuditorySubmarine/Media/fullscreen.png -text
 AuditorySubmarine/Media/gate_bottom.png -text
 AuditorySubmarine/Media/gate_top.png -text
+AuditorySubmarine/Media/sublife.png -text
 AuditorySubmarine/Media/wall.png -text
 AuditorySubmarine/Media/warp1.png -text
 AuditorySubmarine/Media/warp2.png -text
@@ -123,6 +124,8 @@ AuditorySubmarine/SubmarineApp.cs -text
 AuditorySubmarine/SubmarineOptions.xaml -text
 AuditorySubmarine/SubmarineOptions.xaml.cs -text
 AuditorySubmarine/SubmarinePlayer.cs -text
+AuditorySubmarine/SubmarineScorePanel.xaml -text
+AuditorySubmarine/SubmarineScorePanel.xaml.cs -text
 AuditorySubmarine/SubmarineToolbox.xaml -text
 AuditorySubmarine/SubmarineToolbox.xaml.cs -text
 AuditorySubmarine/WallObject.cs -text

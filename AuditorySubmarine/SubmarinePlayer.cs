@@ -226,11 +226,11 @@ namespace LSRI.Submarine
             
 
              // keep the player bound to the screen
-       /*     if (Position.X > (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - dimensions.X)
+            if (Position.X > (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - dimensions.X)
                 Position = new Point((AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - dimensions.X, Position.Y);
             else if (Position.X < 0)
                 Position = new Point(0, Position.Y);
-            if (Position.Y > (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - dimensions.Y)
+           /* if (Position.Y > (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - dimensions.Y)
                 Position = new Point(Position.X, (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - dimensions.Y);
             else if (Position.Y < 0)
                 Position = new Point(Position.X, 0);*/
@@ -276,7 +276,7 @@ namespace LSRI.Submarine
                     20),
                     ZLayers.PLAYER_Z,
                     true).Position = new Point(
-                        Position.X + Dimensions.X / 2 - 55 / 2,
+                        Position.X + Dimensions.X * 2 / 3 - 55 / 2,
                         Position.Y + Dimensions.Y / 2 - 55 / 2);
 
                 this.shutdown();
@@ -290,8 +290,9 @@ namespace LSRI.Submarine
                         /// Failure to win level; make it easier and restart
                         SubOptions.Instance.User.CurrentGate = 0;
                         SubOptions.Instance.User.CurrentScore = 0;
+                        SubOptions.Instance._scoreBuffer.Clear();
                         SubOptions.Instance.User.CurrentLife = SubOptions.Instance.Game.MaxLives;
-                        SubOptions.Instance.User.FrequencyDelta *= (1+SubOptions.Instance.Auditory.Step);
+                        SubOptions.Instance.User.FrequencyDelta *= (1 + SubOptions.Instance.Auditory.Step);
                         for (int i = 0; i < SubOptions.Instance.User.Gates.Data.Length; i++)
                         {
                             SubOptions.Instance.User.Gates.Data[i] *= (1 + SubOptions.Instance.Auditory.Step);
@@ -299,8 +300,13 @@ namespace LSRI.Submarine
                                 SubOptions.Instance.Game.Gates.Data[i],
                                 SubOptions.Instance.User.Gates.Data[i]);
                         }
+                        StateManager.Instance.setState(States.START_STATE);
                     }
-                    StateManager.Instance.setState(States.START_STATE);
+                    else
+                    {
+                        StateManager.Instance.setState(States.START_STATE);
+                        StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
+                    }
                     (sender as DispatcherTimer).Stop();
 
                 };
@@ -352,7 +358,7 @@ namespace LSRI.Submarine
                 SubOptions.Instance._scoreBuffer.Add(new SubOptions.ScorePattern
                 {
                     Gate = dartScore,
-                    Life = 0,
+                    Life = deltapos,
                     Time = timeScore
                 });
 
@@ -365,12 +371,26 @@ namespace LSRI.Submarine
                     SubOptions.Instance.User.CurrentLife = SubOptions.Instance.Game.MaxLives;
                     SubOptions.Instance.User.Scores.Data.Add(new HighScore()
                     {
-                        Delta = SubOptions.Instance.User.FrequencyDelta,
+                        Delta = (int)SubOptions.Instance.User.FrequencyDelta,
                         Level = SubOptions.Instance.User.CurrentLevel,
                         Score = SubOptions.Instance.User.CurrentScore
                     });
+
+                    GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
+                    SubmarineScorePanel pn = new SubmarineScorePanel();
+
+                    pn.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pn.Width) / 2);
+                    pn.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pn.Height) / 2);
+                    pn.OnCompleteTask += delegate()
+                    {
+                        StateManager.Instance.setState(States.START_STATE);
+                        //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
+                    };
+                    // we have to insert any non GameObjects at the end of the children collection
+                    pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, pn);
+
                     SubOptions.Instance._scoreBuffer.Clear();
-                    SubOptions.Instance.User.FrequencyDelta *= (1 - SubOptions.Instance.Auditory.Step);
+                    SubOptions. Instance.User.FrequencyDelta *= (1 - SubOptions.Instance.Auditory.Step);
                     for (int i = 0; i < SubOptions.Instance.User.Gates.Data.Length; i++)
                     {
                         SubOptions.Instance.User.Gates.Data[i] *= (1 - SubOptions.Instance.Auditory.Step);
@@ -382,18 +402,22 @@ namespace LSRI.Submarine
                     SubOptions.Instance.User.CurrentLevel++;
 
                 }
-
-                DispatcherTimer timer = new DispatcherTimer();
-                timer.Tick += delegate(object sender, EventArgs e)
+                else
                 {
-                    StateManager.Instance.setState(States.START_STATE);
-                    if (SubOptions.Instance.User.CurrentGate != 0)
-                        StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
-                    (sender as DispatcherTimer).Stop();
+                    DispatcherTimer timer = new DispatcherTimer();
+                    timer.Tick += delegate(object sender, EventArgs e)
+                    {
+                        StateManager.Instance.setState(States.START_STATE);
+                        if (SubOptions.Instance.User.CurrentGate != 0)
+                            StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
+                        (sender as DispatcherTimer).Stop();
 
-                };
-                timer.Interval = TimeSpan.FromSeconds(0.5);
-                timer.Start();
+                    };
+                    timer.Interval = TimeSpan.FromSeconds(0.5);
+                    timer.Start();
+                }
+
+
             }
         }
     }

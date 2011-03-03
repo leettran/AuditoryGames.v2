@@ -42,11 +42,11 @@
             <StackPanel.Background>
                 <ImageBrush ImageSource="/GameFramework;component/Media/buttonIn.jpg" />
             </StackPanel.Background>
-            <Image Height="18" Margin="16,0,0,0" Name="image2" Source="/AuditorySubmarine;component/Media/ysubmarine2.png" />
-            <Image Height="18" Name="image1" Source="/AuditorySubmarine;component/Media/ysubmarine2.png" />
-            <Image Height="18" Name="image3" Source="/AuditorySubmarine;component/Media/ysubmarine2.png" />
-            <Image Height="18" Name="image4" Source="/AuditorySubmarine;component/Media/ysubmarine2.png" />
-            <Image Height="18" Name="image5" Source="/AuditorySubmarine;component/Media/ysubmarine2.png" />
+            <Image Height="26" Margin="16,0,0,0" Name="image2" Source="/AuditorySubmarine;component/Media/sublife.png" />
+            <Image Height="26" Name="image1" Source="/AuditorySubmarine;component/Media/sublife.png" />
+            <Image Height="26" Name="image3" Source="/AuditorySubmarine;component/Media/sublife.png" />
+            <Image Height="26" Name="image4" Source="/AuditorySubmarine;component/Media/sublife.png" />
+            <Image Height="26" Name="image5" Source="/AuditorySubmarine;component/Media/sublife.png" />
         </StackPanel>
     </Grid>
 </UserControl>

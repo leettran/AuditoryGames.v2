@@ -15,8 +15,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
     public class HighScore
     {
         public int Level { get; set; }
-        public double Delta { get; set; }
-        public double Score { get; set; }
+        public int Delta { get; set; }
+        public int Score { get; set; }
 
         public HighScore Clone()
         {
