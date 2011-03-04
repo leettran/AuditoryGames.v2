@@ -363,6 +363,8 @@ namespace LSRI.Submarine
                 });
 
                 SubOptions.Instance.User.CurrentScore += (int)(dartScore + timeScore + 0);
+                (IAppManager.Instance as SubmarineApplicationManager)._scorePanel.Gate = SubOptions.Instance.User.CurrentGate;
+                (IAppManager.Instance as SubmarineApplicationManager)._scorePanel.Score = SubOptions.Instance.User.CurrentScore;
 
 
                 if (SubOptions.Instance.User.CurrentGate == SubOptions.Instance.Game.MaxGates)

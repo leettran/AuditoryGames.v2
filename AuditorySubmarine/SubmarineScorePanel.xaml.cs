@@ -18,11 +18,8 @@ namespace LSRI.Submarine
         public delegate void OnCompleteTaskEvent();
         public event OnCompleteTaskEvent OnCompleteTask;
 
-        public SubmarineScorePanel()
+        public void UpdateScores()
         {
-            InitializeComponent();
-
-
             double maxpos = SubOptions.Instance.Game.GateSize;
             //double dartScore = Math.Max(0, 1 - deltapos / (maxpos + 1)) * baseScore;
 
@@ -31,15 +28,17 @@ namespace LSRI.Submarine
             for (int i = 0; i < SubOptions.Instance._scoreBuffer.Count; i++)
             {
                 SubOptions.ScorePattern pt = SubOptions.Instance._scoreBuffer[i];
-                TextBlock tt = this.LayoutRoot.FindName("_nScore" + (i+1)) as TextBlock;
+                TextBlock tt = this.LayoutRoot.FindName("_nScore" + (i + 1)) as TextBlock;
                 if (tt != null)
                 {
+                    tt.Visibility = Visibility.Visible;
                     tt.Text = "" + (int)(pt.Gate + pt.Time);
                 }
 
                 ProgressBar accBar = this.LayoutRoot.FindName("_accBar" + (i + 1)) as ProgressBar;
                 if (accBar != null)
                 {
+                    accBar.Visibility = Visibility.Visible;
                     accBar.Maximum = maxpos + 1;
                     accBar.Minimum = 0;
                     accBar.Value = (maxpos + 1) - (int)pt.Life;
@@ -49,6 +48,7 @@ namespace LSRI.Submarine
                 accBar = this.LayoutRoot.FindName("_timeBar" + (i + 1)) as ProgressBar;
                 if (accBar != null)
                 {
+                    accBar.Visibility = Visibility.Visible;
                     accBar.Maximum = 100;
                     accBar.Minimum = 0;
                     accBar.Value = (int)pt.Time;
@@ -57,6 +57,14 @@ namespace LSRI.Submarine
             }
 
             _nTotalScore.Text = "" + SubOptions.Instance.User.CurrentScore;
+        }
+
+        public SubmarineScorePanel()
+        {
+            InitializeComponent();
+
+            UpdateScores();
+
             
         }
 

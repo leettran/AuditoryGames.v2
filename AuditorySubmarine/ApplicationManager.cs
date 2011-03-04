@@ -322,7 +322,7 @@ namespace LSRI.Submarine
         public GateAnimatedObject _gate = null;     ///< Reference to the gate object
         public WallObject _wall = null;             ///< Reference to the wall object
 
-        private SubmarineToolbox tbox = null;
+        public SubmarineToolbox _scorePanel = null;
 
         public Frequency2IGenerator _synthEx = null;    ///< Reference to the the auditory stimuli generator
 
@@ -469,13 +469,13 @@ namespace LSRI.Submarine
         private void startMainMenu()
         {
             // initialise toolbox
-            this.tbox = new SubmarineToolbox()
+            this._scorePanel = new SubmarineToolbox()
             {
                 FullMode = false
             };
-            tbox.SetValue(Canvas.LeftProperty, 0.0);
-            tbox.SetValue(Canvas.TopProperty, 0.0);
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(tbox);
+            _scorePanel.SetValue(Canvas.LeftProperty, 0.0);
+            _scorePanel.SetValue(Canvas.TopProperty, 0.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(_scorePanel);
 
             HighScoreControl ct = new HighScoreControl();
             ct.SetValue(Canvas.LeftProperty, 350.0);
@@ -610,7 +610,7 @@ namespace LSRI.Submarine
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMYWEAPON);
 
             // initialise toolbox
-            this.tbox = new SubmarineToolbox()
+            this._scorePanel = new SubmarineToolbox()
             {
                 FullMode = true,
                 Life = SubOptions.Instance.User.CurrentLife,
@@ -619,10 +619,10 @@ namespace LSRI.Submarine
                 Score = SubOptions.Instance.User.CurrentScore,
                 Level = SubOptions.Instance.User.CurrentLevel
             };
-            tbox.SetValue(Canvas.LeftProperty, 0.0);
-            tbox.SetValue(Canvas.TopProperty, 0.0);
+            _scorePanel.SetValue(Canvas.LeftProperty, 0.0);
+            _scorePanel.SetValue(Canvas.TopProperty, 0.0);
 
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(tbox);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(_scorePanel);
 
             // initialise game layout and position grid
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background = new SolidColorBrush(Color.FromArgb(255, 0, 67, 171));

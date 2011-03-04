@@ -75,10 +75,10 @@
                 <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Right" Name="textBlock9" Text="Gate 3" TextAlignment="Center" Width="80" Grid.Row="5" Foreground="White" />
                 <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Right" Name="textBlock10" Text="Gate 4" TextAlignment="Center" Width="80" Grid.Row="6" Foreground="White" />
                 <TextBlock FontSize="14" FontWeight="Bold" HorizontalAlignment="Right" Name="textBlock11" Text="Gate 5" TextAlignment="Center" Width="80" Grid.Row="7" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nScore3" Text="Score" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="5" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nScore4" Text="Score" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="6" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nScore5" Text="Score" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="7" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,8" Name="_nTotalScore" Text="Score" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="9" />
+                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nScore3" Text="150" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="5" Foreground="White" />
+                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nScore4" Text="150" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="6" Foreground="White" />
+                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nScore5" Text="150" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="7" Foreground="White" />
+                <TextBlock FontSize="14" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,8" Name="_nTotalScore" Text="200" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="9" />
             </Grid>
         </Border>
     </Grid>
