@@ -22,10 +22,6 @@ namespace LSRI.TreasureHunter
 
         private void image1_MouseMove(object sender, MouseEventArgs e)
         {
-        }
-
-        private void _image_MouseEnter(object sender, MouseEventArgs e)
-        {
             Point pt = e.GetPosition(_viewBox);
             if (pt.X < 40 || pt.X > (_viewBox.Width - 40))
             {
@@ -35,8 +31,12 @@ namespace LSRI.TreasureHunter
                 tt.Left = Math.Min(0, tt.Left);
                 _image.Margin = tt;
                 // Debug.WriteLine("pos({2}) = {0} - {1}", pt.X, pt.Y,ff);
-                
+
             }
+        }
+
+        private void _image_MouseEnter(object sender, MouseEventArgs e)
+        {
 
         }
     }

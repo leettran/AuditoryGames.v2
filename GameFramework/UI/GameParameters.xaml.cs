@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using LSRI.AuditoryGames.GameFramework;
+using LSRI.AuditoryGames.GameFramework.Data;
 
 namespace LSRI.AuditoryGames.GameFramework
 {
@@ -23,11 +24,29 @@ namespace LSRI.AuditoryGames.GameFramework
             InitializeComponent();
         }
 
-        private void slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        public GameParameters(UserModelEntity um, UserModelEntity am, UserModelEntity gm)
         {
-            Slider ss = (sender as Slider);
-            //if (ss!=null)
-                //GameLevelInfo._nbTreasureZones = (int)ss.Value;
+            InitializeComponent();
+            _xPeople.CurrentItem = um;
+            _xStaircase.CurrentItem = am;
+            _xGameOption.CurrentItem = gm;
         }
+
+        private void btnOK_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+    
+
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
     }
 }

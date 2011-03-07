@@ -9,6 +9,7 @@
     <Grid x:Name="LayoutRoot" Background="White">
         <Viewbox Height="180" HorizontalAlignment="Left" Name="_viewBox" VerticalAlignment="Top" Width="340" Stretch="None">
             <Image Name="_image" Source="/AuditoryTreasureHunter;component/Media/map.jpg" Stretch="None" Margin="0" 
+                   
                    MouseMove="image1_MouseMove" 
                    MouseEnter="_image_MouseEnter" 
                    />

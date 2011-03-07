@@ -159,12 +159,17 @@ AuditoryTreasureHunter/Media/rope.png -text
 AuditoryTreasureHunter/Media/smallisland.png -text
 AuditoryTreasureHunter/Media/twobullets.png -text
 AuditoryTreasureHunter/Media/volcanoisland.png -text
+AuditoryTreasureHunter/Model/TreasureConfig.cs -text
+AuditoryTreasureHunter/Model/TreasureGame.cs -text
+AuditoryTreasureHunter/Model/TreasureUser.cs -text
 AuditoryTreasureHunter/Properties/AppManifest.xml -text
 AuditoryTreasureHunter/Properties/AssemblyInfo.cs -text
 AuditoryTreasureHunter/Properties/OutOfBrowserSettings.xml -text
 AuditoryTreasureHunter/TreasureApp.cs -text
 AuditoryTreasureHunter/TreasureHunter.cs -text
 AuditoryTreasureHunter/TreasureNugget.cs -text
+AuditoryTreasureHunter/UI/TreasureToolbox.xaml -text
+AuditoryTreasureHunter/UI/TreasureToolbox.xaml.cs -text
 AuditoryTreasureHunter/Weapon.cs -text
 AuditoryWhackAMole/App.xaml -text
 AuditoryWhackAMole/App.xaml.cs -text

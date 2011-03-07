@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AuditoryTreasureHunter")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Game-based Auditory Learning")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("The University of Nottingham")]
+[assembly: AssemblyCompany("Learning Sciences Research Institute")]
 [assembly: AssemblyProduct("AuditoryTreasureHunter")]
-[assembly: AssemblyCopyright("Copyright © The University of Nottingham 2010")]
+[assembly: AssemblyCopyright("Copyright © Learning Sciences Research Institute 2008-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.14.1550")]
+[assembly: AssemblyFileVersion("1.0.14.1550")]
