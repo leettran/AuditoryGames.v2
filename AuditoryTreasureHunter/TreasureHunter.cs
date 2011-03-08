@@ -10,6 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
 using LSRI.AuditoryGames.GameFramework;
+using LSRI.TreasureHunter.Model;
 
 namespace LSRI.TreasureHunter
 {
@@ -73,6 +74,8 @@ namespace LSRI.TreasureHunter
             timeSinceLastShot -= dt;
             if (KeyHandler.Instance.isKeyPressed(Key.Space) && timeSinceLastShot <= 0 && _currState == MinerActionStates.MINER_IDLE)
             {
+                TreasureOptions.Instance.User.CurrentLife--;
+                (TreasureApplicationManager.Instance as TreasureApplicationManager)._scorePanel.Life = TreasureOptions.Instance.User.CurrentLife;
                 timeSinceLastShot = TIME_BETWEEN_SHOTS;
                 HunterWeapon weapon = HunterWeapon.UnusedWeapon.startupPlayerBasicWeapon(ZLayers.PLAYER_Z);
                 weapon.Position = new Point(Position.X + dimensions.X / 2 - weapon.Dimensions.X / 2, Position.Y + dimensions.Y - weapon.Dimensions.Y);
@@ -87,7 +90,7 @@ namespace LSRI.TreasureHunter
                         this.CurrentZone = 0;
                     else
                     {
-                        _moveTo = new Point(GameLevelInfo._sizeZones, -1);
+                        _moveTo = new Point(TreasureOptions.Instance.Game._sizeZones, -1);
                         _currState = MinerActionStates.MINER_MOVE;
                     }
 
@@ -99,11 +102,11 @@ namespace LSRI.TreasureHunter
                 if (_currState == MinerActionStates.MINER_IDLE)
                 {
                     this.CurrentZone++;
-                    if (this.CurrentZone > (GameLevelInfo._nbTreasureZones - 1))
-                        this.CurrentZone = (GameLevelInfo._nbTreasureZones - 1);
+                    if (this.CurrentZone > (TreasureOptions.Instance.Game.InitZones - 1))
+                        this.CurrentZone = (TreasureOptions.Instance.Game.InitZones - 1);
                     else
                     {
-                        _moveTo = new Point(GameLevelInfo._sizeZones, 1);
+                        _moveTo = new Point(TreasureOptions.Instance.Game._sizeZones, 1);
                         _currState = MinerActionStates.MINER_MOVE;
                     }
 

@@ -85,7 +85,7 @@
                 </sdk:TabItem>
             </sdk:TabControl>
         </Border>
-        <Button Content="Save" Grid.Row="4" Height="23" HorizontalAlignment="Left" Margin="12,0,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" Visibility="Collapsed" />
-        <Button Content="Restore" Height="23" HorizontalAlignment="Left" Margin="12,29,0,0" Name="button2" VerticalAlignment="Top" Width="75" Grid.Row="4" Click="button2_Click" Visibility="Collapsed" />
+        <Button Content="Save" Grid.Row="4" Height="23" HorizontalAlignment="Left" Margin="12,0,0,0" Name="BtnSave" VerticalAlignment="Top" Width="75" Click="BtnSave_Click" Visibility="Collapsed" />
+        <Button Content="Restore" Height="23" HorizontalAlignment="Left" Margin="12,29,0,0" Name="BtnRestore" VerticalAlignment="Top" Width="75" Grid.Row="4" Click="BtnRestore_Click" Visibility="Collapsed" />
     </Grid>
 </UserControl>

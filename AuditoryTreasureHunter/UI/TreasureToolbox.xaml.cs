@@ -45,5 +45,37 @@ namespace LSRI.TreasureHunter.UI
 
         }
 
+        public int Life
+        {
+            set
+            {
+                _xLiveText.Text = value.ToString();
+            }
+        }
+        public int Score
+        {
+            set
+            {
+                _xScoreText.Text = value.ToString();
+            }
+        }
+
+        public int Level
+        {
+            set
+            {
+                _xLevelText.Text = value.ToString();
+            }
+        }
+        public int Gold
+        {
+            set
+            {
+                _xGoldText.Text = value.ToString();
+            }
+        }
+
+
+
     }
 }

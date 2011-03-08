@@ -10,6 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using LSRI.AuditoryGames.GameFramework;
 using System.Windows.Threading;
+using LSRI.TreasureHunter.Model;
 
 namespace LSRI.TreasureHunter
 {
@@ -61,7 +62,7 @@ namespace LSRI.TreasureHunter
         {
             AnimationData animationData = new AnimationData(
                     new string[] { 
-                        type==TreasureType.TREASURE_GOLD ? "Media/gold1.png" : "Media/metal1.png" },
+                        type==TreasureType.TREASURE_GOLD ? "Media/unknown.png" : "Media/unknown.png" },
                         0.0005);
 
             base.startupAnimatedGameObject(dimensions, animationData, ZLayers.PLAYER_Z, false);
@@ -149,8 +150,13 @@ namespace LSRI.TreasureHunter
                             Position.Y + Dimensions.Y / 2 - 55 / 2);
 
                 TreasureApplicationManager.Instance.Score += score;
-                string newString = GameLevelInfo._curSetup.Substring(0, index) + "0" + GameLevelInfo._curSetup.Substring(index + 1);
-                GameLevelInfo._curSetup = newString;
+                string newString = TreasureOptions.Instance.Game._curSetup.Substring(0, index) + "0" + TreasureOptions.Instance.Game._curSetup.Substring(index + 1);
+                TreasureOptions.Instance.Game._curSetup = newString;
+                if (this.Type == TreasureType.TREASURE_GOLD)
+                {
+                    TreasureOptions.Instance.Game._curGold--;
+                    (TreasureApplicationManager.Instance as TreasureApplicationManager)._scorePanel.Gold = TreasureOptions.Instance.Game._curGold;
+                }
 
                 // Change visibility and initiate exposure animation
                 this.Visibility = System.Windows.Visibility.Visible;

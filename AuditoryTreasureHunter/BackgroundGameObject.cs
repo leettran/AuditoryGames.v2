@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using LSRI.AuditoryGames.GameFramework;
+using LSRI.TreasureHunter.Model;
 
 namespace LSRI.TreasureHunter
 {
@@ -52,9 +53,9 @@ namespace LSRI.TreasureHunter
         public BackgroundTreasureGameObject startupBackgroundGameObject(Point dimensions, string image, int zLayer)
         {
             base.startupGameObject(dimensions, image, zLayer);
-            Zones = new Polyline[GameLevelInfo._nbTreasureZones];
-            int rr = GameLevelInfo._sizeZones;
-            for (int i = 0; i < GameLevelInfo._nbTreasureZones; i++)
+            Zones = new Polyline[TreasureOptions.Instance.Game.InitZones];
+            int rr = TreasureOptions.Instance.Game._sizeZones;
+            for (int i = 0; i < TreasureOptions.Instance.Game.InitZones; i++)
             {
 
                 Zones[i] = new Polyline();

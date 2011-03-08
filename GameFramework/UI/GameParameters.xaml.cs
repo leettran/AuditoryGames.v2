@@ -19,6 +19,9 @@ namespace LSRI.AuditoryGames.GameFramework
     /// </summary>
     public partial class GameParameters : UserControl
     {
+        public delegate void OnCompleteTaskEvent();
+        public event OnCompleteTaskEvent OnCompleteTask;
+
         public GameParameters()
         {
             InitializeComponent();
@@ -34,16 +37,16 @@ namespace LSRI.AuditoryGames.GameFramework
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (this.OnCompleteTask != null) this.OnCompleteTask();
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
     
 
         }
 
-        private void button2_Click(object sender, RoutedEventArgs e)
+        private void BtnRestore_Click(object sender, RoutedEventArgs e)
         {
             
         }

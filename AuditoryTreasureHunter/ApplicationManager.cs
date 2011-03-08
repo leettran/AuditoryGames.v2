@@ -31,6 +31,7 @@ namespace LSRI.TreasureHunter
         public const string LOG_STATE = "start_log";        ///< Starting the log page
     }
 
+    /**
     public static class GameLevelInfo
     {
         public static int _gameMode = 0;
@@ -85,7 +86,7 @@ namespace LSRI.TreasureHunter
 
         }
     }
-
+    **/
     public static class GameLayout
     {
         public static int SKY_MARGIN = 200;
@@ -104,7 +105,8 @@ namespace LSRI.TreasureHunter
         protected double timeSinceLastEnemy = 0;
         protected double timeSinceLastBackground = 0;
         protected int score = 0;
-        protected TextBlock txtbScore = null;
+        
+        //protected TextBlock txtbScore = null;
 
         public static Boolean PLAY_CUES_ONCE = true;
 
@@ -142,9 +144,15 @@ namespace LSRI.TreasureHunter
                 _synthEx.FrequencyTimer.stimuliStarted += new FrequencyTimer.StimuliStarted(AppMgr_StimuliStarted);
                 _synthEx.FrequencyTimer.stimuliStopped += new FrequencyTimer.StimuliStopped(AppMgr_StimuliStopped);
             }*/
- 
+
+            TreasureOptions.Instance.RetrieveConfiguration();
         }
 
+        public override void shutdown()
+        {
+            SavedScore = Score;
+            TreasureOptions.Instance.SaveConfiguration();
+        }
 
       /*  private void AppMgr_StimuliStarted()
         {
@@ -202,7 +210,7 @@ namespace LSRI.TreasureHunter
             btnStart.SetValue(Canvas.LeftProperty, 490.0);
             btnStart.SetValue(Canvas.TopProperty, 300.0);
             btnStart.Click += delegate(object sender, RoutedEventArgs e) {
-                GameLevelInfo._gameMode = 0;
+                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Proximity;
                 StateManager.Instance.setState(TreasureStates.LEVEL_STATE); 
             };
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
@@ -217,7 +225,7 @@ namespace LSRI.TreasureHunter
             btnStart.IsEnabled = true;
             btnStart.Click += delegate(object sender, RoutedEventArgs e)
             {
-                GameLevelInfo._gameMode = 1;
+                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Value;
                 StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
             };
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
@@ -232,7 +240,7 @@ namespace LSRI.TreasureHunter
             btnStart.SetValue(Canvas.TopProperty, 440.0);
             btnStart.Click += delegate(object sender, RoutedEventArgs e)
             {
-                GameLevelInfo._gameMode = 2;
+                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Distance;
                 StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
             };
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
@@ -282,22 +290,33 @@ namespace LSRI.TreasureHunter
 
         public void startGame()
         {
+            // Get a random game descriptor
+            List<String> setup = TreasureOptions.Instance.Game.GetLevelDescriptors();
+            String settings = setup[rand.Next(0, setup.Count - 1)];
+            TreasureOptions.Instance.Game._curSetup = settings;
+            Debug.WriteLine("game settiungs : " + settings);
+
+            // Set the toolbox
+            this._scorePanel = new TreasureToolbox()
+            {
+                FullMode = true,
+                Life = TreasureOptions.Instance.User.CurrentLife,
+                Gold = TreasureOptions.Instance.Game._curGold,
+                Score = TreasureOptions.Instance.User.CurrentScore,
+                Level = TreasureOptions.Instance.User.CurrentLevel
+            };
+            _scorePanel.SetValue(Canvas.LeftProperty, 0.0);
+            _scorePanel.SetValue(Canvas.TopProperty, 0.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(_scorePanel);
+
             // initialise collisions
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMY);
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMYWEAPON);
             CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYERWEAPON, CollisionIdentifiers.ENEMY);
 
-            // 
+            // Get layout
             Canvas cv = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot;
-            //GameLevelInfo._nbTreasureZones++;
-            GameLevelInfo._sizeZones = ((int)cv.ActualWidth) / GameLevelInfo._nbTreasureZones;
-
-            GameLevelInfo.setup.Clear();
-            GameLevelInfo.GenerateStrings("", GameLevelInfo._nbTreasureZones - (GameLevelInfo._nbTreasureZones/3), GameLevelInfo._nbTreasureZones, GameLevelInfo.setup);
-            //Debug.WriteLine(String.Join(" - ", GameLevelInfo.setup.ToArray()));
-            String settings = GameLevelInfo.setup[rand.Next(0, GameLevelInfo.setup.Count-1)];
-            GameLevelInfo._curSetup = settings;
-            Debug.WriteLine("game settiungs : " + settings);
+            TreasureOptions.Instance.Game._sizeZones = ((int)cv.ActualWidth) / TreasureOptions.Instance.Game.InitZones;
 
             //// initialise game objects
             // background image
@@ -329,18 +348,18 @@ namespace LSRI.TreasureHunter
                     1),
                 ZLayers.PLAYER_Z);
 
-            _player.CurrentZone =  (GameLevelInfo._nbTreasureZones / 2);
-            int currLoc = GameLevelInfo._sizeZones * _player.CurrentZone + (GameLevelInfo._sizeZones - (int)_player.Dimensions.X) / 2;
+            _player.CurrentZone =  (TreasureOptions.Instance.Game.InitZones / 2);
+            int currLoc = TreasureOptions.Instance.Game._sizeZones * _player.CurrentZone + (TreasureOptions.Instance.Game._sizeZones - (int)_player.Dimensions.X) / 2;
             _player.Position = new Point(currLoc, GameLayout.SKY_MARGIN - _player.Dimensions.Y - 10);
 
             
             // treasure nuggets
             double dd = bgImage.Dimensions.Y-56-50;
 
-            for (int i = 0; i < GameLevelInfo._nbTreasureZones; i++)
+            for (int i = 0; i < TreasureOptions.Instance.Game.InitZones; i++)
             {
-                Point pt = new Point(GameLevelInfo._sizeZones * i, dd);
-                pt.X = pt.X + (GameLevelInfo._sizeZones - 56) / 2;
+                Point pt = new Point(TreasureOptions.Instance.Game._sizeZones * i, dd);
+                pt.X = pt.X + (TreasureOptions.Instance.Game._sizeZones - 56) / 2;
                 pt.Y = GameLayout.SKY_MARGIN + 25 + this.rand.Next(0, (int)dd);
                 Boolean isGold = (settings[i] == '1');
 
@@ -351,9 +370,9 @@ namespace LSRI.TreasureHunter
                     ZLayers.PLAYER_Z)
                 .Position = pt;
             }
-            
 
-            // score window (TO DO AGAIN)
+
+            /*// score window (TO DO AGAIN)
             txtbScore = new TextBlock();
             txtbScore.Text = TreasureApplicationManager.Instance.Score.ToString();
             txtbScore.Width = 100;
@@ -365,7 +384,7 @@ namespace LSRI.TreasureHunter
 
             // we have to insert any non GameObjects at the end of the children collection
            // (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Insert(
-            //    (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Count, txtbScore);
+            //    (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Count, txtbScore);*/
 
             ScoreControl ff = new ScoreControl();
             ff.SetValue(Canvas.LeftProperty, 10.0);
@@ -376,16 +395,16 @@ namespace LSRI.TreasureHunter
             float freqL = 0;
             float freqM = 0;
             float freqR = 0;
-            if (GameLevelInfo._gameMode == 0)
+            if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Proximity)
             {
-                freqL = (GameLevelInfo._curSetup[_player.CurrentZone - 1] == '1') ? 5000 : 3000;
-                freqM = (GameLevelInfo._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
-                freqR = (GameLevelInfo._curSetup[_player.CurrentZone + 1] == '1') ? 5000 : 3000;
+                freqL = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone - 1] == '1') ? 5000 : 3000;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
+                freqR = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone + 1] == '1') ? 5000 : 3000;
             }
-            else if (GameLevelInfo._gameMode == 1)
+            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Value)
             {
-                String left = GameLevelInfo._curSetup.Substring(0, _player.CurrentZone);
-                String right = GameLevelInfo._curSetup.Substring(_player.CurrentZone+1);
+                String left = TreasureOptions.Instance.Game._curSetup.Substring(0, _player.CurrentZone);
+                String right = TreasureOptions.Instance.Game._curSetup.Substring(_player.CurrentZone + 1);
                 int nbL = left.LastIndexOf('1');
                 int nbR = right.IndexOf('1');
                 if (nbL != -1) nbL = left.Length - nbL - 1;
@@ -394,13 +413,13 @@ namespace LSRI.TreasureHunter
 
 
                 freqL = (nbL < nbR) ? 5000 : 3000;
-                freqM = (GameLevelInfo._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
                 freqR = (nbL >= nbR ) ? 5000 : 3000;
             }
-            else if (GameLevelInfo._gameMode == 2)
+            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Distance)
             {
-                String left = GameLevelInfo._curSetup.Substring(0, _player.CurrentZone);
-                String right = GameLevelInfo._curSetup.Substring(_player.CurrentZone + 1);
+                String left = TreasureOptions.Instance.Game._curSetup.Substring(0, _player.CurrentZone);
+                String right = TreasureOptions.Instance.Game._curSetup.Substring(_player.CurrentZone + 1);
                 int nbL = 0;
                 for (int i = 0; i < left.Length; i++)
                 {
@@ -412,7 +431,7 @@ namespace LSRI.TreasureHunter
                     if (right[i] == '1') nbR++;
                 }
                 freqL = (nbL >= nbR) ? 5000 : 3000;
-                freqM = (GameLevelInfo._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
                 freqR = (nbL < nbR) ? 5000 : 3000;
                 
 
@@ -441,7 +460,7 @@ namespace LSRI.TreasureHunter
             removeAllCanvasChildren();
            // _synthEx.Arpeggiator.Stop();
 
-            txtbScore = null;
+            //txtbScore = null;
         }
 
         public override void enterFrame(double dt)
@@ -494,28 +513,23 @@ namespace LSRI.TreasureHunter
             }*/
         }
 
-        public override void shutdown()
-        {
-            SavedScore = Score;
-        }
-
 
         public void UpdateSound()
         {
             double freqL = 0;
             double freqM = 0;
             double freqR = 0;
-            if (GameLevelInfo._gameMode == 0)
+            if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Proximity)
             {
-                freqL = ((_player.CurrentZone - 1) >= 0 && GameLevelInfo._curSetup[_player.CurrentZone - 1] == '1') ? 5000 : 3000;
-                freqM = (GameLevelInfo._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
-                freqR = (((_player.CurrentZone + 1) < GameLevelInfo._curSetup.Length) &&
-                                GameLevelInfo._curSetup[_player.CurrentZone + 1] == '1') ? 5000 : 3000;
+                freqL = ((_player.CurrentZone - 1) >= 0 && TreasureOptions.Instance.Game._curSetup[_player.CurrentZone - 1] == '1') ? 5000 : 3000;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
+                freqR = (((_player.CurrentZone + 1) < TreasureOptions.Instance.Game._curSetup.Length) &&
+                                TreasureOptions.Instance.Game._curSetup[_player.CurrentZone + 1] == '1') ? 5000 : 3000;
             }
-            else if (GameLevelInfo._gameMode == 1)
+            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Value)
             {
-                String left = GameLevelInfo._curSetup.Substring(0, _player.CurrentZone);
-                String right = GameLevelInfo._curSetup.Substring(_player.CurrentZone + 1);
+                String left = TreasureOptions.Instance.Game._curSetup.Substring(0, _player.CurrentZone);
+                String right = TreasureOptions.Instance.Game._curSetup.Substring(_player.CurrentZone + 1);
                 int nbL = left.LastIndexOf('1');
                 int nbR = right.IndexOf('1');
                 if (nbL != -1) nbL = left.Length - nbL - 1;
@@ -524,13 +538,13 @@ namespace LSRI.TreasureHunter
 
 
                 freqL = (nbL < nbR) ? 5000 : 3000;
-                freqM = (GameLevelInfo._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
                 freqR = (nbL >= nbR) ? 5000 : 3000;
             }
-            else if (GameLevelInfo._gameMode == 2)
+            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Distance)
             {
-                String left = GameLevelInfo._curSetup.Substring(0, _player.CurrentZone);
-                String right = GameLevelInfo._curSetup.Substring(_player.CurrentZone + 1);
+                String left = TreasureOptions.Instance.Game._curSetup.Substring(0, _player.CurrentZone);
+                String right = TreasureOptions.Instance.Game._curSetup.Substring(_player.CurrentZone + 1);
                 int nbL = 0;
                 for (int i = 0; i < left.Length; i++)
                 {
@@ -542,7 +556,7 @@ namespace LSRI.TreasureHunter
                     if (right[i] == '1') nbR++;
                 }
                 freqL = (nbL >= nbR) ? 5000 : 3000;
-                freqM = (GameLevelInfo._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
                 freqR = (nbL < nbR) ? 5000 : 3000;
 
 
@@ -566,7 +580,14 @@ namespace LSRI.TreasureHunter
 
         private void startOptions()
         {
-            GameParameters panel = new GameParameters(new TreasureUser(),new AuditoryModel(),new TreasureGame());
+            GameParameters panel = new GameParameters(
+                TreasureOptions.Instance.User,
+                TreasureOptions.Instance.Auditory,
+                TreasureOptions.Instance.Game);
+            panel.OnCompleteTask += delegate()
+            {
+                StateManager.Instance.setState(States.START_STATE);
+            };
             panel.SetValue(Canvas.LeftProperty, 10.0);
             panel.SetValue(Canvas.TopProperty, 10.0);
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(panel);
