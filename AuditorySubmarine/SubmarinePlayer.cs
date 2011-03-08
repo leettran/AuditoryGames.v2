@@ -11,7 +11,7 @@ using System.Windows.Controls;
 namespace LSRI.Submarine
 {
     /// <summary>
-    /// 
+    /// Game object for the submarine
     /// </summary>
     public class SubmarinePlayer : AnimatedGameObject
     {
@@ -348,7 +348,7 @@ namespace LSRI.Submarine
                 double sTime = (IAppManager.Instance as SubmarineApplicationManager).Logger.EllapsedMilliseconds;
                 double mTime = SubOptions.Instance.Game.TimeOnGate * 1000;
 
-                double timeScore = (sTime / mTime) * baseScore;
+                double timeScore = (1 - sTime / mTime) * baseScore;
 
                 double maxLife = SubOptions.Instance.Game.MaxLives;
                 double currLife = SubOptions.Instance.User.CurrentLife;

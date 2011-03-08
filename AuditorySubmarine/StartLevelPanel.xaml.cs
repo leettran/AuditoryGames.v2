@@ -41,7 +41,7 @@ namespace LSRI.Submarine
         {
             set
             {
-                _txtGates.Text = String.Format("You have managed {0} gates out of 5", value);
+                _txtGates.Text = String.Format("You went through {0} gates out of 5", value);
                 _barGates.Value = value;
                 _btnStart.TextContent.Text = (value == 0) ? "Play" : "Continue";
             }

@@ -603,6 +603,8 @@ namespace LSRI.AuditoryGames.AudioFramework
             }
         }
 
+        private readonly int SILENT = 1;
+
         public override void ResetSequencer()
         {
             //this.sequencer.StepCount = (int)this.stepBox.Value;
@@ -610,10 +612,10 @@ namespace LSRI.AuditoryGames.AudioFramework
             myqueue = new Queue<double>();
  
             _StimuliStructure = new List<Stimulus>();
-            _StimuliStructure.Add(new Stimulus(5000, 0, 4 * 2));
-            _StimuliStructure.Add(new Stimulus(4 * 2, 10 * 2));
-            _StimuliStructure.Add(new Stimulus(3000, 14 * 2, 4 * 2));
-            _StimuliStructure.Add(new Stimulus(18 * 2, 15 * 2));
+            _StimuliStructure.Add(new Stimulus(5000, SILENT, 4 * 2));
+            _StimuliStructure.Add(new Stimulus(SILENT + 4 * 2, 10 * 2));
+            _StimuliStructure.Add(new Stimulus(3000, SILENT + 14 * 2, 4 * 2));
+            _StimuliStructure.Add(new Stimulus(SILENT + 18 * 2, 15 * 2));
 
             setSequencer(3);
         }
@@ -629,9 +631,9 @@ namespace LSRI.AuditoryGames.AudioFramework
                 this._sequencer.DeleteNote(vc, st._start);
                 double ns = (double)st._start -3;
 
-                if (ns < (4 * 2 + 1))
+                if (ns < (4 * 2 + 1 + SILENT))
                 {
-                    ns = 4 * 2 + 1;
+                    ns = 4 * 2 + 1 + SILENT;
                 }
                 else 
                     this._sequencer.StepCount -= (int)2*3;

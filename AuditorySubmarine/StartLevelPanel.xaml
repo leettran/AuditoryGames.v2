@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" xmlns:my="clr-namespace:LSRI.AuditoryGames.GameFramework;assembly=GameFramework" Background="White" Height="188" Width="294" Style="{Binding}">
+    mc:Ignorable="d" xmlns:my="clr-namespace:LSRI.AuditoryGames.GameFramework;assembly=GameFramework" Background="#FF0043AB" Style="{Binding}" d:DesignWidth="320">
     
     <UserControl.Resources>
         <Style x:Key="FullScreenButtonStyle22" TargetType="Button">
@@ -47,14 +47,14 @@
     </UserControl.Resources>
 
 
-    <Border Style="{StaticResource NVLBorder}">
-        <Grid x:Name="LayoutRoot" >
-            <ProgressBar Height="29" Name="_barGates" Maximum="5" SmallChange="1" Value="4" UseLayoutRounding="True" IsIndeterminate="False" Width="216" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Margin="59,61,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
+    <Border Style="{StaticResource NVLBorder}" Height="229" Width="321">
+        <Grid x:Name="LayoutRoot" Margin="20" Background="#85838383">
+            <ProgressBar Height="29" Name="_barGates" Maximum="5" SmallChange="1" Value="4" UseLayoutRounding="True" IsIndeterminate="False" Width="216" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Margin="25,60,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
-            <my:ButtonIcon Height="42" Name="_btnStart" Width="150" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="17,123,125,0"></my:ButtonIcon>
-            <TextBlock Height="23" Name="textBlock1" Text="You are at" VerticalAlignment="Top" FontSize="14" HorizontalAlignment="Left" Width="83" TextAlignment="Right" Margin="6,6,0,0" />
-            <TextBlock Height="23" HorizontalAlignment="Left" Name="_txtLevel" Text="Level 0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Margin="105,6,0,0" />
-            <TextBlock FontSize="11" Height="23" Name="_txtGates" Text="You went through XX gates out of 5" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Width="216" Margin="59,43,0,0" />
+            <my:ButtonIcon Height="42" Name="_btnStart" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="74,120,79,0"></my:ButtonIcon>
+            <TextBlock Height="23" Name="textBlock1" Text="You are at" VerticalAlignment="Top" FontSize="14" HorizontalAlignment="Left" Width="83" TextAlignment="Right" Margin="6,6,0,0" Foreground="White" />
+            <TextBlock Height="23" HorizontalAlignment="Left" Name="_txtLevel" Text="Level 0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Margin="105,6,0,0" Foreground="White" />
+            <TextBlock FontSize="11" Height="23" Name="_txtGates" Text="You went through XX gates out of 5" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Width="216" Margin="25,43,0,0" Foreground="White" />
         </Grid>
     </Border>
 </UserControl>
