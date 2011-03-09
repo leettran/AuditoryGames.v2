@@ -31,9 +31,12 @@ namespace LSRI.TreasureHunter.Model
         double _FqDelta;        ///< Frequency Difference limen (theoretical) of the user
         int _currLevel;         ///< Current level of the game played by the user
         int _currLife;          ///< Current number of remaining lives
+        int _currGold;          ///< Current number of remaining lives
         int _currScore;         ///< current score (at current level)
         UserType _userType;     ///< Type of the user
+        Gates _currTimer;
 
+        public int _currExposure; 
         HighScoreContainer _scores;
 
 
@@ -173,6 +176,21 @@ namespace LSRI.TreasureHunter.Model
             }
         }
 
+        [Display(Name = "Gold", Description = "Number of gold nuggests  already collected")]
+        [Range(1, 20)]
+        public int CurrentGold
+        {
+            get { return _currGold; }
+            set
+            {
+                if (_currGold != value)
+                {
+                    _currGold = value;
+                    OnPropertyChanged("CurrentGold");
+                }
+            }
+        }
+
         [Display(Name = "Score", Description = "Current score at the current level")]
         [ReadOnly(true)]
         public int CurrentScore
@@ -191,6 +209,20 @@ namespace LSRI.TreasureHunter.Model
         [Display(Name = "Success Pattern", Description = "The outcomes (success or failure) of the last three levels")]
         public WinPattern Pattern { set; get; }
 
+        [Display(Name = "Visual Timer", Description = "Current score at the current level")]
+        public Gates VisualTiming
+        {
+            get { return _currTimer; }
+            set
+            {
+                if (_currTimer != value)
+                {
+                    _currTimer = value;
+                    OnPropertyChanged("VisualTiming");
+                }
+            }
+        }
+
 
         /// <summary>
         /// 
@@ -204,9 +236,12 @@ namespace LSRI.TreasureHunter.Model
             this._FqComparison = 0;
             this._currLevel = 1;
             this._currLife = 4;
+            this._currGold = 0;
             this._currScore = 0;
+            this._currExposure = 0;
             this._scores = new HighScoreContainer();
             this.Pattern = new WinPattern();
+            this.VisualTiming = new Gates();
         }
 
         /// <summary>
@@ -225,6 +260,7 @@ namespace LSRI.TreasureHunter.Model
             tmp._currScore = this._currScore;
             tmp.Pattern = this.Pattern;
             tmp.Scores = this.Scores.Clone();
+            tmp.VisualTiming = this.VisualTiming.Clone();
 
             return tmp;
         }
@@ -240,6 +276,7 @@ namespace LSRI.TreasureHunter.Model
             this._currScore = tmp._currScore;
             this.Pattern = tmp.Pattern;
             this.Scores = tmp.Scores.Clone();
+            this.VisualTiming = tmp.VisualTiming.Clone();
         }
 
         #region Stereotypes

@@ -391,12 +391,12 @@ namespace LSRI.AuditoryGames.AudioFramework
             //myqueue = new Queue<double>();
 
             _StimuliStructure = new List<Stimulus>();
-            _StimuliStructure.Add(new Stimulus(a, 0, 4 * 2));
-            _StimuliStructure.Add(new Stimulus(4 * 2, 10 * 2));
-            _StimuliStructure.Add(new Stimulus(b, 14 * 2, 4 * 2));
-            _StimuliStructure.Add(new Stimulus(18 * 2, 10 * 2));
-            _StimuliStructure.Add(new Stimulus(c, 28 * 2, 4 * 2));
-            _StimuliStructure.Add(new Stimulus(32 * 2, 40 * 2));
+            _StimuliStructure.Add(new Stimulus(a, 1+0, 4 * 2));
+            _StimuliStructure.Add(new Stimulus(1+4 * 2, 10 * 2));
+            _StimuliStructure.Add(new Stimulus(b, 1+14 * 2, 4 * 2));
+            _StimuliStructure.Add(new Stimulus(1+18 * 2, 10 * 2));
+            _StimuliStructure.Add(new Stimulus(c, 1+28 * 2, 4 * 2));
+            _StimuliStructure.Add(new Stimulus(1+32 * 2, 40 * 2));
 
             setSequencer(3);
         }

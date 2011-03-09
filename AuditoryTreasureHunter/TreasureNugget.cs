@@ -28,8 +28,6 @@ namespace LSRI.TreasureHunter
 
         public delegate void NuggetLogic(double dt);
         protected NuggetLogic enemyLogic = null;
-        protected int score = 0;
-        protected int index = 0;
 
         protected const double TIME_EXPOSURE = 2;
         protected double timeSinceExposure = -1;
@@ -42,24 +40,26 @@ namespace LSRI.TreasureHunter
             }
         }
 
-        public int Score
-        {
-            get
-            {
-                return score;
-            }
-        }
-
         public TreasureType Type {get; set;}
+        public int Depth { get; set; }
+        public int Score { get; set; }
+        public int Index { get; set; }
+        public bool IsExposed { get; set; }
 
         public TreasureNugget()
         {
+            Depth = 0;
+            Score = 0;
+            Index = 0;
+            IsExposed = true;
         }
 
 
         //public TreasureNugget startupBasicNugget(Point dimensions, AnimationData animationData, int score, int zLayer)
         public TreasureNugget startupBasicNugget(Point dimensions, int index, TreasureType type, int zLayer)
         {
+
+
             AnimationData animationData = new AnimationData(
                     new string[] { 
                         type==TreasureType.TREASURE_GOLD ? "Media/unknown.png" : "Media/unknown.png" },
@@ -70,10 +70,16 @@ namespace LSRI.TreasureHunter
             this.Visibility = System.Windows.Visibility.Collapsed;
             enemyLogic = new NuggetLogic(this.basicEnemyLogic);
             this._collisionName = CollisionIdentifiers.ENEMY;
-            this.score = 10;
+            this.Score = 10;
             this.Type = type;
-            this.index = index;
+            this.Index = index;
             return this;
+        }
+
+        public void ChangeExposure(bool exposure)
+        {
+            IsExposed = exposure;
+            this.Visibility = (exposure || (this.Type == TreasureType.TREASURE_NONE)) ? Visibility.Visible: Visibility.Collapsed;
         }
 
         public override void shutdown()
@@ -115,7 +121,10 @@ namespace LSRI.TreasureHunter
                 if (timeSinceExposure <= 0)
                 {
                     animationData.fps = 0.0005;
-                    animationData.frames = new string[] { "Media/hole1.png" };
+                    if (this.Type == TreasureType.TREASURE_METAL)
+                        animationData.frames = new string[] { "Media/metal1.png" };
+                    else
+                        animationData.frames = new string[] { "Media/hole1.png" };
                     currentFrame = 0;
                     //animationData.frames[currentFrame] = "media/hole1.png";
                     prepareImage(animationData.frames[currentFrame]);
@@ -149,13 +158,16 @@ namespace LSRI.TreasureHunter
                             Position.X + Dimensions.X / 2 - 55 / 2,
                             Position.Y + Dimensions.Y / 2 - 55 / 2);
 
-                TreasureApplicationManager.Instance.Score += score;
-                string newString = TreasureOptions.Instance.Game._curSetup.Substring(0, index) + "0" + TreasureOptions.Instance.Game._curSetup.Substring(index + 1);
+                TreasureApplicationManager.Instance.Score += Score;
+                string newString = TreasureOptions.Instance.Game._curSetup.Substring(0, this.Index) + "0" + TreasureOptions.Instance.Game._curSetup.Substring(this.Index + 1);
                 TreasureOptions.Instance.Game._curSetup = newString;
                 if (this.Type == TreasureType.TREASURE_GOLD)
                 {
                     TreasureOptions.Instance.Game._curGold--;
+                    TreasureOptions.Instance.User.CurrentGold++;
+                    TreasureOptions.Instance.User.CurrentScore += this.Score;
                     (TreasureApplicationManager.Instance as TreasureApplicationManager)._scorePanel.Gold = TreasureOptions.Instance.Game._curGold;
+                    (TreasureApplicationManager.Instance as TreasureApplicationManager)._scorePanel.Score = TreasureOptions.Instance.User.CurrentScore;
                 }
 
                 // Change visibility and initiate exposure animation

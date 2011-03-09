@@ -15,6 +15,7 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
+using LSRI.AuditoryGames.GameFramework;
 
 namespace LSRI.TreasureHunter.Model
 {
@@ -219,5 +220,78 @@ namespace LSRI.TreasureHunter.Model
                 return Nested.instance;
             }
         }
+
+        #region Debug Display Mode
+
+         /// <summary>
+        /// The GUI panel to display the debugging information
+        /// </summary>
+        private static TextBlock _debugUI = null;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Beat { set; get; }
+
+        /// <summary>
+        /// Add the debug information panel on the game page
+        /// </summary>
+        /// <param name="pg">A reference to the game's main page</param>
+        public void AttachDebug(GamePage pg)
+        {
+            if (pg == null) return;
+            if (_debugUI == null)
+            {
+                _debugUI = new TextBlock();
+                _debugUI.Text = "### Debug information ###";
+                _debugUI.Name = "txtbScore";
+                _debugUI.Width = 100;
+                _debugUI.Height = 35;
+                _debugUI.FontSize = 9;
+                _debugUI.FontFamily = new FontFamily("Courier New");
+                _debugUI.Foreground = new SolidColorBrush(Colors.White);
+                _debugUI.SetValue(Canvas.LeftProperty, 10.0);
+                _debugUI.SetValue(Canvas.TopProperty, 10.0);
+            }
+
+            // we have to insert any non GameObjects at the end of the children collection
+            pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, _debugUI);
+        }
+
+        public int nExposedX=0;
+        public int nExposedY=0;
+
+        /// <summary>
+        /// Update the content of the debug panel
+        /// </summary>
+        public void UpdateDebug()
+        {
+            if (_debugUI == null) return;
+            _debugUI.Text = String.Format(
+                "Training Fq : {0} Hz\n" +
+                "Delta       : {1} Hz\n" +
+                "-----\n" +
+                "Comparison  : {2} Hz\n" +
+                "-----\n" +
+                "Level       : {3}\n" +
+                "Gold        : {4}/{5}\n" +
+                "-----\n" +
+                "Exposure    : {6} - {7}/{8}\n" +
+                "{9}",
+                this.User.FrequencyTraining,
+                this.User.FrequencyDelta,
+                this.User.FrequencyComparison,
+                this.User.CurrentLevel,
+                this.User.CurrentGold,
+                this.Game._curGold,
+                this.User._currExposure,
+                nExposedX,
+                nExposedY,
+                this.Beat
+                );
+
+        }
+        #endregion
+
     }
 }

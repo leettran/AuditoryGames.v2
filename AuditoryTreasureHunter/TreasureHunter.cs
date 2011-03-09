@@ -65,6 +65,7 @@ namespace LSRI.TreasureHunter
                     _moveTo = new Point(0, 0);
                     // TreasureApplicationManager.Instance;
 
+                    (TreasureApplicationManager.Instance as TreasureApplicationManager).changeExposure();
                     (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound();
                 }
             }
@@ -92,6 +93,7 @@ namespace LSRI.TreasureHunter
                     {
                         _moveTo = new Point(TreasureOptions.Instance.Game._sizeZones, -1);
                         _currState = MinerActionStates.MINER_MOVE;
+                        (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Stop();
                     }
 
                 }
@@ -102,12 +104,13 @@ namespace LSRI.TreasureHunter
                 if (_currState == MinerActionStates.MINER_IDLE)
                 {
                     this.CurrentZone++;
-                    if (this.CurrentZone > (TreasureOptions.Instance.Game.InitZones - 1))
-                        this.CurrentZone = (TreasureOptions.Instance.Game.InitZones - 1);
+                    if (this.CurrentZone > (TreasureOptions.Instance.Game.Zones - 1))
+                        this.CurrentZone = (TreasureOptions.Instance.Game.Zones - 1);
                     else
                     {
                         _moveTo = new Point(TreasureOptions.Instance.Game._sizeZones, 1);
                         _currState = MinerActionStates.MINER_MOVE;
+                        (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Stop();
                     }
 
                 }

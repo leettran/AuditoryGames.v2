@@ -89,7 +89,8 @@ namespace LSRI.TreasureHunter
     **/
     public static class GameLayout
     {
-        public static int SKY_MARGIN = 200;
+        public static int MARGIN_SKY = 200;
+        public static int MARGIN_NUGGETS = 40;
     }
 
     public class TreasureApplicationManager : IAppManager
@@ -118,6 +119,7 @@ namespace LSRI.TreasureHunter
         /// 
         /// </summary>
         protected TreasureHunter _player = null;
+        public List<TreasureNugget> _nuggets = new List<TreasureNugget>();
 
         /// <summary>
         /// 
@@ -290,6 +292,12 @@ namespace LSRI.TreasureHunter
 
         public void startGame()
         {
+            TreasureOptions.Instance.AttachDebug(AuditoryGameApp.Current.RootVisual as GamePage);
+
+            TreasureOptions.Instance.User.CurrentLife = TreasureOptions.Instance.Game.Charges;
+            TreasureOptions.Instance.User.CurrentGold = 0;
+            TreasureOptions.Instance.User.CurrentScore = 0;
+
             // Get a random game descriptor
             List<String> setup = TreasureOptions.Instance.Game.GetLevelDescriptors();
             String settings = setup[rand.Next(0, setup.Count - 1)];
@@ -316,7 +324,7 @@ namespace LSRI.TreasureHunter
 
             // Get layout
             Canvas cv = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot;
-            TreasureOptions.Instance.Game._sizeZones = ((int)cv.ActualWidth) / TreasureOptions.Instance.Game.InitZones;
+            TreasureOptions.Instance.Game._sizeZones = ((int)cv.ActualWidth) / TreasureOptions.Instance.Game.Zones;
 
             //// initialise game objects
             // background image
@@ -325,9 +333,9 @@ namespace LSRI.TreasureHunter
                 ImageStretch = Stretch.Fill
             };
             bgImage.startupBackgroundGameObject(
-                new Point(cv.ActualWidth, cv.ActualHeight - GameLayout.SKY_MARGIN),
+                new Point(cv.ActualWidth, cv.ActualHeight - GameLayout.MARGIN_SKY),
                "Media/bg.png", -1);
-            bgImage.Position = new Point(0, GameLayout.SKY_MARGIN);
+            bgImage.Position = new Point(0, GameLayout.MARGIN_SKY);
 
             // rail object
             BackgroundTreasureGameObject railImage = new BackgroundTreasureGameObject()
@@ -337,7 +345,7 @@ namespace LSRI.TreasureHunter
             railImage.startupGameObject(
                 new Point(cv.ActualWidth, 15),
                "Media/rail.png", -1);
-            railImage.Position = new Point(0, GameLayout.SKY_MARGIN - 10);
+            railImage.Position = new Point(0, GameLayout.MARGIN_SKY - 10);
 
             // player object
             _player = new TreasureHunter();
@@ -348,29 +356,53 @@ namespace LSRI.TreasureHunter
                     1),
                 ZLayers.PLAYER_Z);
 
-            _player.CurrentZone =  (TreasureOptions.Instance.Game.InitZones / 2);
+            _player.CurrentZone =  (TreasureOptions.Instance.Game.Zones / 2);
             int currLoc = TreasureOptions.Instance.Game._sizeZones * _player.CurrentZone + (TreasureOptions.Instance.Game._sizeZones - (int)_player.Dimensions.X) / 2;
-            _player.Position = new Point(currLoc, GameLayout.SKY_MARGIN - _player.Dimensions.Y - 10);
+            _player.Position = new Point(currLoc, GameLayout.MARGIN_SKY - _player.Dimensions.Y - 10);
 
             
             // treasure nuggets
-            double dd = bgImage.Dimensions.Y-56-50;
+            double dd = bgImage.Dimensions.Y - GameLayout.MARGIN_NUGGETS*2;
+            double depthsize = dd / TreasureOptions.Instance.Game.Depth;
 
-            for (int i = 0; i < TreasureOptions.Instance.Game.InitZones; i++)
+            _nuggets.Clear();
+
+            int[] intArray = new int[TreasureOptions.Instance.Game._curGold];
+            for (int i = 0, j=0; i < TreasureOptions.Instance.Game.Zones; i++)
             {
-                Point pt = new Point(TreasureOptions.Instance.Game._sizeZones * i, dd);
-                pt.X = pt.X + (TreasureOptions.Instance.Game._sizeZones - 56) / 2;
-                pt.Y = GameLayout.SKY_MARGIN + 25 + this.rand.Next(0, (int)dd);
                 Boolean isGold = (settings[i] == '1');
 
-                TreasureNugget.UnusedNuggets.startupBasicNugget(
+                TreasureNugget ng = TreasureNugget.UnusedNuggets.startupBasicNugget(
                     new Point(56,40),
                     i,
                     isGold ? TreasureNugget.TreasureType.TREASURE_GOLD : TreasureNugget.TreasureType.TREASURE_METAL,
-                    ZLayers.PLAYER_Z)
-                .Position = pt;
-            }
+                    ZLayers.PLAYER_Z);
 
+                Point pt = new Point(TreasureOptions.Instance.Game._sizeZones * i, dd);
+                pt.X = pt.X + (TreasureOptions.Instance.Game._sizeZones - ng.Dimensions.X) / 2;
+                //pt.Y = GameLayout.MARGIN_SKY + 25 + this.rand.Next(0, (int)depthsize) * depthsize;
+                int loc = this.rand.Next(0, TreasureOptions.Instance.Game.Depth);
+
+                double scoreRatio = (loc + 1.0) / (double)TreasureOptions.Instance.Game.Depth;
+
+                //loc = (i % TreasureOptions.Instance.Game.Depth);
+                pt.Y = GameLayout.MARGIN_SKY + GameLayout.MARGIN_NUGGETS + loc * depthsize;
+                pt.Y += (depthsize - ng.Dimensions.Y) / 2;
+                ng.Depth = loc;
+                ng.Position = pt;
+                ng.Score = (isGold) ? (int)(200 * scoreRatio) : 0;
+                if (isGold)
+                {
+                    intArray[j] = loc;
+                    j++;
+                }
+
+                _nuggets.Add(ng);
+            }
+            Array.Sort(intArray, delegate(int x, int y) { return y.CompareTo(x); });
+
+
+            changeExposure();
 
             /*// score window (TO DO AGAIN)
             txtbScore = new TextBlock();
@@ -386,12 +418,15 @@ namespace LSRI.TreasureHunter
            // (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Insert(
             //    (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Count, txtbScore);*/
 
-            ScoreControl ff = new ScoreControl();
+           /* ScoreControl ff = new ScoreControl();
             ff.SetValue(Canvas.LeftProperty, 10.0);
             ff.SetValue(Canvas.TopProperty, 10.0);
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(
                 (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Count, ff);
+            */
 
+           // UpdateSound();
+            /*
             float freqL = 0;
             float freqM = 0;
             float freqR = 0;
@@ -435,7 +470,7 @@ namespace LSRI.TreasureHunter
                 freqR = (nbL < nbR) ? 5000 : 3000;
                 
 
-            }
+            }*/
            /* _synthEx.Arpeggiator.Notes[0].Frequency = freqL;
             _synthEx.Arpeggiator.Notes[2].Frequency = freqM;
             _synthEx.Arpeggiator.Notes[4].Frequency = freqR;
@@ -446,6 +481,7 @@ namespace LSRI.TreasureHunter
            // children.Play();
             //this._synthEx.Start();
             UpdateSound();
+            TreasureOptions.Instance.UpdateDebug();
         }
 
         public void exitGame()
@@ -481,50 +517,58 @@ namespace LSRI.TreasureHunter
                 }
             }
 
+            if (KeyHandler.Instance.isKeyPressed(Key.Add) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
+            {
+                TreasureOptions.Instance.User._currExposure++;
+                if (TreasureOptions.Instance.User._currExposure >= 4) TreasureOptions.Instance.User._currExposure = 4;
+                changeExposure();
+            }
+
+            if (KeyHandler.Instance.isKeyPressed(Key.Subtract) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
+            {
+                TreasureOptions.Instance.User._currExposure--;
+                if (TreasureOptions.Instance.User._currExposure <= 0) TreasureOptions.Instance.User._currExposure = 0;
+                changeExposure();
+            }
             
             timeSinceLastEnemy -= dt;
             timeSinceLastBackground -= dt;
-
-        /*    if (timeSinceLastEnemy <= 0)
-            {
-                timeSinceLastEnemy = TIME_BETWEEN_ENEMIES;
-                
-                TreasureNugget.UnusedEnemy.startupBasicEnemy(
-                    new Point(32, 32),
-                    new AnimationData(
-                        new string[] { "Media/blueplane1.png", "Media/blueplane2.png", "Media/blueplane3.png" },
-                        10),
-                    10,
-                    ZLayers.PLAYER_Z)
-                    .Position =
-                        new Point(rand.Next(0, (int)(LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.ActualWidth), 32);
-            }*/
-
-        /*    if (timeSinceLastBackground <= 0)
-            {
-                timeSinceLastBackground = TIME_BETWEEN_BACKGROUNDS;
-                
-                BackgroundTreasureGameObject.UnusedBackgroundGameObject.startupBackgroundGameObject(
-                    new Point(65, 65),
-                    "Media/bigisland.png",
-                    ZLayers.BACKGROUND_Z)
-                    .Position =
-                        new Point(rand.Next(0, (int)(LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.ActualHeight), -65);
-            }*/
+            TreasureOptions.Instance.UpdateDebug();
         }
 
+
+        public void changeExposure()
+        {
+            double delta = TreasureOptions.Instance.User.VisualTiming.Data[TreasureOptions.Instance.User._currExposure];
+            TreasureOptions.Instance.nExposedX = (int)(delta * TreasureOptions.Instance.Game.Zones);
+            TreasureOptions.Instance.nExposedY = (int)(delta * TreasureOptions.Instance.Game.Depth);
+            for (int i = 0; i < _nuggets.Count; i++)
+            {
+                TreasureNugget tt = _nuggets[i];
+                tt.ChangeExposure(true);
+              //  if (tt.Depth > TreasureOptions.Instance.nExposedY)
+              //      tt.ChangeExposure(false);
+                if  (Math.Abs(_player.CurrentZone - tt.Index) > TreasureOptions.Instance.nExposedX)
+                    tt.ChangeExposure(false);
+            }
+        }
 
         public void UpdateSound()
         {
             double freqL = 0;
             double freqM = 0;
             double freqR = 0;
+
+            double fqTrain = TreasureOptions.Instance.User.FrequencyTraining;
+            double fqComp = TreasureOptions.Instance.User.FrequencyTraining - TreasureOptions.Instance.User.FrequencyDelta;
+            TreasureOptions.Instance.User.FrequencyComparison = fqComp;
+
             if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Proximity)
             {
-                freqL = ((_player.CurrentZone - 1) >= 0 && TreasureOptions.Instance.Game._curSetup[_player.CurrentZone - 1] == '1') ? 5000 : 3000;
-                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
+                freqL = ((_player.CurrentZone - 1) >= 0 && TreasureOptions.Instance.Game._curSetup[_player.CurrentZone - 1] == '1') ? fqTrain : fqComp;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? fqTrain : fqComp;
                 freqR = (((_player.CurrentZone + 1) < TreasureOptions.Instance.Game._curSetup.Length) &&
-                                TreasureOptions.Instance.Game._curSetup[_player.CurrentZone + 1] == '1') ? 5000 : 3000;
+                                TreasureOptions.Instance.Game._curSetup[_player.CurrentZone + 1] == '1') ? fqTrain : fqComp;
             }
             else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Value)
             {
@@ -537,9 +581,9 @@ namespace LSRI.TreasureHunter
                 if (nbR == -1) nbR += 100001;
 
 
-                freqL = (nbL < nbR) ? 5000 : 3000;
-                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
-                freqR = (nbL >= nbR) ? 5000 : 3000;
+                freqL = (nbL <= nbR) ? fqTrain : fqComp;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? fqTrain : fqComp;
+                freqR = (nbL >= nbR) ? fqTrain : fqComp;
             }
             else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Distance)
             {
@@ -555,9 +599,9 @@ namespace LSRI.TreasureHunter
                 {
                     if (right[i] == '1') nbR++;
                 }
-                freqL = (nbL >= nbR) ? 5000 : 3000;
-                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
-                freqR = (nbL < nbR) ? 5000 : 3000;
+                freqL = (nbL >= nbR) ? fqTrain : fqComp;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? fqTrain : fqComp;
+                freqR = (nbL <= nbR) ? fqTrain : fqComp;
 
 
             }

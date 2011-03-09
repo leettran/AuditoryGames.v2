@@ -248,6 +248,17 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             };
         }
 
+        public Gates Clone()
+        {
+            Gates temp = new Gates();
+            temp.Data = new double[this.Data.Length];
+            for (int i=0;i<this.Data.Length;i++)
+            {
+                temp.Data[i] = this.Data[i];
+            }
+            return temp;
+        }
+
         #region IEditableObject Gates
 
         private double[] _temp;

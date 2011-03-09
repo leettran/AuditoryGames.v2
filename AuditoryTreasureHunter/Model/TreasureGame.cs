@@ -53,6 +53,7 @@ namespace LSRI.TreasureHunter.Model
         private int _nbDepth;
         private bool _isMaxGold;
         private int _MaxGold;
+        private int _nbCharges;
         private DetectionMode _mdDetect;
         private DisplayMode _mdDisplay;
         private OpacityMode _mdOpacity;
@@ -65,9 +66,9 @@ namespace LSRI.TreasureHunter.Model
         /// <summary>
         /// 
         /// </summary>
-        [Display(Name = "Zones - Initial Number", Description = "Number of zones to explore")]
-        [Range(5, 20)]
-        public int InitZones
+        [Display(Name = "Zones", Description = "Number of zones to explore")]
+        [Range(5, 30)]
+        public int Zones
         {
             get
             {
@@ -78,7 +79,7 @@ namespace LSRI.TreasureHunter.Model
                 if (_nbZones != value)
                 {
                     _nbZones = value;
-                    OnPropertyChanged("InitZones");
+                    OnPropertyChanged("Zones");
                 }
             }
         }
@@ -101,8 +102,50 @@ namespace LSRI.TreasureHunter.Model
             }
         }
 
+        [Display(Name = "Charges", Description = "Number of digging charges the user will have")]
+        [Range(1, 20)]
+        public int Charges
+        {
+            get
+            {
+                return _nbCharges;
+            }
+            set
+            {
+                if (_nbCharges != value)
+                {
+                    _nbCharges = value;
+                    OnPropertyChanged("Charges");
+                }
+            }
+        }
+
+
+        public class MyValidators
+        {
+            public static ValidationResult CheckGold(int gold)
+            {
+                bool isValid = (gold >= 1) && (gold <= (TreasureOptions.Instance.Game.Zones * 2 / 3));
+
+                // Perform validation logic here and set isValid to true or false.
+
+                if (isValid)
+                {
+                    return ValidationResult.Success;
+                }
+                else
+                {
+                    return new ValidationResult(
+                        String.Format(
+                        "The field Gold must be between 0 and {0}", TreasureOptions.Instance.Game.Zones * 2 / 3));
+                }
+            }
+
+        }
+
         [Display(Name = "Gold", Description = "Number of Gold nugget to extract")]
-        [Range(1, 10)]
+        //[Range(1, 10)]
+        [CustomValidation(typeof(MyValidators), "CheckGold")]
         public int Gold
         {
             get
@@ -119,7 +162,7 @@ namespace LSRI.TreasureHunter.Model
             }
         }
 
-        [Display(Name = "Maximize Gold", Description = "The number of nuggets is maximised, based on number of zones")]
+        [Display(Name = "Maximize Gold", Description = "The number of nuggets is maximised, i.e. 2/3 of the number of zones",AutoGenerateField = false)]
         public bool MaxGold
         {
             get
@@ -214,6 +257,7 @@ namespace LSRI.TreasureHunter.Model
             this._nbDepth = 10;
             this._isMaxGold = true;
             this._MaxGold = 5;
+            this._nbCharges = 2;
         }
 
         /// <summary>
@@ -225,6 +269,7 @@ namespace LSRI.TreasureHunter.Model
             TreasureGame tmp = new TreasureGame();
             tmp._nbZones = this._nbZones;
             tmp._nbDepth = this._nbDepth;
+            tmp._nbCharges = this._nbCharges;
             tmp._isMaxGold = this._isMaxGold;
             tmp._MaxGold = this._MaxGold;
             tmp._mdDetect = this._mdDetect;
@@ -239,6 +284,7 @@ namespace LSRI.TreasureHunter.Model
             if (tmp == null) return;
             this._nbZones = tmp._nbZones;
             this._nbDepth = tmp._nbDepth;
+            this._nbCharges = tmp._nbCharges;
             this._isMaxGold = tmp._isMaxGold;
             this._MaxGold = tmp._MaxGold;
             this._mdDetect = tmp._mdDetect;
@@ -256,10 +302,10 @@ namespace LSRI.TreasureHunter.Model
         {
             List<String> setup = new List<String>();
             this._curGold = 0;
-            if (this.MaxGold) this._curGold = this.InitZones - (this.InitZones / 3);
+            if (this.MaxGold) this._curGold = this.Zones - (this.Zones / 3);
             else this._curGold = this.Gold;
 
-            GenerateDescriptions("", this._curGold, this.InitZones, setup);
+            GenerateDescriptions("", this._curGold, this.Zones, setup);
             return setup;
         }
 

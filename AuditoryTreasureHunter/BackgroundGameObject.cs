@@ -53,9 +53,9 @@ namespace LSRI.TreasureHunter
         public BackgroundTreasureGameObject startupBackgroundGameObject(Point dimensions, string image, int zLayer)
         {
             base.startupGameObject(dimensions, image, zLayer);
-            Zones = new Polyline[TreasureOptions.Instance.Game.InitZones];
+            Zones = new Polyline[TreasureOptions.Instance.Game.Zones];
             int rr = TreasureOptions.Instance.Game._sizeZones;
-            for (int i = 0; i < TreasureOptions.Instance.Game.InitZones; i++)
+            for (int i = 0; i < TreasureOptions.Instance.Game.Zones; i++)
             {
 
                 Zones[i] = new Polyline();
