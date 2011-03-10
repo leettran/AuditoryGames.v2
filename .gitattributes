@@ -163,6 +163,8 @@ AuditoryTreasureHunter/Properties/OutOfBrowserSettings.xml -text
 AuditoryTreasureHunter/TreasureApp.cs -text
 AuditoryTreasureHunter/TreasureHunter.cs -text
 AuditoryTreasureHunter/TreasureNugget.cs -text
+AuditoryTreasureHunter/UI/ScorePanel.xaml -text
+AuditoryTreasureHunter/UI/ScorePanel.xaml.cs -text
 AuditoryTreasureHunter/UI/TreasureToolbox.xaml -text
 AuditoryTreasureHunter/UI/TreasureToolbox.xaml.cs -text
 AuditoryTreasureHunter/Weapon.cs -text

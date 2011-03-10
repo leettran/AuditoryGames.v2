@@ -22,6 +22,8 @@ namespace LSRI.TreasureHunter
         public delegate void WeaponLogic(double dt);
         protected WeaponLogic weaponLogic = null;
 
+        private GameObject _player = null;
+
         static public HunterWeapon UnusedWeapon
         {
             get
@@ -41,9 +43,10 @@ namespace LSRI.TreasureHunter
             if (weaponLogic != null) weaponLogic(dt);
         }
 
-        public HunterWeapon startupPlayerBasicWeapon(int zLayer)
+        public HunterWeapon startupPlayerBasicWeapon(GameObject parent)
         {
-            base.startupGameObject(new Point(17, 15), "Media/twobullets.png", zLayer);
+            base.startupGameObject(new Point(17, 15), "Media/twobullets.png", ZLayers.PLAYER_Z);
+            _player = parent;
             weaponLogic = new WeaponLogic(this.basicPlayerWeaponLogic);
             this._collisionName = CollisionIdentifiers.PLAYERWEAPON;
             return this;
@@ -79,6 +82,7 @@ namespace LSRI.TreasureHunter
         {
             base.collision(other);
             this.shutdown();
+            if (_player != null) _player.collision(other);
         }
     }
 }

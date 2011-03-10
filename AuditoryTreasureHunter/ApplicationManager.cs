@@ -279,10 +279,16 @@ namespace LSRI.TreasureHunter
             param.SetValue(Canvas.TopProperty, 50.0);
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(param);*/
 
-            MapViewer mp = new MapViewer();
-            mp.SetValue(Canvas.LeftProperty, 50.0);
-            mp.SetValue(Canvas.TopProperty, 250.0);
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(mp);
+            //MapViewer mp = new MapViewer();
+            //mp.SetValue(Canvas.LeftProperty, 50.0);
+            //mp.SetValue(Canvas.TopProperty, 250.0);
+            //(AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(mp);
+
+            /*QuickPlayPanel qp = new QuickPlayPanel();
+            qp.LayoutRoot.DataContext = TreasureOptions.Instance;
+            qp.SetValue(Canvas.LeftProperty, 50.0);
+            qp.SetValue(Canvas.TopProperty, 250.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(qp);*/
         }
 
         public void endMainMenu()
@@ -506,7 +512,7 @@ namespace LSRI.TreasureHunter
 
             if (KeyHandler.Instance.isKeyPressed(Key.Down) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
             {
-                Visibility? vis = null;
+               /* Visibility? vis = null;
                 for (int i = 0; i < GameObject.gameObjects.Count; ++i)
                 {
                     TreasureNugget nug = GameObject.gameObjects[i] as TreasureNugget;
@@ -514,7 +520,8 @@ namespace LSRI.TreasureHunter
                     if (nug.Type == TreasureNugget.TreasureType.TREASURE_NONE) continue;
                     if (vis == null) vis = (nug.Visibility == Visibility.Collapsed) ? Visibility.Visible : Visibility.Collapsed;
                     nug.Visibility = (Visibility)vis;
-                }
+                }*/
+                UpdateSound();
             }
 
             if (KeyHandler.Instance.isKeyPressed(Key.Add) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
@@ -530,7 +537,18 @@ namespace LSRI.TreasureHunter
                 if (TreasureOptions.Instance.User._currExposure <= 0) TreasureOptions.Instance.User._currExposure = 0;
                 changeExposure();
             }
-            
+
+            if (KeyHandler.Instance.isKeyPressed(Key.D1) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
+            {
+                TreasureOptions.Instance.Game.Display = TreasureGame.DisplayMode.Content;
+                changeExposure();
+            }
+            if (KeyHandler.Instance.isKeyPressed(Key.D2) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
+            {
+                TreasureOptions.Instance.Game.Display = TreasureGame.DisplayMode.Position;
+                changeExposure();
+            }
+
             timeSinceLastEnemy -= dt;
             timeSinceLastBackground -= dt;
             TreasureOptions.Instance.UpdateDebug();
@@ -570,7 +588,7 @@ namespace LSRI.TreasureHunter
                 freqR = (((_player.CurrentZone + 1) < TreasureOptions.Instance.Game._curSetup.Length) &&
                                 TreasureOptions.Instance.Game._curSetup[_player.CurrentZone + 1] == '1') ? fqTrain : fqComp;
             }
-            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Value)
+            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Distance)
             {
                 String left = TreasureOptions.Instance.Game._curSetup.Substring(0, _player.CurrentZone);
                 String right = TreasureOptions.Instance.Game._curSetup.Substring(_player.CurrentZone + 1);
@@ -585,7 +603,7 @@ namespace LSRI.TreasureHunter
                 freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? fqTrain : fqComp;
                 freqR = (nbL >= nbR) ? fqTrain : fqComp;
             }
-            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Distance)
+            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Value)
             {
                 String left = TreasureOptions.Instance.Game._curSetup.Substring(0, _player.CurrentZone);
                 String right = TreasureOptions.Instance.Game._curSetup.Substring(_player.CurrentZone + 1);

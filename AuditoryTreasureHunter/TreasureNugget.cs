@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 using LSRI.AuditoryGames.GameFramework;
 using System.Windows.Threading;
 using LSRI.TreasureHunter.Model;
+using LSRI.TreasureHunter.UI;
 
 namespace LSRI.TreasureHunter
 {
@@ -76,10 +77,71 @@ namespace LSRI.TreasureHunter
             return this;
         }
 
+        private void ChangeNuggetDisplay()
+        {
+            String strCnt="";
+            if (TreasureOptions.Instance.Game.Display == TreasureGame.DisplayMode.Content)
+            {
+                if (Type == TreasureType.TREASURE_NONE)
+                {
+                    strCnt = "Media/hole1.png";
+                }
+                else
+                {
+                    if (!IsExposed)
+                        strCnt = "Media/unknown.png";
+                    else if (Type == TreasureType.TREASURE_GOLD) strCnt = "Media/gold1.png";
+                    else if (Type == TreasureType.TREASURE_METAL) strCnt = "Media/metal1.png";
+                    else strCnt = "Media/hole1.png";
+                }
+                this.Visibility = Visibility.Visible;
+            }
+            if (TreasureOptions.Instance.Game.Display == TreasureGame.DisplayMode.Position)
+            {
+                if (Type == TreasureType.TREASURE_NONE)
+                {
+                    strCnt = "Media/hole1.png";
+                    this.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    strCnt = "Media/unknown.png";
+                    if (!IsExposed)
+                    {
+                        //strCnt = "Media/unknown.png";
+                        this.Visibility = Visibility.Collapsed;
+                    }
+                    else this.Visibility = Visibility.Visible;
+                }
+            }
+            if (TreasureOptions.Instance.Game.Display == TreasureGame.DisplayMode.None)
+            {
+                if (Type == TreasureType.TREASURE_NONE)
+                {
+                    strCnt = "Media/hole1.png";
+                    this.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    strCnt = "Media/unknown.png";
+                    if (!IsExposed)
+                    {
+                        //strCnt = "Media/unknown.png";
+                        this.Visibility = Visibility.Collapsed;
+                    }
+                    else this.Visibility = Visibility.Visible;
+                }
+            }
+
+            animationData.frames = new string[] { strCnt };
+            currentFrame = 0;
+            prepareImage(animationData.frames[currentFrame]);
+        }
+
         public void ChangeExposure(bool exposure)
         {
             IsExposed = exposure;
-            this.Visibility = (exposure || (this.Type == TreasureType.TREASURE_NONE)) ? Visibility.Visible: Visibility.Collapsed;
+           ChangeNuggetDisplay();
         }
 
         public override void shutdown()
@@ -182,7 +244,22 @@ namespace LSRI.TreasureHunter
                 prepareImage(animationData.frames[currentFrame]);
 
              }
-            (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound();
+
+            if (true)
+            {
+                GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
+                ScorePanel pn = new ScorePanel();
+                pn.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pn.Width) / 2);
+                pn.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pn.Height) / 2);
+                pn.OnCompleteTask += delegate()
+                {
+                    StateManager.Instance.setState(States.START_STATE);
+                    //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
+                };
+                pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, pn);
+            }
+            else
+                (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound();
            // this.shutdown();
         }
     }

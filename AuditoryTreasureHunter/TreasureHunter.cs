@@ -72,13 +72,13 @@ namespace LSRI.TreasureHunter
 
             if (TreasureApplicationManager.PREVENT_AUDIO_CHANGES) return;
 
-            timeSinceLastShot -= dt;
+            //timeSinceLastShot -= dt;
             if (KeyHandler.Instance.isKeyPressed(Key.Space) && timeSinceLastShot <= 0 && _currState == MinerActionStates.MINER_IDLE)
             {
                 TreasureOptions.Instance.User.CurrentLife--;
                 (TreasureApplicationManager.Instance as TreasureApplicationManager)._scorePanel.Life = TreasureOptions.Instance.User.CurrentLife;
                 timeSinceLastShot = TIME_BETWEEN_SHOTS;
-                HunterWeapon weapon = HunterWeapon.UnusedWeapon.startupPlayerBasicWeapon(ZLayers.PLAYER_Z);
+                HunterWeapon weapon = HunterWeapon.UnusedWeapon.startupPlayerBasicWeapon(this);
                 weapon.Position = new Point(Position.X + dimensions.X / 2 - weapon.Dimensions.X / 2, Position.Y + dimensions.Y - weapon.Dimensions.Y);
             }
 
@@ -126,7 +126,8 @@ namespace LSRI.TreasureHunter
 
         public override void collision(GameObject other)
         {
-            base.collision(other);
+            //base.collision(other);
+            timeSinceLastShot = 0;
         }
     }
 }
