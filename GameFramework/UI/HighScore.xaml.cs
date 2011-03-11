@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace GameFramework.UI
+namespace LSRI.AuditoryGames.GameFramework.UI
 {
     public partial class HighScoreControl : UserControl
     {
