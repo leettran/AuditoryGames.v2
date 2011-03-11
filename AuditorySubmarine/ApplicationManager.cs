@@ -9,12 +9,12 @@ using LSRI.AuditoryGames.GameFramework;
 using LSRI.Submarine;
 using LSRI.AuditoryGames.AudioFramework;
 using LSRI.AuditoryGames.GameFramework.Data;
-using GameFramework.UI;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.IO;
 using System.Xml.Serialization;
+using LSRI.AuditoryGames.GameFramework.UI;
 
 
 
@@ -714,11 +714,15 @@ namespace LSRI.Submarine
 
         private void startOptions()
         {
-            SubmarineOptionPanel panel = new SubmarineOptionPanel();
+            //SubmarineOptionPanel panel = new SubmarineOptionPanel();
+            GameParameters panel = new GameParameters(
+               SubOptions.Instance.User,
+               SubOptions.Instance.Auditory,
+               SubOptions.Instance.Game);
             panel.SetValue(Canvas.LeftProperty, 10.0);
             panel.SetValue(Canvas.TopProperty, 10.0);
 
-            panel.OnCompleteTask += delegate(SubmarineOptionPanel.CompleteTaskArgs arg) 
+            panel.OnCompleteTask += delegate() 
             {
                 this._synthEx.Sequencer._freqChangedHook -= new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
                 this._synthEx.Sequencer._freqPlayedHook -= new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);

@@ -17,8 +17,11 @@ using System.IO;
 using System.Xml.Serialization;
 //using System.Xml.Serialization;
 
-namespace LSRI.Submarine
+namespace LSRI.Submarine.UI
 {
+    /// <summary>
+    /// @deprecated Replaced by the generic LSRI.AuditoryGames.GameFramework.GameParameters class
+    /// </summary>
     public partial class SubmarineOptionPanel : UserControl
     {
         public class CompleteTaskArgs : EventArgs
@@ -32,9 +35,7 @@ namespace LSRI.Submarine
         public SubmarineOptionPanel()
         {
             InitializeComponent();
-            //_xPeople.ItemsSource = SubOptions.Instance.UserLists;
             _xPeople.CurrentItem = SubOptions.Instance.User;
-            //_xPeople.ItemsSource = new UserModelContainer().UserModels;
             _xStaircase.CurrentItem = SubOptions.Instance.Auditory;
             _xGameOption.CurrentItem = SubOptions.Instance.Game;
         }
@@ -58,33 +59,6 @@ namespace LSRI.Submarine
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             SubOptions.Instance.SaveConfiguration();
-           /* IsolatedStorageSettings.ApplicationSettings["Submarine.configuration"] = SubOptions.Instance;
-            IsolatedStorageSettings.ApplicationSettings.Save();
-
-            using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                using (IsolatedStorageFileStream isoStream = store.OpenFile(@"ApplicationSettings.xml", FileMode.Create))
-                {
-                    XmlSerializer s = new XmlSerializer(typeof(SubOptions));
-                    TextWriter writer = new StreamWriter(isoStream);
-                    s.Serialize(writer, SubOptions.Instance);
-                    writer.Close();       
-                }
-            }
-
-            using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                using (IsolatedStorageFileStream isoStream = store.OpenFile(@"ApplicationSettings.xml", FileMode.Open))
-                {
-                    XmlSerializer s = new XmlSerializer(typeof(SubOptions));
-                    TextReader writer = new StreamReader(isoStream);
-                    SubOptions tt = s.Deserialize(writer) as SubOptions;
-                    writer.Close();
-                }
-            }
-
-            SubOptions sss = IsolatedStorageSettings.ApplicationSettings["Submarine.configuration"] as SubOptions;*/
-
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)

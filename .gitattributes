@@ -115,13 +115,13 @@ AuditorySubmarine/Properties/OutOfBrowserSettings.xml -text
 AuditorySubmarine/StartLevelPanel.xaml -text
 AuditorySubmarine/StartLevelPanel.xaml.cs -text
 AuditorySubmarine/SubmarineApp.cs -text
-AuditorySubmarine/SubmarineOptions.xaml -text
-AuditorySubmarine/SubmarineOptions.xaml.cs -text
 AuditorySubmarine/SubmarinePlayer.cs -text
 AuditorySubmarine/SubmarineScorePanel.xaml -text
 AuditorySubmarine/SubmarineScorePanel.xaml.cs -text
 AuditorySubmarine/SubmarineToolbox.xaml -text
 AuditorySubmarine/SubmarineToolbox.xaml.cs -text
+AuditorySubmarine/UI/SubmarineOptions.xaml -text
+AuditorySubmarine/UI/SubmarineOptions.xaml.cs -text
 AuditorySubmarine/WallObject.cs -text
 AuditoryTreasureHunter/ApplicationManager.cs -text
 AuditoryTreasureHunter/AuditoryTreasureHunter.csproj -text
