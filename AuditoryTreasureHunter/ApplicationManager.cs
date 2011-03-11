@@ -373,8 +373,9 @@ namespace LSRI.TreasureHunter
 
             _nuggets.Clear();
 
-            int[] intArray = new int[TreasureOptions.Instance.Game._curGold];
-            for (int i = 0, j=0; i < TreasureOptions.Instance.Game.Zones; i++)
+            int[] depthArray = new int[TreasureOptions.Instance.Game._curGold];
+            int[] scoreArray = new int[TreasureOptions.Instance.Game._curGold];
+            for (int i = 0, j = 0; i < TreasureOptions.Instance.Game.Zones; i++)
             {
                 Boolean isGold = (settings[i] == '1');
 
@@ -399,13 +400,15 @@ namespace LSRI.TreasureHunter
                 ng.Score = (isGold) ? (int)(200 * scoreRatio) : 0;
                 if (isGold)
                 {
-                    intArray[j] = loc;
+                    depthArray[j] = loc;
+                    scoreArray[j] = ng.Score;
                     j++;
                 }
 
                 _nuggets.Add(ng);
             }
-            Array.Sort(intArray, delegate(int x, int y) { return y.CompareTo(x); });
+            Array.Sort(depthArray, delegate(int x, int y) { return y.CompareTo(x); });
+            Array.Sort(scoreArray, delegate(int x, int y) { return y.CompareTo(x); });
 
 
             changeExposure();
