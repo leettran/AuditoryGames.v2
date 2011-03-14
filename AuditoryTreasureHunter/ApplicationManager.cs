@@ -17,6 +17,7 @@ using LSRI.AuditoryGames.GameFramework;
 using LSRI.TreasureHunter.UI;
 using LSRI.TreasureHunter.Model;
 using LSRI.AuditoryGames.GameFramework.Data;
+using LSRI.AuditoryGames.GameFramework.UI;
 
 namespace LSRI.TreasureHunter
 {
@@ -192,341 +193,12 @@ namespace LSRI.TreasureHunter
             //(App.Current.RootVisual as Page).AudioPlayer.SetSource(_synthEx);
         }
 
-        public void startMainMenu()
-        {
-            this._scorePanel = new TreasureToolbox()
-            {
-                FullMode = false
-            };
-            _scorePanel.SetValue(Canvas.LeftProperty, 0.0);
-            _scorePanel.SetValue(Canvas.TopProperty, 0.0);
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(_scorePanel);
-
-
-            ButtonIcon btnStart = new ButtonIcon();
-            //btnStart.Content = "Start Game (Proximity mode)";
-            btnStart.TextContent.Text = "Start Game (Proximity mode)";
-            btnStart.Icon.Source = ResourceHelper.GetBitmap("Media/smallisland.png");
-            btnStart.Width = 250;
-            btnStart.Height = 45;
-            btnStart.SetValue(Canvas.LeftProperty, 490.0);
-            btnStart.SetValue(Canvas.TopProperty, 300.0);
-            btnStart.Click += delegate(object sender, RoutedEventArgs e) {
-                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Proximity;
-                StateManager.Instance.setState(TreasureStates.LEVEL_STATE); 
-            };
-            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
-
-            btnStart = new ButtonIcon();
-            btnStart.TextContent.Text = "Start Game (Value mode)";
-            //btnStart.Icon.Source = ResourceHelper.GetBitmap("Media/smallisland.png");
-            btnStart.Width = 250;
-            btnStart.Height = 45;
-            btnStart.SetValue(Canvas.LeftProperty, 490.0);
-            btnStart.SetValue(Canvas.TopProperty, 370.0);
-            btnStart.IsEnabled = true;
-            btnStart.Click += delegate(object sender, RoutedEventArgs e)
-            {
-                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Value;
-                StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
-            };
-            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
-
-            btnStart = new ButtonIcon();
-            btnStart.TextContent.Text = "Start Game (distance mode)";
-            //btnStart.Icon.Source = ResourceHelper.GetBitmap("Media/smallisland.png");
-            btnStart.Width = 250;
-            btnStart.Height = 45;
-            btnStart.IsEnabled = true;
-            btnStart.SetValue(Canvas.LeftProperty, 490.0);
-            btnStart.SetValue(Canvas.TopProperty, 440.0);
-            btnStart.Click += delegate(object sender, RoutedEventArgs e)
-            {
-                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Distance;
-                StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
-            };
-            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
-
-            
-            Button btnFull = new Button();
-            btnFull.Content = "Full Screen Mode";
-            btnFull.Width = 150;
-            btnFull.Height = 35;
-            btnFull.SetValue(Canvas.LeftProperty, 50.0);
-            btnFull.SetValue(Canvas.TopProperty, 50.0);
-            btnFull.Click += delegate(object sender, RoutedEventArgs e) {
-                AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
-            };
-            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
-
-
-            Button btnOption = new Button();
-            btnOption.Content = "Options";
-            btnOption.Width = 150;
-            btnOption.Height = 35;
-            btnOption.SetValue(Canvas.LeftProperty, 50.0);
-            btnOption.SetValue(Canvas.TopProperty, 150.0);
-            btnOption.Click += delegate(object sender, RoutedEventArgs e)
-            {
-                StateManager.Instance.setState(TreasureStates.OPTION_STATE);
-            };
-            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnOption);
-
-           /* GameParameters param = new GameParameters();
-            param.NbZone.Value = GameLevelInfo._nbTreasureZones;
-
-            param.SetValue(Canvas.LeftProperty, 490.0);
-            param.SetValue(Canvas.TopProperty, 50.0);
-            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(param);*/
-
-            //MapViewer mp = new MapViewer();
-            //mp.SetValue(Canvas.LeftProperty, 50.0);
-            //mp.SetValue(Canvas.TopProperty, 250.0);
-            //(AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(mp);
-
-            /*QuickPlayPanel qp = new QuickPlayPanel();
-            qp.LayoutRoot.DataContext = TreasureOptions.Instance;
-            qp.SetValue(Canvas.LeftProperty, 50.0);
-            qp.SetValue(Canvas.TopProperty, 250.0);
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(qp);*/
-        }
-
-        public void endMainMenu()
-        {
-            removeAllCanvasChildren();
-        }
-
-        public void startGame()
-        {
-            TreasureOptions.Instance.AttachDebug(AuditoryGameApp.Current.RootVisual as GamePage);
-
-            TreasureOptions.Instance.User.CurrentLife = TreasureOptions.Instance.Game.Charges;
-            TreasureOptions.Instance.User.CurrentGold = 0;
-            TreasureOptions.Instance.User.CurrentScore = 0;
-
-            // Get a random game descriptor
-            List<String> setup = TreasureOptions.Instance.Game.GetLevelDescriptors();
-            String settings = setup[rand.Next(0, setup.Count - 1)];
-            TreasureOptions.Instance.Game._curSetup = settings;
-            Debug.WriteLine("game settiungs : " + settings);
-
-            // Set the toolbox
-            this._scorePanel = new TreasureToolbox()
-            {
-                FullMode = true,
-                Life = TreasureOptions.Instance.User.CurrentLife,
-                Gold = TreasureOptions.Instance.Game._curGold,
-                Score = TreasureOptions.Instance.User.CurrentScore,
-                Level = TreasureOptions.Instance.User.CurrentLevel
-            };
-            _scorePanel.SetValue(Canvas.LeftProperty, 0.0);
-            _scorePanel.SetValue(Canvas.TopProperty, 0.0);
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(_scorePanel);
-
-            // initialise collisions
-            CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMY);
-            CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMYWEAPON);
-            CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYERWEAPON, CollisionIdentifiers.ENEMY);
-
-            // Get layout
-            Canvas cv = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot;
-            TreasureOptions.Instance.Game._sizeZones = ((int)cv.ActualWidth) / TreasureOptions.Instance.Game.Zones;
-
-            //// initialise game objects
-            // background image
-            BackgroundTreasureGameObject bgImage = new BackgroundTreasureGameObject()
-            {
-                ImageStretch = Stretch.Fill
-            };
-            bgImage.startupBackgroundGameObject(
-                new Point(cv.ActualWidth, cv.ActualHeight - GameLayout.MARGIN_SKY),
-               "Media/bg.png", -1);
-            bgImage.Position = new Point(0, GameLayout.MARGIN_SKY);
-
-            // rail object
-            BackgroundTreasureGameObject railImage = new BackgroundTreasureGameObject()
-            {
-                ImageStretch = Stretch.Fill
-            };
-            railImage.startupGameObject(
-                new Point(cv.ActualWidth, 15),
-               "Media/rail.png", -1);
-            railImage.Position = new Point(0, GameLayout.MARGIN_SKY - 10);
-
-            // player object
-            _player = new TreasureHunter();
-            _player.startupPlayer(
-                new Point(73,85),
-                new AnimationData(
-                    new string[] { "Media/bob.png" },
-                    1),
-                ZLayers.PLAYER_Z);
-
-            _player.CurrentZone =  (TreasureOptions.Instance.Game.Zones / 2);
-            int currLoc = TreasureOptions.Instance.Game._sizeZones * _player.CurrentZone + (TreasureOptions.Instance.Game._sizeZones - (int)_player.Dimensions.X) / 2;
-            _player.Position = new Point(currLoc, GameLayout.MARGIN_SKY - _player.Dimensions.Y - 10);
-
-            
-            // treasure nuggets
-            double dd = bgImage.Dimensions.Y - GameLayout.MARGIN_NUGGETS*2;
-            double depthsize = dd / TreasureOptions.Instance.Game.Depth;
-
-            _nuggets.Clear();
-
-            int[] depthArray = new int[TreasureOptions.Instance.Game._curGold];
-            int[] scoreArray = new int[TreasureOptions.Instance.Game._curGold];
-            for (int i = 0, j = 0; i < TreasureOptions.Instance.Game.Zones; i++)
-            {
-                Boolean isGold = (settings[i] == '1');
-
-                TreasureNugget ng = TreasureNugget.UnusedNuggets.startupBasicNugget(
-                    new Point(56,40),
-                    i,
-                    isGold ? TreasureNugget.TreasureType.TREASURE_GOLD : TreasureNugget.TreasureType.TREASURE_METAL,
-                    ZLayers.PLAYER_Z);
-
-                Point pt = new Point(TreasureOptions.Instance.Game._sizeZones * i, dd);
-                pt.X = pt.X + (TreasureOptions.Instance.Game._sizeZones - ng.Dimensions.X) / 2;
-                //pt.Y = GameLayout.MARGIN_SKY + 25 + this.rand.Next(0, (int)depthsize) * depthsize;
-                int loc = this.rand.Next(0, TreasureOptions.Instance.Game.Depth);
-
-                double scoreRatio = (loc + 1.0) / (double)TreasureOptions.Instance.Game.Depth;
-
-                //loc = (i % TreasureOptions.Instance.Game.Depth);
-                pt.Y = GameLayout.MARGIN_SKY + GameLayout.MARGIN_NUGGETS + loc * depthsize;
-                pt.Y += (depthsize - ng.Dimensions.Y) / 2;
-                ng.Depth = loc;
-                ng.Position = pt;
-                ng.Score = (isGold) ? (int)(200 * scoreRatio) : 0;
-                if (isGold)
-                {
-                    depthArray[j] = loc;
-                    scoreArray[j] = ng.Score;
-                    j++;
-                }
-
-                _nuggets.Add(ng);
-            }
-            Array.Sort(depthArray, delegate(int x, int y) { return y.CompareTo(x); });
-            Array.Sort(scoreArray, delegate(int x, int y) { return y.CompareTo(x); });
-
-
-            changeExposure();
-
-            /*// score window (TO DO AGAIN)
-            txtbScore = new TextBlock();
-            txtbScore.Text = TreasureApplicationManager.Instance.Score.ToString();
-            txtbScore.Width = 100;
-            txtbScore.Height = 35;
-            txtbScore.FontSize = 20;
-            txtbScore.Foreground = new SolidColorBrush(Colors.White);
-            txtbScore.SetValue(Canvas.LeftProperty, 10.0);
-            txtbScore.SetValue(Canvas.TopProperty, 10.0);
-
-            // we have to insert any non GameObjects at the end of the children collection
-           // (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Insert(
-            //    (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Count, txtbScore);*/
-
-           /* ScoreControl ff = new ScoreControl();
-            ff.SetValue(Canvas.LeftProperty, 10.0);
-            ff.SetValue(Canvas.TopProperty, 10.0);
-            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(
-                (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Count, ff);
-            */
-
-           // UpdateSound();
-            /*
-            float freqL = 0;
-            float freqM = 0;
-            float freqR = 0;
-            if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Proximity)
-            {
-                freqL = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone - 1] == '1') ? 5000 : 3000;
-                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
-                freqR = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone + 1] == '1') ? 5000 : 3000;
-            }
-            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Value)
-            {
-                String left = TreasureOptions.Instance.Game._curSetup.Substring(0, _player.CurrentZone);
-                String right = TreasureOptions.Instance.Game._curSetup.Substring(_player.CurrentZone + 1);
-                int nbL = left.LastIndexOf('1');
-                int nbR = right.IndexOf('1');
-                if (nbL != -1) nbL = left.Length - nbL - 1;
-                else nbL += 100001;
-                if (nbR == -1) nbR += 100001;
-
-
-                freqL = (nbL < nbR) ? 5000 : 3000;
-                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
-                freqR = (nbL >= nbR ) ? 5000 : 3000;
-            }
-            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Distance)
-            {
-                String left = TreasureOptions.Instance.Game._curSetup.Substring(0, _player.CurrentZone);
-                String right = TreasureOptions.Instance.Game._curSetup.Substring(_player.CurrentZone + 1);
-                int nbL = 0;
-                for (int i = 0; i < left.Length; i++)
-                {
-                    if (left[i] == '1') nbL++;
-                }
-                int nbR = 0;
-                for (int i = 0; i < right.Length; i++)
-                {
-                    if (right[i] == '1') nbR++;
-                }
-                freqL = (nbL >= nbR) ? 5000 : 3000;
-                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
-                freqR = (nbL < nbR) ? 5000 : 3000;
-                
-
-            }*/
-           /* _synthEx.Arpeggiator.Notes[0].Frequency = freqL;
-            _synthEx.Arpeggiator.Notes[2].Frequency = freqM;
-            _synthEx.Arpeggiator.Notes[4].Frequency = freqR;
-            _synthEx.Arpeggiator.Start();*/
-            //MediaElement children = (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
-            //this._synthEx.sequencer.StepIndex = this._synthEx.sequencer.StepCount - 1;
-            //this._synthEx.ResetSequencer();
-           // children.Play();
-            //this._synthEx.Start();
-            UpdateSound();
-            TreasureOptions.Instance.UpdateDebug();
-        }
-
-        public void exitGame()
-        {
-            this._synthEx.Stop();
-            //MediaElement children = (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
-            //children.Stop();
-            //this._synthEx.sequencer.Reset();
-            while (GameObject.gameObjects.Count != 0)
-                GameObject.gameObjects[0].shutdown();            
-
-            removeAllCanvasChildren();
-           // _synthEx.Arpeggiator.Stop();
-
-            //txtbScore = null;
-        }
-
         public override void enterFrame(double dt)
         {
             if (KeyHandler.Instance.isKeyPressed(Key.Escape) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
                 StateManager.Instance.setState(States.START_STATE);
 
-            if (KeyHandler.Instance.isKeyPressed(Key.Down) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
-            {
-               /* Visibility? vis = null;
-                for (int i = 0; i < GameObject.gameObjects.Count; ++i)
-                {
-                    TreasureNugget nug = GameObject.gameObjects[i] as TreasureNugget;
-                    if (nug == null) continue;
-                    if (nug.Type == TreasureNugget.TreasureType.TREASURE_NONE) continue;
-                    if (vis == null) vis = (nug.Visibility == Visibility.Collapsed) ? Visibility.Visible : Visibility.Collapsed;
-                    nug.Visibility = (Visibility)vis;
-                }*/
-                UpdateSound();
-            }
-
+      
             if (KeyHandler.Instance.isKeyPressed(Key.Add) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
             {
                 TreasureOptions.Instance.User._currExposure++;
@@ -640,6 +312,372 @@ namespace LSRI.TreasureHunter
             this._synthEx.Start();
         }
 
+        #region Application State: Main Menu
+
+        private void GenerateGameSettings()
+        {
+            TreasureOptions.Instance.User.CurrentLife = TreasureOptions.Instance.Game.Charges;
+            TreasureOptions.Instance.User.CurrentGold = 0;
+            TreasureOptions.Instance.User.CurrentScore = 0;
+            TreasureOptions.Instance.User.Actions = 0;
+
+            // Get a random game descriptor
+            List<String> setup = TreasureOptions.Instance.Game.GetLevelDescriptors();
+            String settings = setup[rand.Next(0, setup.Count - 1)];
+            TreasureOptions.Instance.Game._curSetup = settings;
+            Debug.WriteLine("game settiungs : " + settings);
+        }
+
+        public void startMainMenu()
+        {
+            GenerateGameSettings();
+
+            this._scorePanel = new TreasureToolbox()
+            {
+                FullMode = false
+            };
+            _scorePanel.SetValue(Canvas.LeftProperty, 0.0);
+            _scorePanel.SetValue(Canvas.TopProperty, 0.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(_scorePanel);
+
+            HighScoreControl ct = new HighScoreControl();
+            ct.SetValue(Canvas.LeftProperty, 400.0);
+            ct.SetValue(Canvas.TopProperty, 50.0);
+            ct.Source.ItemsSource = TreasureOptions.Instance.User.Scores.Data;
+
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(ct);
+
+
+            StartLevelPanel pp = new StartLevelPanel()
+                {
+                    Gold =  TreasureOptions.Instance.Game._curGold,
+                    Metal = TreasureOptions.Instance.Game.Zones - TreasureOptions.Instance.Game._curGold,
+                    Live = TreasureOptions.Instance.Game.Charges
+                };
+            pp.CurrentLevel = TreasureOptions.Instance.User.CurrentLevel;
+            //pp.CurrentGate = TreasureOptions.Instance.User.CurrentGate;
+
+            pp.SetValue(Canvas.LeftProperty, 10.0);
+            pp.SetValue(Canvas.TopProperty, 50.0);
+            pp.StartBtn.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
+            };
+            pp.RefreshBtn.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                GenerateGameSettings();
+                pp.Gold =  TreasureOptions.Instance.Game._curGold;
+                  pp.   Metal = TreasureOptions.Instance.Game.Zones - TreasureOptions.Instance.Game._curGold;
+                  pp.Live = TreasureOptions.Instance.Game.Charges;
+            };
+
+
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pp);
+
+
+            ButtonIcon btnStart = new ButtonIcon();
+            //btnStart.Content = "Start Game (Proximity mode)";
+            btnStart.TextContent.Text = "Start Game (Proximity mode)";
+            btnStart.Icon.Source = ResourceHelper.GetBitmap("Media/smallisland.png");
+            btnStart.Width = 250;
+            btnStart.Height = 35;
+            btnStart.SetValue(Canvas.LeftProperty, 490.0);
+            btnStart.SetValue(Canvas.TopProperty, 400.0);
+            btnStart.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Proximity;
+                StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
+            };
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
+
+            btnStart = new ButtonIcon();
+            btnStart.TextContent.Text = "Start Game (Value mode)";
+            //btnStart.Icon.Source = ResourceHelper.GetBitmap("Media/smallisland.png");
+            btnStart.Width = 250;
+            btnStart.Height = 35;
+            btnStart.SetValue(Canvas.LeftProperty, 490.0);
+            btnStart.SetValue(Canvas.TopProperty, 440.0);
+            btnStart.IsEnabled = true;
+            btnStart.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Value;
+                StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
+            };
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
+
+            btnStart = new ButtonIcon();
+            btnStart.TextContent.Text = "Start Game (distance mode)";
+            //btnStart.Icon.Source = ResourceHelper.GetBitmap("Media/smallisland.png");
+            btnStart.Width = 250;
+            btnStart.Height = 35;
+            btnStart.IsEnabled = true;
+            btnStart.SetValue(Canvas.LeftProperty, 490.0);
+            btnStart.SetValue(Canvas.TopProperty, 480.0);
+            btnStart.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Distance;
+                StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
+            };
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
+
+
+            Button btnFull = new Button();
+            btnFull.Content = "Full Screen Mode";
+            btnFull.Width = 150;
+            btnFull.Height = 35;
+            btnFull.SetValue(Canvas.LeftProperty, 50.0);
+            btnFull.SetValue(Canvas.TopProperty, 400.0);
+            btnFull.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
+            };
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
+
+
+            Button btnOption = new Button();
+            btnOption.Content = "Options";
+            btnOption.Width = 150;
+            btnOption.Height = 35;
+            btnOption.SetValue(Canvas.LeftProperty, 50.0);
+            btnOption.SetValue(Canvas.TopProperty, 480.0);
+            btnOption.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                StateManager.Instance.setState(TreasureStates.OPTION_STATE);
+            };
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnOption);
+
+            /* GameParameters param = new GameParameters();
+             param.NbZone.Value = GameLevelInfo._nbTreasureZones;
+
+             param.SetValue(Canvas.LeftProperty, 490.0);
+             param.SetValue(Canvas.TopProperty, 50.0);
+             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(param);*/
+
+            //MapViewer mp = new MapViewer();
+            //mp.SetValue(Canvas.LeftProperty, 50.0);
+            //mp.SetValue(Canvas.TopProperty, 250.0);
+            //(AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(mp);
+
+            /*QuickPlayPanel qp = new QuickPlayPanel();
+            qp.LayoutRoot.DataContext = TreasureOptions.Instance;
+            qp.SetValue(Canvas.LeftProperty, 50.0);
+            qp.SetValue(Canvas.TopProperty, 250.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(qp);*/
+        }
+
+        public void endMainMenu()
+        {
+            removeAllCanvasChildren();
+        }
+
+        #endregion
+
+        #region Application State: Game
+
+        public void startGame()
+        {
+            TreasureOptions.Instance.AttachDebug(AuditoryGameApp.Current.RootVisual as GamePage);
+
+
+            // Set the toolbox
+            this._scorePanel = new TreasureToolbox()
+            {
+                FullMode = true,
+                Life = TreasureOptions.Instance.User.CurrentLife,
+                Gold = TreasureOptions.Instance.Game._curGold,
+                Score = TreasureOptions.Instance.User.CurrentScore,
+                Level = TreasureOptions.Instance.User.CurrentLevel
+            };
+            _scorePanel.SetValue(Canvas.LeftProperty, 0.0);
+            _scorePanel.SetValue(Canvas.TopProperty, 0.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(_scorePanel);
+
+            // initialise collisions
+            CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMY);
+            CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYER, CollisionIdentifiers.ENEMYWEAPON);
+            CollisionManager.Instance.addCollisionMapping(CollisionIdentifiers.PLAYERWEAPON, CollisionIdentifiers.ENEMY);
+
+            // Get layout
+            Canvas cv = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot;
+            TreasureOptions.Instance.Game._sizeZones = ((int)cv.ActualWidth) / TreasureOptions.Instance.Game.Zones;
+
+            //// initialise game objects
+            // background image
+            BackgroundTreasureGameObject bgImage = new BackgroundTreasureGameObject()
+            {
+                ImageStretch = Stretch.Fill
+            };
+            bgImage.startupBackgroundGameObject(
+                new Point(cv.ActualWidth, cv.ActualHeight - GameLayout.MARGIN_SKY),
+               "Media/bg.png", -1);
+            bgImage.Position = new Point(0, GameLayout.MARGIN_SKY);
+
+            // rail object
+            BackgroundTreasureGameObject railImage = new BackgroundTreasureGameObject()
+            {
+                ImageStretch = Stretch.Fill
+            };
+            railImage.startupGameObject(
+                new Point(cv.ActualWidth, 15),
+               "Media/rail.png", -1);
+            railImage.Position = new Point(0, GameLayout.MARGIN_SKY - 10);
+
+            // player object
+            _player = new TreasureHunter();
+            _player.startupPlayer(
+                new Point(73, 85),
+                new AnimationData(
+                    new string[] { "Media/bob.png" },
+                    1),
+                ZLayers.PLAYER_Z);
+
+            _player.CurrentZone = (TreasureOptions.Instance.Game.Zones / 2);
+            int currLoc = TreasureOptions.Instance.Game._sizeZones * _player.CurrentZone + (TreasureOptions.Instance.Game._sizeZones - (int)_player.Dimensions.X) / 2;
+            _player.Position = new Point(currLoc, GameLayout.MARGIN_SKY - _player.Dimensions.Y - 10);
+
+
+            // treasure nuggets
+            double dd = bgImage.Dimensions.Y - GameLayout.MARGIN_NUGGETS * 2;
+            double depthsize = dd / TreasureOptions.Instance.Game.Depth;
+
+            _nuggets.Clear();
+
+            int[] depthArray = new int[TreasureOptions.Instance.Game._curGold];
+            int[] scoreArray = new int[TreasureOptions.Instance.Game._curGold];
+            for (int i = 0, j = 0; i < TreasureOptions.Instance.Game.Zones; i++)
+            {
+                Boolean isGold = (TreasureOptions.Instance.Game._curSetup[i] == '1');
+
+                TreasureNugget ng = TreasureNugget.UnusedNuggets.startupBasicNugget(
+                    new Point(56, 40),
+                    i,
+                    isGold ? TreasureNugget.TreasureType.TREASURE_GOLD : TreasureNugget.TreasureType.TREASURE_METAL,
+                    ZLayers.PLAYER_Z);
+
+                Point pt = new Point(TreasureOptions.Instance.Game._sizeZones * i, dd);
+                pt.X = pt.X + (TreasureOptions.Instance.Game._sizeZones - ng.Dimensions.X) / 2;
+                //pt.Y = GameLayout.MARGIN_SKY + 25 + this.rand.Next(0, (int)depthsize) * depthsize;
+                int loc = this.rand.Next(0, TreasureOptions.Instance.Game.Depth);
+
+                double scoreRatio = (loc + 1.0) / (double)TreasureOptions.Instance.Game.Depth;
+
+                //loc = (i % TreasureOptions.Instance.Game.Depth);
+                pt.Y = GameLayout.MARGIN_SKY + GameLayout.MARGIN_NUGGETS + loc * depthsize;
+                pt.Y += (depthsize - ng.Dimensions.Y) / 2;
+                ng.Depth = loc;
+                ng.Position = pt;
+                ng.Score = (isGold) ? (int)(200 * scoreRatio) : 0;
+                if (isGold)
+                {
+                    depthArray[j] = loc;
+                    scoreArray[j] = ng.Score;
+                    j++;
+                }
+
+                _nuggets.Add(ng);
+            }
+            Array.Sort(depthArray, delegate(int x, int y) { return y.CompareTo(x); });
+            Array.Sort(scoreArray, delegate(int x, int y) { return y.CompareTo(x); });
+
+
+            changeExposure();
+
+            /*// score window (TO DO AGAIN)
+            txtbScore = new TextBlock();
+            txtbScore.Text = TreasureApplicationManager.Instance.Score.ToString();
+            txtbScore.Width = 100;
+            txtbScore.Height = 35;
+            txtbScore.FontSize = 20;
+            txtbScore.Foreground = new SolidColorBrush(Colors.White);
+            txtbScore.SetValue(Canvas.LeftProperty, 10.0);
+            txtbScore.SetValue(Canvas.TopProperty, 10.0);
+
+            // we have to insert any non GameObjects at the end of the children collection
+           // (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Insert(
+            //    (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).LayoutRoot.Children.Count, txtbScore);*/
+
+            /* ScoreControl ff = new ScoreControl();
+             ff.SetValue(Canvas.LeftProperty, 10.0);
+             ff.SetValue(Canvas.TopProperty, 10.0);
+             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Insert(
+                 (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Count, ff);
+             */
+
+            // UpdateSound();
+            /*
+            float freqL = 0;
+            float freqM = 0;
+            float freqR = 0;
+            if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Proximity)
+            {
+                freqL = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone - 1] == '1') ? 5000 : 3000;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
+                freqR = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone + 1] == '1') ? 5000 : 3000;
+            }
+            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Value)
+            {
+                String left = TreasureOptions.Instance.Game._curSetup.Substring(0, _player.CurrentZone);
+                String right = TreasureOptions.Instance.Game._curSetup.Substring(_player.CurrentZone + 1);
+                int nbL = left.LastIndexOf('1');
+                int nbR = right.IndexOf('1');
+                if (nbL != -1) nbL = left.Length - nbL - 1;
+                else nbL += 100001;
+                if (nbR == -1) nbR += 100001;
+
+
+                freqL = (nbL < nbR) ? 5000 : 3000;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
+                freqR = (nbL >= nbR ) ? 5000 : 3000;
+            }
+            else if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Distance)
+            {
+                String left = TreasureOptions.Instance.Game._curSetup.Substring(0, _player.CurrentZone);
+                String right = TreasureOptions.Instance.Game._curSetup.Substring(_player.CurrentZone + 1);
+                int nbL = 0;
+                for (int i = 0; i < left.Length; i++)
+                {
+                    if (left[i] == '1') nbL++;
+                }
+                int nbR = 0;
+                for (int i = 0; i < right.Length; i++)
+                {
+                    if (right[i] == '1') nbR++;
+                }
+                freqL = (nbL >= nbR) ? 5000 : 3000;
+                freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? 5000 : 3000;
+                freqR = (nbL < nbR) ? 5000 : 3000;
+                
+
+            }*/
+            /* _synthEx.Arpeggiator.Notes[0].Frequency = freqL;
+             _synthEx.Arpeggiator.Notes[2].Frequency = freqM;
+             _synthEx.Arpeggiator.Notes[4].Frequency = freqR;
+             _synthEx.Arpeggiator.Start();*/
+            //MediaElement children = (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
+            //this._synthEx.sequencer.StepIndex = this._synthEx.sequencer.StepCount - 1;
+            //this._synthEx.ResetSequencer();
+            // children.Play();
+            //this._synthEx.Start();
+            UpdateSound();
+            TreasureOptions.Instance.UpdateDebug();
+        }
+
+        public void exitGame()
+        {
+            this._synthEx.Stop();
+            //MediaElement children = (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
+            //children.Stop();
+            //this._synthEx.sequencer.Reset();
+            while (GameObject.gameObjects.Count != 0)
+                GameObject.gameObjects[0].shutdown();
+
+            removeAllCanvasChildren();
+            // _synthEx.Arpeggiator.Stop();
+
+            //txtbScore = null;
+        }
+
+        #endregion
 
         #region Application State: Options
 

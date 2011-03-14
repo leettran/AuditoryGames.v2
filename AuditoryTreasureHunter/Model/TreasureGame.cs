@@ -49,6 +49,13 @@ namespace LSRI.TreasureHunter.Model
             Distance
         };
 
+        public enum FogOfWar
+        {
+            None,
+            ByLocation,
+            ByContent
+        };
+
         private int _nbZones;
         private int _nbDepth;
         private bool _isMaxGold;
@@ -162,7 +169,7 @@ namespace LSRI.TreasureHunter.Model
             }
         }
 
-        [Display(Name = "Maximize Gold", Description = "The number of nuggets is maximised, i.e. 2/3 of the number of zones",AutoGenerateField = false)]
+        [Display(Name = "Maximize Gold", Description = "The number of nuggets is maximised, i.e. 2/3 of the number of zones",AutoGenerateField = true)]
         public bool MaxGold
         {
             get
@@ -302,8 +309,10 @@ namespace LSRI.TreasureHunter.Model
         {
             List<String> setup = new List<String>();
             this._curGold = 0;
-            if (this.MaxGold) this._curGold = this.Zones - (this.Zones / 3);
-            else this._curGold = this.Gold;
+            if (this.MaxGold) 
+                this._curGold = this.Zones - (this.Zones / 3);
+            else 
+                this._curGold = this.Gold;
 
             GenerateDescriptions("", this._curGold, this.Zones, setup);
             return setup;

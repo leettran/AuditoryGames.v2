@@ -35,7 +35,7 @@ namespace LSRI.TreasureHunter.Model
         int _currScore;         ///< current score (at current level)
         UserType _userType;     ///< Type of the user
         Gates _currTimer;
-
+        int _nbActions;         ///< Number of actions done so far;
         public int _currExposure; 
         HighScoreContainer _scores;
 
@@ -191,6 +191,22 @@ namespace LSRI.TreasureHunter.Model
             }
         }
 
+        [Display(Name = "Actions", Description = "Number of actions (mouvement, detection, collection) executed so far.")]
+        [Range(1,10000)]
+        public int Actions
+        {
+            get { return _nbActions; }
+            set
+            {
+                if (_nbActions != value)
+                {
+                    _nbActions = value;
+                    OnPropertyChanged("Actions");
+                }
+            }
+        }
+
+
         [Display(Name = "Score", Description = "Current score at the current level")]
         [ReadOnly(true)]
         public int CurrentScore
@@ -239,6 +255,7 @@ namespace LSRI.TreasureHunter.Model
             this._currGold = 0;
             this._currScore = 0;
             this._currExposure = 0;
+            this._nbActions = 0;
             this._scores = new HighScoreContainer();
             this.Pattern = new WinPattern();
             this.VisualTiming = new Gates();
@@ -258,6 +275,7 @@ namespace LSRI.TreasureHunter.Model
             tmp._currLevel = this.CurrentLevel;
             tmp._currLife = this._currLife;
             tmp._currScore = this._currScore;
+            tmp._nbActions = this._nbActions;
             tmp.Pattern = this.Pattern;
             tmp.Scores = this.Scores.Clone();
             tmp.VisualTiming = this.VisualTiming.Clone();
@@ -274,6 +292,7 @@ namespace LSRI.TreasureHunter.Model
             this._FqTraining = tmp.FrequencyTraining;
             this._FqDelta = tmp.FrequencyDelta;
             this._currScore = tmp._currScore;
+            this._nbActions = tmp._nbActions;
             this.Pattern = tmp.Pattern;
             this.Scores = tmp.Scores.Clone();
             this.VisualTiming = tmp.VisualTiming.Clone();

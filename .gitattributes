@@ -165,6 +165,8 @@ AuditoryTreasureHunter/TreasureHunter.cs -text
 AuditoryTreasureHunter/TreasureNugget.cs -text
 AuditoryTreasureHunter/UI/ScorePanel.xaml -text
 AuditoryTreasureHunter/UI/ScorePanel.xaml.cs -text
+AuditoryTreasureHunter/UI/StartLevelPanel.xaml -text
+AuditoryTreasureHunter/UI/StartLevelPanel.xaml.cs -text
 AuditoryTreasureHunter/UI/TreasureToolbox.xaml -text
 AuditoryTreasureHunter/UI/TreasureToolbox.xaml.cs -text
 AuditoryTreasureHunter/Weapon.cs -text
@@ -193,6 +195,8 @@ GameFramework/Media/background-title.png -text
 GameFramework/Media/buttonIn.jpg -text
 GameFramework/Media/buttonOut.jpg -text
 GameFramework/Media/fullscreen.png -text
+GameFramework/Media/play_button.png -text
+GameFramework/Media/refresh_button.png -text
 GameFramework/Properties/AssemblyInfo.cs -text
 GameFramework/UI/App.xaml -text
 GameFramework/UI/App.xaml.cs -text
