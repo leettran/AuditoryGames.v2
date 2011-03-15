@@ -33,6 +33,8 @@ namespace LSRI.TreasureHunter.Model
         int _currLife;          ///< Current number of remaining lives
         int _currGold;          ///< Current number of remaining lives
         int _currScore;         ///< current score (at current level)
+        int _currTarget;        ///< Score target for the current level
+        int _maxTarget;        ///< Score target for the current level
         UserType _userType;     ///< Type of the user
         Gates _currTimer;
         int _nbActions;         ///< Number of actions done so far;
@@ -222,6 +224,37 @@ namespace LSRI.TreasureHunter.Model
             }
         }
 
+        [Display(Name = "Target", Description = "Current score at the current level")]
+        [ReadOnly(true)]
+        public int CurrentTarget
+        {
+            get { return _currTarget; }
+            set
+            {
+                if (_currTarget != value)
+                {
+                    _currTarget = value;
+                    OnPropertyChanged("CurrentTarget");
+                }
+            }
+        }
+
+        [Display(Name = "MaxTarget", Description = "Current score at the current level")]
+        [ReadOnly(true)]
+        public int MaxTarget
+        {
+            get { return _maxTarget; }
+            set
+            {
+                if (_maxTarget != value)
+                {
+                    _maxTarget = value;
+                    OnPropertyChanged("MaxTarget");
+                }
+            }
+        }
+
+
         [Display(Name = "Success Pattern", Description = "The outcomes (success or failure) of the last three levels")]
         public WinPattern Pattern { set; get; }
 
@@ -254,6 +287,8 @@ namespace LSRI.TreasureHunter.Model
             this._currLife = 4;
             this._currGold = 0;
             this._currScore = 0;
+            this._currTarget = 0;
+            this._maxTarget = 0;
             this._currExposure = 0;
             this._nbActions = 0;
             this._scores = new HighScoreContainer();
@@ -275,6 +310,8 @@ namespace LSRI.TreasureHunter.Model
             tmp._currLevel = this.CurrentLevel;
             tmp._currLife = this._currLife;
             tmp._currScore = this._currScore;
+            tmp._currTarget = this._currTarget;
+            tmp._maxTarget = this._maxTarget;
             tmp._nbActions = this._nbActions;
             tmp.Pattern = this.Pattern;
             tmp.Scores = this.Scores.Clone();
@@ -292,6 +329,8 @@ namespace LSRI.TreasureHunter.Model
             this._FqTraining = tmp.FrequencyTraining;
             this._FqDelta = tmp.FrequencyDelta;
             this._currScore = tmp._currScore;
+            this._currTarget = tmp._currTarget;
+            this._maxTarget = tmp._maxTarget;
             this._nbActions = tmp._nbActions;
             this.Pattern = tmp.Pattern;
             this.Scores = tmp.Scores.Clone();

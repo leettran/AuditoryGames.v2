@@ -55,6 +55,22 @@ namespace LSRI.TreasureHunter.UI
             }
         }
 
+        public Point Target
+        {
+            set
+            {
+                Point? pp = value;
+                if (pp != null)
+                {
+                    _xTargetText.Text = pp.Value.X.ToString();
+                    _xTargetBar.Maximum = pp.Value.Y;
+                    _xTargetBar.Value = pp.Value.X;
+                }
+
+            }
+        }
+
+
         public Button StartBtn
         {
             get

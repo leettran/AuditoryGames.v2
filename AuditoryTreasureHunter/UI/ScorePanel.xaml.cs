@@ -24,6 +24,26 @@ namespace LSRI.TreasureHunter.UI
             InitializeComponent();
         }
 
+        public double Accuracy
+        {
+            set
+            {
+                _xAccBar.Maximum = 100;
+                _xAccBar.Value = value;
+                _nAccScore.Text = (150.0 * value / 100.00).ToString();
+            }
+        }
+
+        public double Gold
+        {
+            set
+            {
+                _xGoldBar.Maximum = 100;
+                _xGoldBar.Value = value;
+                _ngoldScore.Text = (150.0 * value / 100.0).ToString();
+            }
+        }
+
         private void _xBtnOK_Click(object sender, RoutedEventArgs e)
         {
             if (this.OnCompleteTask != null) this.OnCompleteTask();

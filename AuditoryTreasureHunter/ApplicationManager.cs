@@ -122,6 +122,11 @@ namespace LSRI.TreasureHunter
         protected TreasureHunter _player = null;
         public List<TreasureNugget> _nuggets = new List<TreasureNugget>();
 
+
+        private int[] depthArray = null;//new int[TreasureOptions.Instance.Game._curGold];
+        private int[] scoreArray = null;//new int[TreasureOptions.Instance.Game._curGold];
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -320,12 +325,50 @@ namespace LSRI.TreasureHunter
             TreasureOptions.Instance.User.CurrentGold = 0;
             TreasureOptions.Instance.User.CurrentScore = 0;
             TreasureOptions.Instance.User.Actions = 0;
+            TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Value;
 
             // Get a random game descriptor
             List<String> setup = TreasureOptions.Instance.Game.GetLevelDescriptors();
             String settings = setup[rand.Next(0, setup.Count - 1)];
             TreasureOptions.Instance.Game._curSetup = settings;
-            Debug.WriteLine("game settiungs : " + settings);
+            Debug.WriteLine("game settings : " + settings);
+
+            depthArray = new int[settings.Length];
+            scoreArray = new int[settings.Length];
+
+            for (int i = 0; i < TreasureOptions.Instance.Game.Zones; i++)
+            {
+                Boolean isGold = (TreasureOptions.Instance.Game._curSetup[i] == '1');
+                //if (!isGold) continue;
+
+                int loc = this.rand.Next(0, TreasureOptions.Instance.Game.Depth);
+                double scoreRatio = (loc + 1.0) / (double)TreasureOptions.Instance.Game.Depth;
+
+                if (isGold)
+                {
+                    depthArray[i] = loc;
+                    scoreArray[i] = (int)(200 * scoreRatio);
+                }
+                else
+                {
+                    depthArray[i] = loc;
+                    scoreArray[i] = 0;
+ 
+                }
+
+            }
+           // Array.Sort(scoreArray, delegate(int x, int y) { return y.CompareTo(x); });
+
+
+            Debug.WriteLine("game scores : " + String.Join(",", scoreArray));
+            int acc = 0;
+            foreach (int i in scoreArray)
+                acc += i;
+            TreasureOptions.Instance.User.CurrentTarget = acc / 2;
+            TreasureOptions.Instance.User.MaxTarget = acc;
+            Debug.WriteLine("target scores : " + TreasureOptions.Instance.User.CurrentTarget + " / " + TreasureOptions.Instance.User.MaxTarget);
+
+
         }
 
         public void startMainMenu()
@@ -347,12 +390,12 @@ namespace LSRI.TreasureHunter
 
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(ct);
 
-
             StartLevelPanel pp = new StartLevelPanel()
                 {
                     Gold =  TreasureOptions.Instance.Game._curGold,
                     Metal = TreasureOptions.Instance.Game.Zones - TreasureOptions.Instance.Game._curGold,
-                    Live = TreasureOptions.Instance.Game.Charges
+                    Live = TreasureOptions.Instance.Game.Charges,
+                    Target = new Point(TreasureOptions.Instance.User.CurrentTarget, TreasureOptions.Instance.User.MaxTarget)
                 };
             pp.CurrentLevel = TreasureOptions.Instance.User.CurrentLevel;
             //pp.CurrentGate = TreasureOptions.Instance.User.CurrentGate;
@@ -367,8 +410,9 @@ namespace LSRI.TreasureHunter
             {
                 GenerateGameSettings();
                 pp.Gold =  TreasureOptions.Instance.Game._curGold;
-                  pp.   Metal = TreasureOptions.Instance.Game.Zones - TreasureOptions.Instance.Game._curGold;
+                  pp.Metal = TreasureOptions.Instance.Game.Zones - TreasureOptions.Instance.Game._curGold;
                   pp.Live = TreasureOptions.Instance.Game.Charges;
+                  pp.Target = new Point(TreasureOptions.Instance.User.CurrentTarget, TreasureOptions.Instance.User.MaxTarget);
             };
 
 
@@ -542,9 +586,7 @@ namespace LSRI.TreasureHunter
 
             _nuggets.Clear();
 
-            int[] depthArray = new int[TreasureOptions.Instance.Game._curGold];
-            int[] scoreArray = new int[TreasureOptions.Instance.Game._curGold];
-            for (int i = 0, j = 0; i < TreasureOptions.Instance.Game.Zones; i++)
+            for (int i = 0; i < TreasureOptions.Instance.Game.Zones; i++)
             {
                 Boolean isGold = (TreasureOptions.Instance.Game._curSetup[i] == '1');
 
@@ -557,27 +599,28 @@ namespace LSRI.TreasureHunter
                 Point pt = new Point(TreasureOptions.Instance.Game._sizeZones * i, dd);
                 pt.X = pt.X + (TreasureOptions.Instance.Game._sizeZones - ng.Dimensions.X) / 2;
                 //pt.Y = GameLayout.MARGIN_SKY + 25 + this.rand.Next(0, (int)depthsize) * depthsize;
-                int loc = this.rand.Next(0, TreasureOptions.Instance.Game.Depth);
+                //int loc = this.rand.Next(0, TreasureOptions.Instance.Game.Depth);
 
-                double scoreRatio = (loc + 1.0) / (double)TreasureOptions.Instance.Game.Depth;
-
+                //double scoreRatio = (loc + 1.0) / (double)TreasureOptions.Instance.Game.Depth;
+                int loc = depthArray[i];
                 //loc = (i % TreasureOptions.Instance.Game.Depth);
                 pt.Y = GameLayout.MARGIN_SKY + GameLayout.MARGIN_NUGGETS + loc * depthsize;
                 pt.Y += (depthsize - ng.Dimensions.Y) / 2;
                 ng.Depth = loc;
                 ng.Position = pt;
-                ng.Score = (isGold) ? (int)(200 * scoreRatio) : 0;
-                if (isGold)
+                //ng.Score = (isGold) ? (int)(200 * scoreRatio) : 0;
+                ng.Score = (isGold) ? (int)(scoreArray[i]) : 0;
+               /* if (isGold)
                 {
-                    depthArray[j] = loc;
-                    scoreArray[j] = ng.Score;
+                    depthArray[i] = loc;
+                    scoreArray[i] = ng.Score;
                     j++;
                 }
-
+                */
                 _nuggets.Add(ng);
             }
-            Array.Sort(depthArray, delegate(int x, int y) { return y.CompareTo(x); });
-            Array.Sort(scoreArray, delegate(int x, int y) { return y.CompareTo(x); });
+            //Array.Sort(depthArray, delegate(int x, int y) { return y.CompareTo(x); });
+            //Array.Sort(scoreArray, delegate(int x, int y) { return y.CompareTo(x); });
 
 
             changeExposure();

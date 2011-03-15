@@ -245,10 +245,14 @@ namespace LSRI.TreasureHunter
 
              }
 
-            if (true)
+            if (TreasureOptions.Instance.Game._curGold == 0 || TreasureOptions.Instance.User.CurrentLife ==0)
             {
                 GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
-                ScorePanel pn = new ScorePanel();
+                ScorePanel pn = new ScorePanel()
+                {
+                    Gold = (double)TreasureOptions.Instance.User.CurrentScore / (double)TreasureOptions.Instance.User.MaxTarget * 100.0,
+                    Accuracy = (double)TreasureOptions.Instance.User.CurrentGold / (double)TreasureOptions.Instance.Game.Charges * 100.0
+                };
                 pn.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pn.Width) / 2);
                 pn.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pn.Height) / 2);
                 pn.OnCompleteTask += delegate()
