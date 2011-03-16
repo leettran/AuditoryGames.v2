@@ -18,6 +18,7 @@ using LSRI.TreasureHunter.UI;
 using LSRI.TreasureHunter.Model;
 using LSRI.AuditoryGames.GameFramework.Data;
 using LSRI.AuditoryGames.GameFramework.UI;
+using System.Collections;
 
 namespace LSRI.TreasureHunter
 {
@@ -336,6 +337,7 @@ namespace LSRI.TreasureHunter
             depthArray = new int[settings.Length];
             scoreArray = new int[settings.Length];
 
+            int total = 0;
             for (int i = 0; i < TreasureOptions.Instance.Game.Zones; i++)
             {
                 Boolean isGold = (TreasureOptions.Instance.Game._curSetup[i] == '1');
@@ -348,6 +350,7 @@ namespace LSRI.TreasureHunter
                 {
                     depthArray[i] = loc;
                     scoreArray[i] = (int)(200 * scoreRatio);
+                    total += scoreArray[i];
                 }
                 else
                 {
@@ -357,15 +360,27 @@ namespace LSRI.TreasureHunter
                 }
 
             }
-           // Array.Sort(scoreArray, delegate(int x, int y) { return y.CompareTo(x); });
+            Array.Sort(scoreArray, delegate(int x, int y) { return y.CompareTo(x); });
+            int[] TT = Array.CreateInstance(typeof(int), settings.Length) as int[];
+            scoreArray.CopyTo(TT, 0);
+            Array.Sort(TT, delegate(int x, int y) { return y.CompareTo(x); });
 
+            int median = TreasureOptions.Instance.Game._curGold / TreasureOptions.Instance.Game.Charges;
+            int acc = 0;
+            for (int i = median; i < median + TreasureOptions.Instance.Game.Charges;i++)
+                acc += TT[i];
+
+                //Array.Sort(TT, (x, y) => y.CompareTo(x));
+
+                // Array.Sort(TT, int.);
 
             Debug.WriteLine("game scores : " + String.Join(",", scoreArray));
-            int acc = 0;
-            foreach (int i in scoreArray)
-                acc += i;
-            TreasureOptions.Instance.User.CurrentTarget = acc / 2;
-            TreasureOptions.Instance.User.MaxTarget = acc;
+            Debug.WriteLine("median : " + acc);
+            //int acc = 0;
+            //foreach (int i in scoreArray)
+            //    acc += i;
+            TreasureOptions.Instance.User.CurrentTarget = acc;
+            TreasureOptions.Instance.User.MaxTarget = total;
             Debug.WriteLine("target scores : " + TreasureOptions.Instance.User.CurrentTarget + " / " + TreasureOptions.Instance.User.MaxTarget);
 
 
