@@ -77,6 +77,38 @@ namespace LSRI.TreasureHunter
             return this;
         }
 
+        private void FogOfWar()
+        {
+            //int nbStep = TreasureOptions.Instance.User.Actions;
+            double delta = TreasureOptions.Instance.User.VisualTiming.Data[TreasureOptions.Instance.User._currExposure];
+            TreasureOptions.Instance.nExposedX = (int)(delta * TreasureOptions.Instance.Game.Zones);
+            TreasureOptions.Instance.nExposedY = (int)(delta * TreasureOptions.Instance.Game.Depth);
+            String strCnt = "";
+            if (Type == TreasureType.TREASURE_NONE)
+            {
+                strCnt = "Media/hole1.png";
+            }
+            else
+            {
+                strCnt = "Media/unknown.png";
+                if (this.Depth < TreasureOptions.Instance.nExposedY)
+                {
+                    if (Type == TreasureType.TREASURE_GOLD) strCnt = "Media/gold1.png";
+                    else if (Type == TreasureType.TREASURE_METAL) strCnt = "Media/metal1.png";
+                }
+     
+            }
+            if (!IsExposed && Type != TreasureType.TREASURE_NONE)
+            {
+                //strCnt = "Media/unknown.png";
+                this.Visibility = Visibility.Collapsed;
+            }
+            else this.Visibility = Visibility.Visible;
+            animationData.frames = new string[] { strCnt };
+            currentFrame = 0;
+            prepareImage(animationData.frames[currentFrame]);
+        }
+
         private void ChangeNuggetDisplay()
         {
             String strCnt="";
@@ -141,7 +173,8 @@ namespace LSRI.TreasureHunter
         public void ChangeExposure(bool exposure)
         {
             IsExposed = exposure;
-           ChangeNuggetDisplay();
+           //ChangeNuggetDisplay();
+            FogOfWar();
         }
 
         public override void shutdown()
@@ -183,9 +216,9 @@ namespace LSRI.TreasureHunter
                 if (timeSinceExposure <= 0)
                 {
                     animationData.fps = 0.0005;
-                    if (this.Type == TreasureType.TREASURE_METAL)
-                        animationData.frames = new string[] { "Media/metal1.png" };
-                    else
+                   // if (this.Type == TreasureType.TREASURE_METAL)
+                    //    animationData.frames = new string[] { "Media/metal1.png" };
+                    //else
                         animationData.frames = new string[] { "Media/hole1.png" };
                     currentFrame = 0;
                     //animationData.frames[currentFrame] = "media/hole1.png";
