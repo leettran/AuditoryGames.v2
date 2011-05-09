@@ -28,6 +28,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         private int _lIntStim;
         private int _lIntSignal;
 
+        private int _attenuationSequencer;
+        private int _attenuationRandom;
+
 
         /// <summary>
         /// 
@@ -188,6 +191,37 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
+
+        [Display(Name = "Attenuation (Sequencer)", GroupName = "Synthesiser", Description = "Attenuation (in db) of the overall output level")]
+        [Range(-100, 0)]
+        public int Attenuation
+        {
+            get { return _attenuationSequencer; }
+            set
+            {
+                if (_attenuationSequencer != value)
+                {
+                    _attenuationSequencer = value;
+                    OnPropertyChanged("Attenuation");
+                }
+            }
+        }
+
+        [Display(Name = "Attenuation (Stimuli)", GroupName = "Synthesiser", Description = "Randomised attenuation (in +/- db) of each voice.")]
+        [Range(0,15)]
+        public int AttenuationRandom
+        {
+            get { return _attenuationRandom; }
+            set
+            {
+                if (_attenuationRandom != value)
+                {
+                    _attenuationRandom = value;
+                    OnPropertyChanged("Attenuation-Random");
+                }
+            }
+        }
+
         public AuditoryModel()
         {
             this._base = .50;
@@ -199,6 +233,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._lIntStim = 10;
             this._lIntSignal = 20;
             this._nBufferSize = 50;
+            this._attenuationSequencer = 0;
+            this._attenuationRandom = 0;
             this._rule = Staircase.One_One;
         }
 
@@ -215,6 +251,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             tmp._lIntStim = this._lIntStim;
             tmp._lIntSignal = this._lIntSignal;
             tmp._nBufferSize = this._nBufferSize;
+            tmp._attenuationSequencer = this._attenuationSequencer;
+            tmp._attenuationRandom = this._attenuationRandom;
             return tmp;
         }
 
@@ -232,6 +270,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._lIntStim = tmp._lIntStim;
             this._lIntSignal = tmp._lIntSignal;
             this._nBufferSize = tmp._nBufferSize;
+            this._attenuationSequencer = tmp._attenuationSequencer;
+            this._attenuationRandom = tmp._attenuationRandom;
         }
 
         #region IEditableObject

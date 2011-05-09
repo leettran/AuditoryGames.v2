@@ -168,6 +168,8 @@ namespace LSRI.AuditoryGames.AudioFramework
         /// </summary>
         protected MediaElement _elt = null;
 
+        protected Random _rd = new Random();
+
         /// <summary>
         /// Internal storage of voices for the sequencer. 
         /// 
@@ -184,6 +186,21 @@ namespace LSRI.AuditoryGames.AudioFramework
                 return this._sequencer;
             }
 
+        }
+
+        public int AttenuationSequencer 
+        {
+            set
+            {
+                if (this.Sequencer != null)
+                    this.Sequencer.Attenuation = value;
+            }
+        }
+
+        public int AttenuationRandom
+        {
+            set;
+            get;
         }
 
         void _sequencer__stepChangedHook()
@@ -276,7 +293,7 @@ namespace LSRI.AuditoryGames.AudioFramework
                 osc1.WaveForm = wform;
 
                 Voice voice = new Voice();
-                voice.Attenuation = 0;
+                voice.Attenuation = -10;
                 voice.Envelope.Attack = value;
                 voice.Envelope.Decay = value;
                 voice.Oscillators.AddRange(new List<Oscillator>() { osc1 });
@@ -554,7 +571,7 @@ namespace LSRI.AuditoryGames.AudioFramework
             {
                 Voice v = this._intervalVoices[0] as Voice;
 
-                this._sequencer.OnFrequencyPlayed(String.Format("\t[AUD] \t stimuli 1 played: {0}", v.Frequency));
+                this._sequencer.OnFrequencyPlayed(String.Format("\t[AUD] \t stimuli 1 played: {0} - {1}", v.Frequency,v.Attenuation));
             }
             if (this._sequencer.StepIndex == (st1+sp1))
             {
@@ -566,7 +583,7 @@ namespace LSRI.AuditoryGames.AudioFramework
             {
                 Voice v = this._intervalVoices[1] as Voice;
 
-                this._sequencer.OnFrequencyPlayed(String.Format("\t[AUD] \t stimuli 2 played: {0}", v.Frequency));
+                this._sequencer.OnFrequencyPlayed(String.Format("\t[AUD] \t stimuli 2 played: {0} - {1}", v.Frequency,v.Attenuation));
             }
             if (this._sequencer.StepIndex == (st2+sp2))
             {
@@ -600,6 +617,12 @@ namespace LSRI.AuditoryGames.AudioFramework
                 _freqBuffer = double.NaN;
 
                 this.Sequencer.OnFrequencyChanged(1,(this._intervalVoices[1] as Voice).Frequency);
+            }
+
+            for (int i = 0; i < this._intervalVoices.Count; i++)
+            {
+                Voice vc = this._intervalVoices[i] as Voice;
+                vc.Attenuation = this._rd.Next(-AttenuationRandom*2, 1);
             }
         }
 

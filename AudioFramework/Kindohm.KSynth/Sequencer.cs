@@ -11,7 +11,7 @@ namespace Kindohm.KSynth.Library
     /// @author Nicolas Van Labeke &lt; http://www.lsri.nottingham.ac.uk/nvl/ &gt;
     /// @version 1.0 - changed access to methods ProcessCurrentStep(), ProcessPreSampleTick() and ProcessPostSampleTick() to allow override.  
     /// </summary>
-    public class Sequencer : ISampleMaker
+    public class Sequencer : AttenuatorBase ,ISampleMaker
     {
         protected int tempo;
         protected int sampleCounter;
@@ -181,8 +181,10 @@ namespace Kindohm.KSynth.Library
 
             this.ProcessPostSampleTick();
 
-            return final;
-
+            if (this.Attenuation < 0)
+                return this.Attenuate(final);
+            else
+                return final;
         }
 
         virtual protected void ProcessCurrentStep()

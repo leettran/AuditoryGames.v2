@@ -392,7 +392,12 @@ namespace LSRI.Submarine
 
             /// Associate the stimuli generator with the media element of the game page
             MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
-            _synthEx = new Frequency2IGenerator(children,SubOptions.Instance.Auditory.BufferLength);
+            _synthEx = new Frequency2IGenerator(children,SubOptions.Instance.Auditory.BufferLength)
+            {
+                AttenuationSequencer = SubOptions.Instance.Auditory.Attenuation + SubOptions.Instance.Auditory.AttenuationRandom,
+                AttenuationRandom = SubOptions.Instance.Auditory.AttenuationRandom
+            };
+
             this._synthEx.Sequencer._freqChangedHook += new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
             this._synthEx.Sequencer._freqPlayedHook += new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
             this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
@@ -733,7 +738,12 @@ namespace LSRI.Submarine
                 MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
                 //children = new MediaElement();
                 int bug = SubOptions.Instance.Auditory.BufferLength;
-                _synthEx = new Frequency2IGenerator(children,bug);
+                _synthEx = new Frequency2IGenerator(children, bug)
+                {
+                    AttenuationSequencer = SubOptions.Instance.Auditory.Attenuation + SubOptions.Instance.Auditory.AttenuationRandom,
+                    AttenuationRandom = SubOptions.Instance.Auditory.AttenuationRandom
+                };
+
                 this._synthEx.Sequencer._freqChangedHook += new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
                 this._synthEx.Sequencer._freqPlayedHook += new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
                 this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
