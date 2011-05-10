@@ -331,6 +331,8 @@ namespace LSRI.Submarine
         private Brush bg = null;
 
 
+        private Logger myLogger = new Logger();
+
         /// <summary>
         /// 
         /// </summary>
@@ -403,6 +405,15 @@ namespace LSRI.Submarine
             this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
             this._synthEx.Sequencer._stepEndedHook +=new SequencerExt.StepEnded(Sequencer__stepEndedHook);
             _synthEx.Stop();
+
+            GameEvent ff = null;
+            myLogger.Events.Add(ff = new GameEvent());
+            ff.CustomProperties.Add("test1", "1");
+            ff.CustomProperties.Add("test2", 1.0);
+            myLogger.Events.Add(ff = new GameEvent());
+            ff.CustomProperties.Add("test1", "5");
+            ff.CustomProperties.Add("test3", "dfdfdfdfdfdfdf");
+
 
         }
 
@@ -584,6 +595,7 @@ namespace LSRI.Submarine
         {
             base.removeAllCanvasChildren();
             _synthEx.Stop();
+            myLogger.SaveLog();
         }
 
         #endregion

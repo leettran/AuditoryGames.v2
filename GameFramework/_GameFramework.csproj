@@ -97,10 +97,12 @@
     <Compile Include="UserModel\ConfigManager.cs" />
     <Compile Include="UserModel\GameOptions.cs" />
     <Compile Include="UserModel\HighScores.cs" />
+    <Compile Include="UserModel\Logger.cs" />
     <Compile Include="UserModel\UserModel.cs" />
     <Compile Include="UI\UserModelEditor.xaml.cs">
       <DependentUpon>UserModelEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utility\SerializableDictionary.cs" />
     <Compile Include="Utility\StopwatchPlus.cs" />
     <Compile Include="_Sample\ApplicationManager.cs">
       <SubType>Code</SubType>

@@ -217,8 +217,10 @@ GameFramework/UserModel/AuditoryModel.cs -text
 GameFramework/UserModel/ConfigManager.cs -text
 GameFramework/UserModel/GameOptions.cs -text
 GameFramework/UserModel/HighScores.cs -text
+GameFramework/UserModel/Logger.cs -text
 GameFramework/UserModel/UserModel.cs -text
 GameFramework/Utility/MathUtil.cs -text
+GameFramework/Utility/SerializableDictionary.cs -text
 GameFramework/Utility/StopwatchPlus.cs -text
 GameFramework/_GameFramework.csproj -text
 GameFramework/_Sample/ApplicationManager.cs -text
