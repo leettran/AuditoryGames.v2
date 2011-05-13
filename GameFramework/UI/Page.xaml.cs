@@ -77,10 +77,10 @@ namespace LSRI.AuditoryGames.GameFramework
             TimeSpan elapsed = now - lastTick;
             lastTick = now;
 
-            if (enterFrame != null)
-            {
                 IAppManager.Instance.enterFrame(elapsed.TotalSeconds);
-                CollisionManager.Instance.enterFrame(elapsed.TotalSeconds);
+                if (enterFrame != null)
+                {
+                    CollisionManager.Instance.enterFrame(elapsed.TotalSeconds);
                 if (enterFrame != null) enterFrame(elapsed.TotalSeconds);
             }
         }

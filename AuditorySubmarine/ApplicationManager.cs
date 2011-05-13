@@ -331,7 +331,7 @@ namespace LSRI.Submarine
         private StopwatchPlus _watch;
         private Brush bg = null;
 
-
+        private ButtonIcon btnOption = null;
         private GameLogger myLogger = new GameLogger();
 
         /// <summary>
@@ -451,33 +451,52 @@ namespace LSRI.Submarine
 
         public override void enterFrame(double dt)
         {
-            if (KeyHandler.Instance.isKeyPressed(Key.Q) && StateManager.Instance.CurrentState.Equals(SubmarineStates.LEVEL_STATE))
-                StateManager.Instance.setState(States.START_STATE);
-
-            // cheat code for showing the gate
-            if (KeyHandler.Instance.isKeyPressed(Key.G))
+            if (StateManager.Instance.CurrentState.Equals(SubmarineStates.LEVEL_STATE))
             {
-                if (_gate==null) return;
-                Visibility isVis = _gate.Visibility;
-                if (isVis == Visibility.Visible)
-                    _gate.Visibility = Visibility.Collapsed;
+                if (KeyHandler.Instance.isKeyPressed(Key.Q))
+                {
+                    StateManager.Instance.setState(States.START_STATE);
+                    return;
+                }
+
+                // cheat code for showing the gate
+                if (KeyHandler.Instance.isKeyPressed(Key.G))
+                {
+                    if (_gate == null) return;
+                    Visibility isVis = _gate.Visibility;
+                    if (isVis == Visibility.Visible)
+                        _gate.Visibility = Visibility.Collapsed;
+                    else
+                        _gate.Visibility = Visibility.Visible;
+                    KeyHandler.Instance.clearKeyPresses();
+                }
+
+
+                /// Check for visibility of gate
+                double r = (_gate.Position.X - _submarine.Position.X) / _gate.Position.X;
+                if (SubOptions.Instance.User.IsGateVisible(r))
+                {
+                    if (_gate.Visibility != Visibility.Visible)
+                        _gate.Visibility = Visibility.Visible;
+                }
+
+                SubOptions.Instance.UpdateDebug();
+            }
+            else
+            {
+                ModifierKeys keys = Keyboard.Modifiers;
+                bool controlKey = (keys & ModifierKeys.Control) != 0;
+                bool altKey = (keys & ModifierKeys.Alt) != 0;
+                if (controlKey && altKey)
+                {
+                    btnOption.Visibility = Visibility.Visible;
+                }
                 else
-                    _gate.Visibility = Visibility.Visible;
-                KeyHandler.Instance.clearKeyPresses();
+                {
+                    if (btnOption.Visibility == Visibility.Visible)
+                        btnOption.Visibility = Visibility.Collapsed;
+                }
             }
-
-
-            /// Check for visibility of gate
-            double r = (_gate.Position.X-_submarine.Position.X) / _gate.Position.X;
-            if (SubOptions.Instance.User.IsGateVisible(r))
-            {
-                if (_gate.Visibility != Visibility.Visible)
-                    _gate.Visibility = Visibility.Visible;
-            }
-
-            SubOptions.Instance.UpdateDebug(); 
-
-                            
 
         }
 
@@ -539,7 +558,7 @@ namespace LSRI.Submarine
 
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
 
-            ButtonIcon btnOption = new ButtonIcon();
+            btnOption = new ButtonIcon();
             btnOption.TextContent.Text = "Options";
             btnOption.Icon.Source = ResourceHelper.GetBitmap("Media/fullscreen.png");
             btnOption.Icon.Height = 22;
