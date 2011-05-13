@@ -51,5 +51,11 @@ namespace LSRI.AuditoryGames.GameFramework
             
         }
 
+ 
+        private void BtnQuota_Click(object sender, RoutedEventArgs e)
+        {
+            GameLogger.IncreaseStorageQuota(20);
+        }
+
     }
 }

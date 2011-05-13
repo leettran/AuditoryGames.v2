@@ -15,6 +15,7 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Collections.Generic;
 using LSRI.AuditoryGames.Utils;
+using System.Text;
 
 namespace LSRI.AuditoryGames.GameFramework.Data
 {
@@ -60,9 +61,10 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         }
     }
 
-    public class Logger
+    public class GameLogger
     {
         private static readonly string STORAGE_FILENAME = @"logger.xml";
+        private static readonly string STORAGE_CSVFILENAME = @"logger.csv";
 
         private ObservableCollection<GameEvent> _events;
 
@@ -79,7 +81,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
         }
 
-        public Logger()
+        public GameLogger()
         {
             this._events = new ObservableCollection<GameEvent>();
         }
@@ -88,9 +90,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         /// 
         /// </summary>
         /// <returns>A deep copy of the Submarine Game options</returns>
-        public Logger Clone()
+        public GameLogger Clone()
         {
-            Logger tt = new Logger();
+            GameLogger tt = new GameLogger();
             foreach (GameEvent rec in this._events)
             {
                 tt._events.Add(rec.Clone());
@@ -98,7 +100,74 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             return tt;
         }
 
+        public static bool IncreaseStorageQuota(int nQuota)
+        {
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                long iQuotaMax = isoStore.AvailableFreeSpace;
+                long iQuotaCur = isoStore.Quota;
+                long iQuotaNew = nQuota * 1024 * 1024;
+                if (iQuotaNew > iQuotaCur)
+                {
+                    if (isoStore.IncreaseQuotaTo(iQuotaNew) == true)
+                    {
+                        // The user clicked Yes to the
+                        // host's prompt to approve the quota increase.
+                        return true;
+                    }
+                    else
+                    {
+                        // The user clicked No to the
+                        // host's prompt to approve the quota increase.
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+         }
 
+        public static void WriteLogFile(string message, string stackTrace)
+        {
+
+            try
+            {
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+
+                    using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(STORAGE_CSVFILENAME, FileMode.Append, isoStore))
+                    {
+
+                        using (StreamWriter writer = new StreamWriter(isoStream))
+                        {
+
+                            StringBuilder sb = new StringBuilder();
+
+                            sb.Append(DateTime.Now.ToString("MM/dd/yyyy,HH:mm:ss.ffff"));
+                            sb.Append(",");
+                            sb.Append(message);
+                            sb.Append(",");
+                            sb.AppendLine(stackTrace);
+
+                            writer.Write(sb.ToString());
+                            writer.Close();
+
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                
+               throw e;
+            }
+
+
+        }
 
         /// <summary>
         /// Save the configuration into isolated storage
@@ -109,9 +178,9 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             {
                 using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    using (IsolatedStorageFileStream isoStream = store.OpenFile(Logger.STORAGE_FILENAME, FileMode.Create))
+                    using (IsolatedStorageFileStream isoStream = store.OpenFile(GameLogger.STORAGE_FILENAME, FileMode.Create))
                     {
-                        XmlSerializer s = new XmlSerializer(typeof(Logger));
+                        XmlSerializer s = new XmlSerializer(typeof(GameLogger));
                         TextWriter writer = new StreamWriter(isoStream);
                         s.Serialize(writer, this.Clone());
                         writer.Close();
@@ -125,20 +194,20 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
         }
 
-        public Logger GetCurrentLog()
+        public GameLogger GetCurrentLog()
         {
-            Logger umXML = null;
+            GameLogger umXML = null;
             try
             {
                 using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    if (store.FileExists(Logger.STORAGE_FILENAME))
+                    if (store.FileExists(GameLogger.STORAGE_FILENAME))
                     {
-                        using (IsolatedStorageFileStream isoStream = store.OpenFile(Logger.STORAGE_FILENAME, FileMode.Open))
+                        using (IsolatedStorageFileStream isoStream = store.OpenFile(GameLogger.STORAGE_FILENAME, FileMode.Open))
                         {
-                            XmlSerializer s = new XmlSerializer(typeof(Logger));
+                            XmlSerializer s = new XmlSerializer(typeof(GameLogger));
                             TextReader writer = new StreamReader(isoStream);
-                            umXML = s.Deserialize(writer) as Logger;
+                            umXML = s.Deserialize(writer) as GameLogger;
                             writer.Close();
                         }
                     }

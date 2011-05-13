@@ -15,6 +15,7 @@ using System.IO.IsolatedStorage;
 using System.IO;
 using System.Xml.Serialization;
 using LSRI.AuditoryGames.GameFramework.UI;
+using System.ComponentModel;
 
 
 
@@ -331,7 +332,7 @@ namespace LSRI.Submarine
         private Brush bg = null;
 
 
-        private Logger myLogger = new Logger();
+        private GameLogger myLogger = new GameLogger();
 
         /// <summary>
         /// 
@@ -406,22 +407,28 @@ namespace LSRI.Submarine
             this._synthEx.Sequencer._stepEndedHook +=new SequencerExt.StepEnded(Sequencer__stepEndedHook);
             _synthEx.Stop();
 
-            GameEvent ff = null;
-            myLogger.Events.Add(ff = new GameEvent());
-            ff.CustomProperties.Add("test1", "1");
-            ff.CustomProperties.Add("test2", 1.0);
-            myLogger.Events.Add(ff = new GameEvent());
-            ff.CustomProperties.Add("test1", "5");
-            ff.CustomProperties.Add("test3", "dfdfdfdfdfdfdf");
+            //BackgroundWorker bw = new BackgroundWorker();
+            //bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+            //bw.RunWorkerAsync();
+          
 
 
         }
+
+       /* void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                System.Threading.Thread.Sleep(5);
+                GameLogger.WriteLogFile("FDdfdfdfdf", "dffddfsgdfgsdf");
+            }
+        }*/
 
         void Sequencer__stepEndedHook()
         {
-
             this._synthEx.SetSignalDelay(2);
         }
+
         void Sequencer__freqChangedHook(int idx,double fq)
         {
             if (this.Logger!=null) 
@@ -525,6 +532,7 @@ namespace LSRI.Submarine
             btnFull.Click += delegate(object sender, RoutedEventArgs e)
             {
                 AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
+                
             };
 
 
