@@ -279,7 +279,7 @@ namespace LSRI.TreasureHunter
             }
         }
 
-        public void UpdateSound()
+        public void UpdateSound(int clearIdx)
         {
             double freqL = 0;
             double freqM = 0;
@@ -288,7 +288,10 @@ namespace LSRI.TreasureHunter
             double fqTrain = TreasureOptions.Instance.User.FrequencyTraining;
             double fqComp = TreasureOptions.Instance.User.FrequencyTraining - TreasureOptions.Instance.User.FrequencyDelta;
             TreasureOptions.Instance.User.FrequencyComparison = fqComp;
-
+            if (clearIdx != -1)
+            {
+                scoreArray[clearIdx] = 0;
+            }
             if (TreasureOptions.Instance.Game.Detection == TreasureGame.DetectionMode.Proximity)
             {
                 freqL = ((_player.CurrentZone - 1) >= 0 && TreasureOptions.Instance.Game._curSetup[_player.CurrentZone - 1] == '1') ? fqTrain : fqComp;
@@ -325,6 +328,19 @@ namespace LSRI.TreasureHunter
                 {
                     if (right[i] == '1') nbR++;
                 }
+
+                nbL = 0;
+                nbR = 0;
+                for (int i = 0; i < _player.CurrentZone; i++)
+                {
+                    nbL += scoreArray[i];
+                }
+                for (int i = _player.CurrentZone; i < scoreArray.Length; i++)
+                {
+                    nbR += scoreArray[i];
+                }
+
+
                 freqL = (nbL >= nbR) ? fqTrain : fqComp;
                 freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? fqTrain : fqComp;
                 freqR = (nbL <= nbR) ? fqTrain : fqComp;
@@ -387,7 +403,7 @@ namespace LSRI.TreasureHunter
                 }
 
             }
-            Array.Sort(scoreArray, delegate(int x, int y) { return y.CompareTo(x); });
+            //Array.Sort(scoreArray, delegate(int x, int y) { return y.CompareTo(x); });
             int[] TT = Array.CreateInstance(typeof(int), settings.Length) as int[];
             scoreArray.CopyTo(TT, 0);
             Array.Sort(TT, delegate(int x, int y) { return y.CompareTo(x); });
@@ -750,7 +766,7 @@ namespace LSRI.TreasureHunter
             //this._synthEx.ResetSequencer();
             // children.Play();
             //this._synthEx.Start();
-            UpdateSound();
+            UpdateSound(-1);
             TreasureOptions.Instance.UpdateDebug();
         }
 

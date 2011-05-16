@@ -297,7 +297,7 @@ namespace LSRI.TreasureHunter
                 pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, pn);
             }
             else
-                (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound();
+                (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound(this.Index);
            // this.shutdown();
         }
     }

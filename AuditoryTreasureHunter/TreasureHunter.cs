@@ -66,7 +66,7 @@ namespace LSRI.TreasureHunter
                     // TreasureApplicationManager.Instance;
 
                     (TreasureApplicationManager.Instance as TreasureApplicationManager).changeExposure();
-                    (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound();
+                    (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound(-1);
                 }
             }
 
@@ -123,7 +123,7 @@ namespace LSRI.TreasureHunter
             else if (KeyHandler.Instance.isKeyPressed(Key.Down))
             {
                 TreasureOptions.Instance.User.Actions++;
-                (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound();
+                (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound(-1);
             }
 
         }
