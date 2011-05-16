@@ -116,6 +116,7 @@ namespace LSRI.TreasureHunter
         public Frequency3IGenerator _synthEx = null;
 
         public TreasureToolbox _scorePanel = null;
+        private ButtonIcon btnOption = null;
 
         /// <summary>
         /// 
@@ -195,44 +196,67 @@ namespace LSRI.TreasureHunter
                 new StateChangeInfo.StateFunction(startOptions),
                 new StateChangeInfo.StateFunction(exitOptions));
 
-            Score = SavedScore;
+            //Score = SavedScore;
             //(App.Current.RootVisual as Page).AudioPlayer.SetSource(_synthEx);
         }
 
         public override void enterFrame(double dt)
         {
-            if (KeyHandler.Instance.isKeyPressed(Key.Escape) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
-                StateManager.Instance.setState(States.START_STATE);
+            //if (KeyHandler.Instance.isKeyPressed(Key.Escape) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
+            //    StateManager.Instance.setState(States.START_STATE);
+            if (StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
+            {
+                if (KeyHandler.Instance.isKeyPressed(Key.Q))
+                {
+                    StateManager.Instance.setState(States.START_STATE);
+                    return;
+                }
 
+                if (KeyHandler.Instance.isKeyPressed(Key.Add) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
+                {
+                    TreasureOptions.Instance.User._currExposure++;
+                    if (TreasureOptions.Instance.User._currExposure >= 4) TreasureOptions.Instance.User._currExposure = 4;
+                    changeExposure();
+                }
+
+                if (KeyHandler.Instance.isKeyPressed(Key.Subtract) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
+                {
+                    TreasureOptions.Instance.User._currExposure--;
+                    if (TreasureOptions.Instance.User._currExposure <= 0) TreasureOptions.Instance.User._currExposure = 0;
+                    changeExposure();
+                }
+
+                if (KeyHandler.Instance.isKeyPressed(Key.Z) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
+                {
+                    TreasureOptions.Instance.Game.Display = TreasureGame.DisplayMode.Content;
+                    changeExposure();
+                }
+                if (KeyHandler.Instance.isKeyPressed(Key.X) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
+                {
+                    TreasureOptions.Instance.Game.Display = TreasureGame.DisplayMode.Position;
+                    changeExposure();
+                }
+                timeSinceLastEnemy -= dt;
+                timeSinceLastBackground -= dt;
+                TreasureOptions.Instance.UpdateDebug();
+            }
+            else
+            {
+                ModifierKeys keys = Keyboard.Modifiers;
+                bool controlKey = (keys & ModifierKeys.Control) != 0;
+                bool altKey = (keys & ModifierKeys.Alt) != 0;
+                if (controlKey && altKey)
+                {
+                    btnOption.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    if (btnOption.Visibility == Visibility.Visible)
+                        btnOption.Visibility = Visibility.Collapsed;
+                }
+            }
       
-            if (KeyHandler.Instance.isKeyPressed(Key.Add) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
-            {
-                TreasureOptions.Instance.User._currExposure++;
-                if (TreasureOptions.Instance.User._currExposure >= 4) TreasureOptions.Instance.User._currExposure = 4;
-                changeExposure();
-            }
-
-            if (KeyHandler.Instance.isKeyPressed(Key.Subtract) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
-            {
-                TreasureOptions.Instance.User._currExposure--;
-                if (TreasureOptions.Instance.User._currExposure <= 0) TreasureOptions.Instance.User._currExposure = 0;
-                changeExposure();
-            }
-
-            if (KeyHandler.Instance.isKeyPressed(Key.D1) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
-            {
-                TreasureOptions.Instance.Game.Display = TreasureGame.DisplayMode.Content;
-                changeExposure();
-            }
-            if (KeyHandler.Instance.isKeyPressed(Key.D2) && StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE))
-            {
-                TreasureOptions.Instance.Game.Display = TreasureGame.DisplayMode.Position;
-                changeExposure();
-            }
-
-            timeSinceLastEnemy -= dt;
-            timeSinceLastBackground -= dt;
-            TreasureOptions.Instance.UpdateDebug();
+  
         }
 
 
@@ -241,13 +265,16 @@ namespace LSRI.TreasureHunter
             double delta = TreasureOptions.Instance.User.VisualTiming.Data[TreasureOptions.Instance.User._currExposure];
             TreasureOptions.Instance.nExposedX = (int)(delta * TreasureOptions.Instance.Game.Zones);
             TreasureOptions.Instance.nExposedY = (int)(delta * TreasureOptions.Instance.Game.Depth);
+
+            double nb = TreasureOptions.Instance.Game.Zones * (1.5);
+            double fog = Math.Max(1,nb - TreasureOptions.Instance.User.Actions);
             for (int i = 0; i < _nuggets.Count; i++)
             {
                 TreasureNugget tt = _nuggets[i];
                 tt.ChangeExposure(true);
               //  if (tt.Depth > TreasureOptions.Instance.nExposedY)
               //      tt.ChangeExposure(false);
-                if  (Math.Abs(_player.CurrentZone - tt.Index) > TreasureOptions.Instance.nExposedX)
+                if  (Math.Abs(_player.CurrentZone - tt.Index) > fog/*TreasureOptions.Instance.nExposedX*/)
                     tt.ChangeExposure(false);
             }
         }
@@ -388,6 +415,7 @@ namespace LSRI.TreasureHunter
 
         public void startMainMenu()
         {
+            TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Value;
             GenerateGameSettings();
 
             this._scorePanel = new TreasureToolbox()
@@ -434,7 +462,7 @@ namespace LSRI.TreasureHunter
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pp);
 
 
-            ButtonIcon btnStart = new ButtonIcon();
+           /* ButtonIcon btnStart = new ButtonIcon();
             //btnStart.Content = "Start Game (Proximity mode)";
             btnStart.TextContent.Text = "Start Game (Proximity mode)";
             btnStart.Icon.Source = ResourceHelper.GetBitmap("Media/smallisland.png");
@@ -478,14 +506,17 @@ namespace LSRI.TreasureHunter
                 StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
             };
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
+            */
 
-
-            Button btnFull = new Button();
-            btnFull.Content = "Full Screen Mode";
+            ButtonIcon btnFull = new ButtonIcon();
+            btnFull.TextContent.Text = "Full Screen Mode";
+            btnFull.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/fullscreen.png");
+            btnFull.Icon.Height = 22;
+            btnFull.Icon.Width = 31;
             btnFull.Width = 150;
-            btnFull.Height = 35;
+            btnFull.Height = 40;
             btnFull.SetValue(Canvas.LeftProperty, 50.0);
-            btnFull.SetValue(Canvas.TopProperty, 400.0);
+            btnFull.SetValue(Canvas.TopProperty, 450.0);
             btnFull.Click += delegate(object sender, RoutedEventArgs e)
             {
                 AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
@@ -493,12 +524,15 @@ namespace LSRI.TreasureHunter
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
 
 
-            Button btnOption = new Button();
-            btnOption.Content = "Options";
+            btnOption = new ButtonIcon();
+            btnOption.TextContent.Text = "Options";
+            btnOption.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/fullscreen.png");
+            btnOption.Icon.Height = 22;
+            btnOption.Icon.Width = 31;
             btnOption.Width = 150;
-            btnOption.Height = 35;
+            btnOption.Height = 40;
             btnOption.SetValue(Canvas.LeftProperty, 50.0);
-            btnOption.SetValue(Canvas.TopProperty, 480.0);
+            btnOption.SetValue(Canvas.TopProperty, 500.0);
             btnOption.Click += delegate(object sender, RoutedEventArgs e)
             {
                 StateManager.Instance.setState(TreasureStates.OPTION_STATE);

@@ -80,6 +80,7 @@ namespace LSRI.TreasureHunter
         private void FogOfWar()
         {
             //int nbStep = TreasureOptions.Instance.User.Actions;
+            double nb = TreasureOptions.Instance.Game.Zones * (1.5);
             double delta = TreasureOptions.Instance.User.VisualTiming.Data[TreasureOptions.Instance.User._currExposure];
             TreasureOptions.Instance.nExposedX = (int)(delta * TreasureOptions.Instance.Game.Zones);
             TreasureOptions.Instance.nExposedY = (int)(delta * TreasureOptions.Instance.Game.Depth);
@@ -93,8 +94,8 @@ namespace LSRI.TreasureHunter
                 strCnt = "Media/unknown.png";
                 if (this.Depth < TreasureOptions.Instance.nExposedY)
                 {
-                    if (Type == TreasureType.TREASURE_GOLD) strCnt = "Media/gold1.png";
-                    else if (Type == TreasureType.TREASURE_METAL) strCnt = "Media/metal1.png";
+                   // if (Type == TreasureType.TREASURE_GOLD) strCnt = "Media/gold1.png";
+                   // else if (Type == TreasureType.TREASURE_METAL) strCnt = "Media/metal1.png";
                 }
      
             }

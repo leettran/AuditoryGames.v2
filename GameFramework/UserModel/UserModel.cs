@@ -308,6 +308,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         int _currScore;         ///< current score (at current level)
         UserType _userType;     ///< Type of the user
         Gates   _gate;          ///<  ddd
+        bool _showDebug;
                                 
         HighScoreContainer _scores;
 
@@ -503,6 +504,19 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         [Display(Name = "Success Pattern", Description = "The outcomes (success or failure) of the last three levels")]
         public WinPattern Pattern { set; get; }
 
+        [Display(Name = "Show Debug", Description = "Display the in-game debug information")]
+        public bool ShowDebug
+        {
+            get { return _showDebug; }
+            set
+            {
+                if (_showDebug != value)
+                {
+                    _showDebug = value;
+                    OnPropertyChanged("ShowDebug");
+                }
+            }
+        }
 
         /// <summary>
         /// 
@@ -521,6 +535,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._scores = new HighScoreContainer();
             this.Gates = new Gates();
             this.Pattern = new WinPattern();
+            this._showDebug = true;
         }
 
         /// <summary>
@@ -537,6 +552,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             tmp._currLevel = this.CurrentLevel;
             tmp._currGate = this._currGate;
             tmp._currLife = this._currLife;
+            tmp._showDebug = this._showDebug;
             tmp._currScore = this._currScore;
             tmp.Gates = this.Gates;
             tmp.Pattern = this.Pattern;
@@ -555,6 +571,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._FqTraining = tmp.FrequencyTraining;
             this._FqDelta = tmp.FrequencyDelta;
             this._currScore = tmp._currScore;
+            this._showDebug = tmp._showDebug;
             this.Gates = tmp.Gates;
             this.Pattern = tmp.Pattern;
             this.Scores = tmp.Scores.Clone();

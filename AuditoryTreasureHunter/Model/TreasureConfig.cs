@@ -276,6 +276,7 @@ namespace LSRI.TreasureHunter.Model
                 "Level       : {3}\n" +
                 "Gold        : {4}/{5}\n" +
                 "-----\n" +
+                "Actions     : {10}\n" +
                 "Exposure    : {6} - {7}/{8}\n" +
                 "{9}",
                 this.User.FrequencyTraining,
@@ -287,7 +288,8 @@ namespace LSRI.TreasureHunter.Model
                 this.User._currExposure,
                 nExposedX,
                 nExposedY,
-                this.Beat
+                this.Beat,
+                this.User.Actions
                 );
 
         }

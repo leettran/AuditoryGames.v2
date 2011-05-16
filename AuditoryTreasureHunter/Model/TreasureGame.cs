@@ -258,7 +258,7 @@ namespace LSRI.TreasureHunter.Model
         public TreasureGame()
         {
             this._mdDetect = DetectionMode.Proximity;
-            this._mdDisplay = DisplayMode.Content;
+            this._mdDisplay = DisplayMode.Position;
             this._mdOpacity = OpacityMode.Both;
             this._nbZones = 10;
             this._nbDepth = 10;
