@@ -164,7 +164,7 @@ namespace LSRI.TreasureHunter.Model
         }
 
         [Display(Name = "Lives", Description = "Number of remaining lives to finish the current level")]
-        [Range(1, 20)]
+        [Range(0, 20)]
         public int CurrentLife
         {
             get { return _currLife; }
@@ -179,7 +179,7 @@ namespace LSRI.TreasureHunter.Model
         }
 
         [Display(Name = "Gold", Description = "Number of gold nuggests  already collected")]
-        [Range(1, 20)]
+        [Range(0, 20)]
         public int CurrentGold
         {
             get { return _currGold; }
@@ -194,7 +194,7 @@ namespace LSRI.TreasureHunter.Model
         }
 
         [Display(Name = "Actions", Description = "Number of actions (mouvement, detection, collection) executed so far.")]
-        [Range(1,10000)]
+        [Range(0,10000)]
         public int Actions
         {
             get { return _nbActions; }
