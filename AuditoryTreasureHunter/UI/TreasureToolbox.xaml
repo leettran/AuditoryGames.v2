@@ -8,17 +8,17 @@
 
     <Grid x:Name="LayoutRoot" Background="#6E000000">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="330" />
-            <ColumnDefinition Width="205" />
-            <ColumnDefinition Width="265*" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Name="_SubTitlePanel" Orientation="Horizontal" Visibility="Visible">
-            <TextBlock Name="textBlock1" Text="auditory" FontSize="14" VerticalAlignment="Stretch" FontWeight="Normal" Padding="0,12,0,0" Foreground="#FFEBDE45" Margin="25,0,0,0" HorizontalAlignment="Center" />
+        <StackPanel Name="_SubTitlePanel" Orientation="Horizontal" Visibility="Visible" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+            <TextBlock Name="textBlock1" Text="auditory" FontSize="14" VerticalAlignment="Stretch" FontWeight="Normal" Padding="0,12,0,0" Foreground="#FFEBDE45" Margin="10,0,0,0" HorizontalAlignment="Center" />
             <TextBlock FontSize="18" Name="textBlock3" Text="TreasureHunter" VerticalAlignment="Stretch" FontWeight="Bold" Padding="0,8,0,0" Foreground="#FFEBDE45" />
             <TextBlock FontSize="11" FontWeight="Normal" Foreground="#FFEBDE45" Name="_xVersion" Padding="0,15,0,0" Text="v2.1.111" Margin="6,0,0,0" Width="67" />
         </StackPanel>
-        <StackPanel Name="_SubLevelPanel" Orientation="Horizontal" Grid.Column="1">
+        <StackPanel Name="_SubLevelPanel" Orientation="Horizontal" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Left" >
             <StackPanel Margin="0" Orientation="Horizontal" Width="97">
                 <StackPanel.Background>
                     <ImageBrush ImageSource="/AuditoryTreasureHunter;component/Media/board_count.png" Stretch="Uniform" />
@@ -32,9 +32,25 @@
                 </StackPanel.Background>
                 <TextBlock FontSize="16" FontWeight="Bold" Height="23" Name="_xScoreText" Text="1500" Margin="30,0,0,0" Width="45" />
             </StackPanel>
+            <StackPanel Margin="10,0,0,0" Orientation="Horizontal" Width="175">
+                <Grid  Width="175">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="175" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="6" />
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="6" />
+                    </Grid.RowDefinitions>
+                    <ProgressBar Name="_targetBar" Grid.Row="1" Value="50" Foreground="DarkRed" Background="#FF7BB3F7" BorderThickness="0" UseLayoutRounding="True" BorderBrush="Black" Grid.ColumnSpan="2" />
+                    <ProgressBar Name="_scoreBar" Grid.Row="2" Value="100" BorderThickness="0" Foreground="#FF078107" Background="#FF7BB3F7"/>
+                </Grid>
+ 
+            </StackPanel>
 
         </StackPanel>
-        <StackPanel Name="_SubLifePanel" Orientation="Horizontal" Grid.Column="2" Margin="61,0,0,0">
+        <StackPanel Name="_SubLifePanel" Orientation="Horizontal" Grid.Column="2" Margin="0,0,0,0">
 
             <StackPanel Width="81" Margin="25,0,0,0" Orientation="Horizontal">
                 <StackPanel.Background>

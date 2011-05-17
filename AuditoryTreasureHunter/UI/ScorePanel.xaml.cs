@@ -9,40 +9,69 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using LSRI.TreasureHunter.Model;
 
 namespace LSRI.TreasureHunter.UI
 {
     public partial class ScorePanel : UserControl
     {
-
+        bool _success = true;
         public delegate void OnCompleteTaskEvent();
         public event OnCompleteTaskEvent OnCompleteTask;
 
 
-        public ScorePanel()
+        public  ScorePanel()
         {
             InitializeComponent();
+            _success = TreasureOptions.Instance.User.CurrentScore >= TreasureOptions.Instance.User.CurrentTarget;
+            if (_success)
+            {
+                _txtMessage.Text = @"Congratulation!";
+            }
+            else
+            {
+                _txtMessage.Text = @"Too bad. Try again...";
+            }
+
+            _xAccBar.Maximum = 100;
+            _xGoldBar.Maximum = 100;
+            _targetBar.Maximum = 100;
+            _scoreBar.Maximum = 100;
+
+            int score = TreasureOptions.Instance.User.CurrentScore;
+            int gold = TreasureOptions.Instance.User.CurrentGold;
+            int target = TreasureOptions.Instance.User.CurrentTarget;
+            int maxT = TreasureOptions.Instance.User.MaxTarget;
+            int charges = TreasureOptions.Instance.Game.Charges;
+
+            int baseScore = 100;
+
+            double sAccuracy = 100.0 * (double)gold / (double)charges;
+            double sGold = 100.0 * (double)score / (double)maxT;
+            double sTarget = 100.0 * (double)target / (double)maxT;
+
+            int tAcc = (int)(baseScore * sAccuracy / 100.00);
+            _nAccScore.Text = tAcc.ToString();
+            _xAccBar.Value = sAccuracy;
+
+            int tGold = (int)(baseScore * sGold / 100.00);
+            _ngoldScore.Text = tGold.ToString();
+            _xGoldBar.Value = sGold;
+
+            _targetBar.Value = sTarget;
+            _scoreBar.Value = sGold;
+            int tTarget = Math.Max(0, (int)(100.0 * (double)score / (double)target) - 100);
+            _nTarget.Text = "x " + tTarget + "%";
+            //_scoreBar.Value = sTarget;
+            if (_success)
+                tTarget = 100;
+            else
+                tTarget = 0;
+
+            _nTotalScore.Text = ((tAcc + tGold) * ((tTarget)/100.0)).ToString();
         }
 
-        public double Accuracy
-        {
-            set
-            {
-                _xAccBar.Maximum = 100;
-                _xAccBar.Value = value;
-                _nAccScore.Text = (150.0 * value / 100.00).ToString();
-            }
-        }
 
-        public double Gold
-        {
-            set
-            {
-                _xGoldBar.Maximum = 100;
-                _xGoldBar.Value = value;
-                _ngoldScore.Text = (150.0 * value / 100.0).ToString();
-            }
-        }
 
         private void _xBtnOK_Click(object sender, RoutedEventArgs e)
         {

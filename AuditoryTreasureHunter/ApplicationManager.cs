@@ -267,7 +267,9 @@ namespace LSRI.TreasureHunter
             TreasureOptions.Instance.nExposedY = (int)(delta * TreasureOptions.Instance.Game.Depth);
 
             double nb = TreasureOptions.Instance.Game.Zones * (1.5);
-            double fog = Math.Max(1,nb - TreasureOptions.Instance.User.Actions);
+            int idx = Math.Min(4,TreasureOptions.Instance.User.CurrentGold);
+            double mod = TreasureOptions.Instance.User.VisualTiming.Data[idx];
+            double fog = Math.Max(1,(nb - TreasureOptions.Instance.User.Actions)*mod);
             for (int i = 0; i < _nuggets.Count; i++)
             {
                 TreasureNugget tt = _nuggets[i];
@@ -595,7 +597,9 @@ namespace LSRI.TreasureHunter
                 Life = TreasureOptions.Instance.User.CurrentLife,
                 Gold = TreasureOptions.Instance.Game._curGold,
                 Score = TreasureOptions.Instance.User.CurrentScore,
-                Level = TreasureOptions.Instance.User.CurrentLevel
+                Level = TreasureOptions.Instance.User.CurrentLevel,
+                Target = TreasureOptions.Instance.User.CurrentTarget,
+                MaxScore = TreasureOptions.Instance.User.MaxTarget
             };
             _scorePanel.SetValue(Canvas.LeftProperty, 0.0);
             _scorePanel.SetValue(Canvas.TopProperty, 0.0);

@@ -194,12 +194,12 @@ namespace LSRI.TreasureHunter
         {
          }
 
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
+      /*  private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (this != null && this.Rect != null)
                 this.Rect.Dispatcher.BeginInvoke(() => this.ExposeNugget());
             (sender as DispatcherTimer).Stop();
-        }
+        }*/
 
 
         public override void enterFrame(double dt)
@@ -276,17 +276,13 @@ namespace LSRI.TreasureHunter
                 };
                 currentFrame = 0;
                 prepareImage(animationData.frames[currentFrame]);
-
+                (TreasureApplicationManager.Instance as TreasureApplicationManager).changeExposure();
              }
 
             if (TreasureOptions.Instance.Game._curGold == 0 || TreasureOptions.Instance.User.CurrentLife ==0)
             {
                 GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
-                ScorePanel pn = new ScorePanel()
-                {
-                    Gold = (double)TreasureOptions.Instance.User.CurrentScore / (double)TreasureOptions.Instance.User.MaxTarget * 100.0,
-                    Accuracy = (double)TreasureOptions.Instance.User.CurrentGold / (double)TreasureOptions.Instance.Game.Charges * 100.0
-                };
+                ScorePanel pn = new ScorePanel();
                 pn.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pn.Width) / 2);
                 pn.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pn.Height) / 2);
                 pn.OnCompleteTask += delegate()

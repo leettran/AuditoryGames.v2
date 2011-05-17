@@ -54,7 +54,7 @@
                     <RowDefinition Height="27" />
                     <RowDefinition Height="36*" />
                 </Grid.RowDefinitions>
-                <TextBlock Height="24" HorizontalAlignment="Left" Name="textBlock1" Text="Congratulation!" VerticalAlignment="Stretch" Width="271" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="4" Foreground="White" />
+                <TextBlock Height="24" HorizontalAlignment="Left" Name="_txtMessage" Text="Congratulation!" VerticalAlignment="Stretch" Width="271" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="4" Foreground="White" />
                 <ProgressBar Grid.Column="1" Grid.Row="3" Name="_xAccBar" Value="50" Grid.ColumnSpan="3" />
                 <ProgressBar Margin="0,1,0,0" Name="_xGoldBar" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Value="50" />
                 <Button Content="OK" Grid.ColumnSpan="3" Grid.Row="10" Height="23" HorizontalAlignment="Center" Margin="45,0,46,0" Name="_xBtnOK" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Center" Grid.Column="1" Click="_xBtnOK_Click" />
@@ -67,7 +67,7 @@
                 <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Normal" Foreground="White" HorizontalAlignment="Right" Name="textBlock2" Text="Target" TextAlignment="Center" Width="80" Grid.Row="6" Grid.RowSpan="2" TextWrapping="NoWrap" Height="28" />
                 <ProgressBar Grid.ColumnSpan="3" Name="_targetBar" Grid.Column="1" Grid.Row="6" Value="50" Foreground="DarkRed" BorderThickness="0" UseLayoutRounding="True" BorderBrush="Black" />
                 <ProgressBar Grid.ColumnSpan="3" Name="_scoreBar" Value="50" Grid.Column="1" Grid.Row="7" BorderThickness="0" Foreground="#FF00B000" />
-                <TextBlock FontSize="14" FontWeight="Normal" Foreground="White" Height="19" HorizontalAlignment="Left" Name="textBlock3" Text="150" TextAlignment="Center" VerticalAlignment="Top" Width="80" Grid.Row="7" Grid.Column="5" />
+                <TextBlock FontSize="14" FontWeight="Normal" Foreground="White" Height="19" HorizontalAlignment="Left" Name="_nTarget" Text="150" TextAlignment="Center" VerticalAlignment="Top" Width="80" Grid.Row="7" Grid.Column="5" />
             </Grid>
         </Border>
     </Grid>

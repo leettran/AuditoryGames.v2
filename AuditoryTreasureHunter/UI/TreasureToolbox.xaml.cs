@@ -57,6 +57,15 @@ namespace LSRI.TreasureHunter.UI
             set
             {
                 _xScoreText.Text = value.ToString();
+                _scoreBar.Value = value;
+                if (_scoreBar.Value < _targetBar.Value)
+                {
+                    _scoreBar.Foreground =  new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    _scoreBar.Foreground = new SolidColorBrush(Colors.Green);
+                }
             }
         }
 
@@ -72,6 +81,23 @@ namespace LSRI.TreasureHunter.UI
             set
             {
                 _xGoldText.Text = value.ToString();
+            }
+        }
+
+        public int MaxScore
+        {
+            set
+            {
+                _targetBar.Maximum = value;
+                _scoreBar.Maximum = value;
+            }
+        }
+
+        public int Target
+        {
+            set
+            {
+                _targetBar.Value = value;
             }
         }
 
