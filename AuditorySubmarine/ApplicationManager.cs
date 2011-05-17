@@ -282,6 +282,10 @@ namespace LSRI.Submarine
                 _debugUI.SetValue(Canvas.TopProperty, 10.0);
             }
 
+            if (SubOptions.Instance.User.ShowDebug)
+                _debugUI.Visibility = Visibility.Visible;
+            else
+                _debugUI.Visibility = Visibility.Collapsed;
             // we have to insert any non GameObjects at the end of the children collection
             pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, _debugUI);
         }
@@ -292,6 +296,7 @@ namespace LSRI.Submarine
         public void UpdateDebug()
         {
             if (_debugUI == null) return;
+            if (!SubOptions.Instance.User.ShowDebug) return;
             _debugUI.Text = String.Format(
                 "Training Fq : {0} Hz\n" +
                 "Delta       : {1} Hz\n" + 

@@ -40,7 +40,7 @@ namespace LSRI.TreasureHunter.Model
         int _nbActions;         ///< Number of actions done so far;
         public int _currExposure; 
         HighScoreContainer _scores;
-
+        bool _showDebug;
 
         double _FqComparison;   ///< Current  comparison frequency played
 
@@ -272,6 +272,20 @@ namespace LSRI.TreasureHunter.Model
             }
         }
 
+        [Display(Name = "Show Debug", Description = "Display the in-game debug information")]
+        public bool ShowDebug
+        {
+            get { return _showDebug; }
+            set
+            {
+                if (_showDebug != value)
+                {
+                    _showDebug = value;
+                    OnPropertyChanged("ShowDebug");
+                }
+            }
+        }
+
 
         /// <summary>
         /// 
@@ -291,6 +305,7 @@ namespace LSRI.TreasureHunter.Model
             this._maxTarget = 0;
             this._currExposure = 0;
             this._nbActions = 0;
+            this._showDebug = true;
             this._scores = new HighScoreContainer();
             this.Pattern = new WinPattern();
             this.VisualTiming = new Gates();
@@ -309,6 +324,7 @@ namespace LSRI.TreasureHunter.Model
             tmp._FqDelta = this.FrequencyDelta;
             tmp._currLevel = this.CurrentLevel;
             tmp._currLife = this._currLife;
+            tmp._showDebug = this._showDebug;
             tmp._currScore = this._currScore;
             tmp._currTarget = this._currTarget;
             tmp._maxTarget = this._maxTarget;
@@ -326,6 +342,7 @@ namespace LSRI.TreasureHunter.Model
             this._Name = tmp.Name;
             this._currLevel = tmp.CurrentLevel;
             this._currLife = tmp._currLife;
+            this._showDebug = tmp._showDebug;
             this._FqTraining = tmp.FrequencyTraining;
             this._FqDelta = tmp.FrequencyDelta;
             this._currScore = tmp._currScore;

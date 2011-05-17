@@ -68,10 +68,11 @@ namespace LSRI.TreasureHunter.UI
             else
                 tTarget = 0;
 
-            _nTotalScore.Text = ((tAcc + tGold) * ((tTarget)/100.0)).ToString();
+            FinalScore = (int)(tAcc + tGold);
+            _nTotalScore.Text = (FinalScore * ((tTarget) / 100.0)).ToString();
         }
 
-
+        public int FinalScore { set; get; }
 
         private void _xBtnOK_Click(object sender, RoutedEventArgs e)
         {

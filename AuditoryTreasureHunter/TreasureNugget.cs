@@ -12,6 +12,7 @@ using LSRI.AuditoryGames.GameFramework;
 using System.Windows.Threading;
 using LSRI.TreasureHunter.Model;
 using LSRI.TreasureHunter.UI;
+using LSRI.AuditoryGames.GameFramework.Data;
 
 namespace LSRI.TreasureHunter
 {
@@ -276,15 +277,35 @@ namespace LSRI.TreasureHunter
                 };
                 currentFrame = 0;
                 prepareImage(animationData.frames[currentFrame]);
-                (TreasureApplicationManager.Instance as TreasureApplicationManager).changeExposure();
+               // (TreasureApplicationManager.Instance as TreasureApplicationManager).changeExposure();
              }
 
             if (TreasureOptions.Instance.Game._curGold == 0 || TreasureOptions.Instance.User.CurrentLife ==0)
             {
+                bool success = TreasureOptions.Instance.User.CurrentScore >= TreasureOptions.Instance.User.CurrentTarget;
+
                 GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
                 ScorePanel pn = new ScorePanel();
                 pn.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pn.Width) / 2);
                 pn.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pn.Height) / 2);
+
+                if (success)
+                {
+                    TreasureOptions.Instance.User.Scores.Data.Add(new HighScore()
+                    {
+                        Delta = (int)TreasureOptions.Instance.User.FrequencyDelta,
+                        Level = TreasureOptions.Instance.User.CurrentLevel,
+                        Score = pn.FinalScore
+                    });
+                    TreasureOptions.Instance.User.CurrentLevel++;
+                    TreasureOptions.Instance.User.FrequencyDelta *= (1 - TreasureOptions.Instance.Auditory.Step);
+                }
+                else
+                {
+                    TreasureOptions.Instance.User.FrequencyDelta *= (1 + TreasureOptions.Instance.Auditory.Step);
+                }
+
+
                 pn.OnCompleteTask += delegate()
                 {
                     StateManager.Instance.setState(States.START_STATE);
