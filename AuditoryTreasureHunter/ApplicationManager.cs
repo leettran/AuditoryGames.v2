@@ -337,15 +337,20 @@ namespace LSRI.TreasureHunter
                 {
                     nbL += scoreArray[i];
                 }
-                for (int i = _player.CurrentZone; i < scoreArray.Length; i++)
+                for (int i = _player.CurrentZone+1; i < scoreArray.Length; i++)
                 {
                     nbR += scoreArray[i];
                 }
 
-
-                freqL = (nbL >= nbR) ? fqTrain : fqComp;
+                if (nbL==0) 
+                    freqL = fqComp;
+                else
+                    freqL = (nbL >= nbR ) ? fqTrain : fqComp;
                 freqM = (TreasureOptions.Instance.Game._curSetup[_player.CurrentZone] == '1') ? fqTrain : fqComp;
-                freqR = (nbL <= nbR) ? fqTrain : fqComp;
+                if (nbR == 0)
+                    freqR = fqComp;
+                else
+                    freqR = (nbL <= nbR) ? fqTrain : fqComp;
 
 
             }
@@ -412,7 +417,7 @@ namespace LSRI.TreasureHunter
 
             int median = TreasureOptions.Instance.Game._curGold / TreasureOptions.Instance.Game.Charges;
             int acc = 0;
-            for (int i = median; i < median + TreasureOptions.Instance.Game.Charges;i++)
+            for (int i = median; i < median + TreasureOptions.Instance.Game.Charges && i < TT[i];i++)
                 acc += TT[i];
 
                 //Array.Sort(TT, (x, y) => y.CompareTo(x));

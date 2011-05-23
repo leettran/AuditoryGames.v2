@@ -280,6 +280,7 @@ namespace LSRI.AuditoryGames.AudioFramework
             
             double percent = 10 / 100d;
             uint value = (uint)(15000 * percent);
+            uint value2 = (uint)(15000 * percent);
 
             //int[] pos = { 0, 2, 7, 2,0,19};
             Stimulus st = null;
@@ -291,12 +292,14 @@ namespace LSRI.AuditoryGames.AudioFramework
                 IWaveForm wform = new SineWaveForm();
                 Oscillator osc1 = new Oscillator();
                 osc1.WaveForm = wform;
+                Oscillator osc2 = new Oscillator();
+                osc2.WaveForm = wform;
 
                 Voice voice = new Voice();
                 voice.Attenuation = -10;
                 voice.Envelope.Attack = value;
-                voice.Envelope.Decay = value;
-                voice.Oscillators.AddRange(new List<Oscillator>() { osc1 });
+                voice.Envelope.Decay = value2;
+                voice.Oscillators.AddRange(new List<Oscillator>() { osc1});
                 
                 voice.Frequency = st._frequency;
 
@@ -335,18 +338,18 @@ namespace LSRI.AuditoryGames.AudioFramework
                Oscillator osc1 = new Oscillator();
                Oscillator osc2 = new Oscillator();
                osc1.WaveForm = new WhiteNoiseWaveForm();
-               osc2.WaveForm = new WhiteNoiseWaveForm();
+               osc2.WaveForm = form;
 
                 Voice voice = new Voice();
-                voice.Attenuation = -25;
+                voice.Attenuation = -70;
                 voice.Oscillators.AddRange(new List<Oscillator>() {osc1, osc2 });
-                voice.Frequency = 3000;
+                voice.Frequency = 400;
                 //voice.Envelope.Attack = value;
                 //voice.Envelope.Decay = value;
                 this._intervalVoices.Add(inc, voice);
 
                 //this.sequencer.AddNote(voice, (3 + 2) * inc + 1, 3);
-               this._sequencer.AddNote(voice, 0, 19);
+                this._sequencer.AddNote(voice, 0, this._sequencer.StepCount);
 
             }
 

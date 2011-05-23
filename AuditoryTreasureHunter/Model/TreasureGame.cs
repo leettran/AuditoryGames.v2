@@ -74,7 +74,7 @@ namespace LSRI.TreasureHunter.Model
         /// 
         /// </summary>
         [Display(Name = "Zones", Description = "Number of zones to explore")]
-        [Range(5, 30)]
+        [Range(1, 30)]
         public int Zones
         {
             get
