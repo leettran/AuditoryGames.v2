@@ -65,6 +65,7 @@ namespace LSRI.TreasureHunter.UI
                     _xTargetText.Text = pp.Value.X.ToString();
                     _xTargetBar.Maximum = pp.Value.Y;
                     _xTargetBar.Value = pp.Value.X;
+                    _xMaxGoldText.Text = pp.Value.Y.ToString();
                 }
 
             }
@@ -87,10 +88,7 @@ namespace LSRI.TreasureHunter.UI
             }
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
 
-        }
 
 
     }

@@ -57,5 +57,21 @@ namespace LSRI.AuditoryGames.GameFramework
             GameLogger.IncreaseStorageQuota(20);
         }
 
+        private void BtnExport_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog exportDialog = new SaveFileDialog();
+            exportDialog.Filter = "Text Files | *.txt";
+            exportDialog.DefaultExt = "txt";
+            bool? result = exportDialog.ShowDialog();
+            if (result == true)
+            {
+                System.IO.Stream fileStream = exportDialog.OpenFile();
+                System.IO.StreamWriter sw = new System.IO.StreamWriter(fileStream);
+                sw.WriteLine("Writing some text in the file.");
+                sw.Flush();
+                sw.Close();
+            }
+        }
+
     }
 }

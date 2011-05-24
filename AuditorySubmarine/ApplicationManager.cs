@@ -145,7 +145,7 @@ namespace LSRI.Submarine
                 //IsolatedStorageSettings.ApplicationSettings["username"] = User.Name;
                 //settings.Save();
 
-                using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
+                using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForSite())
                 {
                     using (IsolatedStorageFileStream isoStream = store.OpenFile(SubOptionsWrapper.STORAGE_FILENAME, FileMode.Create))
                     {
@@ -178,7 +178,7 @@ namespace LSRI.Submarine
                 //IsolatedStorageSettings.ApplicationSettings.TryGetValue("username", out name);
 
                 SubOptionsWrapper umXML = null;
-                using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
+                using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForSite())
                 {
                     if (store.FileExists(SubOptionsWrapper.STORAGE_FILENAME))
                     {

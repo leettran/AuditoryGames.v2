@@ -31,6 +31,7 @@ namespace LSRI.TreasureHunter.UI
             else
             {
                 _txtMessage.Text = @"Too bad. Try again...";
+                _txtMessage.Text = (string)Resources["Txt.Message.Failed.Gold"];
             }
 
             _xAccBar.Maximum = 100;

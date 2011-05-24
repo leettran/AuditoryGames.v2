@@ -129,7 +129,7 @@ namespace LSRI.TreasureHunter.Model
                 //IsolatedStorageSettings.ApplicationSettings["username"] = User.Name;
                 //settings.Save();
 
-                using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
+                using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForSite())
                 {
                     using (IsolatedStorageFileStream isoStream = store.OpenFile(TreasureOptionsWrapper.STORAGE_FILENAME, FileMode.Create))
                     {
@@ -138,6 +138,22 @@ namespace LSRI.TreasureHunter.Model
                         s.Serialize(writer, this.Clone());
                         writer.Close();
                     }
+                   /* store.CreateDirectory("submarine");
+
+                    using (IsolatedStorageFileStream isoStream = store.OpenFile("submarine/test1.txt", FileMode.Create))
+                    {
+                        System.IO.StreamWriter sw = new System.IO.StreamWriter(isoStream);
+                        sw.WriteLine("####### Writing some text in the file.");
+                        sw.Flush();
+                        sw.Close();
+                    }
+                    using (IsolatedStorageFileStream isoStream = store.OpenFile("submarine/test2.txt", FileMode.Create))
+                    {
+                        System.IO.StreamWriter sw = new System.IO.StreamWriter(isoStream);
+                        sw.WriteLine("####### Writing some other text in the file.");
+                        sw.Flush();
+                        sw.Close();
+                    }*/
                 }
 
             }
@@ -162,7 +178,7 @@ namespace LSRI.TreasureHunter.Model
                 //IsolatedStorageSettings.ApplicationSettings.TryGetValue("username", out name);
 
                 TreasureOptionsWrapper umXML = null;
-                using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
+                using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForSite())
                 {
                     if (store.FileExists(TreasureOptionsWrapper.STORAGE_FILENAME))
                     {
