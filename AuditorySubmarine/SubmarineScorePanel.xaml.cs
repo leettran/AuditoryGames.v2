@@ -32,7 +32,7 @@ namespace LSRI.Submarine
                 if (tt != null)
                 {
                     tt.Visibility = Visibility.Visible;
-                    tt.Text = "" + (int)(pt.Gate + pt.Time);
+                    tt.Text = "" + (int)(pt.GateAccuracy + pt.TimeLeft);
                 }
 
                 ProgressBar accBar = this.LayoutRoot.FindName("_accBar" + (i + 1)) as ProgressBar;
@@ -41,8 +41,8 @@ namespace LSRI.Submarine
                     accBar.Visibility = Visibility.Visible;
                     accBar.Maximum = maxpos + 1;
                     accBar.Minimum = 0;
-                    accBar.Value = (maxpos + 1) - (int)pt.Life;
-                    //accBar.Value = "" + (int)(pt.Gate + pt.Time);
+                    accBar.Value = (maxpos + 1) - (int)pt.GatePosition;
+                    //accBar.Value = "" + (int)(pt.GateAccuracy + pt.TimeLeft);
                 }
 
                 accBar = this.LayoutRoot.FindName("_timeBar" + (i + 1)) as ProgressBar;
@@ -51,8 +51,8 @@ namespace LSRI.Submarine
                     accBar.Visibility = Visibility.Visible;
                     accBar.Maximum = 100;
                     accBar.Minimum = 0;
-                    accBar.Value = (int)pt.Time;
-                    //accBar.Value = "" + (int)(pt.Gate + pt.Time);
+                    accBar.Value = (int)pt.TimeLeft;
+                    //accBar.Value = "" + (int)(pt.GateAccuracy + pt.TimeLeft);
                 }
             }
 

@@ -245,9 +245,25 @@ namespace LSRI.Submarine
 
         public class ScorePattern
         {
-            public double Gate { get; set; }
-            public double Time { get; set; }
-            public double Life { get; set; }
+            /// <summary>
+            /// The score associated with the accuracy of targetting
+            /// </summary>
+            public double GateAccuracy { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public double GatePosition { get; set; }
+
+            /// <summary>
+            /// Percentage of time left in getting through the gate
+            /// </summary>
+            public double TimeLeft { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public double LifeLost { get; set; }
         }
 
         /// <summary>
@@ -640,7 +656,7 @@ namespace LSRI.Submarine
 
             /*sp1 = new StopwatchPlus(
                     sw => Debug.WriteLine("Game Started"),
-                    sw => Debug.WriteLine("Time! {0}", sw.EllapsedMilliseconds),
+                    sw => Debug.WriteLine("TimeLeft! {0}", sw.EllapsedMilliseconds),
                     sw => Debug.WriteLine("totot {0}", sw.EllapsedMilliseconds)
 
                 );*/

@@ -258,7 +258,17 @@ namespace LSRI.Submarine
 
             // show the gate
             (IAppManager.Instance as SubmarineApplicationManager)._gate.Visibility = Visibility.Visible;
-            
+
+
+            if (SubOptions.Instance._scoreBuffer.Count == 0)
+            {
+                SubOptions.Instance._scoreBuffer.Clear();
+                for (int i = 0; i < SubOptions.Instance.Game.MaxGates; i++)
+                {
+                    SubOptions.Instance._scoreBuffer.Add(new SubOptions.ScorePattern());
+                }
+            }
+
             if (other is WallObject)
             {
                 (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine collides with WALL");
@@ -287,23 +297,44 @@ namespace LSRI.Submarine
                     SubOptions.Instance.User.CurrentLife--;
                     if (SubOptions.Instance.User.CurrentLife <= 0)
                     {
-                        /// Failure to win level; make it easier and restart
-                        SubOptions.Instance.User.CurrentGate = 0;
-                        SubOptions.Instance.User.CurrentScore = 0;
-                        SubOptions.Instance._scoreBuffer.Clear();
-                        SubOptions.Instance.User.CurrentLife = SubOptions.Instance.Game.MaxLives;
-                        SubOptions.Instance.User.FrequencyDelta *= (1 + SubOptions.Instance.Auditory.Step);
-                        for (int i = 0; i < SubOptions.Instance.User.Gates.Data.Length; i++)
+
+                        GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
+                        SubmarineScorePanel pn = new SubmarineScorePanel();
+
+                        pn.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pn.Width) / 2);
+                        pn.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pn.Height) / 2);
+                        pn.OnCompleteTask += delegate()
                         {
-                            SubOptions.Instance.User.Gates.Data[i] *= (1 + SubOptions.Instance.Auditory.Step);
-                            SubOptions.Instance.User.Gates.Data[i] = Math.Max(
-                                SubOptions.Instance.Game.Gates.Data[i],
-                                SubOptions.Instance.User.Gates.Data[i]);
-                        }
-                        StateManager.Instance.setState(States.START_STATE);
+                            double currLife = SubOptions.Instance._scoreBuffer[SubOptions.Instance.User.CurrentGate].LifeLost;
+
+                            /// Failure to win level; make it easier and restart
+                            SubOptions.Instance.User.CurrentGate = 0;
+                            SubOptions.Instance.User.CurrentScore = 0;
+                           // SubOptions.Instance._scoreBuffer.Clear();
+                            // lives
+ 
+                            SubOptions.Instance.User.CurrentLife = SubOptions.Instance.Game.MaxLives;
+                            SubOptions.Instance.User.FrequencyDelta *= (1 + SubOptions.Instance.Auditory.Step);
+                            for (int i = 0; i < SubOptions.Instance.User.Gates.Data.Length; i++)
+                            {
+                                SubOptions.Instance.User.Gates.Data[i] *= (1 + SubOptions.Instance.Auditory.Step);
+                                SubOptions.Instance.User.Gates.Data[i] = Math.Max(
+                                    SubOptions.Instance.Game.Gates.Data[i],
+                                    SubOptions.Instance.User.Gates.Data[i]);
+                            }
+                            StateManager.Instance.setState(States.START_STATE);
+                            //StateManager.Instance.setState(States.START_STATE);
+                            //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
+                        };
+                        // we have to insert any non GameObjects at the end of the children collection
+                        pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, pn);
+                        
                     }
                     else
                     {
+                        double currLife = SubOptions.Instance._scoreBuffer[SubOptions.Instance.User.CurrentGate].LifeLost;
+                        SubOptions.Instance._scoreBuffer[SubOptions.Instance.User.CurrentGate].LifeLost++;
+
                         StateManager.Instance.setState(States.START_STATE);
                         StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
                     }
@@ -317,60 +348,62 @@ namespace LSRI.Submarine
             }
             else if (other is GateObject || other is GateAnimatedObject)
             {
- 
+                // Submarine hits the gate
                 (IAppManager.Instance as SubmarineApplicationManager)._gate.Visibility = Visibility.Visible;
+
+
                 double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
                 double cf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();
-
                 (IAppManager.Instance as SubmarineApplicationManager).Logger.Step(
                            String.Format("Submarine goes through gate : {0}", cf)
                            );
 
-                /*Debug.WriteLine("Success : {0} - {1}", tf, cf);
-                GameLevelDescriptor.CurrentGate--;
-                if (GameLevelDescriptor.CurrentGate == 0)
-                {
-                    GameLevelDescriptor.CurrentLevel++;
-                    GameLevelDescriptor.CurrentGate=5;
-                    GameLevelDescriptor.ThresholdFrequency = (int)(GameLevelDescriptor.ThresholdFrequency * 0.90);
-                }*/
+
                 this.shutdown();
 
-                SubOptions.Instance.User.CurrentGate++;
-
+ 
+                // Compute the score
                 double baseScore = 100;
 
+                // accuracy
                 double deltapos = Math.Abs((IAppManager.Instance as SubmarineApplicationManager)._gate.CanvasIndex - CanvasIndex);
                 double maxpos = SubOptions.Instance.Game.GateSize;
-
                 double dartScore = Math.Max(0, 1 - deltapos / (maxpos + 1)) * baseScore;
-
+                
+                // time left
                 double sTime = (IAppManager.Instance as SubmarineApplicationManager).Logger.EllapsedMilliseconds;
                 double mTime = SubOptions.Instance.Game.TimeOnGate * 1000;
-
                 double timeScore = (1 - sTime / mTime) * baseScore;
 
-                double maxLife = SubOptions.Instance.Game.MaxLives;
-                double currLife = SubOptions.Instance.User.CurrentLife;
+                // lives
+                double currLife = SubOptions.Instance._scoreBuffer[SubOptions.Instance.User.CurrentGate].LifeLost;
 
-                double lifeScore = (currLife / maxLife) * baseScore;
+                //double maxLife = SubOptions.Instance.Game.MaxLives;
+                //double currLife = SubOptions.Instance.User.CurrentLife;
+                //double lifeScore = (currLife / maxLife) * baseScore;
 
-                SubOptions.Instance._scoreBuffer.Add(new SubOptions.ScorePattern
+                //SubOptions.Instance._scoreBuffer.Add(new SubOptions.ScorePattern
+                SubOptions.Instance._scoreBuffer[SubOptions.Instance.User.CurrentGate] = new SubOptions.ScorePattern
                 {
-                    Gate = dartScore,
-                    Life = deltapos,
-                    Time = timeScore
-                });
+                    GateAccuracy = dartScore,
+                    TimeLeft = timeScore,
+                    GatePosition = deltapos,
+                    LifeLost = currLife
+                };
+                SubOptions.Instance.User.CurrentGate++;
 
-                SubOptions.Instance.User.CurrentScore += (int)(dartScore + timeScore + 0);
+                // update total score
+                SubOptions.Instance.User.CurrentScore += (int)(dartScore + timeScore);
                 (IAppManager.Instance as SubmarineApplicationManager)._scorePanel.Gate = SubOptions.Instance.User.CurrentGate;
                 (IAppManager.Instance as SubmarineApplicationManager)._scorePanel.Score = SubOptions.Instance.User.CurrentScore;
 
 
-                if (SubOptions.Instance.User.CurrentGate == SubOptions.Instance.Game.MaxGates)
+                if (SubOptions.Instance.User.CurrentGate >= SubOptions.Instance.Game.MaxGates)
                 {
+                    // if final gate, compute and show final score
                     SubOptions.Instance.User.CurrentGate = 0;
                     SubOptions.Instance.User.CurrentLife = SubOptions.Instance.Game.MaxLives;
+                   // SubOptions.Instance.User.Scores.Data.Add(new HighScore()
                     SubOptions.Instance.User.Scores.Data.Add(new HighScore()
                     {
                         Delta = (int)SubOptions.Instance.User.FrequencyDelta,
@@ -391,7 +424,7 @@ namespace LSRI.Submarine
                     // we have to insert any non GameObjects at the end of the children collection
                     pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, pn);
 
-                    SubOptions.Instance._scoreBuffer.Clear();
+                   // SubOptions.Instance._scoreBuffer.Clear();
                     SubOptions. Instance.User.FrequencyDelta *= (1 - SubOptions.Instance.Auditory.Step);
                     for (int i = 0; i < SubOptions.Instance.User.Gates.Data.Length; i++)
                     {

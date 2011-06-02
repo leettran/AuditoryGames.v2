@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Height="281" Width="380">
+    mc:Ignorable="d" Height="326" Width="420">
     
     <UserControl.Resources>
         <Style TargetType="Border" x:Key="NVLBorde2r">
@@ -38,12 +38,15 @@
                     <ColumnDefinition Width="6" />
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="6" />
-                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="6" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="108*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="24" />
                     <RowDefinition Height="6" />
-                    <RowDefinition Height="22" />
+                    <RowDefinition Height="60" />
                     <RowDefinition Height="22" />
                     <RowDefinition Height="22" />
                     <RowDefinition Height="22" />
@@ -54,31 +57,37 @@
                     <RowDefinition Height="50*" />
                 </Grid.RowDefinitions>
                 <TextBlock Height="24" HorizontalAlignment="Left" Name="textBlock1" Text="Congratulation!" VerticalAlignment="Stretch" Width="271" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="4" Foreground="White" />
-                <ProgressBar Grid.Column="1" Grid.Row="3" Name="_accBar1" Value="50" />
+                <ProgressBar Grid.Column="1" Grid.Row="3" Name="_accBar1" Value="0" />
                 <ProgressBar Margin="0,1,0,0" Name="_accBar2" Grid.Column="1" Grid.Row="4" />
                 <ProgressBar Margin="0,1,0,0" Name="_accBar3" Grid.Column="1" Grid.Row="5" />
                 <ProgressBar Margin="0,1,0,0" Name="_accBar4" Grid.Column="1" Grid.Row="6" />
-                <ProgressBar Margin="0,1,0,0" Name="_accBar5" Grid.Column="1" Grid.Row="7" Value="98" />
-                <ProgressBar Name="_timeBar1" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Left" Width="80" Value="50" />
+                <ProgressBar Margin="0,1,0,0" Name="_accBar5" Grid.Column="1" Grid.Row="7" Value="0" />
+                <ProgressBar Name="_timeBar1" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Left" Width="80" Value="0" />
                 <ProgressBar HorizontalAlignment="Left" Name="_timeBar2" Width="80" Grid.Column="3" Grid.Row="4" />
                 <ProgressBar HorizontalAlignment="Left" Margin="0,1,0,0" Name="_timeBar3" Width="80" Grid.Column="3" Grid.Row="5" />
                 <ProgressBar HorizontalAlignment="Left" Margin="0,1,0,0" Name="_timeBar4" Width="80" Grid.Column="3" Grid.Row="6" />
-                <ProgressBar HorizontalAlignment="Left" Margin="0,1,0,0" Name="_timeBar5" Width="80" Grid.Column="3" Grid.Row="7" Value="50" />
-                <TextBlock FontSize="14" FontWeight="Normal" Height="24" Margin="0,0,0,6" Name="textBlock2" Text="Accuracy" Grid.Column="1" Grid.Row="2" TextAlignment="Center" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Normal" Height="24" Margin="0,0,0,6" Name="textBlock3" Text="Time" Grid.Column="3" Grid.Row="2" TextAlignment="Center" Foreground="White" />
+                <ProgressBar HorizontalAlignment="Left" Margin="0,1,0,0" Name="_timeBar5" Width="80" Grid.Column="3" Grid.Row="7" Value="0" />
+                <TextBlock FontSize="14" FontWeight="Normal" Name="textBlock2" Text="Accuracy" Grid.Column="1" Grid.Row="2" TextAlignment="Center" Foreground="White" VerticalAlignment="Center" />
+                <TextBlock FontSize="14" FontWeight="Normal" Name="textBlock3" Text="Time Left" Grid.Column="3" Grid.Row="2" TextAlignment="Center" Foreground="White" VerticalAlignment="Center" />
                 <Button Content="OK" Grid.ColumnSpan="5" Grid.Row="10" Height="23" HorizontalAlignment="Center" Margin="83,0,0,0" Name="_xBtnOK" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Center" Click="_xBtnOK_Click" />
-                <TextBlock FontSize="14" FontWeight="Normal" Name="textBlock4" Text="Score" TextAlignment="Center" Grid.Column="5" Grid.Row="2" HorizontalAlignment="Left" Width="76" Foreground="White" />
+                <TextBlock FontSize="14" FontWeight="Normal" Name="textBlock4" Text="Final Score" TextAlignment="Center" Grid.Column="7" Foreground="White" TextWrapping="Wrap" Grid.Row="2" Margin="0,0,1,0" VerticalAlignment="Center" />
                 <TextBlock FontSize="14" FontWeight="Normal" Name="textBlock5" Text="Gate 1" TextAlignment="Center" Grid.Row="3" HorizontalAlignment="Right" Width="80" Foreground="White" />
                 <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Right" Name="textBlock6" Text="Gate 2" TextAlignment="Center" Width="80" Grid.Row="4" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nScore1" Text="150" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="3" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nScore2" Text="150" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="4" Foreground="White" Height="22" VerticalAlignment="Top" />
+                <TextBlock FontSize="14" FontWeight="Normal" Name="_nScore1" Text="150" TextAlignment="Center" Grid.Column="7" Grid.Row="3" Foreground="White" Height="22" VerticalAlignment="Bottom" Margin="0,0,1,0" />
+                <TextBlock FontSize="14" FontWeight="Normal" Name="_nScore2" Text="150" TextAlignment="Center" Grid.Column="7" Grid.Row="4" Foreground="White" Height="22" VerticalAlignment="Top" Margin="0,0,1,0" />
                 <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Right" Name="textBlock9" Text="Gate 3" TextAlignment="Center" Width="80" Grid.Row="5" Foreground="White" />
                 <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Right" Name="textBlock10" Text="Gate 4" TextAlignment="Center" Width="80" Grid.Row="6" Foreground="White" />
                 <TextBlock FontSize="14" FontWeight="Bold" HorizontalAlignment="Right" Name="textBlock11" Text="Gate 5" TextAlignment="Center" Width="80" Grid.Row="7" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nScore3" Text="150" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="5" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nScore4" Text="150" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="6" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nScore5" Text="150" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="7" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Margin="0,0,0,8" Name="_nTotalScore" Text="200" TextAlignment="Center" Width="76" Grid.Column="5" Grid.Row="9" />
+                <TextBlock FontSize="14" FontWeight="Normal" Name="_nScore3" Text="150" TextAlignment="Center" Grid.Column="7" Grid.Row="5" Foreground="White" Margin="0,0,1,0" />
+                <TextBlock FontSize="14" FontWeight="Normal" Name="_nScore4" Text="150" TextAlignment="Center" Grid.Column="7" Grid.Row="6" Foreground="White" Margin="0,0,1,0" />
+                <TextBlock FontSize="14" FontWeight="Normal" Name="_nScore5" Text="150" TextAlignment="Center" Grid.Column="7" Grid.Row="7" Foreground="White" Margin="0,0,1,0" />
+                <TextBlock FontSize="14" FontWeight="Bold" Foreground="White" Margin="0,0,1,8" Name="_nTotalScore" Text="200" TextAlignment="Center" Grid.Column="7" Grid.Row="9" />
+                <TextBlock FontSize="14" FontWeight="Normal" Foreground="White" Name="textBlock7" Text="Life Lost" TextAlignment="Center" Grid.Column="5" Grid.Row="2" VerticalAlignment="Center" TextWrapping="Wrap" />
+                <TextBlock FontSize="14" FontWeight="Normal" Foreground="White" Height="22" Margin="4,0,0,0" Name="_nLife1" Text="0" TextAlignment="Center" VerticalAlignment="Bottom" Grid.Column="5" Grid.Row="3" />
+                <TextBlock FontSize="14" FontWeight="Normal" Foreground="White" Height="22" Margin="4,0,0,0" Name="_nLife2" Text="0" TextAlignment="Center" VerticalAlignment="Bottom" Grid.Column="5" Grid.Row="4" />
+                <TextBlock FontSize="14" FontWeight="Normal" Foreground="White" Height="22" Margin="4,0,0,0" Name="_nLife3" Text="0" TextAlignment="Center" VerticalAlignment="Bottom" Grid.Column="5" Grid.Row="5" />
+                <TextBlock FontSize="14" FontWeight="Normal" Foreground="White" Height="22" Margin="4,0,0,0" Name="_nLife4" Text="0" TextAlignment="Center" VerticalAlignment="Bottom" Grid.Column="5" Grid.Row="6" />
+                <TextBlock FontSize="14" FontWeight="Normal" Foreground="White" Height="22" Margin="4,0,0,0" Name="_nLife5" Text="0" TextAlignment="Center" VerticalAlignment="Bottom" Grid.Column="5" Grid.Row="7" />
             </Grid>
         </Border>
     </Grid>
