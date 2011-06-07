@@ -29,6 +29,12 @@ namespace LSRI.AuditoryGames.GameFramework
         public int Score;
 
         /// <summary>
+        /// Indicartes whether the game is paused (TRUE) or not (FALSE)
+        /// @deprecated Cannot easily pause the game, because of differences in handling game mechanics and audio generation. Need to work on this.
+        /// </summary>
+        public Boolean Pause { set; get; }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="dt"></param>

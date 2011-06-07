@@ -264,6 +264,8 @@ namespace LSRI.Submarine
             /// 
             /// </summary>
             public double LifeLost { get; set; }
+
+            public Boolean GateCrossed { get; set; }
         }
 
         /// <summary>
@@ -385,6 +387,7 @@ namespace LSRI.Submarine
         /// </summary>
         protected SubmarineApplicationManager()
         {
+            this.Pause = false;
             KeyHandler.Instance.IskeyUpOnly = false;
             //_synthEx = new Frequency2IGenerator();
             _random = new Random();
@@ -472,6 +475,15 @@ namespace LSRI.Submarine
 
         public override void enterFrame(double dt)
         {
+            if (StateManager.Instance.CurrentState.Equals(SubmarineStates.LEVEL_STATE))
+            {
+                if (KeyHandler.Instance.isKeyPressed(Key.P))
+                {
+                    this.Pause = !this.Pause;
+                }
+            }
+
+
             if (StateManager.Instance.CurrentState.Equals(SubmarineStates.LEVEL_STATE))
             {
                 if (KeyHandler.Instance.isKeyPressed(Key.Q))

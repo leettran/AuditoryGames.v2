@@ -290,11 +290,16 @@ namespace LSRI.Submarine
                         Position.Y + Dimensions.Y / 2 - 55 / 2);
 
                 this.shutdown();
+                //other.shutdown();
                 DispatcherTimer timer = new DispatcherTimer();
                 timer.Tick += delegate(object sender, EventArgs e)
                 {
                     //SubmarineApplicationManager.Instance.Score = 0; ;
+                    double currLife = SubOptions.Instance._scoreBuffer[SubOptions.Instance.User.CurrentGate].LifeLost;
+                    SubOptions.Instance._scoreBuffer[SubOptions.Instance.User.CurrentGate].LifeLost++;
                     SubOptions.Instance.User.CurrentLife--;
+                    (IAppManager.Instance as SubmarineApplicationManager)._scorePanel.Life = SubOptions.Instance.User.CurrentLife;
+
                     if (SubOptions.Instance.User.CurrentLife <= 0)
                     {
 
@@ -305,8 +310,7 @@ namespace LSRI.Submarine
                         pn.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pn.Height) / 2);
                         pn.OnCompleteTask += delegate()
                         {
-                            double currLife = SubOptions.Instance._scoreBuffer[SubOptions.Instance.User.CurrentGate].LifeLost;
-
+ 
                             /// Failure to win level; make it easier and restart
                             SubOptions.Instance.User.CurrentGate = 0;
                             SubOptions.Instance.User.CurrentScore = 0;
@@ -322,6 +326,7 @@ namespace LSRI.Submarine
                                     SubOptions.Instance.Game.Gates.Data[i],
                                     SubOptions.Instance.User.Gates.Data[i]);
                             }
+                            SubOptions.Instance._scoreBuffer.Clear();
                             StateManager.Instance.setState(States.START_STATE);
                             //StateManager.Instance.setState(States.START_STATE);
                             //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
@@ -332,9 +337,7 @@ namespace LSRI.Submarine
                     }
                     else
                     {
-                        double currLife = SubOptions.Instance._scoreBuffer[SubOptions.Instance.User.CurrentGate].LifeLost;
-                        SubOptions.Instance._scoreBuffer[SubOptions.Instance.User.CurrentGate].LifeLost++;
-
+ 
                         StateManager.Instance.setState(States.START_STATE);
                         StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
                     }
@@ -418,6 +421,7 @@ namespace LSRI.Submarine
                     pn.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pn.Height) / 2);
                     pn.OnCompleteTask += delegate()
                     {
+                        SubOptions.Instance._scoreBuffer.Clear();
                         StateManager.Instance.setState(States.START_STATE);
                         //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
                     };

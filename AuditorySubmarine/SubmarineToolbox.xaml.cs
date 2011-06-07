@@ -46,6 +46,8 @@ namespace LSRI.Submarine
         {
             set
             {
+                while (_SubLifePanel.Children.Count != 0)
+                    _SubLifePanel.Children.RemoveAt(0);
                 for (int i = 0; i < value; i++)
                     _SubLifePanel.Children.Add(new Image()
                     {

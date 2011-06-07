@@ -18,12 +18,15 @@ namespace LSRI.Submarine
         public delegate void OnCompleteTaskEvent();
         public event OnCompleteTaskEvent OnCompleteTask;
 
+        public bool Win { set; get; }
+
         public void UpdateScores()
         {
+            int gateFail = SubOptions.Instance.Game.MaxGates;
+            double acctotal = 0;
+            double accmax = 0;
             double maxpos = SubOptions.Instance.Game.GateSize;
             //double dartScore = Math.Max(0, 1 - deltapos / (maxpos + 1)) * baseScore;
-
-
 
             for (int i = 0; i < SubOptions.Instance._scoreBuffer.Count; i++)
             {
@@ -41,8 +44,22 @@ namespace LSRI.Submarine
                     accBar.Visibility = Visibility.Visible;
                     accBar.Maximum = maxpos + 1;
                     accBar.Minimum = 0;
-                    accBar.Value = (maxpos + 1) - (int)pt.GatePosition;
+                    if (pt.GateAccuracy == 0)
+                    {
+                        this.Win = false;
+                        accBar.Value = 0;
+                        if (gateFail == SubOptions.Instance.Game.MaxGates) gateFail = i + 1;
+                    }
+                    else
+                    {
+                        accBar.Value = (maxpos + 1) - (int)pt.GatePosition;
+                    }
+                    acctotal += accBar.Value;
+                    accmax += maxpos + 1;
+
                     //accBar.Value = "" + (int)(pt.GateAccuracy + pt.TimeLeft);
+                    if (this.Win==false)
+                        accBar.Background = new SolidColorBrush(Colors.Red);
                 }
 
                 accBar = this.LayoutRoot.FindName("_timeBar" + (i + 1)) as ProgressBar;
@@ -51,17 +68,59 @@ namespace LSRI.Submarine
                     accBar.Visibility = Visibility.Visible;
                     accBar.Maximum = 100;
                     accBar.Minimum = 0;
-                    accBar.Value = (int)pt.TimeLeft;
+                    if (pt.GateAccuracy == 0)
+                    {
+                        this.Win = false;
+                        accBar.Value = 0;
+                    }
+                    else
+                        accBar.Value = (int)pt.TimeLeft;
                     //accBar.Value = "" + (int)(pt.GateAccuracy + pt.TimeLeft);
+                    if (this.Win == false)
+                        accBar.Background = new SolidColorBrush(Colors.Red);
+                }
+
+                tt = this.LayoutRoot.FindName("_nLife" + (i + 1)) as TextBlock;
+                if (tt != null)
+                {
+                    accBar.Visibility = Visibility.Visible;
+                    tt.Text = "" + (int)(pt.LifeLost);
+                    if (pt.LifeLost != 0)
+                    {
+                        tt.Foreground = new SolidColorBrush(Colors.Red);
+                    }
                 }
             }
 
-            _nTotalScore.Text = "" + SubOptions.Instance.User.CurrentScore;
+            if (this.Win)
+            {
+                String tt = (string)Resources["Txt.Message.Success"];
+                _txtMsgMain.Text = String.Format(tt, SubOptions.Instance.User.CurrentLevel);
+                if (acctotal <= (2*accmax/3))
+                    _txtMsgHint.Text = (string)Resources["Txt.Hint.Accuracy"];
+                else
+                    _txtMsgHint.Text = (string)Resources["Txt.Hint.Time"];
+                _nTotalScore.Text = "" + SubOptions.Instance.User.CurrentScore;
+            }
+            else
+            {
+                String tt = (string)Resources["Txt.Message.Failure"];
+                _txtMsgMain.Text = String.Format(tt, SubOptions.Instance.User.CurrentLevel);
+
+                if (gateFail == SubOptions.Instance.Game.MaxGates)
+                    tt = (string)Resources["Txt.Hint.Failure.Level"];
+                else
+                    tt = (string)Resources["Txt.Hint.Failure.Gates"];
+                _txtMsgHint.Text = String.Format(tt, gateFail);
+
+                _nTotalScore.Text = "0";
+            }
         }
 
         public SubmarineScorePanel()
         {
             InitializeComponent();
+            Win = true;
 
             UpdateScores();
 
