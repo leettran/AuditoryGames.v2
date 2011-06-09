@@ -36,8 +36,8 @@ namespace LSRI.TreasureHunter.UI
 
             _xAccBar.Maximum = 100;
             _xGoldBar.Maximum = 100;
-            _targetBar.Maximum = 100;
-            _scoreBar.Maximum = 100;
+            //_targetBar.Maximum = 100;
+           // _scoreBar.Maximum = 100;
 
             int score = TreasureOptions.Instance.User.CurrentScore;
             int gold = TreasureOptions.Instance.User.CurrentGold;
@@ -59,10 +59,10 @@ namespace LSRI.TreasureHunter.UI
             _ngoldScore.Text = tGold.ToString();
             _xGoldBar.Value = sGold;
 
-            _targetBar.Value = sTarget;
-            _scoreBar.Value = sGold;
+            //_targetBar.Value = sTarget;
+           // _scoreBar.Value = sGold;
             int tTarget = Math.Max(0, (int)(100.0 * (double)score / (double)target) - 100);
-            _nTarget.Text = "x " + tTarget + "%";
+           // _nTarget.Text = "x " + tTarget + "%";
             //_scoreBar.Value = sTarget;
             if (_success)
                 tTarget = 100;

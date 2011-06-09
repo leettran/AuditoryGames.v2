@@ -488,6 +488,11 @@ namespace LSRI.Submarine
             {
                 if (KeyHandler.Instance.isKeyPressed(Key.Q))
                 {
+                    // Quit and restart level
+                    SubOptions.Instance.User.CurrentLife = SubOptions.Instance.Game.MaxLives;
+                    SubOptions.Instance.User.CurrentGate = 0;
+                    SubOptions.Instance.User.CurrentScore = 0;
+                    SubOptions.Instance._scoreBuffer.Clear(); 
                     StateManager.Instance.setState(States.START_STATE);
                     return;
                 }

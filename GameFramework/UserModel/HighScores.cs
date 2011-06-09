@@ -9,13 +9,19 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LSRI.AuditoryGames.GameFramework.Data
 {
     public class HighScore
     {
+        [Display(Name = "Level", Description = "Every level you won.")]
         public int Level { get; set; }
+        [Display(AutoGenerateField = false)]
         public int Delta { get; set; }
+        [Display(Name = "Score")]
         public int Score { get; set; }
 
         public HighScore Clone()

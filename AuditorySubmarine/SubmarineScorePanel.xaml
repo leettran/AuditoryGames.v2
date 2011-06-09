@@ -82,7 +82,7 @@
                 <TextBlock FontSize="12" FontWeight="Normal" Name="textBlock3" Text="Time Left" Grid.Column="3" Grid.Row="3" TextAlignment="Center" Foreground="White" VerticalAlignment="Center" />
                 <Button Content="OK" Grid.Row="12" Height="23" HorizontalAlignment="Center" Name="_xBtnOK" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Center" Click="_xBtnOK_Click" Grid.ColumnSpan="8" />
                 <TextBlock FontSize="12" FontWeight="Normal" Name="textBlock4" Text="Score" TextAlignment="Center" Grid.Column="7" Foreground="White" TextWrapping="Wrap" Grid.Row="3" Margin="0,0,1,0" VerticalAlignment="Center" />
-                <TextBlock FontSize="12" FontWeight="Normal" Name="textBlock5" Text="Gate 1" TextAlignment="Center" Grid.Row="4" HorizontalAlignment="Right" Width="80" Foreground="White" />
+                <TextBlock FontSize="12" FontWeight="Normal" Name="textBlock5" Text="Gate 1" TextAlignment="Center" Grid.Row="4" HorizontalAlignment="Right" Width="80" Foreground="White" Height="20" VerticalAlignment="Top" />
                 <TextBlock FontSize="12" FontWeight="Normal" HorizontalAlignment="Right" Name="textBlock6" Text="Gate 2" TextAlignment="Center" Width="80" Grid.Row="5" Foreground="White" Height="22" VerticalAlignment="Top" Grid.RowSpan="2" />
                 <TextBlock FontSize="12" FontWeight="Normal" Name="_nScore1" Text="150" TextAlignment="Center" Grid.Column="7" Grid.Row="4" Foreground="White" Height="20" VerticalAlignment="Bottom" Margin="0,0,1,0" />
                 <TextBlock FontSize="12" FontWeight="Normal" Name="_nScore2" Text="150" TextAlignment="Center" Grid.Column="7" Grid.Row="5" Foreground="White" Height="22" VerticalAlignment="Top" Margin="0,0,1,0" Grid.RowSpan="2" />

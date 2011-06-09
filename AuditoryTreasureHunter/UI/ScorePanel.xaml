@@ -5,10 +5,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:clr="clr-namespace:System;assembly=mscorlib" 
              
-    mc:Ignorable="d" Height="297" Width="379">
+    mc:Ignorable="d" Height="352" Width="383" Margin="0,0,15,0">
 
     <UserControl.Resources>
-        <clr:String x:Key="Txt.Message.Success">Congratulation! You can try the next level.</clr:String>
+        <clr:String x:Key="Txt.Message.Success">Congratulations! You have completed level {0}</clr:String>
+        <clr:String x:Key="Txt.Message.Failure">Sorry. You haven't managed to get through level {0}</clr:String>
+
+        <clr:String x:Key="Txt.Hint.Accuracy">You can improve your score by trying to blast deeper nuggets out.</clr:String>
+        
         <clr:String x:Key="Txt.Message.Failed.Gold">Unfortunately, you didn't collect enough gold nuggets. Try this level again. </clr:String>
         <clr:String x:Key="Txt.Message.Failed.Target">Unfortunately, you didn't collect enough gold nuggets. Try this level again.</clr:String>
         
@@ -37,45 +41,80 @@
 
     <Grid x:Name="LayoutRoot" Background="Transparent" >
         <Border Style="{StaticResource NVLBorde2r}">
-            <Grid Margin="20" Background="#4A838383">
+            <Grid Margin="20" Background="#4A838383" Width="337">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="6" />
+                    <ColumnDefinition Width="30" />
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="6" />
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="60" />
+                    
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="64" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="6" />
                     <RowDefinition Height="22" />
-                    <RowDefinition Height="22" />
-                    <RowDefinition Height="22" />
-                    <RowDefinition Height="10" />
+                    <RowDefinition Height="33" />
+                    <RowDefinition Height="33" />
                     <RowDefinition Height="6" />
-                    <RowDefinition Height="22" />
-                    <RowDefinition Height="8" />
+                    <RowDefinition Height="33" />
+                    <RowDefinition Height="6" />
                     <RowDefinition Height="27" />
+                    <RowDefinition Height="6" />
                     <RowDefinition Height="36*" />
                 </Grid.RowDefinitions>
-                <TextBlock HorizontalAlignment="Left" Name="_txtMessage" Text="{StaticResource Txt.Message.Success}" VerticalAlignment="Center" Width="246" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="4" Foreground="White" TextWrapping="Wrap" Margin="0,1" />
-                <ProgressBar Grid.Column="1" Grid.Row="3" Name="_xAccBar" Value="50" Grid.ColumnSpan="3" />
-                <ProgressBar Margin="0,1,0,0" Name="_xGoldBar" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Value="50" />
-                <Button Content="OK" Grid.ColumnSpan="3" Grid.Row="10" Height="23" HorizontalAlignment="Center" Margin="45,0,46,0" Name="_xBtnOK" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Center" Grid.Column="1" Click="_xBtnOK_Click" />
-                <TextBlock FontSize="14" FontWeight="Normal" Name="textBlock4" Text="Score" TextAlignment="Center" Grid.Column="5" Grid.Row="2" HorizontalAlignment="Left" Width="80" Foreground="White" Height="22" VerticalAlignment="Top" />
-                <TextBlock FontSize="14" FontWeight="Normal" Name="textBlock5" Text="Accuracy" TextAlignment="Center" Grid.Row="3" HorizontalAlignment="Right" Width="80" Foreground="White" Height="22" VerticalAlignment="Top" />
-                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Right" Name="textBlock6" Text="Gold" TextAlignment="Center" Width="80" Grid.Row="4" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_nAccScore" Text="150" TextAlignment="Center" Width="80" Grid.Column="5" Grid.Row="3" Foreground="White" />
-                <TextBlock FontSize="14" FontWeight="Normal" HorizontalAlignment="Left" Name="_ngoldScore" Text="150" TextAlignment="Center" Width="80" Grid.Column="5" Grid.Row="4" Foreground="White" Height="22" VerticalAlignment="Top" />
-                <TextBlock FontSize="14" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Name="_nTotalScore" Text="200" TextAlignment="Center" Width="79" Grid.Column="5" Grid.Row="9" />
-                <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Normal" Foreground="White" HorizontalAlignment="Right" Name="textBlock2" Text="Target" TextAlignment="Center" Width="80" Grid.Row="6" Grid.RowSpan="2" TextWrapping="NoWrap" Height="28" />
-                <ProgressBar Grid.ColumnSpan="3" Name="_targetBar" Grid.Column="1" Grid.Row="6" Value="50" Foreground="DarkRed" BorderThickness="0" UseLayoutRounding="True" BorderBrush="Black" />
-                <ProgressBar Grid.ColumnSpan="3" Name="_scoreBar" Value="50" Grid.Column="1" Grid.Row="7" BorderThickness="0" Foreground="#FF00B000" />
-                <TextBlock FontSize="14" FontWeight="Normal" Foreground="White" Height="19" HorizontalAlignment="Left" Name="_nTarget" Text="150" TextAlignment="Center" VerticalAlignment="Top" Width="80" Grid.Row="7" Grid.Column="5" />
+                <Button Content="OK" Grid.ColumnSpan="3" Grid.Row="10" Height="23" HorizontalAlignment="Center" Margin="57,0,58,0" Name="_xBtnOK" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Center" Grid.Column="1" Click="_xBtnOK_Click" />
+                <TextBlock FontSize="12" FontWeight="Normal" Name="textBlock4" Text="Score" TextAlignment="Center" Grid.Column="5" Grid.Row="2" Foreground="White" VerticalAlignment="Center" />
+                <TextBlock FontSize="12" FontWeight="Normal" Name="textBlock5" Text="Accuracy" TextAlignment="Center" Grid.Row="3" HorizontalAlignment="Right" Width="80" Foreground="White" VerticalAlignment="Center" />
+                <TextBlock FontSize="12" FontWeight="Normal" HorizontalAlignment="Right" Name="textBlock6" Text="Gold" TextAlignment="Center" Width="80" Grid.Row="4" Foreground="White" VerticalAlignment="Center" />
+                <TextBlock FontSize="12" FontWeight="Normal" HorizontalAlignment="Stretch" Name="_nAccScore" Text="150" TextAlignment="Center" Grid.Column="5" Grid.Row="3" Foreground="White" TextWrapping="NoWrap" VerticalAlignment="Center" />
+                <TextBlock FontSize="12" FontWeight="Normal" HorizontalAlignment="Stretch" Name="_ngoldScore" Text="150" TextAlignment="Center" Grid.Column="5" Grid.Row="4" Foreground="White" Margin="0" VerticalAlignment="Center" />
+                <TextBlock FontSize="14" FontWeight="Bold" Foreground="White" HorizontalAlignment="Stretch" Name="_nTotalScore" Text="200" TextAlignment="Center" Grid.Column="5" Grid.Row="8" VerticalAlignment="Center" />
+                <TextBlock VerticalAlignment="Center" FontSize="11" FontWeight="Normal" Foreground="White" HorizontalAlignment="Stretch" Name="textBlock2" Text="You didn't meet the target of" TextAlignment="Right" Grid.Row="6" TextWrapping="NoWrap" Grid.ColumnSpan="3" Margin="0,0,10,0" />
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTipService.ToolTip="The number of charges available to blast the nuggets out" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="3" Margin="0" Height="30">
+                    <StackPanel.Background>
+                        <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_count.png" Stretch="Uniform" />
+                    </StackPanel.Background>
+                    <Image Height="20" Margin="10,0,5,0" Name="image2" Source="/AuditoryTreasureHunter;component/Media/gold1.png" Stretch="Uniform" Width="30" />
+                    <TextBlock FontSize="16" FontWeight="Bold" Height="23" HorizontalAlignment="Left" Name="_xLiveText" Text="5" Width="27" />
+                </StackPanel>
+                <StackPanel Height="30" Orientation="Horizontal" ToolTipService.ToolTip="The number of charges available to blast the nuggets out" Grid.Column="3" Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <StackPanel.Background>
+                        <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_count.png" Stretch="Uniform" />
+                    </StackPanel.Background>
+                    <Image Height="20" Margin="10,0,5,0" Name="image1" Source="/AuditoryTreasureHunter;component/Media/gold1.png" Stretch="Uniform" Width="30" />
+                    <TextBlock FontSize="16" FontWeight="Bold" Height="23" HorizontalAlignment="Left" Name="textBlock1" Text="5" Width="27" />
+                </StackPanel>
+                <TextBlock FontSize="10" FontWeight="Normal" Foreground="White" Height="32" HorizontalAlignment="Left" Name="textBlock3" Text="out of" TextAlignment="Center" VerticalAlignment="Top" Width="24" Grid.Column="2" Grid.Row="3" TextWrapping="Wrap" />
+                <StackPanel Orientation="Horizontal" ToolTipService.ToolTip="The number of charges available to blast the nuggets out" Grid.Column="1" Grid.Row="4" Height="30">
+                    <StackPanel.Background>
+                        <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_score.png" Stretch="Uniform" />
+                    </StackPanel.Background>
+                    <TextBlock FontSize="16" FontWeight="Bold" Height="23" Name="textBlock7" Text="175" Width="41" Margin="24,0,0,0" />
+                </StackPanel>
+                <TextBlock FontSize="10" FontWeight="Normal" Foreground="White" Height="32" HorizontalAlignment="Left" Name="textBlock8" Text="out of" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="24" Grid.Column="2" Grid.Row="4" />
+                <StackPanel Height="29" Orientation="Horizontal" ToolTipService.ToolTip="The number of charges available to blast the nuggets out" Grid.Column="3" Grid.Row="4">
+                    <StackPanel.Background>
+                        <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_score.png" Stretch="Uniform" />
+                    </StackPanel.Background>
+                    <TextBlock FontSize="16" FontWeight="Bold" Height="23" Margin="24,0,0,0" Name="textBlock9" Text="450" Width="41" />
+                </StackPanel>
+                <StackPanel Grid.ColumnSpan="6" Name="stackPanel1">
+                    <TextBlock Name="_txtMessage" Text="{StaticResource Txt.Message.Success}" FontSize="14" FontWeight="Bold" Foreground="White" TextWrapping="Wrap" Margin="0" Padding="6" />
+                    <TextBlock FontSize="12" FontWeight="Normal" Foreground="White" Name="textBlock10" Text="{StaticResource Txt.Hint.Accuracy}" TextWrapping="Wrap" Margin="0" Padding="6,2,6,6" />
+                </StackPanel>
+                <TextBlock FontSize="12" FontWeight="Normal" Foreground="White" Name="textBlock11" Text="Total Score for this level" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" Grid.ColumnSpan="4" Grid.Row="8" />
+                <StackPanel Height="29" Orientation="Horizontal" ToolTipService.ToolTip="The number of charges available to blast the nuggets out" Grid.Column="3" Grid.Row="6">
+                    <StackPanel.Background>
+                        <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_score.png" Stretch="Uniform" />
+                    </StackPanel.Background>
+                    <TextBlock FontSize="16" FontWeight="Bold" Height="23" Margin="24,0,0,0" Name="textBlock12" Text="450" Width="41" />
+                </StackPanel>
             </Grid>
         </Border>
+        <ProgressBar Name="_xAccBar" Value="50" Margin="434,45,-221,230" Visibility="Collapsed" />
+        <ProgressBar Margin="433,149,-220,127" Name="_xGoldBar" Value="50" Visibility="Collapsed" />
     </Grid>
 
 </UserControl>
