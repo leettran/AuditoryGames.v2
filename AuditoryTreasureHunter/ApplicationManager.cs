@@ -417,20 +417,23 @@ namespace LSRI.TreasureHunter
 
             int median = TreasureOptions.Instance.Game._curGold / TreasureOptions.Instance.Game.Charges;
             int acc = 0;
-            for (int i = median; i < median + TreasureOptions.Instance.Game.Charges && i < TT[i];i++)
+            for (int i = median; i < median + TreasureOptions.Instance.Game.Charges && i < TT.Length; i++)
                 acc += TT[i];
+            int max = 0;
+            for (int i = 0; i < TreasureOptions.Instance.Game.Charges && i < TT.Length; i++)
+                max += TT[i];
 
                 //Array.Sort(TT, (x, y) => y.CompareTo(x));
 
                 // Array.Sort(TT, int.);
 
-            Debug.WriteLine("game scores : " + String.Join(",", scoreArray));
+            Debug.WriteLine("game scores : " + String.Join(",", TT));
             Debug.WriteLine("median : " + acc);
             //int acc = 0;
             //foreach (int i in scoreArray)
             //    acc += i;
             TreasureOptions.Instance.User.CurrentTarget = acc;
-            TreasureOptions.Instance.User.MaxTarget = total;
+            TreasureOptions.Instance.User.MaxTarget = max;
             Debug.WriteLine("target scores : " + TreasureOptions.Instance.User.CurrentTarget + " / " + TreasureOptions.Instance.User.MaxTarget);
 
 

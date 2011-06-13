@@ -24,26 +24,39 @@ namespace LSRI.TreasureHunter.UI
         {
             InitializeComponent();
             _success = TreasureOptions.Instance.User.CurrentScore >= TreasureOptions.Instance.User.CurrentTarget;
-            if (_success)
-            {
-                _txtMessage.Text = @"Congratulation!";
-            }
-            else
-            {
-                _txtMessage.Text = @"Too bad. Try again...";
-                _txtMessage.Text = (string)Resources["Txt.Message.Failed.Gold"];
-            }
-
-            _xAccBar.Maximum = 100;
-            _xGoldBar.Maximum = 100;
-            //_targetBar.Maximum = 100;
-           // _scoreBar.Maximum = 100;
 
             int score = TreasureOptions.Instance.User.CurrentScore;
             int gold = TreasureOptions.Instance.User.CurrentGold;
             int target = TreasureOptions.Instance.User.CurrentTarget;
             int maxT = TreasureOptions.Instance.User.MaxTarget;
             int charges = TreasureOptions.Instance.Game.Charges;
+
+            if (_success)
+            {
+                _txtMessage.Text = (string)Resources["Txt.Message.Success"];
+                _txtHint.Text = (string)Resources["Txt.Hint.Accuracy"];
+            }
+            else
+            {
+                _txtMessage.Text = (string)Resources["Txt.Message.Failure"];
+                if (gold < (charges / 2.0))
+                    _txtHint.Text = (string)Resources["Txt.Hint.Failed.Gold"];
+                else
+                    _txtHint.Text = (string)Resources["Txt.Hint.Failed.Target"];
+            }
+            if (score >= target)
+                _xTextTarget.Text = (string)Resources["Txt.Message.Target.Success"];
+            else
+                _xTextTarget.Text = (string)Resources["Txt.Message.Target.Failed"];
+
+ 
+            _xNuggets.Text = gold.ToString();
+            _xNuggetsGold.Text = charges.ToString();
+
+            _xScore.Text = score.ToString();
+            _xScoreMax.Text = maxT.ToString();
+
+            _xTarget.Text = target.ToString();
 
             int baseScore = 100;
 
@@ -53,24 +66,21 @@ namespace LSRI.TreasureHunter.UI
 
             int tAcc = (int)(baseScore * sAccuracy / 100.00);
             _nAccScore.Text = tAcc.ToString();
-            _xAccBar.Value = sAccuracy;
+            //_xAccBar.Value = sAccuracy;
 
             int tGold = (int)(baseScore * sGold / 100.00);
             _ngoldScore.Text = tGold.ToString();
-            _xGoldBar.Value = sGold;
-
-            //_targetBar.Value = sTarget;
-           // _scoreBar.Value = sGold;
-            int tTarget = Math.Max(0, (int)(100.0 * (double)score / (double)target) - 100);
-           // _nTarget.Text = "x " + tTarget + "%";
-            //_scoreBar.Value = sTarget;
-            if (_success)
-                tTarget = 100;
-            else
-                tTarget = 0;
+            //_xGoldBar.Value = sGold;
 
             FinalScore = (int)(tAcc + tGold);
-            _nTotalScore.Text = (FinalScore * ((tTarget) / 100.0)).ToString();
+            if (score < target)
+            {
+                FinalScore = 0;
+                _nTargetScore.Text = @"0 %";
+                _nTargetScore.Foreground = new SolidColorBrush(Colors.Red); //#FFFFA7A7
+            }
+
+            _nTotalScore.Text = FinalScore.ToString();
         }
 
         public int FinalScore { set; get; }
