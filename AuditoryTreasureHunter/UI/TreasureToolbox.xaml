@@ -8,23 +8,37 @@
 
     <Grid x:Name="LayoutRoot" Background="#6E000000">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="295" />
+            <ColumnDefinition Width="305" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <StackPanel Name="_SubTitlePanel" Orientation="Horizontal" Visibility="Visible" HorizontalAlignment="Left" Grid.ColumnSpan="2">
-            <TextBlock Name="textBlock1" Text="auditory" FontSize="14" VerticalAlignment="Stretch" FontWeight="Normal" Padding="0,12,0,0" Foreground="#FFEBDE45" Margin="10,0,0,0" HorizontalAlignment="Center" />
+            <TextBlock Name="textBlock1" Text="auditory" FontSize="14" VerticalAlignment="Stretch" FontWeight="Normal" Padding="0,12,0,0" Foreground="#FFEBDE45" Margin="25,0,0,0" HorizontalAlignment="Center" />
             <TextBlock FontSize="18" Name="textBlock3" Text="TreasureHunter" VerticalAlignment="Stretch" FontWeight="Bold" Padding="0,8,0,0" Foreground="#FFEBDE45" />
             <TextBlock FontSize="11" FontWeight="Normal" Foreground="#FFEBDE45" Name="_xVersion" Padding="0,15,0,0" Text="v2.1.111" Margin="6,0,0,0" Width="67" />
         </StackPanel>
         <StackPanel Name="_SubLevelPanel" Orientation="Horizontal" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Left" >
-            <StackPanel Margin="0" Orientation="Horizontal" Width="97">
-                <StackPanel.Background>
-                    <ImageBrush ImageSource="/AuditoryTreasureHunter;component/Media/board_count.png" Stretch="Uniform" />
-                </StackPanel.Background>
-                <TextBlock FontSize="16" FontWeight="Normal" Height="23" Name="textBlock2315" Text="Lvl" Margin="17,0,0,0" Width="30" />
-                <TextBlock FontSize="16" FontWeight="Bold" Height="23" Name="_xLevelText" Text="25" Margin="0,0,0,0" Width="31" />
+            <StackPanel Margin="10,0,0,0" Orientation="Horizontal" >
+                <StackPanel Orientation="Horizontal" Margin="3">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="13">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="/GameFramework;component/Media/board_left.png" Stretch="Uniform" />
+                        </StackPanel.Background>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="-1,0">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="/GameFramework;component/Media/board_middle.png" Stretch="Fill" />
+                        </StackPanel.Background>
+                        <TextBlock FontSize="16" FontWeight="Normal" Height="23" Name="textBlock2315" Text="Level" Margin="5,0,0,0" />
+                        <TextBlock FontSize="16" FontWeight="Bold" Height="23" Name="_xLevelText" Text="250" Margin="5,0" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Width="13">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="/GameFramework;component/Media/board_right.png" Stretch="Uniform" />
+                        </StackPanel.Background>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
             <StackPanel Margin="0" Orientation="Horizontal" Width="97">
                 <StackPanel.Background>
@@ -32,39 +46,46 @@
                 </StackPanel.Background>
                 <TextBlock FontSize="16" FontWeight="Bold" Height="23" Name="_xScoreText" Text="1500" Margin="30,0,0,0" Width="45" />
             </StackPanel>
-            <StackPanel Margin="10,0,0,0" Orientation="Horizontal" Width="175">
-                <Grid  Width="175">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="175" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="6" />
-                        <RowDefinition Height="8" />
-                        <RowDefinition Height="20*" />
-                        <RowDefinition Height="6" />
-                    </Grid.RowDefinitions>
-                    <ProgressBar Name="_targetBar" Grid.Row="1" Value="50" Foreground="DarkRed" Background="#FF7BB3F7" BorderThickness="0" UseLayoutRounding="True" BorderBrush="Black" Grid.ColumnSpan="2" />
-                    <ProgressBar Name="_scoreBar" Grid.Row="2" Value="100" BorderThickness="0" Foreground="#FF078107" Background="#FF7BB3F7"/>
-                </Grid>
- 
-            </StackPanel>
 
         </StackPanel>
-        <StackPanel Name="_SubLifePanel" Orientation="Horizontal" Grid.Column="2" Margin="0,0,0,0">
-
-            <StackPanel Width="81" Margin="25,0,0,0" Orientation="Horizontal">
-                <StackPanel.Background>
-                    <ImageBrush ImageSource="/AuditoryTreasureHunter;component/Media/board_count.png" Stretch="Uniform" />
-                </StackPanel.Background>
-                <Image Name="image1" Stretch="Uniform" Source="/AuditoryTreasureHunter;component/Media/gold1.png" Height="26" Width="30" Margin="10,0,5,0" />
-                <TextBlock Height="23" Name="_xGoldText" Text="1" FontSize="16" FontWeight="Bold" />
-            </StackPanel>
-            <StackPanel Width="81" Orientation="Horizontal">
-                <StackPanel.Background>
-                    <ImageBrush ImageSource="/AuditoryTreasureHunter;component/Media/board_count.png" Stretch="Uniform" />
-                </StackPanel.Background>
-                <Image Height="22" Name="image2" Source="/AuditoryTreasureHunter;component/Media/twobullets.png" Stretch="Uniform" Width="22" Margin="15,0,5,0" />
-                <TextBlock FontSize="16" FontWeight="Bold" Height="23" Name="_xLiveText" Text="25" />
+        <StackPanel Name="_SubLifePanel" Orientation="Horizontal" Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Right">
+            <StackPanel Margin="3" Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Width="13">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/GameFramework;component/Media/board_left.png" Stretch="Uniform" />
+                    </StackPanel.Background>
+                </StackPanel>
+                <StackPanel Margin="-1,0" Orientation="Horizontal">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/GameFramework;component/Media/board_middle.png" Stretch="Fill" />
+                    </StackPanel.Background>
+                    <Image Name="image1" Stretch="Uniform" Source="/AuditoryTreasureHunter;component/Media/gold1.png" Height="26" Width="30" Margin="5,0,0,0" />
+                    <TextBlock Height="23" Name="_xGoldText" Text="1" FontSize="16" FontWeight="Bold" Margin="5,0" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Width="13">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/GameFramework;component/Media/board_right.png" Stretch="Uniform" />
+                    </StackPanel.Background>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Width="13">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="/GameFramework;component/Media/board_left.png" Stretch="Uniform" />
+                        </StackPanel.Background>
+                    </StackPanel>
+                    <StackPanel Margin="-1,0" Orientation="Horizontal">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="/GameFramework;component/Media/board_middle.png" Stretch="Fill" />
+                        </StackPanel.Background>
+                        <Image Height="22" Name="image2" Source="/AuditoryTreasureHunter;component/Media/twobullets.png" Stretch="Uniform" Width="22" Margin="5,0,0,0" />
+                        <TextBlock FontSize="16" FontWeight="Bold" Height="23" Name="_xLiveText" Text="25" Margin="5,0" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Width="13">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="/GameFramework;component/Media/board_right.png" Stretch="Uniform" />
+                        </StackPanel.Background>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </Grid>

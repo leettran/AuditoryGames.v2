@@ -192,6 +192,10 @@ GameFramework/Core/ResourcePool.cs -text
 GameFramework/Core/StateManager.cs -text
 GameFramework/Core/ZLayers.cs -text
 GameFramework/Media/background-title.png -text
+GameFramework/Media/board_left.png -text
+GameFramework/Media/board_middle.png -text
+GameFramework/Media/board_right.png -text
+GameFramework/Media/board_score.png -text
 GameFramework/Media/buttonIn.jpg -text
 GameFramework/Media/buttonOut.jpg -text
 GameFramework/Media/fullscreen.png -text

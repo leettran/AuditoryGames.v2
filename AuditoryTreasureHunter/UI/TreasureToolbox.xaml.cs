@@ -57,7 +57,7 @@ namespace LSRI.TreasureHunter.UI
             set
             {
                 _xScoreText.Text = value.ToString();
-                _scoreBar.Value = value;
+               /* _scoreBar.Value = value;
                 if (_scoreBar.Value < _targetBar.Value)
                 {
                     _scoreBar.Foreground =  new SolidColorBrush(Colors.Red);
@@ -65,7 +65,7 @@ namespace LSRI.TreasureHunter.UI
                 else
                 {
                     _scoreBar.Foreground = new SolidColorBrush(Colors.Green);
-                }
+                }*/
             }
         }
 
@@ -88,8 +88,8 @@ namespace LSRI.TreasureHunter.UI
         {
             set
             {
-                _targetBar.Maximum = value;
-                _scoreBar.Maximum = value;
+                //_targetBar.Maximum = value;
+               // _scoreBar.Maximum = value;
             }
         }
 
@@ -97,7 +97,7 @@ namespace LSRI.TreasureHunter.UI
         {
             set
             {
-                _targetBar.Value = value;
+               // _targetBar.Value = value;
             }
         }
 

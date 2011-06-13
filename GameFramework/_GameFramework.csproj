@@ -201,6 +201,14 @@
   <ItemGroup>
     <Resource Include="Media\refresh_button.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\board_left.png" />
+    <Resource Include="Media\board_middle.png" />
+    <Resource Include="Media\board_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\board_score.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

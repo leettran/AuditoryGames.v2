@@ -4,49 +4,91 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:data="clr-namespace:LSRI.AuditoryGames.GameFramework.Data;assembly=GameFramework"
-    mc:Ignorable="d"
-    d:DesignHeight="42" d:DesignWidth="800" Loaded="UserControl_Loaded">
+    mc:Ignorable="d" Height="40" Width="800">
 
-    <Grid x:Name="LayoutRoot" Background="Transparent" >
+    <Grid x:Name="LayoutRoot" Background="#6E000000" >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="290" />
-            <ColumnDefinition Width="205" />
-            <ColumnDefinition Width="135" />
-            <ColumnDefinition Width="170*" />
+            <ColumnDefinition Width="20*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Name="_SubTitlePanel" HorizontalAlignment="Right" Orientation="Horizontal" Visibility="Collapsed" Width="290">
-            <StackPanel.Background>
-                <ImageBrush ImageSource="/GameFramework;component/Media/buttonIn.jpg" />
-            </StackPanel.Background>
+        <StackPanel Name="_SubTitlePanel" Orientation="Horizontal" Visibility="Visible" Margin="0,0,0,0" HorizontalAlignment="Left">
             <TextBlock Name="textBlock1" Text="auditory" FontSize="14" VerticalAlignment="Stretch" FontWeight="Normal" Padding="0,12,0,0" Foreground="#FFEBDE45" Margin="25,0,0,0" HorizontalAlignment="Center" />
             <TextBlock FontSize="18" Name="textBlock3" Text="Submarine" VerticalAlignment="Stretch" FontWeight="Bold" Padding="0,8,0,0" Foreground="#FFEBDE45" />
             <TextBlock FontSize="11" FontWeight="Normal" Foreground="#FFEBDE45" Name="_xVersion" Padding="0,15,0,0" Text="v2.1.111" Margin="6,0,0,0" Width="67" />
         </StackPanel>
-        <StackPanel Name="_SubLevelPanel" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" Width="205">
-            <TextBlock FontSize="18" FontWeight="Normal" Foreground="#FFEBDE45" Text="Lvl" VerticalAlignment="Stretch" Margin="25,9,10,0" />
-            <TextBlock FontSize="18" FontWeight="Bold" Foreground="#FFEBDE45" Name="_xLevel" VerticalAlignment="Stretch" Margin="0,9,0,0" Text="1" />
-            <TextBlock FontSize="18" FontWeight="Normal" Foreground="#FFEBDE45" Text="●" Margin="10,9,10,0" />
-            <TextBlock FontSize="18" FontWeight="Bold" Foreground="#FFEBDE45" Name="_xScore" Text="0" Margin="0,9,0,0" Width="68" TextAlignment="Right" />
-            <StackPanel.Background>
-                <ImageBrush ImageSource="/GameFramework;component/Media/buttonIn.jpg" />
-            </StackPanel.Background>
+        <StackPanel Name="_SubLevelPanel" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" Margin="3">
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Width="13">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/GameFramework;component/Media/board_left.png" Stretch="Uniform" />
+                    </StackPanel.Background>
+                </StackPanel>
+                <StackPanel Margin="-1,0" Orientation="Horizontal">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/GameFramework;component/Media/board_middle.png" Stretch="Fill" />
+                    </StackPanel.Background>
+                    <TextBlock FontSize="16" FontWeight="Normal" Margin="5,0,0,0" Name="textBlock2315" Text="Level" Height="23" />
+                    <TextBlock FontSize="16" FontWeight="Bold" Name="_xLevel" Text="100" Height="23" Margin="5,0" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Width="13">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/GameFramework;component/Media/board_right.png" Stretch="Uniform" />
+                    </StackPanel.Background>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Width="97">
+                <StackPanel.Background>
+                    <ImageBrush ImageSource="/GameFramework;component/Media/board_score.png" Stretch="Uniform" />
+                </StackPanel.Background>
+                <TextBlock FontSize="16" FontWeight="Bold" Name="_xScore" Text="1500" TextAlignment="Right" Margin="32,0,0,0" Height="23" />
+            </StackPanel>
         </StackPanel>
-        <StackPanel Name="_SubGatePanel" HorizontalAlignment="Right" Width="135" Grid.Column="2">
-            <StackPanel.Background>
-                <ImageBrush ImageSource="/GameFramework;component/Media/buttonIn.jpg" />
-            </StackPanel.Background>
-            <ProgressBar Name="_xGateProgessBar" Margin="10" Height="20" Width="106" Maximum="5" SmallChange="1" Value="2" Foreground="#FFD4B316" Background="#FF0043AB"/>
-        </StackPanel>
-        <StackPanel Name="_SubLifePanel" Orientation="Horizontal" FlowDirection="LeftToRight" Grid.Column="3" HorizontalAlignment="Right" Width="170">
-            <StackPanel.Background>
-                <ImageBrush ImageSource="/GameFramework;component/Media/buttonIn.jpg" />
-            </StackPanel.Background>
-            <Image Height="26" Margin="16,0,0,0" Name="image2" Source="/AuditorySubmarine;component/Media/sublife.png" />
-            <Image Height="26" Name="image1" Source="/AuditorySubmarine;component/Media/sublife.png" />
-            <Image Height="26" Name="image3" Source="/AuditorySubmarine;component/Media/sublife.png" />
-            <Image Height="26" Name="image4" Source="/AuditorySubmarine;component/Media/sublife.png" />
-            <Image Height="26" Name="image5" Source="/AuditorySubmarine;component/Media/sublife.png" />
+        <StackPanel Name="_SubGatePanel" HorizontalAlignment="Stretch" Grid.Column="2" Orientation="Horizontal" Margin="50,0,0,0">
+            <StackPanel Orientation="Horizontal" Margin="3">
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Width="13">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/GameFramework;component/Media/board_left.png" Stretch="Uniform" />
+                    </StackPanel.Background>
+                </StackPanel>
+                <StackPanel Margin="-1,0" Orientation="Horizontal">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/GameFramework;component/Media/board_middle.png" Stretch="Fill" />
+                    </StackPanel.Background>
+                    <Image Name="image1ss" Stretch="Fill" Width="17" Source="/AuditorySubmarine;component/Media/warp1.png" Height="26" Margin="5,0,0,0" />
+                    <ProgressBar Name="_xGateProgessBar" Height="20" Width="75" Maximum="5" SmallChange="1" Value="2" Foreground="DarkGreen" Background="#FF7FAEF8" Margin="5,0" BorderThickness="0"  />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Width="13">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/GameFramework;component/Media/board_right.png" Stretch="Uniform" />
+                    </StackPanel.Background>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Width="13">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="/GameFramework;component/Media/board_left.png" Stretch="Uniform" />
+                        </StackPanel.Background>
+                    </StackPanel>
+                    <StackPanel Margin="-1,0" Orientation="Horizontal" MinWidth="122">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="/GameFramework;component/Media/board_middle.png" Stretch="Fill" />
+                        </StackPanel.Background>
+                        <StackPanel Name="_SubLifePanel" Orientation="Horizontal" FlowDirection="LeftToRight" Margin="5,0">
+                            <Image Height="26" Name="image2" Source="/AuditorySubmarine;component/Media/sublife.png" Margin="1" />
+                            <Image Height="26" Name="image1" Source="/AuditorySubmarine;component/Media/sublife.png" Margin="1" />
+                            <Image Height="26" Name="image3" Source="/AuditorySubmarine;component/Media/sublife.png" Margin="1" />
+                            <Image Height="26" Name="image4" Source="/AuditorySubmarine;component/Media/sublife.png" Margin="1" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Width="13">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="/GameFramework;component/Media/board_right.png" Stretch="Uniform" />
+                        </StackPanel.Background>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

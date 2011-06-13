@@ -53,7 +53,8 @@ namespace LSRI.Submarine
                     {
                         Name = "_xSubLife" + i,
                         Height = 26,
-                        Margin = (i == 0) ? new Thickness(16, 0, 0, 0) : new Thickness(0),
+                        Margin = new Thickness(1),
+                        //Margin = (i == 0) ? new Thickness(16, 0, 0, 0) : new Thickness(0),
                         Source = new BitmapImage()
                         {
                             UriSource = new Uri(@"/AuditorySubmarine;component/Media/sublife.png", UriKind.RelativeOrAbsolute)
@@ -104,9 +105,5 @@ namespace LSRI.Submarine
             //LayoutRoot.DataContext = SubOptions.Instance.User;
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
