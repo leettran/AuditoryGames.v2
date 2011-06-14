@@ -318,13 +318,29 @@ namespace LSRI.Submarine
                             // lives
  
                             SubOptions.Instance.User.CurrentLife = SubOptions.Instance.Game.MaxLives;
-                            SubOptions.Instance.User.FrequencyDelta *= (1 + SubOptions.Instance.Auditory.Step);
-                            for (int i = 0; i < SubOptions.Instance.User.Gates.Data.Length; i++)
+                            if (SubOptions.Instance.User.CurrentLevel == 1)
                             {
-                                SubOptions.Instance.User.Gates.Data[i] *= (1 + SubOptions.Instance.Auditory.Step);
-                                SubOptions.Instance.User.Gates.Data[i] = Math.Max(
-                                    SubOptions.Instance.Game.Gates.Data[i],
-                                    SubOptions.Instance.User.Gates.Data[i]);
+                            }
+                            else if (SubOptions.Instance.User.CurrentLevel <= 8)
+                            {
+                                // FIRST 8 LEVELS : ACCOMMODATION - NO INCREASE OF DELTA
+                            }
+                            else
+                            {
+                                SubOptions.Instance.User.FrequencyDelta *= (1 + SubOptions.Instance.Auditory.Step);
+                                if (SubOptions.Instance.User.FrequencyDelta > (SubOptions.Instance.User.FrequencyTraining * SubOptions.Instance.Auditory.Base))
+                                {
+                                    // Delta capped at base
+                                    SubOptions.Instance.User.FrequencyDelta = SubOptions.Instance.User.FrequencyTraining * SubOptions.Instance.Auditory.Base;
+                                }
+
+                                for (int i = 0; i < SubOptions.Instance.User.Gates.Data.Length; i++)
+                                {
+                                    SubOptions.Instance.User.Gates.Data[i] *= (1 + SubOptions.Instance.Auditory.Step);
+                                    SubOptions.Instance.User.Gates.Data[i] = Math.Max(
+                                        SubOptions.Instance.Game.Gates.Data[i],
+                                        SubOptions.Instance.User.Gates.Data[i]);
+                                }
                             }
                             SubOptions.Instance._scoreBuffer.Clear();
                             StateManager.Instance.setState(States.START_STATE);

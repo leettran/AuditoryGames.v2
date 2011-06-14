@@ -50,7 +50,7 @@ namespace LSRI.TreasureHunter
         {
             base.enterFrame(dt);
 
-            if (_currState == MinerActionStates.MINER_MOVE)
+             if (_currState == MinerActionStates.MINER_MOVE)
             {
                 if (_moveTo.X > 0)
                 {
@@ -70,6 +70,7 @@ namespace LSRI.TreasureHunter
                 }
             }
 
+            if (!StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE)) return;
             if (TreasureApplicationManager.PREVENT_AUDIO_CHANGES) return;
 
             //timeSinceLastShot -= dt;

@@ -84,7 +84,7 @@
                 <TextBlock Name="_txtLevel" Text="Level 0" FontWeight="Bold" FontSize="14" Foreground="White" Height="21" Width="80" Margin="10,0,0,0" />
             </StackPanel>
             <TextBlock FontSize="11" Foreground="White" HorizontalAlignment="Left" Margin="10,13,0,0" Name="textBlock3" Text="At this level, the mine has" TextAlignment="Left" Grid.Row="1" Height="17" VerticalAlignment="Top" FontWeight="Normal" />
-            <StackPanel ToolTipService.ToolTip="The number of dirt nuggets in the game scene" Margin="28,34,0,0" Orientation="Horizontal" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Grid.Row="1">
+            <StackPanel Margin="28,34,0,0" Orientation="Horizontal" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Grid.Row="1">
                 <StackPanel.Background>
                     <ImageBrush ImageSource="/AuditoryTreasureHunter;component/Media/board_count.png" Stretch="Uniform" AlignmentX="Left"/>
                 </StackPanel.Background>
@@ -92,7 +92,7 @@
                 <TextBlock Name="_xMetalText" FontSize="16" FontWeight="Bold" Height="23" Text="1" Width="27" HorizontalAlignment="Left" />
                 <TextBlock Name="textBlock2" Text="Coal Nuggets" Margin="20,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
             </StackPanel>
-            <StackPanel ToolTipService.ToolTip="The number of gold nuggets in the game scene" Height="29" Orientation="Horizontal" Margin="28,69,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1">
+            <StackPanel Height="29" Orientation="Horizontal" Margin="28,69,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1">
                 <StackPanel.Background>
                     <ImageBrush ImageSource="/AuditoryTreasureHunter;component/Media/board_count.png" Stretch="Uniform" AlignmentX="Left"/>
                 </StackPanel.Background>
@@ -101,7 +101,7 @@
                 <TextBlock Foreground="White" Name="textBlock4" Text="Gold Nuggets" Margin="20,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" />
             </StackPanel>
             <TextBlock FontSize="11" Name="_txtGates" Text="To blast the gold out, you have" TextAlignment="Left" HorizontalAlignment="Left" Width="216" Margin="10,104,0,0" Foreground="White" Grid.Row="1" Height="18" VerticalAlignment="Top" FontWeight="Normal" />
-            <StackPanel ToolTipService.ToolTip="The number of charges available to blast the nuggets out" Height="29" HorizontalAlignment="Left" Margin="28,124,0,0" Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1">
+            <StackPanel Height="29" HorizontalAlignment="Left" Margin="28,124,0,0" Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1">
                 <StackPanel.Background>
                     <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_count.png" Stretch="Uniform" />
                 </StackPanel.Background>
@@ -110,11 +110,11 @@
                 <TextBlock Foreground="White" Name="textBlock5" Text="Blast Charges" Margin="20,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" />
             </StackPanel>
             <Button Visibility="Visible" Content="Refresh" Height="42" HorizontalAlignment="Left" Margin="10,0,0,0" Name="_btnRefresh" Style="{Binding Source={StaticResource RefreshButtonStyle}}" VerticalAlignment="Top" Width="43" Grid.Row="3" />
-            <Button ToolTipService.ToolTip="Click here to start the game" Content="Play" Height="42" Margin="0,0,6,0" Name="_btnStart" VerticalAlignment="Top" Style="{Binding Source={StaticResource PlayButtonStyle}}" Grid.Row="3" HorizontalAlignment="Right" Width="150" />
+            <Button Content="Play" Height="42" Margin="0,0,6,0" Name="_btnStart" VerticalAlignment="Top" Style="{Binding Source={StaticResource PlayButtonStyle}}" Grid.Row="3" HorizontalAlignment="Right" Width="150" />
             <ProgressBar Name="_xTargetBar" Maximum="500" SmallChange="1" Value="250" UseLayoutRounding="True" IsIndeterminate="False" Width="161" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="29" Margin="275,6,-178,42" Grid.Row="2" Visibility="Collapsed" />
             <StackPanel Grid.Row="2" HorizontalAlignment="Left" Margin="10,0,0,0" Name="stackPanel2" VerticalAlignment="Top" Width="242" Orientation="Horizontal">
                 <TextBlock FontSize="11" Foreground="White" Name="textBlock6" Text="To get to the next level, you need to collect" TextAlignment="Left" TextWrapping="Wrap" Width="146" VerticalAlignment="Center" />
-                <StackPanel ToolTipService.ToolTip="The minimum amount of gold you have to blast out of the ground" Orientation="Horizontal" Height="29" Width="78">
+                <StackPanel Orientation="Horizontal" Height="29" Width="78">
                     <StackPanel.Background>
                         <ImageBrush ImageSource="/AuditoryTreasureHunter;component/Media/board_score.png" Stretch="Uniform" AlignmentX="Left" />
                     </StackPanel.Background>
@@ -123,7 +123,7 @@
             </StackPanel>
             <StackPanel Grid.Row="2" Grid.RowSpan="3" HorizontalAlignment="Left" Margin="10,35,0,0" Name="stackPanel3" VerticalAlignment="Top" Width="242" Orientation="Horizontal">
                 <TextBlock FontSize="11" Foreground="White" Name="textBlock7" Text="out of a maximum of" TextAlignment="Left" TextWrapping="Wrap" Width="146" VerticalAlignment="Center" />
-                <StackPanel Height="29" Orientation="Horizontal" ToolTipService.ToolTip="The minimum amount of gold you have to blast out of the ground" Width="78">
+                <StackPanel Height="29" Orientation="Horizontal" Width="78">
                     <StackPanel.Background>
                         <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_score.png" Stretch="Uniform" />
                     </StackPanel.Background>

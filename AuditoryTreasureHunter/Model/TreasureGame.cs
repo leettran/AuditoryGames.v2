@@ -260,11 +260,11 @@ namespace LSRI.TreasureHunter.Model
             this._mdDetect = DetectionMode.Proximity;
             this._mdDisplay = DisplayMode.Position;
             this._mdOpacity = OpacityMode.Both;
-            this._nbZones = 10;
+            this._nbZones = 12;
             this._nbDepth = 10;
             this._isMaxGold = true;
             this._MaxGold = 5;
-            this._nbCharges = 2;
+            this._nbCharges = 4;
         }
 
         /// <summary>

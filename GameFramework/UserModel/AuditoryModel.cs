@@ -224,8 +224,8 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
         public AuditoryModel()
         {
-            this._base = .50;
-            this._step = .04;
+            this._base = .10;
+            this._step = .10;
             this._minFq = 500;
             this._maxFq = 5000;
             this._lBeat = 25.0;

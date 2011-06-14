@@ -76,14 +76,14 @@
                 <TextBlock FontSize="12" FontWeight="Normal" HorizontalAlignment="Stretch" Name="_ngoldScore" Text="100 %" TextAlignment="Center" Grid.Column="5" Grid.Row="4" Foreground="White" Margin="0" VerticalAlignment="Center" />
                 <TextBlock FontSize="14" FontWeight="Bold" Foreground="White" HorizontalAlignment="Stretch" Name="_nTotalScore" Text="200" TextAlignment="Center" Grid.Column="5" Grid.Row="8" VerticalAlignment="Center" />
                 <TextBlock VerticalAlignment="Center" FontSize="11" FontWeight="Normal" Foreground="White" HorizontalAlignment="Stretch" Name="_xTextTarget" Text="{StaticResource Txt.Message.Target.Success}" TextAlignment="Right" Grid.Row="6" TextWrapping="NoWrap" Grid.ColumnSpan="3" Margin="0,0,10,0" />
-                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" ToolTipService.ToolTip="The number of charges available to blast the nuggets out" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="3" Margin="0" Height="30">
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="3" Margin="0" Height="30">
                     <StackPanel.Background>
                         <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_count.png" Stretch="Uniform" />
                     </StackPanel.Background>
                     <Image Height="20" Margin="10,0,5,0" Name="image2" Source="/AuditoryTreasureHunter;component/Media/gold1.png" Stretch="Uniform" Width="30" />
                     <TextBlock Name="_xNuggets" FontSize="16" FontWeight="Bold" Height="23" HorizontalAlignment="Left" Text="5" Width="27" />
                 </StackPanel>
-                <StackPanel Height="30" Orientation="Horizontal" ToolTipService.ToolTip="The number of charges available to blast the nuggets out" Grid.Column="3" Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <StackPanel Height="30" Orientation="Horizontal" Grid.Column="3" Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <StackPanel.Background>
                         <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_count.png" Stretch="Uniform" />
                     </StackPanel.Background>
@@ -91,14 +91,14 @@
                     <TextBlock Name="_xNuggetsGold" FontSize="16" FontWeight="Bold" Height="23" HorizontalAlignment="Left" Text="5" Width="27" />
                 </StackPanel>
                 <TextBlock FontSize="10" FontWeight="Normal" Foreground="White" Height="32" HorizontalAlignment="Left" Name="textBlock3" Text="out of" TextAlignment="Center" VerticalAlignment="Top" Width="24" Grid.Column="2" Grid.Row="3" TextWrapping="Wrap" />
-                <StackPanel Orientation="Horizontal" ToolTipService.ToolTip="The number of charges available to blast the nuggets out" Grid.Column="1" Grid.Row="4" Height="30">
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="4" Height="30">
                     <StackPanel.Background>
                         <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_score.png" Stretch="Uniform" />
                     </StackPanel.Background>
                     <TextBlock Name="_xScore" FontSize="16" FontWeight="Bold" Height="23" Text="175" Width="41" Margin="24,0,0,0" />
                 </StackPanel>
                 <TextBlock FontSize="10" FontWeight="Normal" Foreground="White" Height="32" HorizontalAlignment="Left" Name="textBlock8" Text="out of" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="24" Grid.Column="2" Grid.Row="4" />
-                <StackPanel Height="29" Orientation="Horizontal" ToolTipService.ToolTip="The number of charges available to blast the nuggets out" Grid.Column="3" Grid.Row="4">
+                <StackPanel Height="29" Orientation="Horizontal" Grid.Column="3" Grid.Row="4">
                     <StackPanel.Background>
                         <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_score.png" Stretch="Uniform" />
                     </StackPanel.Background>
@@ -109,7 +109,7 @@
                     <TextBlock Name="_txtHint" Text="{StaticResource Txt.Hint.Failed.Gold}" FontSize="12" FontWeight="Normal" Foreground="White" TextWrapping="Wrap" Margin="0" Padding="6,2,6,6" />
                 </StackPanel>
                 <TextBlock FontSize="12" FontWeight="Normal" Foreground="White" Name="textBlock11" Text="Total score for this level" TextAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Center" Grid.ColumnSpan="4" Grid.Row="8" />
-                <StackPanel Height="29" Orientation="Horizontal" ToolTipService.ToolTip="The number of charges available to blast the nuggets out" Grid.Column="3" Grid.Row="6">
+                <StackPanel Height="29" Orientation="Horizontal" Grid.Column="3" Grid.Row="6">
                     <StackPanel.Background>
                         <ImageBrush AlignmentX="Left" ImageSource="/AuditoryTreasureHunter;component/Media/board_score.png" Stretch="Uniform" />
                     </StackPanel.Background>

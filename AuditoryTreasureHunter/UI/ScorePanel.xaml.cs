@@ -31,19 +31,23 @@ namespace LSRI.TreasureHunter.UI
             int maxT = TreasureOptions.Instance.User.MaxTarget;
             int charges = TreasureOptions.Instance.Game.Charges;
 
+            String txtMsg = null;
             if (_success)
             {
-                _txtMessage.Text = (string)Resources["Txt.Message.Success"];
+                txtMsg = (string)Resources["Txt.Message.Success"];
                 _txtHint.Text = (string)Resources["Txt.Hint.Accuracy"];
             }
             else
             {
-                _txtMessage.Text = (string)Resources["Txt.Message.Failure"];
+                txtMsg = (string)Resources["Txt.Message.Failure"];
                 if (gold < (charges / 2.0))
                     _txtHint.Text = (string)Resources["Txt.Hint.Failed.Gold"];
                 else
                     _txtHint.Text = (string)Resources["Txt.Hint.Failed.Target"];
             }
+            _txtMessage.Text = String.Format(txtMsg, TreasureOptions.Instance.User.CurrentLevel);
+
+
             if (score >= target)
                 _xTextTarget.Text = (string)Resources["Txt.Message.Target.Success"];
             else

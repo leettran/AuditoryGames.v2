@@ -295,7 +295,7 @@ namespace LSRI.TreasureHunter.Model
             this._userType = UserType.Stereotype;
             this._Name = "";
             this._FqTraining = 2500;
-            this._FqDelta = 300;
+            this._FqDelta = 0;
             this._FqComparison = 0;
             this._currLevel = 1;
             this._currLife = 4;

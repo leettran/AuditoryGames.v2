@@ -757,6 +757,8 @@ namespace LSRI.Submarine
 
             // initialise auditory stimuli
             double fqTraining = SubOptions.Instance.User.FrequencyTraining;
+            if (SubOptions.Instance.User.FrequencyDelta <= 0)
+                SubOptions.Instance.User.FrequencyDelta = SubOptions.Instance.User.FrequencyTraining * SubOptions.Instance.Auditory.Base;
             double deltaf = SubOptions.Instance.User.FrequencyDelta;
 
             double deltapos = Gatepos - Subpos;

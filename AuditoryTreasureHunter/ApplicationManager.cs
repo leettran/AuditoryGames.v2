@@ -31,6 +31,7 @@ namespace LSRI.TreasureHunter
         public const string LEVEL_STATE = "start_Level";    ///< Starting a new level @deprecated  Not in use, see 
         public const string OPTION_STATE = "start_option";  ///< Starting the option page
         public const string LOG_STATE = "start_log";        ///< Starting the log page
+        public const string SCORE_STATE = "start_score";    ///< Starting the end-of-level score dialog
     }
 
     /**
@@ -182,7 +183,7 @@ namespace LSRI.TreasureHunter
             _synthEx = new Frequency3IGenerator(children);
 
             StateManager.Instance.registerStateChange(
-                States.START_STATE,
+                TreasureStates.START_STATE,
                 new StateChangeInfo.StateFunction(startMainMenu),
                 new StateChangeInfo.StateFunction(endMainMenu));
 
@@ -196,6 +197,13 @@ namespace LSRI.TreasureHunter
                 new StateChangeInfo.StateFunction(startOptions),
                 new StateChangeInfo.StateFunction(exitOptions));
 
+
+            StateManager.Instance.registerStateChange(
+                TreasureStates.SCORE_STATE,
+                new StateChangeInfo.StateFunction(startScore),
+                new StateChangeInfo.StateFunction(exitScore));
+
+
             //Score = SavedScore;
             //(App.Current.RootVisual as Page).AudioPlayer.SetSource(_synthEx);
         }
@@ -208,7 +216,7 @@ namespace LSRI.TreasureHunter
             {
                 if (KeyHandler.Instance.isKeyPressed(Key.Q))
                 {
-                    StateManager.Instance.setState(States.START_STATE);
+                    StateManager.Instance.setState(TreasureStates.START_STATE);
                     return;
                 }
 
@@ -240,7 +248,7 @@ namespace LSRI.TreasureHunter
                 timeSinceLastBackground -= dt;
                 TreasureOptions.Instance.UpdateDebug();
             }
-            else
+            else if (StateManager.Instance.CurrentState.Equals(TreasureStates.START_STATE))
             {
                 ModifierKeys keys = Keyboard.Modifiers;
                 bool controlKey = (keys & ModifierKeys.Control) != 0;
@@ -286,6 +294,9 @@ namespace LSRI.TreasureHunter
             double freqL = 0;
             double freqM = 0;
             double freqR = 0;
+
+            if (TreasureOptions.Instance.User.FrequencyDelta <= 0)
+                TreasureOptions.Instance.User.FrequencyDelta = TreasureOptions.Instance.User.FrequencyTraining * TreasureOptions.Instance.Auditory.Base;
 
             double fqTrain = TreasureOptions.Instance.User.FrequencyTraining;
             double fqComp = TreasureOptions.Instance.User.FrequencyTraining - TreasureOptions.Instance.User.FrequencyDelta;
@@ -441,6 +452,12 @@ namespace LSRI.TreasureHunter
 
         public void startMainMenu()
         {
+            while (GameObject.gameObjects.Count != 0)
+                GameObject.gameObjects[0].shutdown();
+
+  
+            removeAllCanvasChildren();
+
             TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Value;
             GenerateGameSettings();
 
@@ -788,10 +805,10 @@ namespace LSRI.TreasureHunter
             //MediaElement children = (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
             //children.Stop();
             //this._synthEx.sequencer.Reset();
-            while (GameObject.gameObjects.Count != 0)
-                GameObject.gameObjects[0].shutdown();
+           // while (GameObject.gameObjects.Count != 0)
+           //     GameObject.gameObjects[0].shutdown();
 
-            removeAllCanvasChildren();
+            //removeAllCanvasChildren();
             // _synthEx.Arpeggiator.Stop();
 
             //txtbScore = null;
@@ -809,7 +826,7 @@ namespace LSRI.TreasureHunter
                 TreasureOptions.Instance.Game);
             panel.OnCompleteTask += delegate()
             {
-                StateManager.Instance.setState(States.START_STATE);
+                StateManager.Instance.setState(TreasureStates.START_STATE);
             };
             panel.SetValue(Canvas.LeftProperty, 10.0);
             panel.SetValue(Canvas.TopProperty, 10.0);
@@ -824,6 +841,73 @@ namespace LSRI.TreasureHunter
 
         #endregion
 
+        #region Application State: Scores
+
+        private void startScore()
+        {
+            bool success = TreasureOptions.Instance.User.CurrentScore >= TreasureOptions.Instance.User.CurrentTarget;
+
+            GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
+            ScorePanel pn = new ScorePanel();
+            pn.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pn.Width) / 2);
+            pn.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pn.Height) / 2);
+            pn.OnCompleteTask += delegate()
+            {
+                // adapt the auditory staircase based on the result
+                if (success)
+                {
+                    // Add the score to the HighScore list
+                    TreasureOptions.Instance.User.Scores.Data.Add(new HighScore()
+                    {
+                        Delta = (int)TreasureOptions.Instance.User.FrequencyDelta,
+                        Level = TreasureOptions.Instance.User.CurrentLevel,
+                        Score = pn.FinalScore
+                    });
+
+                    // change Frequency delta
+                    TreasureOptions.Instance.User.FrequencyDelta *= (1 - TreasureOptions.Instance.Auditory.Step);
+                    if (TreasureOptions.Instance.User.FrequencyDelta > (TreasureOptions.Instance.User.FrequencyTraining * TreasureOptions.Instance.Auditory.Base))
+                    {
+                        // Delta capped at base
+                        TreasureOptions.Instance.User.FrequencyDelta = TreasureOptions.Instance.User.FrequencyTraining * TreasureOptions.Instance.Auditory.Base;
+                    }
+
+                    // go to next level
+                    TreasureOptions.Instance.User.CurrentLevel++;
+                }
+                else
+                {
+                    if (TreasureOptions.Instance.User.CurrentLevel == 1)
+                    {
+                        // FIRST LEVEL : TUTORIAL - NO CHANGE IN AUDITORY MODEL
+                    }
+                    else if (TreasureOptions.Instance.User.CurrentLevel <= 8)
+                    {
+                        // FIRST 8 LEVELS : ACCOMMODATION - NO INCREASE OF DELTA
+                    }
+                    else
+                    {
+                        TreasureOptions.Instance.User.FrequencyDelta *= (1 + TreasureOptions.Instance.Auditory.Step);
+                        if (TreasureOptions.Instance.User.FrequencyDelta > (TreasureOptions.Instance.User.FrequencyTraining * TreasureOptions.Instance.Auditory.Base))
+                        {
+                            // Delta capped at base
+                            TreasureOptions.Instance.User.FrequencyDelta = TreasureOptions.Instance.User.FrequencyTraining * TreasureOptions.Instance.Auditory.Base;
+                        }
+
+                    }
+                }
+
+                StateManager.Instance.setState(TreasureStates.START_STATE);
+                //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
+            };
+            pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, pn);
+        }
+
+        private void exitScore()
+        {
+        }
+
+        #endregion
 
     }
 }

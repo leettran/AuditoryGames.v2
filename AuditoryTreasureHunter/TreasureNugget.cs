@@ -282,36 +282,8 @@ namespace LSRI.TreasureHunter
 
             if (TreasureOptions.Instance.Game._curGold == 0 || TreasureOptions.Instance.User.CurrentLife ==0)
             {
-                bool success = TreasureOptions.Instance.User.CurrentScore >= TreasureOptions.Instance.User.CurrentTarget;
+                StateManager.Instance.setState(TreasureStates.SCORE_STATE);
 
-                GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
-                ScorePanel pn = new ScorePanel();
-                pn.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pn.Width) / 2);
-                pn.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pn.Height) / 2);
-
-                if (success)
-                {
-                    TreasureOptions.Instance.User.Scores.Data.Add(new HighScore()
-                    {
-                        Delta = (int)TreasureOptions.Instance.User.FrequencyDelta,
-                        Level = TreasureOptions.Instance.User.CurrentLevel,
-                        Score = pn.FinalScore
-                    });
-                    TreasureOptions.Instance.User.CurrentLevel++;
-                    TreasureOptions.Instance.User.FrequencyDelta *= (1 - TreasureOptions.Instance.Auditory.Step);
-                }
-                else
-                {
-                    TreasureOptions.Instance.User.FrequencyDelta *= (1 + TreasureOptions.Instance.Auditory.Step);
-                }
-
-
-                pn.OnCompleteTask += delegate()
-                {
-                    StateManager.Instance.setState(States.START_STATE);
-                    //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
-                };
-                pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, pn);
             }
             else
                 (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound(this.Index);
