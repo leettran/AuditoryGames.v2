@@ -83,6 +83,7 @@
     <Compile Include="UI\ButtonIcon.xaml.cs">
       <DependentUpon>ButtonIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\DefaultButtonHub.cs" />
     <Compile Include="UI\GameParameters.xaml.cs">
       <DependentUpon>GameParameters.xaml</DependentUpon>
     </Compile>

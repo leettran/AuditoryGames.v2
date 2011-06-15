@@ -73,6 +73,8 @@ namespace LSRI.TreasureHunter
                     Zones[i].Fill = new SolidColorBrush(Color.FromArgb(25, 255, 0, 0));
                 }*/
                 (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(Zones[i]);
+
+
             }
             return this;
         }

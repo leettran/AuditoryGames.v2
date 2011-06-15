@@ -97,7 +97,7 @@ namespace LSRI.TreasureHunter.UI
         {
             set
             {
-               // _targetBar.Value = value;
+               _xTargetText.Text = value.ToString();
             }
         }
 

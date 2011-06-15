@@ -8,8 +8,8 @@
 
     <Grid x:Name="LayoutRoot" Background="#6E000000">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="295" />
-            <ColumnDefinition Width="305" />
+            <ColumnDefinition Width="270" />
+            <ColumnDefinition Width="330" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -46,7 +46,12 @@
                 </StackPanel.Background>
                 <TextBlock FontSize="16" FontWeight="Bold" Height="23" Name="_xScoreText" Text="1500" Margin="30,0,0,0" Width="45" />
             </StackPanel>
-
+            <StackPanel Orientation="Horizontal" Width="97">
+                <StackPanel.Background>
+                    <ImageBrush ImageSource="/AuditoryTreasureHunter;component/Media/board_target.png" Stretch="Uniform" />
+                </StackPanel.Background>
+                <TextBlock FontSize="16" FontWeight="Bold" Height="23" Margin="30,0,0,0" Name="_xTargetText" Text="1500" Width="45" />
+            </StackPanel>
         </StackPanel>
         <StackPanel Name="_SubLifePanel" Orientation="Horizontal" Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Right">
             <StackPanel Margin="3" Orientation="Horizontal">

@@ -6,7 +6,7 @@
     mc:Ignorable="d" IsEnabled="True" d:DesignHeight="42" d:DesignWidth="239">
     <Button.Content>
     <StackPanel Orientation="Horizontal">
-        <Image Source="/AuditoryTreasureHunter;component/Media/blueplane2.png"
+            <Image Source="/GameFramework;component/Media/fullscreen.png"
 					Width="16"
 					Height="16" Name="_Icon" />
         <TextBlock Text="Add User" Margin="10,0,0,0" Name="_TextContent" TextAlignment="Left" VerticalAlignment="Center" />

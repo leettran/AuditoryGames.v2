@@ -22,7 +22,7 @@ namespace LSRI.TreasureHunter
         public delegate void WeaponLogic(double dt);
         protected WeaponLogic weaponLogic = null;
 
-        private GameObject _player = null;
+        public GameObject _player = null;
 
         static public HunterWeapon UnusedWeapon
         {
@@ -82,7 +82,7 @@ namespace LSRI.TreasureHunter
         {
             base.collision(other);
             this.shutdown();
-            if (_player != null) _player.collision(other);
+            //if (_player != null) _player.collision(other);
         }
     }
 }

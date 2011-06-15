@@ -71,11 +71,16 @@ namespace LSRI.TreasureHunter
             }
 
             if (!StateManager.Instance.CurrentState.Equals(TreasureStates.LEVEL_STATE)) return;
-            if (TreasureApplicationManager.PREVENT_AUDIO_CHANGES) return;
+            if (TreasureApplicationManager.PREVENT_AUDIO_CHANGES)
+            {
+                KeyHandler.Instance.clearKeyPresses();
+                return;
+            }
 
             //timeSinceLastShot -= dt;
             if (KeyHandler.Instance.isKeyPressed(Key.Space) && timeSinceLastShot <= 0 && _currState == MinerActionStates.MINER_IDLE)
             {
+                TreasureApplicationManager.PREVENT_AUDIO_CHANGES = true;
                 TreasureOptions.Instance.User.Actions++;
                 TreasureOptions.Instance.User.CurrentLife--;
                 (TreasureApplicationManager.Instance as TreasureApplicationManager)._scorePanel.Life = TreasureOptions.Instance.User.CurrentLife;

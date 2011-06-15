@@ -505,52 +505,6 @@ namespace LSRI.TreasureHunter
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pp);
 
 
-           /* ButtonIcon btnStart = new ButtonIcon();
-            //btnStart.Content = "Start Game (Proximity mode)";
-            btnStart.TextContent.Text = "Start Game (Proximity mode)";
-            btnStart.Icon.Source = ResourceHelper.GetBitmap("Media/smallisland.png");
-            btnStart.Width = 250;
-            btnStart.Height = 35;
-            btnStart.SetValue(Canvas.LeftProperty, 490.0);
-            btnStart.SetValue(Canvas.TopProperty, 400.0);
-            btnStart.Click += delegate(object sender, RoutedEventArgs e)
-            {
-                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Proximity;
-                StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
-            };
-            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
-
-            btnStart = new ButtonIcon();
-            btnStart.TextContent.Text = "Start Game (Value mode)";
-            //btnStart.Icon.Source = ResourceHelper.GetBitmap("Media/smallisland.png");
-            btnStart.Width = 250;
-            btnStart.Height = 35;
-            btnStart.SetValue(Canvas.LeftProperty, 490.0);
-            btnStart.SetValue(Canvas.TopProperty, 440.0);
-            btnStart.IsEnabled = true;
-            btnStart.Click += delegate(object sender, RoutedEventArgs e)
-            {
-                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Value;
-                StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
-            };
-            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
-
-            btnStart = new ButtonIcon();
-            btnStart.TextContent.Text = "Start Game (distance mode)";
-            //btnStart.Icon.Source = ResourceHelper.GetBitmap("Media/smallisland.png");
-            btnStart.Width = 250;
-            btnStart.Height = 35;
-            btnStart.IsEnabled = true;
-            btnStart.SetValue(Canvas.LeftProperty, 490.0);
-            btnStart.SetValue(Canvas.TopProperty, 480.0);
-            btnStart.Click += delegate(object sender, RoutedEventArgs e)
-            {
-                TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Distance;
-                StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
-            };
-            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
-            */
-
             ButtonIcon btnFull = new ButtonIcon();
             btnFull.TextContent.Text = "Full Screen Mode";
             btnFull.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/fullscreen.png");
@@ -613,7 +567,7 @@ namespace LSRI.TreasureHunter
         public void startGame()
         {
             TreasureOptions.Instance.AttachDebug(AuditoryGameApp.Current.RootVisual as GamePage);
-
+            TreasureApplicationManager.PREVENT_AUDIO_CHANGES = false;
 
             // Set the toolbox
             this._scorePanel = new TreasureToolbox()

@@ -70,6 +70,7 @@ namespace LSRI.TreasureHunter
             base.startupAnimatedGameObject(dimensions, animationData, ZLayers.PLAYER_Z, false);
 
             this.Visibility = System.Windows.Visibility.Collapsed;
+            this.timeSinceExposure = -1;
             enemyLogic = new NuggetLogic(this.basicEnemyLogic);
             this._collisionName = CollisionIdentifiers.ENEMY;
             this.Score = 10;
@@ -80,6 +81,7 @@ namespace LSRI.TreasureHunter
 
         private void FogOfWar()
         {
+            if (timeSinceExposure > 0) return;
             //int nbStep = TreasureOptions.Instance.User.Actions;
             double nb = TreasureOptions.Instance.Game.Zones * (1.5);
             double delta = TreasureOptions.Instance.User.VisualTiming.Data[TreasureOptions.Instance.User._currExposure];
@@ -235,6 +237,7 @@ namespace LSRI.TreasureHunter
         {
             base.collision(other);
 
+            int oldScore = 0;
             if (this.Type != TreasureType.TREASURE_NONE)
             {
                 // Show explosion animation
@@ -270,23 +273,34 @@ namespace LSRI.TreasureHunter
                 // Change visibility and initiate exposure animation
                 this.Visibility = System.Windows.Visibility.Visible;
                 this.timeSinceExposure = TreasureNugget.TIME_EXPOSURE;
-                animationData.fps = 10;
+                animationData.fps = 5;
                 animationData.frames = new string[] { 
                             "Media/hole1.png", 
                             this.Type==TreasureType.TREASURE_GOLD ? "Media/gold1.png" : "Media/metal1.png"
                 };
                 currentFrame = 0;
+                oldScore = this.Score;
+                this.Score = 0;
                 prepareImage(animationData.frames[currentFrame]);
-               // (TreasureApplicationManager.Instance as TreasureApplicationManager).changeExposure();
-             }
+                // (TreasureApplicationManager.Instance as TreasureApplicationManager).changeExposure();
+            }
+            HunterWeapon tt = other as HunterWeapon;
+            ScoreObject tttt = ScoreObject.UnusedScore.startupGameObject((tt != null) ? tt._player : null, oldScore);
 
-            if (TreasureOptions.Instance.Game._curGold == 0 || TreasureOptions.Instance.User.CurrentLife ==0)
+            tttt.Position = new Point(
+                        Position.X + Dimensions.X / 2 - 55 / 2,
+                        Position.Y + Dimensions.Y / 2 - 55 / 2);
+
+            if (TreasureOptions.Instance.Game._curGold == 0 || TreasureOptions.Instance.User.CurrentLife == 0)
             {
                 StateManager.Instance.setState(TreasureStates.SCORE_STATE);
 
             }
             else
+            {
                 (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound(this.Index);
+                TreasureApplicationManager.PREVENT_AUDIO_CHANGES = false;
+            }
            // this.shutdown();
         }
     }
