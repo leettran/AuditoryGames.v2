@@ -44,7 +44,7 @@ namespace LSRI.AuditoryGames.GameFramework
         {
             base.enterFrame(dt);
 
-            if (inUse)
+            if (_inUse)
             {
                 if (enemyLogic != null) enemyLogic(dt);
             }

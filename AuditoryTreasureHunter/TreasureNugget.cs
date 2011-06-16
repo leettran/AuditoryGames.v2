@@ -16,6 +16,9 @@ using LSRI.AuditoryGames.GameFramework.Data;
 
 namespace LSRI.TreasureHunter
 {
+    /// <summary>
+    /// Implementation of the nuggets in the TreasureHunter game.
+    /// </summary>
     public class TreasureNugget : AnimatedGameObject
     {
         public enum TreasureType
@@ -209,7 +212,7 @@ namespace LSRI.TreasureHunter
         {
             base.enterFrame(dt);
 
-            if (inUse)
+            if (_inUse)
             {
                 if (enemyLogic != null) enemyLogic(dt);
             }

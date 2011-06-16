@@ -28,7 +28,7 @@ namespace LSRI.AuditoryGames.GameFramework
 
         public Stretch ImageStretch { set; get; }
 
-        override public Visibility Visibility
+        virtual public Visibility Visibility
         {
             get
             {
@@ -194,7 +194,7 @@ namespace LSRI.AuditoryGames.GameFramework
 
         protected void offscreenCheck()
         {
-            if (inUse)
+            if (_inUse)
             {
                 if (Position.X > (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth ||
                     Position.X < -dimensions.X ||

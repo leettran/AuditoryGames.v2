@@ -122,7 +122,7 @@ namespace LSRI.TreasureHunter
         /// <summary>
         /// 
         /// </summary>
-        protected TreasureHunter _player = null;
+        protected HunterPlayer _player = null;
         public List<TreasureNugget> _nuggets = new List<TreasureNugget>();
 
 
@@ -615,7 +615,7 @@ namespace LSRI.TreasureHunter
             railImage.Position = new Point(0, GameLayout.MARGIN_SKY - 10);
 
             // player object
-            _player = new TreasureHunter();
+            _player = new HunterPlayer();
             _player.startupPlayer(
                 new Point(73, 85),
                 new AnimationData(

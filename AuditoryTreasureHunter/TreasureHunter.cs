@@ -14,43 +14,71 @@ using LSRI.TreasureHunter.Model;
 
 namespace LSRI.TreasureHunter
 {
-    public class TreasureHunter : AnimatedGameObject
+    public class HunterPlayer : AnimatedGameObject
     {
         /// <summary>
-        /// State description of the miner
+        /// State of operation of the TreasureHunter player object
         /// </summary>
-        private static class MinerActionStates
+        private static class HunterActionStates
         {
-            public static string MINER_IDLE = "miner_idle"; ///< No action
-            public static string MINER_MOVE = "miner_move"; ///< Move action started
-            public static string MINER_GRAB = "miner_grab"; ///< Grab action started (i.e. )
+            public static string ISRESTING = "hunter_resting";      ///< The TreasureHunter player is currenlty not doing anything.
+            public static string ISMOVING = "hunter_moving";        ///< The TreasureHunter player is currenlty moving to a different location.
+            public static string ISBLASTING = "hunter_blasting";    ///< The TreasureHunter player is currenlty blasting a nugget out.
         }
 
-        protected const double SPEED = 200;
+        /// <summary>
+        /// Default speed for the movement of the player object (in pixel per second)
+        /// </summary>
+        private const double SPEED = 200;
+
         protected const double TIME_BETWEEN_SHOTS = 0.25;
         protected double timeSinceLastShot = 0;
 
-        private String _currState = MinerActionStates.MINER_IDLE;
+        /// <summary>
+        /// Current state of operation of the TreasureHunter player object
+        /// </summary>
+        private String _currState = HunterActionStates.ISRESTING;
+
+        /// <summary>
+        /// Destination (in screen coordinates) of the player object when in movement.
+        /// </summary>
         private Point _moveTo = new Point(0, 0);
 
+        /// <summary>
+        /// Contains the index of the ground zone where the player object is currently located.
+        /// </summary>
         public int CurrentZone { get; set; }
         
-        public TreasureHunter()
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public HunterPlayer()
         {
 
         }
 
+        /// <summary>
+        /// Initialisation of the TreasureHunter player object.
+        /// </summary>
+        /// <param name="dimensions">Size (pixel) of the image</param>
+        /// <param name="animationData"></param>
+        /// <param name="zLayer"></param>
         public void startupPlayer(Point dimensions, AnimationData animationData, int zLayer)
         {
             base.startupAnimatedGameObject(dimensions, animationData, zLayer, false);
             this._collisionName = CollisionIdentifiers.PLAYER;
         }
 
+        /// <summary>
+        /// Expose the main entry point of the rendering loop of the game.
+        /// </summary>
+        /// <param name="dt">Time passed since the last call of the rendering loop (in ms)</param>
         public override void enterFrame(double dt)
         {
             base.enterFrame(dt);
 
-             if (_currState == MinerActionStates.MINER_MOVE)
+            /// if the player object is in movement, shift its position accordingly until it reaches its destination
+            if (_currState == HunterActionStates.ISMOVING)
             {
                 if (_moveTo.X > 0)
                 {
@@ -61,7 +89,7 @@ namespace LSRI.TreasureHunter
                 }
                 else
                 {
-                    _currState = MinerActionStates.MINER_IDLE;
+                    _currState = HunterActionStates.ISRESTING;
                     _moveTo = new Point(0, 0);
                     // TreasureApplicationManager.Instance;
 
@@ -78,7 +106,7 @@ namespace LSRI.TreasureHunter
             }
 
             //timeSinceLastShot -= dt;
-            if (KeyHandler.Instance.isKeyPressed(Key.Space) && timeSinceLastShot <= 0 && _currState == MinerActionStates.MINER_IDLE)
+            if (KeyHandler.Instance.isKeyPressed(Key.Space) && timeSinceLastShot <= 0 && _currState == HunterActionStates.ISRESTING)
             {
                 TreasureApplicationManager.PREVENT_AUDIO_CHANGES = true;
                 TreasureOptions.Instance.User.Actions++;
@@ -91,7 +119,7 @@ namespace LSRI.TreasureHunter
 
             else if (KeyHandler.Instance.isKeyPressed(Key.Left))
             {
-                if (_currState == MinerActionStates.MINER_IDLE)
+                if (_currState == HunterActionStates.ISRESTING)
                 {
                     this.CurrentZone--;
                     TreasureOptions.Instance.User.Actions++;
@@ -100,7 +128,7 @@ namespace LSRI.TreasureHunter
                     else
                     {
                         _moveTo = new Point(TreasureOptions.Instance.Game._sizeZones, -1);
-                        _currState = MinerActionStates.MINER_MOVE;
+                        _currState = HunterActionStates.ISMOVING;
                         (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Stop();
                     }
 
@@ -109,7 +137,7 @@ namespace LSRI.TreasureHunter
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Right))
             {
-                if (_currState == MinerActionStates.MINER_IDLE)
+                if (_currState == HunterActionStates.ISRESTING)
                 {
                     this.CurrentZone++;
                     TreasureOptions.Instance.User.Actions++;
@@ -118,7 +146,7 @@ namespace LSRI.TreasureHunter
                     else
                     {
                         _moveTo = new Point(TreasureOptions.Instance.Game._sizeZones, 1);
-                        _currState = MinerActionStates.MINER_MOVE;
+                        _currState = HunterActionStates.ISMOVING;
                         (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Stop();
                     }
 

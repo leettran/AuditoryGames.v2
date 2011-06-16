@@ -69,7 +69,7 @@ namespace LSRI.AuditoryGames.GameFramework
         {
             base.enterFrame(dt);
 
-            if (inUse)
+            if (_inUse)
             {
                 timeSinceLastFrame += dt;
 

@@ -11,39 +11,57 @@ using System.Windows.Shapes;
 
 namespace LSRI.AuditoryGames.GameFramework
 {
-    /*
-        The base for all game objects 
-    */
+    /// <summary>
+    /// The base for all the game objects.
+    /// 
+    /// Defines the three basic entry points for all objects: startup, shutdown and update.
+    /// </summary>
     abstract public class BaseObject
     {
-        protected bool inUse = false;
 
-        public bool InUse
+        /// <summary>
+        /// Indicates whether the object is in use (ie deployed in the game scene) or not.
+        /// </summary>
+        protected Boolean _inUse = false;
+
+        /// <summary>
+        /// TRUE if the object is already in use (ie deployed in the game scene), FALSE otherwise
+        /// </summary>
+        public Boolean InUse
         {
             get
             {
-                return inUse;
+                return _inUse;
             }
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void startupBaseObject()
         {
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).enterFrame += new GamePage.EnterFrame(enterFrame);
-            inUse = true;
+            _inUse = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         virtual public void shutdown()
         {
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).enterFrame -= new GamePage.EnterFrame(enterFrame);
-            inUse = false;
+            _inUse = false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dt">Time passed since the last call of the rendering loop (in ms)</param>
         virtual public void enterFrame(double dt)
         {
             
         }
 
-        virtual public Visibility Visibility { get; set; }
 
     }
 }
