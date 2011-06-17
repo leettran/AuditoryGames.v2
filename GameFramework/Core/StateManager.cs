@@ -12,12 +12,31 @@ using System.Collections.Generic;
 
 namespace LSRI.AuditoryGames.GameFramework
 {
+    /// <summary>
+    /// Data structure for registering information about logical states
+    /// </summary>
     public class StateChangeInfo
     {
+        /// <summary>
+        /// Definition of a delegate for the state functions.
+        /// </summary>
         public delegate void StateFunction();
+
+        /// <summary>
+        /// Reference to the entry function associated with the state
+        /// </summary>
         public StateFunction enterState = null;
+
+        /// <summary>
+        /// Reference to the exit function associated with the state
+        /// </summary>
         public StateFunction exitState = null;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="enterState">A reference to the state entry function</param>
+        /// <param name="exitState">A reference to the state exit function</param>
         public StateChangeInfo(StateFunction enterState, StateFunction exitState)
         {
             this.enterState = enterState;
@@ -25,29 +44,58 @@ namespace LSRI.AuditoryGames.GameFramework
         }
     }
 
+    /// <summary>
+    /// The different logical states of the game.
+    /// 
+    /// The State Manager requires two default state: START_STATE to initialise the game, END_STATE to end the game.
+    /// Each game will have to define its own states on top of the default ones.
+    /// </summary>
     public class States
     {
-        public const string START_STATE = "start";
-        public const string END_STATE = "end";
+        public const string START_STATE = "start";  ///< Game is starting
+        public const string END_STATE = "end";      ///< Game is ending
     }
 
+    /// <summary>
+    /// Manages the transitions between the different logical states of the game
+    /// </summary>
     public class StateManager
     {
         protected static StateManager instance = null;
 
-        // the name of the current state
+        /// <summary>
+        /// The name of the current state.
+        /// </summary>
 	    protected string currentState =  string.Empty;
-	    // the name of the new state
+
+        /// <summary>
+        /// The name of the new state to switch to.
+        /// </summary>
 	    protected string newState = string.Empty;
-	    // a list of functions to be called when a state is changed
+
+	    /// <summary>
+        /// The list of state functions to be called when a state is changed
+	    /// </summary>
 	    Dictionary<string, List<StateChangeInfo>> stateChangeMap = new Dictionary<string,List<StateChangeInfo>>();
-	    // true if subsequent calles to SetState are queued (to allow state change function to be called in the correct order)
-	    bool stateChangeLocked;
-	    // a list of pending state changed
+
+	    /// <summary>
+        /// TRUE if subsequent calles to SetState are queued (to allow state change function to be called in the correct order) 
+	    /// </summary>
+        bool stateChangeLocked;
+
+        /// <summary>
+        /// List of pending requests for state change
+        /// </summary>
 	    List<string> pendingStateChangeRequests = new List<string>();
-	    // a list of new state changes
+	    
+        /// <summary>
+        /// List of new state changes
+        /// </summary>
 	    List<string> newStateChangeRequests = new List<string>();
 
+        /// <summary>
+        /// Access to the singleton of the State Manager
+        /// </summary>
         public static StateManager Instance
         {
             get
@@ -58,6 +106,9 @@ namespace LSRI.AuditoryGames.GameFramework
             }
         }
 
+        /// <summary>
+        /// The name of the current state
+        /// </summary>
         public string CurrentState
         {
             get
@@ -66,26 +117,41 @@ namespace LSRI.AuditoryGames.GameFramework
             }
         }
         
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         protected StateManager()
         {
 
         }
 
+        /// <summary>
+        /// Initialise the state manager. 
+        /// </summary>
         public void startupStateManager()
         {
 	        setState(States.START_STATE);
         }
 
+        /// <summary>
+        /// Shut down the state manager
+        /// </summary>
         public void shutdown()
         {
-	        endCurrentState();
+            endCurrentState();
         }
-
+        
+        /// <summary>
+        /// End the current state.
+        /// </summary>
         public void endCurrentState()
         {
 	        setState(States.END_STATE);
         }
 
+        /// <summary>
+        /// Process the requests for changing states
+        /// </summary>
         protected void updateStates()
         {
 	        // we can only change the states if stateChangeLocked is false (i.e. the state change
@@ -146,6 +212,10 @@ namespace LSRI.AuditoryGames.GameFramework
 	        }
         }
 
+        /// <summary>
+        /// Request a transition to the specified state
+        /// </summary>
+        /// <param name="newState">the name of the state to switch to</param>
         public void setState(string newState)
         {
 	        // we have to jump through some hoops to ensure that all state change requests are
@@ -161,6 +231,15 @@ namespace LSRI.AuditoryGames.GameFramework
 	        updateStates();
         }
 
+        /// <summary>
+        /// Register the different states of the game.
+        /// 
+        /// Each state is defined by a unique name and associated with two functions: enterState and exitState. 
+        /// These function will be called repsectively when a transition into and away from the defined state occurs.
+        /// </summary>
+        /// <param name="state">The name of the state to register</param>
+        /// <param name="enterState">The function to be called when the State Manager switches to this state</param>
+        /// <param name="exitState">The function to be called when the State Managet switches leaves this state</param>
         public void registerStateChange(string state, StateChangeInfo.StateFunction enterState, StateChangeInfo.StateFunction exitState)
         {
             if (!state.Equals(States.END_STATE))
@@ -171,6 +250,11 @@ namespace LSRI.AuditoryGames.GameFramework
             }
         }
 
+        /// <summary>
+        /// check whether the given name is a proper state registered with the State Manager
+        /// </summary>
+        /// <param name="state">The name of a state to check</param>
+        /// <returns>TRUE if the state is properly registered, FALSE otherwise</returns>
         public bool isRegisteredState(string state)
         {
 	        return stateChangeMap.ContainsKey(state);

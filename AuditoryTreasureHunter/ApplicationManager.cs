@@ -23,7 +23,7 @@ using System.Collections;
 namespace LSRI.TreasureHunter
 {
     /// <summary>
-    /// 
+    /// Definition of the logical states specific to the TresureHunter
     /// </summary>
     /// @see States
     public class TreasureStates : States
@@ -34,85 +34,41 @@ namespace LSRI.TreasureHunter
         public const string SCORE_STATE = "start_score";    ///< Starting the end-of-level score dialog
     }
 
-    /**
-    public static class GameLevelInfo
-    {
-        public static int _gameMode = 0;
-        public static int _curLevel = 1;
-        public static int _nbTreasureZones = 10;
-        public static int _sizeZones = 0;
-        public static String _curSetup = "";
-
-        public static List<String> setup = new List<String>();
-
-        public static void GenerateStrings(string curr, int gold,int size,List<String> holder)
-        {
-            if (gold == 0)
-            {
-                StringBuilder sb1 = new StringBuilder(curr);
-                for (int i=0;i<size;i++) sb1.Append('0');
-                holder.Add(sb1.ToString());
-                return;
-            }
-            else if (size == 0) return;
-            else if (gold > size) return;
-            else if (curr.Length <= 1)
-            {
-                //String ff = curr + '1';
-                StringBuilder sb1 = new StringBuilder(curr);
-                sb1.Append('1');
-                StringBuilder sb2 = new StringBuilder(curr);
-                sb2.Append('0');
-                GenerateStrings(sb1.ToString(), gold - 1, size - 1, holder);
-                GenerateStrings(sb2.ToString(), gold, size - 1, holder);
-            }
-            else
-            {
-                if ((curr[curr.Length - 1] == '1' && curr[curr.Length - 2] == '1'))
-                {
-                    //String ff = curr + '0';
-                    StringBuilder sb1 = new StringBuilder(curr);
-                    sb1.Append('0');
-                    GenerateStrings(sb1.ToString(), gold, size - 1, holder);
-                }
-                else
-                {
-                    //tring ff = curr + '1';
-                    StringBuilder sb1 = new StringBuilder(curr);
-                    sb1.Append('1');
-                    StringBuilder sb2 = new StringBuilder(curr);
-                    sb2.Append('0');
-                    GenerateStrings(sb1.ToString(), gold - 1, size - 1, holder);
-                    GenerateStrings(sb2.ToString(), gold, size - 1, holder);
-                }
-            }
-
-        }
-    }
-    **/
-    public static class GameLayout
-    {
-        public static int MARGIN_SKY = 200;
-        public static int MARGIN_NUGGETS = 40;
-    }
-
+     /// <summary>
+     /// Main entry point of the TreasureHunter game.
+     /// 
+     /// The TreasureHunter Application Manager is the functional core of the game and is responsible for piecing 
+     /// together the various elements of the game: logical states, game objects, etc.
+     /// </summary>
     public class TreasureApplicationManager : IAppManager
     {
-        protected const string SCORE_ISOSTORE_NAME = "score";
-        protected const double TIME_BETWEEN_ENEMIES = .2;
-        protected const double TIME_BETWEEN_BACKGROUNDS = .3;
+        /// <summary>
+        /// Various constants used in defining the layout of the main game scene 
+        /// </summary>
+        private static class GameLayout
+        {
+            /// <summary>
+            ///  Height (in px) to keep for the sky
+            /// </summary>
+            public static int MARGIN_SKY = 200;      
 
+            /// <summary>
+            /// Margin (in px) for the nuggets
+            /// </summary>
+            public static int MARGIN_NUGGETS = 40;   
+        }
+        
+         /// <summary>
+        /// Indicates whether changes of the audio signals should be made or not.
+        /// 
+        /// @todo change the static flag into a proper state (TreasureHunterPlayer)
+        /// </summary>
         public static Boolean PREVENT_AUDIO_CHANGES = false;
 
-        //protected static TreasureApplicationManager instance = null;
-        protected Random rand = new Random((int)DateTime.Now.Ticks);
-        protected double timeSinceLastEnemy = 0;
-        protected double timeSinceLastBackground = 0;
-        protected int score = 0;
-        
-        //protected TextBlock txtbScore = null;
-
-        public static Boolean PLAY_CUES_ONCE = true;
+        /// <summary>
+        /// Random number generator
+        /// </summary>
+        private Random _rand = new Random((int)DateTime.Now.Ticks);
 
         public Frequency3IGenerator _synthEx = null;
 
@@ -244,8 +200,6 @@ namespace LSRI.TreasureHunter
                     TreasureOptions.Instance.Game.Display = TreasureGame.DisplayMode.Position;
                     changeExposure();
                 }
-                timeSinceLastEnemy -= dt;
-                timeSinceLastBackground -= dt;
                 TreasureOptions.Instance.UpdateDebug();
             }
             else if (StateManager.Instance.CurrentState.Equals(TreasureStates.START_STATE))
@@ -391,7 +345,7 @@ namespace LSRI.TreasureHunter
 
             // Get a random game descriptor
             List<String> setup = TreasureOptions.Instance.Game.GetLevelDescriptors();
-            String settings = setup[rand.Next(0, setup.Count - 1)];
+            String settings = setup[_rand.Next(0, setup.Count - 1)];
             TreasureOptions.Instance.Game._curSetup = settings;
             Debug.WriteLine("game settings : " + settings);
 
@@ -404,7 +358,7 @@ namespace LSRI.TreasureHunter
                 Boolean isGold = (TreasureOptions.Instance.Game._curSetup[i] == '1');
                 //if (!isGold) continue;
 
-                int loc = this.rand.Next(0, TreasureOptions.Instance.Game.Depth);
+                int loc = this._rand.Next(0, TreasureOptions.Instance.Game.Depth);
                 double scoreRatio = (loc + 1.0) / (double)TreasureOptions.Instance.Game.Depth;
 
                 if (isGold)
@@ -646,8 +600,8 @@ namespace LSRI.TreasureHunter
 
                 Point pt = new Point(TreasureOptions.Instance.Game._sizeZones * i, dd);
                 pt.X = pt.X + (TreasureOptions.Instance.Game._sizeZones - ng.Dimensions.X) / 2;
-                //pt.Y = GameLayout.MARGIN_SKY + 25 + this.rand.Next(0, (int)depthsize) * depthsize;
-                //int loc = this.rand.Next(0, TreasureOptions.Instance.Game.Depth);
+                //pt.Y = GameLayout.MARGIN_SKY + 25 + this._rand.Next(0, (int)depthsize) * depthsize;
+                //int loc = this._rand.Next(0, TreasureOptions.Instance.Game.Depth);
 
                 //double scoreRatio = (loc + 1.0) / (double)TreasureOptions.Instance.Game.Depth;
                 int loc = depthArray[i];

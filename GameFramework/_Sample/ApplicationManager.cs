@@ -12,11 +12,19 @@ using System.IO.IsolatedStorage;
 
 namespace LSRI.AuditoryGames.GameFramework
 {
-
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class IAppManager
     {
+        /// <summary>
+        /// Reference to the instance of the Application Manager
+        /// </summary>
         protected static IAppManager _instance = null;
 
+        /// <summary>
+        /// Access to the singleton of the Application Manager
+        /// </summary>
         public static IAppManager Instance
         {
             get
