@@ -61,14 +61,19 @@ namespace LSRI.AuditoryGames.GameFramework.Data
         }
     }
 
-    public class GameLogger
+    public abstract class GameLogger
     {
-        private static readonly string STORAGE_FILENAME = @"logger.xml";
-        private static readonly string STORAGE_CSVFILENAME = @"logger.csv";
+        //private static readonly string STORAGE_FILENAME = @"logger.xml";
+        //private static readonly string STORAGE_CSVFILENAME = @"logger.csv";
 
-        private ObservableCollection<GameEvent> _events;
+        protected static readonly string LOG_GAMESTARTED = "GAME_STARTED";
+        protected static readonly string LOG_GAMEENDED = "GAME_ENDED";
+        protected static readonly string LOG_LEVELSTARTED = "LEVEL_STARTED";
+        protected static readonly string LOG_LEVELENDED = "LEVEL_ENDED";
 
-        public ObservableCollection<GameEvent> Events
+        //private ObservableCollection<GameEvent> _events;
+
+        /*public ObservableCollection<GameEvent> Events
         {
             get
             {
@@ -79,14 +84,19 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 _events = value;
             }
 
-        }
+        }*/
 
         public GameLogger()
         {
-            this._events = new ObservableCollection<GameEvent>();
+            //this._events = new ObservableCollection<GameEvent>();
         }
 
-        /// <summary>
+        public abstract String getStorageName();
+   //     {
+    //        return STORAGE_CSVFILENAME;
+   //     }
+
+        /*/// <summary>
         /// 
         /// </summary>
         /// <returns>A deep copy of the Submarine Game options</returns>
@@ -98,7 +108,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 tt._events.Add(rec.Clone());
             }
             return tt;
-        }
+        }*/
 
         public static bool IncreaseStorageQuota(int nQuota)
         {
@@ -129,15 +139,15 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
          }
 
-        public static void WriteLogFile(string message, string stackTrace)
+        protected void WriteLogFile(DateTime now,string message, string stackTrace)
         {
 
             try
             {
-                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForSite())
                 {
 
-                    using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(STORAGE_CSVFILENAME, FileMode.Append, isoStore))
+                    using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(this.getStorageName(), FileMode.Append, isoStore))
                     {
 
                         using (StreamWriter writer = new StreamWriter(isoStream))
@@ -145,7 +155,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
                             StringBuilder sb = new StringBuilder();
 
-                            sb.Append(DateTime.Now.ToString("MM/dd/yyyy,HH:mm:ss.ffff"));
+                            sb.Append(now.ToString("dd/MM/yyyy,HH:mm:ss.ffff"));
                             sb.Append(",");
                             sb.Append(message);
                             sb.Append(",");
@@ -169,7 +179,27 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
         }
 
-        /// <summary>
+        public abstract void logGameStarted();
+      //  {
+      //      WriteLogFile(DateTime.Now,GameLogger.LOG_GAMESTARTED, "");
+      //  }
+
+        public abstract void logGameEnded();
+     //   {
+     //       WriteLogFile(DateTime.Now,GameLogger.LOG_GAMEENDED, "");
+     //   }
+
+        public abstract void logLevelStarted();
+    //    {
+    //        WriteLogFile(DateTime.Now,GameLogger.LOG_LEVELSTARTED, "");
+    //    }
+
+        public abstract void logLevelEnded(int win);
+     //   {
+    //        WriteLogFile(DateTime.Now,GameLogger.LOG_LEVELENDED, "");
+     //   }
+
+        /*/// <summary>
         /// Save the configuration into isolated storage
         /// </summary>
         public void SaveLog()
@@ -222,6 +252,6 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 Debug.WriteLine("DE-SERIALIZATION ERROR : " + e.Message);
             }
             return umXML;
-        }
+        }*/
     }
 }

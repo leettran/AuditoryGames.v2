@@ -340,6 +340,177 @@ namespace LSRI.Submarine
     /// <summary>
     /// 
     /// </summary>
+    public class SubmarineLogger : GameLogger
+    {
+
+        /// <summary>
+        /// Event name for the Submarine hitting the end of the game scene (whether the gate or the wall)
+        /// </summary>
+        protected static readonly string LOG_HITWALLORGATE = "HIT_WALLGATE";
+
+        private static readonly string SUB_STORAGE_CSVFILENAME = @"logger_sub.csv";
+        private DateTime _startGame = DateTime.Now;
+        private DateTime _startLevel = DateTime.Now;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>The filename of the CSV file where the log will be saved</returns>
+        public override string getStorageName()
+        {
+            return SubmarineLogger.SUB_STORAGE_CSVFILENAME;
+        }
+
+        /// <summary>
+        /// output 
+        /// - $date$,$time$,<b>GAME_STARTED</b>,$duration$,$username$,$training$,$delta$ 
+        /// 
+        /// where
+        /// - <b>$date$</b>: the date (DD/MM/YYYY) of the event
+        /// - <b>$time$</b>: the time (HH:MM:SS.0000) of the event
+        /// - <b>$duration$</b>: always 0
+        /// - <b>$username$</b>: the name of the current user
+        /// - <b>$training$</b>: the training frequency (Hz) of the user
+        /// - <b>$delta$</b>: the current frequency delta (Hz) of the user
+        /// </summary>
+        public override void logGameStarted()
+        {
+            _startGame = DateTime.Now;
+            String[] par = {
+                    0.ToString(),
+                    SubOptions.Instance.User.Name.Replace(",","_"),
+                    SubOptions.Instance.User.FrequencyTraining.ToString(),
+                    SubOptions.Instance.User.FrequencyDelta.ToString()
+                           };
+
+            string strParam = String.Join(",", par);
+            WriteLogFile(_startGame,GameLogger.LOG_GAMESTARTED, strParam);
+        }
+
+        /// <summary>
+        /// output 
+        /// - $date$,$time$,<b>GAME_ENDED</b>,$duration$
+        /// 
+        /// where
+        /// - <b>$date$</b>: the date (DD/MM/YYYY) of the event
+        /// - <b>$time$</b>: the time (HH:MM:SS.0000) of the event
+        /// - <b>$duration$</b>: time elapsed (HH:MM:SS.0000) since the previous GAME_STARTED event
+        /// </summary>
+        public override void logGameEnded()
+        {
+            DateTime _now = DateTime.Now;
+            TimeSpan elapsed = _now - _startGame;
+            String[] par = {
+                    elapsed.ToString()
+                           };
+            WriteLogFile(_now, GameLogger.LOG_GAMEENDED, String.Join(",", par));
+        }
+
+        /// <summary>
+        /// output 
+        /// - $date$,$time$,<b>LEVEL_STARTED</b>,0,$level$,$training$,$delta$
+        /// 
+        /// where
+        /// - <b>$date$</b>: the date (DD/MM/YYYY) of the event
+        /// - <b>$time$</b>: the time (HH:MM:SS.0000) of the event
+        /// - <b>$duration$</b>: always 0
+        /// - <b>$level$</b>: the current level of the game
+        /// - <b>$training$</b>: the training frequency (Hz) of the user
+        /// - <b>$delta$</b>: the current frequency delta (Hz) of the user
+        /// </summary>
+        public override void logLevelStarted()
+        {
+            _startLevel = DateTime.Now;
+            DateTime _now = DateTime.Now;
+            TimeSpan elapsed = _now - _now;
+            String[] par = {
+                    elapsed.ToString(),
+                    SubOptions.Instance.User.CurrentLevel.ToString(),
+                    SubOptions.Instance.User.FrequencyTraining.ToString(),
+                    SubOptions.Instance.User.FrequencyDelta.ToString()
+                          };
+            WriteLogFile(_now, GameLogger.LOG_LEVELSTARTED, String.Join(",", par));
+        }
+
+        /// <summary>
+        /// output 
+        /// - $date$,$time$,<b>LEVEL_ENDED</b>,$duration$,$outcome$,$score$
+        /// 
+        /// where
+        /// - <b>$date$</b>: the date (DD/MM/YYYY) of the event
+        /// - <b>$time$</b>: the time (HH:MM:SS.0000) of the event
+        /// - <b>$duration$</b>: time elapsed (HH:MM:SS.0000) since the previous LEVEL_STARTED event
+        /// - <b>$outcome$</b>: SUCCESS if level completed, FAIL if not, CANCEL if game prematurely stopped
+        /// - <b>$score$</b>: the current score of the user (might have a positive value even if level has failed)
+        /// </summary>
+        public override void logLevelEnded(int win)
+        { 
+            DateTime _now = DateTime.Now;
+            TimeSpan elapsed = _now - _startLevel;
+            String strWin = "";
+            switch (win)
+            {
+                case 0: strWin = "FAIL";
+                    break;
+                case 1: strWin = "SUCCESS";
+                    break;
+                default:
+                    strWin = "CANCEL";
+                    break;
+            }
+            String[] par = {
+                    elapsed.ToString(),
+                    strWin,
+                    SubOptions.Instance.User.CurrentScore.ToString()
+                          };
+            WriteLogFile(_now, GameLogger.LOG_LEVELENDED, String.Join(",", par));
+        }
+
+        /// <summary>
+        /// output 
+        /// - $date$,$time$,<b>WALL_HIT</b>,$duration$,$outcome$,$gate$,$diff$,$comparison$
+        /// 
+        /// where
+        /// - <b>$date$</b>: the date (DD/MM/YYYY) of the event
+        /// - <b>$time$</b>: the time (HH:MM:SS.0000) of the event
+        /// - <b>$duration$</b>: time elapsed (HH:MM:SS.0000) since the previous LEVEL_STARTED event
+        /// - <b>$outcome$</b>: GATE if hit the gate, WALL if hit the wall, CANCEL if game prematurely stopped
+        /// - <b>$gate$</b>: index (0-based) of the current gate
+        /// - <b>$diff$</b>: position difference (in game steps) between submarine and gate (negative means submarine below, positive means above)
+        /// - <b>$comparison$</b>: the current comparison frequency (Hz) of the user
+        /// </summary>
+        public virtual void logGateReach(bool win, double Fq)
+        {
+            DateTime _now = DateTime.Now;
+            TimeSpan elapsed = _now - _startLevel;
+            String strWin = "";
+            switch (win)
+            {
+                case false: strWin = "WALL";
+                    break;
+                case true: strWin = "GATE";
+                    break;
+                default:
+                    strWin = "CANCEL";
+                    break;
+            }
+            int nb = (IAppManager.Instance as SubmarineApplicationManager)._gate.CanvasIndex - (IAppManager.Instance as SubmarineApplicationManager)._submarine.CanvasIndex;
+            String[] par = {
+                    elapsed.ToString(),
+                    strWin,
+                    SubOptions.Instance.User.CurrentGate.ToString(),
+                    nb.ToString(),
+                    Fq.ToString()
+                          };
+            WriteLogFile(_now, SubmarineLogger.LOG_HITWALLORGATE, String.Join(",", par));
+        }
+
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class SubmarineApplicationManager : IAppManager
     {
         public SubmarinePlayer _submarine = null;   ///< Reference to the submarine object
@@ -355,7 +526,7 @@ namespace LSRI.Submarine
         private Brush bg = null;
 
         private ButtonIcon btnOption = null;
-        private GameLogger myLogger = new GameLogger();
+        public SubmarineLogger myLogger = new SubmarineLogger();
 
         /// <summary>
         /// 
@@ -393,6 +564,7 @@ namespace LSRI.Submarine
             _random = new Random();
             
             SubOptions.Instance.RetrieveConfiguration();
+            myLogger.logGameStarted();
         }
 
         /// <summary>
@@ -488,6 +660,7 @@ namespace LSRI.Submarine
             {
                 if (KeyHandler.Instance.isKeyPressed(Key.Q))
                 {
+                    (IAppManager.Instance as SubmarineApplicationManager).myLogger.logLevelEnded(-1);
                     // Quit and restart level
                     SubOptions.Instance.User.CurrentLife = SubOptions.Instance.Game.MaxLives;
                     SubOptions.Instance.User.CurrentGate = 0;
@@ -540,6 +713,7 @@ namespace LSRI.Submarine
 
         public override void shutdown()
         {
+            myLogger.logGameEnded();
             SubOptions.Instance.SaveConfiguration();
         }
 
@@ -660,7 +834,6 @@ namespace LSRI.Submarine
         {
             base.removeAllCanvasChildren();
             _synthEx.Stop();
-            myLogger.SaveLog();
         }
 
         #endregion
@@ -777,6 +950,11 @@ namespace LSRI.Submarine
 
            
             SubOptions.Instance.UpdateDebug();
+
+            if ((SubOptions.Instance.User.CurrentGate == 0) &&
+                (SubOptions.Instance.User.CurrentScore == 0) &&
+                (SubOptions.Instance.User.CurrentLife == SubOptions.Instance.Game.MaxLives))
+                    (IAppManager.Instance as SubmarineApplicationManager).myLogger.logLevelStarted();
 
             this._synthEx.Start();
         }

@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using LSRI.AuditoryGames.GameFramework;
 
 namespace LSRI.Submarine
 {
@@ -91,6 +92,9 @@ namespace LSRI.Submarine
                     }
                 }
             }
+
+            /// LOG EVENT
+            (IAppManager.Instance as SubmarineApplicationManager).myLogger.logLevelEnded(this.Win ? 1 : 0);
 
             if (this.Win)
             {

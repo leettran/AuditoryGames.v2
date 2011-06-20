@@ -272,6 +272,10 @@ namespace LSRI.Submarine
             if (other is WallObject)
             {
                 (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine collides with WALL");
+                /// LOG EVENT
+                (IAppManager.Instance as SubmarineApplicationManager).myLogger.logGateReach(false, SubOptions.Instance.User.FrequencyComparison);
+
+
                 AnimatedGameObject.UnusedAnimatedGameObject.startupAnimatedGameObject(
                 new Point(55, 55),
                 new AnimationData(
@@ -369,6 +373,8 @@ namespace LSRI.Submarine
             {
                 // Submarine hits the gate
                 (IAppManager.Instance as SubmarineApplicationManager)._gate.Visibility = Visibility.Visible;
+                /// LOG EVENT
+                (IAppManager.Instance as SubmarineApplicationManager).myLogger.logGateReach(true, SubOptions.Instance.User.FrequencyComparison);
 
 
                 double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
