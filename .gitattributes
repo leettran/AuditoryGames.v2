@@ -187,6 +187,7 @@ GameFramework/Core/ResourceHelper.cs -text
 GameFramework/Core/ResourcePool.cs -text
 GameFramework/Core/StateManager.cs -text
 GameFramework/Core/ZLayers.cs -text
+GameFramework/Media/LSRI-Logo.png -text
 GameFramework/Media/background-title.png -text
 GameFramework/Media/board_left.png -text
 GameFramework/Media/board_middle.png -text
@@ -198,6 +199,8 @@ GameFramework/Media/fullscreen.png -text
 GameFramework/Media/play_button.png -text
 GameFramework/Media/refresh_button.png -text
 GameFramework/Properties/AssemblyInfo.cs -text
+GameFramework/UI/About.xaml -text
+GameFramework/UI/About.xaml.cs -text
 GameFramework/UI/App.xaml -text
 GameFramework/UI/App.xaml.cs -text
 GameFramework/UI/ButtonIcon.xaml -text

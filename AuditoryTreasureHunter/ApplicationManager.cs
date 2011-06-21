@@ -560,7 +560,8 @@ namespace LSRI.TreasureHunter
             while (GameObject.gameObjects.Count != 0)
                 GameObject.gameObjects[0].shutdown();
 
-  
+            GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
+
             removeAllCanvasChildren();
 
             TreasureOptions.Instance.Game.Detection = TreasureGame.DetectionMode.Value;
@@ -658,6 +659,42 @@ namespace LSRI.TreasureHunter
             qp.SetValue(Canvas.LeftProperty, 50.0);
             qp.SetValue(Canvas.TopProperty, 250.0);
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(qp);*/
+
+            Button pAboutBtn = new Button();
+            pAboutBtn.Content = @"About ...";
+
+            pAboutBtn.Width = 75;
+            pAboutBtn.Height = 40;
+            pAboutBtn.SetValue(Canvas.LeftProperty, 800.0-75.0-25.0);
+            pAboutBtn.SetValue(Canvas.TopProperty, 540.0-40.0-25.0);
+            pAboutBtn.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                /*AboutWindow pAbout = new AboutWindow();
+                pAbout.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pAbout.Width) / 2);
+                pAbout.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pAbout.Height) / 2);
+                pAbout.Closed += delegate(object s1, EventArgs e1)
+                    {
+                    };
+                pAbout.Show();*/
+
+                AboutPanel pAbout2 = new AboutPanel();
+                Rectangle pMask = new Rectangle();
+                pMask.Height = pg.LayoutRoot.ActualHeight;
+                pMask.Width = pg.LayoutRoot.ActualWidth;
+                pMask.SetValue(Canvas.LeftProperty, 0.0);
+                pMask.SetValue(Canvas.TopProperty, 0.0);
+                pMask.Fill = new SolidColorBrush(Color.FromArgb((byte)(0.75*255.0),0,0,0));
+                pAbout2.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pAbout2.Width) / 2);
+                pAbout2.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pAbout2.Height) / 2);
+                (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pMask);
+                (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pAbout2);
+                pAbout2.OnCompleteTask += delegate()
+                {
+                    (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Remove(pMask);
+                    (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Remove(pAbout2);
+                };
+            };
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pAboutBtn);
         }
 
         public void endMainMenu()
