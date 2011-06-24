@@ -347,6 +347,8 @@ namespace LSRI.Submarine
         /// Event name for the Submarine hitting the end of the game scene (whether the gate or the wall)
         /// </summary>
         protected static readonly string LOG_HITWALLORGATE = "HIT_WALLGATE";
+        protected static readonly string LOG_USERACTION_ACCEL = "USER_ACCELERATION";
+        protected static readonly string LOG_USERACTION_BOOSTER = "USER_BOOSTER";
 
         private static readonly string SUB_STORAGE_CSVFILENAME = @"logger_sub.csv";
         private DateTime _startGame = DateTime.Now;
@@ -505,6 +507,35 @@ namespace LSRI.Submarine
             WriteLogFile(_now, SubmarineLogger.LOG_HITWALLORGATE, String.Join(",", par));
         }
 
+        /// <summary>
+        /// output 
+        /// - $date$,$time$,<b>USER_ACCELERATION</b>,$duration$
+        /// - $date$,$time$,<b>USER_BOOSTER</b>,$duration$
+        /// 
+        /// where
+        /// - <b>$date$</b>: the date (DD/MM/YYYY) of the event
+        /// - <b>$time$</b>: the time (HH:MM:SS.0000) of the event
+        /// - <b>$duration$</b>: time elapsed (HH:MM:SS.0000) since the previous LEVEL_STARTED event
+        /// </summary>
+        public virtual void logAcceleration(Key key)
+        {
+            DateTime _now = DateTime.Now;
+            TimeSpan elapsed = _now - _startLevel;
+            String strWin = "";
+            switch (key)
+            {
+                case Key.Space:
+                    strWin = SubmarineLogger.LOG_USERACTION_BOOSTER;
+                    break;
+                default:
+                    strWin = SubmarineLogger.LOG_USERACTION_ACCEL;
+                    break;
+            }
+            String[] par = {
+                    elapsed.ToString()
+            };
+            WriteLogFile(_now, strWin, String.Join(",", par));
+        }
 
     }
 

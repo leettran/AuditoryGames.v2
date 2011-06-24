@@ -106,6 +106,8 @@ namespace LSRI.Submarine
       
             if (KeyHandler.Instance.isKeyPressed(Key.Right))
             {
+                (IAppManager.Instance as SubmarineApplicationManager).myLogger.logAcceleration(Key.Right);
+
                 _subAccel += SubOptions.Instance.Game.SubmarineAcceleration;
                 KeyHandler.Instance.clearKeyPresses();
                 //Debug.WriteLine("Speed : {0}", (_subSpeed + _subAccel));
@@ -120,6 +122,7 @@ namespace LSRI.Submarine
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Space))
             {
+                (IAppManager.Instance as SubmarineApplicationManager).myLogger.logAcceleration(Key.Space);
                 _subAccel = 500;
                 KeyHandler.Instance.clearKeyPresses();
                (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine in booster mode");
