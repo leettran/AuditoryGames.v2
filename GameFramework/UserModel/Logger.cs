@@ -146,6 +146,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             {
                 using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForSite())
                 {
+                    bool isLogExist = isoStore.FileExists(this.getStorageName());
 
                     using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(this.getStorageName(), FileMode.Append, isoStore))
                     {
@@ -154,6 +155,11 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                         {
 
                             StringBuilder sb = new StringBuilder();
+
+                            if (isLogExist == false)
+                            {
+                                sb.AppendLine("Date,Time,Event,Duration,Param1,Param2,Param3,Param4, Param5,Param6");
+                            }
 
                             sb.Append(now.ToString("dd/MM/yyyy,HH:mm:ss.ffff"));
                             sb.Append(",");

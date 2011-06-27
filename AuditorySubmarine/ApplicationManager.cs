@@ -344,15 +344,28 @@ namespace LSRI.Submarine
     {
 
         /// <summary>
-        /// Event name for the Submarine hitting the end of the game scene (whether the gate or the wall)
+        /// Event triggered when the user starts a scene (i.e. a run to the next gate) in the game
+        /// </summary>
+        protected static readonly string LOG_STARTSCENE = "START_SCENE";
+        /// <summary>
+        /// Event triggered when the Submarine hits the end of the game scene (whether the gate or the wall)
         /// </summary>
         protected static readonly string LOG_HITWALLORGATE = "HIT_WALLGATE";
+        /// <summary>
+        /// Event triggered when the user uses the acceleration key
+        /// </summary>
         protected static readonly string LOG_USERACTION_ACCEL = "USER_ACCELERATION";
+        /// <summary>
+        /// Event triggered when the user uses the booster key
+        /// </summary>
         protected static readonly string LOG_USERACTION_BOOSTER = "USER_BOOSTER";
 
         private static readonly string SUB_STORAGE_CSVFILENAME = @"logger_sub.csv";
+
+
         private DateTime _startGame = DateTime.Now;
         private DateTime _startLevel = DateTime.Now;
+        private DateTime _startScene = DateTime.Now;
 
         /// <summary>
         /// 
@@ -467,6 +480,32 @@ namespace LSRI.Submarine
                           };
             WriteLogFile(_now, GameLogger.LOG_LEVELENDED, String.Join(",", par));
         }
+
+        /// <summary>
+        /// output 
+        /// - $date$,$time$,<b>LEVEL_STARTED</b>,0,$level$,$training$,$delta$
+        /// 
+        /// where
+        /// - <b>$date$</b>: the date (DD/MM/YYYY) of the event
+        /// - <b>$time$</b>: the time (HH:MM:SS.0000) of the event
+        /// - <b>$duration$</b>: always 0
+        /// - <b>$level$</b>: the current level of the game
+        /// - <b>$training$</b>: the training frequency (Hz) of the user
+        /// - <b>$delta$</b>: the current frequency delta (Hz) of the user
+        /// </summary>
+        public virtual void logGateStart()
+        {
+            _startScene = DateTime.Now;
+            DateTime _now = DateTime.Now;
+            TimeSpan elapsed = _now - _now;
+            String[] par = {
+                    elapsed.ToString(),
+                    SubOptions.Instance.User.CurrentLevel.ToString(),
+                    SubOptions.Instance.User.CurrentGate.ToString()
+                          };
+            WriteLogFile(_now, SubmarineLogger.LOG_STARTSCENE, String.Join(",", par));
+        }
+
 
         /// <summary>
         /// output 
@@ -926,8 +965,8 @@ namespace LSRI.Submarine
             int Gatepos = _random.Next(bias+gateExtent, nbUnitsInScreen - bias - gateExtent);
             int Subpos = _random.Next(bias+gateExtent, nbUnitsInScreen - bias - gateExtent);
 
-            //Gatepos = nbUnitsInScreen - bias - gateExtent;
-            //Subpos = nbUnitsInScreen - bias - gateExtent;
+            //Gatepos = nbUnitsInScreen - MOVE_RESTRICTION - gateExtent;
+            //Subpos = nbUnitsInScreen - MOVE_RESTRICTION - gateExtent;
 
             double GateLoc = screenMargin + (Gatepos - gateExtent) * stepSize;
             double SubLoc = screenMargin + Subpos * stepSize;
@@ -986,6 +1025,7 @@ namespace LSRI.Submarine
                 (SubOptions.Instance.User.CurrentScore == 0) &&
                 (SubOptions.Instance.User.CurrentLife == SubOptions.Instance.Game.MaxLives))
                     (IAppManager.Instance as SubmarineApplicationManager).myLogger.logLevelStarted();
+            (IAppManager.Instance as SubmarineApplicationManager).myLogger.logGateStart();
 
             this._synthEx.Start();
         }

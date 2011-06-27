@@ -20,6 +20,7 @@ namespace LSRI.Submarine
         /// </summary>
         protected double _subSpeed = 50;
         protected double _subAccel = 0;
+        protected bool _isBooster = false;
 
         private double _accTime = 0;
 
@@ -70,6 +71,7 @@ namespace LSRI.Submarine
             this._collisionType = CollisionTypeIdentifiers.TIP;
             this.Speed = SubOptions.Instance.Game.SubmarineSpeed;
             this.Acceleration = 0;
+            this._isBooster = false;
 
             _accTime = 0;
 
@@ -91,7 +93,7 @@ namespace LSRI.Submarine
             base.enterFrame(dt);
             _accTime += dt;
 
-            bool hasMoved = false;
+            bool _hasMoved = false;
 
             Canvas zone = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot;
             Point dim = new Point(zone.ActualWidth, zone.ActualHeight);
@@ -102,108 +104,53 @@ namespace LSRI.Submarine
             int gateExtent = SubOptions.Instance.Game.GateSize;
             int gateSize = 1 + 2 * SubOptions.Instance.Game.GateSize;
 
-            int bias = 2;
-      
             if (KeyHandler.Instance.isKeyPressed(Key.Right))
             {
-                (IAppManager.Instance as SubmarineApplicationManager).myLogger.logAcceleration(Key.Right);
-
+                /// RIGHT: Accelerate the submarine slightly
                 _subAccel += SubOptions.Instance.Game.SubmarineAcceleration;
                 KeyHandler.Instance.clearKeyPresses();
+                (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine accelerated");
                 //Debug.WriteLine("Speed : {0}", (_subSpeed + _subAccel));
                 //sp1.Step("Submarine accelerated");
-                (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine accelerated");
+                //(IAppManager.Instance as SubmarineApplicationManager).myLogger.logAcceleration(Key.Right);
 
-            }
-            else if (KeyHandler.Instance.isKeyPressed(Key.S))
-            {
-                KeyHandler.Instance.clearKeyPresses();
-                (IAppManager.Instance as SubmarineApplicationManager)._synthEx.SetSignalDelay(4);
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Space))
             {
-                (IAppManager.Instance as SubmarineApplicationManager).myLogger.logAcceleration(Key.Space);
-                _subAccel = 500;
-                KeyHandler.Instance.clearKeyPresses();
-               (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine in booster mode");
-                
+                /// SPACE: Booster started (very fast acceleration)
+                if (_isBooster == false)
+                {
+                    _isBooster = true;
+                    (IAppManager.Instance as SubmarineApplicationManager).myLogger.logAcceleration(Key.Space);
+                    _subAccel = 500;
+                    KeyHandler.Instance.clearKeyPresses();
+                    (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine in booster mode");
+                }
 
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Up))
             {
+                /// UP: move the submarine upward
                 KeyHandler.Instance.clearKeyPresses();
-                hasMoved = true;
+                _hasMoved = true;
                 CanvasIndex--;
-               // Position = new Point(Position.X, Position.Y - SubOptions.Instance.Game.UnitSize);
-              //  this.CanvasIndex++;
-
-          /*      double fqTraining = SubOptions.Instance.User.FrequencyTraining;
-                double fqDiff = SubOptions.Instance.User.FrequencyDelta;
-                double dfpix = fqDiff / SubOptions.Instance.Game.GateSize;
-
-                double tg = fqTraining - dfpix * CanvasIndex;//(IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();
-                //tg = tg - dfpix;
-
-                if (tg >= SubOptions.Instance.Auditory.MaxFrequency) tg = SubOptions.Instance.Auditory.MaxFrequency;
-                if (tg <= SubOptions.Instance.Auditory.MinFrequency) tg = SubOptions.Instance.Auditory.MinFrequency;
-
-                (IAppManager.Instance as SubmarineApplicationManager)._synthEx.SetTargetFrequency(tg,false);
-
-                //SubOptions.Instance.User.FrequencyComparison -= dfpix;
-                //SubOptions.Instance.UpdateDebug(); 
-                //(IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(-dfpix);
-
-                //Note ss = (IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Notes[2];
-               // ss.Frequency -= 50;
-                //Note ss2 = _synthEx.Arpeggiator.Notes[1];
-                //float gg = ss2.Frequency;
-                //Debug.WriteLine("Frequency : {0}", ss.Frequency);
-                KeyHandler.Instance.clearKeyPresses();
-                //Debug.WriteLine("position : {0}", Position.Y);
-                (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine moved up");
-               
-           * */
             }
             else if (KeyHandler.Instance.isKeyPressed(Key.Down))
             {
+                /// DOWN: move the submarine downward
                 KeyHandler.Instance.clearKeyPresses();
-                hasMoved = true;
+                _hasMoved = true;
                 CanvasIndex++;
-         /*      // Position = new Point(Position.X, Position.Y + SubOptions.Instance.Game.UnitSize);
-             //   //this.CanvasIndex--;
-                
-                double fqTraining = SubOptions.Instance.User.FrequencyTraining;
-                double fqDiff = SubOptions.Instance.User.FrequencyDelta;
-                double dfpix = fqDiff / SubOptions.Instance.Game.GateSize;
-
-                double tg = fqTraining - dfpix * CanvasIndex;//(IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTargetFrequency();
-                //tg = tg + dfpix;
-
-                if (tg >= SubOptions.Instance.Auditory.MaxFrequency) tg = SubOptions.Instance.Auditory.MaxFrequency;
-                if (tg <= SubOptions.Instance.Auditory.MinFrequency) tg = SubOptions.Instance.Auditory.MinFrequency;
-
-                (IAppManager.Instance as SubmarineApplicationManager)._synthEx.SetTargetFrequency(tg, false);
-
-                Debug.WriteLine("XXXXXXXXXXXXXXXX position : {0}", CanvasIndex);
-
-                
-                ///SubOptions.Instance.UpdateDebug();
-                //(IAppManager.Instance as SubmarineApplicationManager)._synthEx.ChangeTargetFrequency(dfpix);
-                // Note ss = (IApplicationManager.Instance as SubApplicationManager)._synthEx.Arpeggiator.Notes[2];
-               // ss.Frequency += 50;
-                //Note ss2 = _synthEx.Arpeggiator.Notes[1];
-                //float gg = ss2.Frequency;
-                //Debug.WriteLine("Frequency : {0}", ss.Frequency);
-                
-                //Debug.WriteLine("position : {0}", Position.Y);
-                (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine moved down");*/
             }
 
-            if (hasMoved)
+            if (_hasMoved)
             {
-
-                if (CanvasIndex <= bias) CanvasIndex = bias;
-                if (CanvasIndex > nbUnitsInScreen - bias) CanvasIndex = nbUnitsInScreen - bias;
+                /// If the submarine has been moved laterally:
+                /// - update its position accordingly 
+                /// - regenerate the audio stimuli
+                const int MOVE_RESTRICTION = 2;
+                if (CanvasIndex <= MOVE_RESTRICTION) CanvasIndex = MOVE_RESTRICTION;
+                if (CanvasIndex > nbUnitsInScreen - MOVE_RESTRICTION) CanvasIndex = nbUnitsInScreen - MOVE_RESTRICTION;
                 Debug.WriteLine("XXXXXXXXXXXXXXXX position : {0}", CanvasIndex);
                 double SubLoc = screenMargin + CanvasIndex * stepSize;
                 SubLoc = SubLoc - Dimensions.Y / 2 + stepSize / 2;
@@ -233,10 +180,6 @@ namespace LSRI.Submarine
                 Position = new Point((AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualWidth - dimensions.X, Position.Y);
             else if (Position.X < 0)
                 Position = new Point(0, Position.Y);
-           /* if (Position.Y > (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - dimensions.Y)
-                Position = new Point(Position.X, (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.ActualHeight - dimensions.Y);
-            else if (Position.Y < 0)
-                Position = new Point(Position.X, 0);*/
         }
 
         /// <summary>
@@ -275,7 +218,7 @@ namespace LSRI.Submarine
             if (other is WallObject)
             {
                 (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine collides with WALL");
-                /// LOG EVENT
+                // LOG EVENT
                 (IAppManager.Instance as SubmarineApplicationManager).myLogger.logGateReach(false, SubOptions.Instance.User.FrequencyComparison);
 
 
@@ -376,7 +319,7 @@ namespace LSRI.Submarine
             {
                 // Submarine hits the gate
                 (IAppManager.Instance as SubmarineApplicationManager)._gate.Visibility = Visibility.Visible;
-                /// LOG EVENT
+                // LOG EVENT
                 (IAppManager.Instance as SubmarineApplicationManager).myLogger.logGateReach(true, SubOptions.Instance.User.FrequencyComparison);
 
 
