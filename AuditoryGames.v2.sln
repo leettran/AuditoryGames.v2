@@ -26,6 +26,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditoryBubbleBlast", "Audi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "@AuditoryGames.Web", "AuditoryGames.Web\@AuditoryGames.Web.csproj", "{26F7974A-119D-4CA3-BE37-88AAA4D9E16E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "extools", "extools", "{2684FB26-0CC7-4013-9C7F-DD21834F2B66}"
+	ProjectSection(SolutionItems) = preProject
+		extools\dataview.htm = extools\dataview.htm
+		extools\logger_sub.xls = extools\logger_sub.xls
+		extools\reflector.json = extools\reflector.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -75,5 +82,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2684FB26-0CC7-4013-9C7F-DD21834F2B66} = {55EB2057-ACCD-4CD1-AB2F-23F08697E0FB}
 	EndGlobalSection
 EndGlobal

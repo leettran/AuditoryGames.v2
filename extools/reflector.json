@@ -1,0 +1,642 @@
+{
+	"items" :      [
+		{
+			"label" :    "2011-06-27T13:37:44.3",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:12.8",
+			"start" :    "2011-06-27T13:37:44.3"
+		},
+		{
+			"label" :    "2011-06-27T13:38:02.5",
+			"type" :     "START_SCENE",
+			"Param2" :   "2",
+			"Param1" :   "2",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:02.5"
+		},
+		{
+			"label" :    "2011-06-27T13:38:21.3",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:05.4",
+			"start" :    "2011-06-27T13:38:21.3"
+		},
+		{
+			"label" :    "2011-06-27T13:38:44.9",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:15.1",
+			"start" :    "2011-06-27T13:38:44.9"
+		},
+		{
+			"label" :    "2011-06-27T13:38:21.1",
+			"type" :     "START_SCENE",
+			"Param2" :   "1",
+			"Param1" :   "3",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:21.1"
+		},
+		{
+			"label" :    "2011-06-27T13:37:38.1",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:06.6",
+			"start" :    "2011-06-27T13:37:38.1"
+		},
+		{
+			"label" :    "2011-06-27T13:37:41.1",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:09.6",
+			"start" :    "2011-06-27T13:37:41.1"
+		},
+		{
+			"label" :    "2011-06-27T13:37:42.6",
+			"type" :     "START_SCENE",
+			"Param2" :   "3",
+			"Param1" :   "1",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:37:42.6"
+		},
+		{
+			"label" :    "2011-06-27T13:38:02.0",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "3062.5",
+			"Param3" :   "-5",
+			"Param2" :   "2",
+			"Param1" :   "WALL",
+			"Duration" : "00:11.1",
+			"start" :    "2011-06-27T13:38:02.0"
+		},
+		{
+			"label" :    "2011-06-27T13:38:35.0",
+			"type" :     "START_SCENE",
+			"Param2" :   "2",
+			"Param1" :   "3",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:35.0"
+		},
+		{
+			"label" :    "2011-06-27T13:37:42.1",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2625",
+			"Param3" :   "-1",
+			"Param2" :   "2",
+			"Param1" :   "GATE",
+			"Duration" : "00:10.6",
+			"start" :    "2011-06-27T13:37:42.1"
+		},
+		{
+			"label" :    "2011-06-27T13:37:52.5",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:01.6",
+			"start" :    "2011-06-27T13:37:52.5"
+		},
+		{
+			"label" :    "2011-06-27T13:38:05.7",
+			"type" :     "START_SCENE",
+			"Param2" :   "2",
+			"Param1" :   "2",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:05.7"
+		},
+		{
+			"label" :    "2011-06-27T13:37:35.1",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:03.6",
+			"start" :    "2011-06-27T13:37:35.1"
+		},
+		{
+			"label" :    "2011-06-27T13:38:33.4",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:03.6",
+			"start" :    "2011-06-27T13:38:33.4"
+		},
+		{
+			"label" :    "2011-06-27T13:38:04.0",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:13.2",
+			"start" :    "2011-06-27T13:38:04.0"
+		},
+		{
+			"label" :    "2011-06-27T13:38:36.5",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:06.7",
+			"start" :    "2011-06-27T13:38:36.5"
+		},
+		{
+			"label" :    "2011-06-27T13:38:05.1",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2050",
+			"Param3" :   "4",
+			"Param2" :   "2",
+			"Param1" :   "WALL",
+			"Duration" : "00:14.3",
+			"start" :    "2011-06-27T13:38:05.1"
+		},
+		{
+			"label" :    "2011-06-27T13:38:23.3",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:07.4",
+			"start" :    "2011-06-27T13:38:23.3"
+		},
+		{
+			"label" :    "2011-06-27T13:38:23.1",
+			"type" :     "START_SCENE",
+			"Param2" :   "1",
+			"Param1" :   "3",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:23.1"
+		},
+		{
+			"label" :    "2011-06-27T13:38:40.4",
+			"type" :     "START_SCENE",
+			"Param2" :   "3",
+			"Param1" :   "3",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:40.4"
+		},
+		{
+			"label" :    "2011-06-27T13:38:22.5",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "3107.5",
+			"Param3" :   "-6",
+			"Param2" :   "1",
+			"Param1" :   "WALL",
+			"Duration" : "00:06.6",
+			"start" :    "2011-06-27T13:38:22.5"
+		},
+		{
+			"label" :    "2011-06-27T13:38:41.9",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:12.1",
+			"start" :    "2011-06-27T13:38:41.9"
+		},
+		{
+			"label" :    "2011-06-27T13:37:39.2",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2625",
+			"Param3" :   "-1",
+			"Param2" :   "1",
+			"Param1" :   "GATE",
+			"Duration" : "00:07.7",
+			"start" :    "2011-06-27T13:37:39.2"
+		},
+		{
+			"label" :    "2011-06-27T13:37:53.6",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2387.5",
+			"Param3" :   "1",
+			"Param2" :   "0",
+			"Param1" :   "GATE",
+			"Duration" : "00:02.7",
+			"start" :    "2011-06-27T13:37:53.6"
+		},
+		{
+			"label" :    "2011-06-27T13:38:34.5",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2601.25",
+			"Param3" :   "0",
+			"Param2" :   "1",
+			"Param1" :   "GATE",
+			"Duration" : "00:04.7",
+			"start" :    "2011-06-27T13:38:34.5"
+		},
+		{
+			"label" :    "2011-06-27T13:38:29.8",
+			"type" :     "START_SCENE",
+			"Param2" :   "0",
+			"Param1" :   "3",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:29.8"
+		},
+		{
+			"label" :    "2011-06-27T13:37:31.5",
+			"type" :     "START_SCENE",
+			"Param2" :   "0",
+			"Param1" :   "1",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:37:31.5"
+		},
+		{
+			"label" :    "2011-06-27T13:38:26.5",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "1588.75",
+			"Param3" :   "9",
+			"Param2" :   "1",
+			"Param1" :   "WALL",
+			"Duration" : "00:10.6",
+			"start" :    "2011-06-27T13:38:26.5"
+		},
+		{
+			"label" :    "2011-06-27T13:38:18.9",
+			"type" :     "START_SCENE",
+			"Param2" :   "1",
+			"Param1" :   "3",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:18.9"
+		},
+		{
+			"label" :    "2011-06-27T13:37:39.8",
+			"type" :     "START_SCENE",
+			"Param2" :   "2",
+			"Param1" :   "1",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:37:39.8"
+		},
+		{
+			"label" :    "2011-06-27T13:38:38.6",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:08.8",
+			"start" :    "2011-06-27T13:38:38.6"
+		},
+		{
+			"label" :    "2011-06-27T13:38:24.5",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "3512.5",
+			"Param3" :   "-10",
+			"Param2" :   "1",
+			"Param1" :   "WALL",
+			"Duration" : "00:08.6",
+			"start" :    "2011-06-27T13:38:24.5"
+		},
+		{
+			"label" :    "2011-06-27T13:38:43.5",
+			"type" :     "START_SCENE",
+			"Param2" :   "4",
+			"Param1" :   "3",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:43.5"
+		},
+		{
+			"label" :    "2011-06-27T13:38:37.7",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2297.5",
+			"Param3" :   "1",
+			"Param2" :   "2",
+			"Param1" :   "GATE",
+			"Duration" : "00:07.9",
+			"start" :    "2011-06-27T13:38:37.7"
+		},
+		{
+			"label" :    "2011-06-27T13:38:38.2",
+			"type" :     "START_SCENE",
+			"Param2" :   "3",
+			"Param1" :   "3",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:38.2"
+		},
+		{
+			"label" :    "2011-06-27T13:38:43.0",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2500",
+			"Param3" :   "0",
+			"Param2" :   "3",
+			"Param1" :   "GATE",
+			"Duration" : "00:13.2",
+			"start" :    "2011-06-27T13:38:43.0"
+		},
+		{
+			"label" :    "2011-06-27T13:37:47.6",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:16.1",
+			"start" :    "2011-06-27T13:37:47.6"
+		},
+		{
+			"Duration" : "00:22.7",
+			"start" :    "2011-06-27T13:37:50.8",
+			"Param4" :   "776",
+			"end" :      "2011-06-27T13:38:13.6",
+			"Param3" :   "225",
+			"Param2" :   "2500",
+			"Param1" :   "SUCCESS",
+			"type" :     "LEVEL_STARTED",
+			"label" :    "item3"
+		},
+		{
+			"Duration" : "00:11.1",
+			"start" :    "2011-06-27T13:38:15.9",
+			"Param4" :   "149",
+			"end" :      "2011-06-27T13:38:27.0",
+			"Param3" :   "202.5",
+			"Param2" :   "2500",
+			"Param1" :   "FAIL",
+			"type" :     "LEVEL_STARTED",
+			"label" :    "item4"
+		},
+		{
+			"label" :    "2011-06-27T13:38:20.5",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "500",
+			"Param3" :   "25",
+			"Param2" :   "1",
+			"Param1" :   "WALL",
+			"Duration" : "00:04.6",
+			"start" :    "2011-06-27T13:38:20.5"
+		},
+		{
+			"Duration" : "00:16.2",
+			"start" :    "2011-06-27T13:38:29.8",
+			"Param4" :   "846",
+			"end" :      "2011-06-27T13:38:46.1",
+			"Param3" :   "202.5",
+			"Param2" :   "2500",
+			"Param1" :   "SUCCESS",
+			"type" :     "LEVEL_STARTED",
+			"label" :    "item5"
+		},
+		{
+			"label" :    "2011-06-27T13:38:25.1",
+			"type" :     "START_SCENE",
+			"Param2" :   "1",
+			"Param1" :   "3",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:25.1"
+		},
+		{
+			"label" :    "2011-06-27T13:37:45.4",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2250",
+			"Param3" :   "0",
+			"Param2" :   "3",
+			"Param1" :   "GATE",
+			"Duration" : "00:13.9",
+			"start" :    "2011-06-27T13:37:45.4"
+		},
+		{
+			"label" :    "2011-06-27T13:37:45.9",
+			"type" :     "START_SCENE",
+			"Param2" :   "4",
+			"Param1" :   "1",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:37:45.9"
+		},
+		{
+			"end" :      "2011-06-27T13:38:52.3",
+			"label" :    "item1",
+			"type" :     "GAME_STARTED",
+			"Param3" :   "0",
+			"Param2" :   "2500",
+			"Param1" :   "Current User",
+			"Duration" : "01:22.9",
+			"start" :    "2011-06-27T13:37:29.4"
+		},
+		{
+			"Duration" : "00:17.2",
+			"start" :    "2011-06-27T13:37:31.5",
+			"Param4" :   "790",
+			"end" :      "2011-06-27T13:37:48.7",
+			"Param3" :   "250",
+			"Param2" :   "2500",
+			"Param1" :   "SUCCESS",
+			"type" :     "LEVEL_STARTED",
+			"label" :    "item2"
+		},
+		{
+			"label" :    "2011-06-27T13:38:15.9",
+			"type" :     "START_SCENE",
+			"Param2" :   "0",
+			"Param1" :   "3",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:15.9"
+		},
+		{
+			"label" :    "2011-06-27T13:38:25.3",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:09.3",
+			"start" :    "2011-06-27T13:38:25.3"
+		},
+		{
+			"label" :    "2011-06-27T13:37:50.8",
+			"type" :     "START_SCENE",
+			"Param2" :   "0",
+			"Param1" :   "2",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:37:50.8"
+		},
+		{
+			"label" :    "2011-06-27T13:38:17.2",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:01.3",
+			"start" :    "2011-06-27T13:38:17.2"
+		},
+		{
+			"label" :    "2011-06-27T13:38:11.6",
+			"type" :     "START_SCENE",
+			"Param2" :   "4",
+			"Param1" :   "2",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:11.6"
+		},
+		{
+			"label" :    "2011-06-27T13:38:12.4",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:21.6",
+			"start" :    "2011-06-27T13:38:12.4"
+		},
+		{
+			"label" :    "2011-06-27T13:38:13.6",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2612.5",
+			"Param3" :   "-1",
+			"Param2" :   "4",
+			"Param1" :   "GATE",
+			"Duration" : "00:22.7",
+			"start" :    "2011-06-27T13:38:13.6"
+		},
+		{
+			"label" :    "2011-06-27T13:38:39.9",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "1993.75",
+			"Param3" :   "5",
+			"Param2" :   "3",
+			"Param1" :   "WALL",
+			"Duration" : "00:10.0",
+			"start" :    "2011-06-27T13:38:39.9"
+		},
+		{
+			"label" :    "2011-06-27T13:38:11.1",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2387.5",
+			"Param3" :   "1",
+			"Param2" :   "3",
+			"Param1" :   "GATE",
+			"Duration" : "00:20.2",
+			"start" :    "2011-06-27T13:38:11.1"
+		},
+		{
+			"label" :    "2011-06-27T13:38:08.3",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2950",
+			"Param3" :   "-1",
+			"Param2" :   "2",
+			"Param1" :   "GATE",
+			"Duration" : "00:17.5",
+			"start" :    "2011-06-27T13:38:08.3"
+		},
+		{
+			"label" :    "2011-06-27T13:38:07.2",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:16.4",
+			"start" :    "2011-06-27T13:38:07.2"
+		},
+		{
+			"label" :    "2011-06-27T13:37:58.2",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:07.4",
+			"start" :    "2011-06-27T13:37:58.2"
+		},
+		{
+			"label" :    "2011-06-27T13:38:31.8",
+			"type" :     "START_SCENE",
+			"Param2" :   "1",
+			"Param1" :   "3",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:31.8"
+		},
+		{
+			"label" :    "2011-06-27T13:37:48.7",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2500",
+			"Param3" :   "0",
+			"Param2" :   "4",
+			"Param1" :   "GATE",
+			"Duration" : "00:17.2",
+			"start" :    "2011-06-27T13:37:48.7"
+		},
+		{
+			"label" :    "2011-06-27T13:38:19.3",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:03.4",
+			"start" :    "2011-06-27T13:38:19.3"
+		},
+		{
+			"label" :    "2011-06-27T13:37:59.4",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "1150",
+			"Param3" :   "12",
+			"Param2" :   "2",
+			"Param1" :   "WALL",
+			"Duration" : "00:08.6",
+			"start" :    "2011-06-27T13:37:59.4"
+		},
+		{
+			"label" :    "2011-06-27T13:38:30.0",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:00.2",
+			"start" :    "2011-06-27T13:38:30.0"
+		},
+		{
+			"label" :    "2011-06-27T13:38:31.2",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2803.75",
+			"Param3" :   "-1",
+			"Param2" :   "0",
+			"Param1" :   "GATE",
+			"Duration" : "00:01.4",
+			"start" :    "2011-06-27T13:38:31.2"
+		},
+		{
+			"label" :    "2011-06-27T13:38:18.4",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2601.25",
+			"Param3" :   "1",
+			"Param2" :   "0",
+			"Param1" :   "GATE",
+			"Duration" : "00:02.4",
+			"start" :    "2011-06-27T13:38:18.4"
+		},
+		{
+			"label" :    "2011-06-27T13:37:57.4",
+			"type" :     "START_SCENE",
+			"Param2" :   "2",
+			"Param1" :   "2",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:37:57.4"
+		},
+		{
+			"label" :    "2011-06-27T13:37:59.9",
+			"type" :     "START_SCENE",
+			"Param2" :   "2",
+			"Param1" :   "2",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:37:59.9"
+		},
+		{
+			"label" :    "2011-06-27T13:37:56.8",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2500",
+			"Param3" :   "0",
+			"Param2" :   "1",
+			"Param1" :   "GATE",
+			"Duration" : "00:06.0",
+			"start" :    "2011-06-27T13:37:56.8"
+		},
+		{
+			"label" :    "2011-06-27T13:37:55.7",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:04.9",
+			"start" :    "2011-06-27T13:37:55.7"
+		},
+		{
+			"label" :    "2011-06-27T13:38:00.8",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:10.0",
+			"start" :    "2011-06-27T13:38:00.8"
+		},
+		{
+			"label" :    "2011-06-27T13:37:54.1",
+			"type" :     "START_SCENE",
+			"Param2" :   "1",
+			"Param1" :   "2",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:37:54.1"
+		},
+		{
+			"label" :    "2011-06-27T13:38:08.9",
+			"type" :     "START_SCENE",
+			"Param2" :   "3",
+			"Param1" :   "2",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:38:08.9"
+		},
+		{
+			"label" :    "2011-06-27T13:38:46.1",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2702.5",
+			"Param3" :   "0",
+			"Param2" :   "4",
+			"Param1" :   "GATE",
+			"Duration" : "00:16.2",
+			"start" :    "2011-06-27T13:38:46.1"
+		},
+		{
+			"label" :    "2011-06-27T13:37:36.0",
+			"type" :     "HIT_WALLGATE",
+			"Param4" :   "2250",
+			"Param3" :   "1",
+			"Param2" :   "0",
+			"Param1" :   "GATE",
+			"Duration" : "00:04.5",
+			"start" :    "2011-06-27T13:37:36.0"
+		},
+		{
+			"label" :    "2011-06-27T13:38:09.9",
+			"type" :     "USER_BOOSTER",
+			"Duration" : "00:19.1",
+			"start" :    "2011-06-27T13:38:09.9"
+		},
+		{
+			"label" :    "2011-06-27T13:37:36.5",
+			"type" :     "START_SCENE",
+			"Param2" :   "1",
+			"Param1" :   "1",
+			"Duration" : "00:00:00",
+			"start" :    "2011-06-27T13:37:36.5"
+		}
+	],
+	"properties" : {
+		"end" :   {
+			"valueType" : "date"
+		},
+		"start" : {
+			"valueType" : "date"
+		}
+	}
+}

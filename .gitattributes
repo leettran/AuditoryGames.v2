@@ -265,3 +265,6 @@ TestSequencer/Properties/AssemblyInfo.cs -text
 TestSequencer/Properties/OutOfBrowserSettings.xml -text
 TestSequencer/TestSequencer.csproj -text
 /csharp.tag -text
+extools/dataview.htm -text
+extools/logger_sub.xls -text
+extools/reflector.json -text
