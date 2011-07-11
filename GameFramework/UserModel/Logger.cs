@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using LSRI.AuditoryGames.Utils;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace LSRI.AuditoryGames.GameFramework.Data
 {
@@ -85,6 +86,31 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
 
         }*/
+
+        public string GetUniqueKey()
+        {
+            string s1 = Guid.NewGuid().ToString().GetHashCode().ToString("x");
+            string s2 = Guid.NewGuid().ToString().GetHashCode().ToString("x");
+
+            int maxSize = 8;
+            int minSize = 5;
+            char[] chars = new char[62];
+            string a;
+            a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            chars = a.ToCharArray();
+            int size = maxSize;
+            byte[] data = new byte[1];
+            RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
+            crypto.GetBytes(data);
+            size = maxSize;
+            data = new byte[size];
+            crypto.GetBytes(data);
+            StringBuilder result = new StringBuilder(size);
+            foreach (byte b in data)
+            { result.Append(chars[b % (chars.Length - 1)]); }
+            return "item-" + result.ToString() + "  item" + s1 + s2;
+        }
+
 
         public GameLogger()
         {

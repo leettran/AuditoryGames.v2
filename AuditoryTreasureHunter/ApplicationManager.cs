@@ -220,6 +220,7 @@ namespace LSRI.TreasureHunter
         /// Random number generator
         /// </summary>
         private Random _rand = new Random((int)DateTime.Now.Ticks);
+        public TreasureHunterLogger myLogger = new TreasureHunterLogger();
 
         public Frequency3IGenerator _synthEx = null;
 
