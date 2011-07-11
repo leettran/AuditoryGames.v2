@@ -268,3 +268,4 @@ TestSequencer/TestSequencer.csproj -text
 extools/dataview.htm -text
 extools/logger_sub.xls -text
 extools/reflector.json -text
+/timelineview.htm -text

@@ -31,6 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "extools", "extools", "{2684
 		extools\dataview.htm = extools\dataview.htm
 		extools\logger_sub.xls = extools\logger_sub.xls
 		extools\reflector.json = extools\reflector.json
+		timelineview.htm = timelineview.htm
 	EndProjectSection
 EndProject
 Global
