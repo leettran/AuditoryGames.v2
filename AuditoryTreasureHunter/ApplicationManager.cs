@@ -44,6 +44,11 @@ namespace LSRI.TreasureHunter
             return TreasureHunterLogger.TREASURE_STORAGE_CSVFILENAME;
         }
 
+        public override string getJSONFilename()
+        {
+            return @"logger_treasure.json"; ;
+        }
+
         /// <summary>
         /// output 
         /// - $date$,$time$,<b>GAME_STARTED</b>,$duration$,$username$,$training$,$delta$ 
@@ -265,10 +270,12 @@ namespace LSRI.TreasureHunter
             }*/
 
             TreasureOptions.Instance.RetrieveConfiguration();
+            myLogger.logGameStarted();
         }
 
         public override void shutdown()
         {
+            myLogger.logGameEnded();
             SavedScore = Score;
             TreasureOptions.Instance.SaveConfiguration();
         }
@@ -324,6 +331,7 @@ namespace LSRI.TreasureHunter
             {
                 if (KeyHandler.Instance.isKeyPressed(Key.Q))
                 {
+                    this.myLogger.logLevelEnded(-1);
                     StateManager.Instance.setState(TreasureStates.START_STATE);
                     return;
                 }
@@ -892,6 +900,8 @@ namespace LSRI.TreasureHunter
             //this._synthEx.ResetSequencer();
             // children.Play();
             //this._synthEx.Start();
+            this.myLogger.logLevelStarted();
+
             UpdateSound(-1);
             TreasureOptions.Instance.UpdateDebug();
         }

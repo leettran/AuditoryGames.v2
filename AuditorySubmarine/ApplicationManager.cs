@@ -376,6 +376,11 @@ namespace LSRI.Submarine
             return SubmarineLogger.SUB_STORAGE_CSVFILENAME;
         }
 
+        public override string getJSONFilename()
+        {
+            return @"logger_sub.json"; ;
+        }
+
         /// <summary>
         /// output 
         /// - $date$,$time$,<b>GAME_STARTED</b>,$duration$,$username$,$training$,$delta$ 
@@ -635,6 +640,8 @@ namespace LSRI.Submarine
             
             SubOptions.Instance.RetrieveConfiguration();
             myLogger.logGameStarted();
+
+            myLogger.WriteJSONEvent(new GameEvent());
         }
 
         /// <summary>
