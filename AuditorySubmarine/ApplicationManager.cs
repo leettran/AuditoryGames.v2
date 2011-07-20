@@ -322,13 +322,17 @@ namespace LSRI.Submarine
                 "Comparison  : {2} Hz\n" +
                 "-----\n" +
                 "Level       : {3}\n" +
-                "Gates       : {4}\n\n" + 
-                "{5}",
+                "Gate        : {4}\n\n" +
+                "-----\n" +
+                "Gates       : {5}\n" +
+                 "-----\n" + 
+                 "{6}",
                 this.User.FrequencyTraining,
-                this.User.FrequencyDelta,
+                 this.User.FrequencyDelta,
                 this.User.FrequencyComparison,
                 this.User.CurrentLevel,
                 this.User.CurrentGate,
+                String.Join(",",this.User.Gates.Data),
                 this.Beat
                 );
 

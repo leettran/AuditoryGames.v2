@@ -287,9 +287,11 @@ namespace LSRI.Submarine
                                 for (int i = 0; i < SubOptions.Instance.User.Gates.Data.Length; i++)
                                 {
                                     SubOptions.Instance.User.Gates.Data[i] *= (1 + SubOptions.Instance.Auditory.Step);
-                                    SubOptions.Instance.User.Gates.Data[i] = Math.Max(
+                                    if (SubOptions.Instance.User.Gates.Data[i] > SubOptions.Instance.Game.Gates.Data[i])
+                                        SubOptions.Instance.User.Gates.Data[i] = SubOptions.Instance.Game.Gates.Data[i];
+                                   /* SubOptions.Instance.User.Gates.Data[i] = Math.Min(
                                         SubOptions.Instance.Game.Gates.Data[i],
-                                        SubOptions.Instance.User.Gates.Data[i]);
+                                        SubOptions.Instance.User.Gates.Data[i]);*/
                                 }
                             }
                             SubOptions.Instance._scoreBuffer.Clear();
@@ -401,9 +403,11 @@ namespace LSRI.Submarine
                     for (int i = 0; i < SubOptions.Instance.User.Gates.Data.Length; i++)
                     {
                         SubOptions.Instance.User.Gates.Data[i] *= (1 - SubOptions.Instance.Auditory.Step);
-                        SubOptions.Instance.User.Gates.Data[i] = Math.Min(
+                        if (SubOptions.Instance.User.Gates.Data[i] > SubOptions.Instance.Game.Gates.Data[i])
+                            SubOptions.Instance.User.Gates.Data[i] = SubOptions.Instance.Game.Gates.Data[i];
+                        /*SubOptions.Instance.User.Gates.Data[i] = Math.Min(
                             SubOptions.Instance.Game.Gates.Data[i],
-                            SubOptions.Instance.User.Gates.Data[i]);
+                            SubOptions.Instance.User.Gates.Data[i]);*/
                     }
                     SubOptions.Instance.User.CurrentScore = 0;
                     SubOptions.Instance.User.CurrentLevel++;
