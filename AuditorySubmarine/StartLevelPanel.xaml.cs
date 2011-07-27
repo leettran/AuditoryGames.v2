@@ -18,10 +18,10 @@ namespace LSRI.Submarine
         public StartLevelPanel()
         {
             InitializeComponent();
-            _btnStart.Icon.Source = ResourceHelper.GetBitmap("Media/fullscreen.png");
+            _btnStart.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/btn_play.png");
             _btnStart.TextContent.Text = "Play";
-            _btnStart.Icon.Height = 22;
-            _btnStart.Icon.Width = 31;
+            _btnStart.Icon.Height = 32;
+            _btnStart.Icon.Width = 32;
             this.CurrentLevel = 0;
             this.CurrentGate = 2;
 

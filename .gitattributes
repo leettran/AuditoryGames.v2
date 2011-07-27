@@ -193,6 +193,10 @@ GameFramework/Media/board_left.png -text
 GameFramework/Media/board_middle.png -text
 GameFramework/Media/board_right.png -text
 GameFramework/Media/board_score.png -text
+GameFramework/Media/btn_exit.png -text
+GameFramework/Media/btn_information.png -text
+GameFramework/Media/btn_options.png -text
+GameFramework/Media/btn_play.png -text
 GameFramework/Media/buttonIn.jpg -text
 GameFramework/Media/buttonOut.jpg -text
 GameFramework/Media/fullscreen.png -text

@@ -224,6 +224,14 @@
   <ItemGroup>
     <Resource Include="Media\LSRI-Logo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\btn_exit.png" />
+    <Resource Include="Media\btn_information.png" />
+    <Resource Include="Media\btn_play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Media\btn_options.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

@@ -16,6 +16,7 @@ using System.IO;
 using System.Xml.Serialization;
 using LSRI.AuditoryGames.GameFramework.UI;
 using System.ComponentModel;
+using System.Reflection;
 
 
 
@@ -28,9 +29,10 @@ namespace LSRI.Submarine
     /// @see States
     public class SubmarineStates : States
     {
-        public const string LEVEL_STATE = "start_Level";    ///< Starting a new level @deprecated  Not in use, see 
-        public const string OPTION_STATE = "start_option";  ///< Starting the option page
-        public const string LOG_STATE = "start_log";        ///< Starting the log page
+        public const string MAINMENU_STATE = "start_mainmenu";  ///< starting the main menu
+        public const string LEVEL_STATE = "start_Level";        ///< Starting a new level 
+        public const string OPTION_STATE = "start_option";      ///< Starting the option page
+        public const string LOG_STATE = "start_log";            ///< Starting the log page
     }
 
     /// <summary>
@@ -607,6 +609,8 @@ namespace LSRI.Submarine
         private ButtonIcon btnOption = null;
         public SubmarineLogger myLogger = new SubmarineLogger();
 
+        private Boolean allowConfiguration = false;
+
         /// <summary>
         /// 
         /// </summary>
@@ -641,11 +645,17 @@ namespace LSRI.Submarine
             KeyHandler.Instance.IskeyUpOnly = false;
             //_synthEx = new Frequency2IGenerator();
             _random = new Random();
-            
+
+
             SubOptions.Instance.RetrieveConfiguration();
             myLogger.logGameStarted();
 
             myLogger.WriteJSONEvent(new GameEvent());
+        }
+
+        private void GamePage_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+           e.Handled = (allowConfiguration == false);
         }
 
         /// <summary>
@@ -653,15 +663,25 @@ namespace LSRI.Submarine
         /// </summary>
         public override void startupApplicationManager()
         {
+            // Prevent right-click by user
+            (AuditoryGameApp.Current.RootVisual as GamePage).MouseRightButtonDown += new MouseButtonEventHandler(GamePage_MouseRightButtonDown);
+            (AuditoryGameApp.Current.RootVisual as GamePage).MouseRightButtonUp += new MouseButtonEventHandler(GamePage_MouseRightButtonDown);
+
+            // Register the different states of the game
             StateManager.Instance.registerStateChange(
                 States.START_STATE,
+                new StateChangeInfo.StateFunction(startGame),
+                new StateChangeInfo.StateFunction(endGame));
+
+            StateManager.Instance.registerStateChange(
+                SubmarineStates.MAINMENU_STATE,
                 new StateChangeInfo.StateFunction(startMainMenu),
                 new StateChangeInfo.StateFunction(endMainMenu));
 
             StateManager.Instance.registerStateChange(
                 SubmarineStates.LEVEL_STATE,
-                new StateChangeInfo.StateFunction(startGame),
-                new StateChangeInfo.StateFunction(exitGame));
+                new StateChangeInfo.StateFunction(startLevel),
+                new StateChangeInfo.StateFunction(exitLevel));
 
 
             StateManager.Instance.registerStateChange(
@@ -670,7 +690,7 @@ namespace LSRI.Submarine
                 new StateChangeInfo.StateFunction(exitOptions));
 
 
-            /// Associate the stimuli generator with the media element of the game page
+            // Associate the stimuli generator with the media element of the game page
             MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
             _synthEx = new Frequency2IGenerator(children,SubOptions.Instance.Auditory.BufferLength)
             {
@@ -678,28 +698,13 @@ namespace LSRI.Submarine
                 AttenuationRandom = SubOptions.Instance.Auditory.AttenuationRandom
             };
 
+            // Add the listeners to the stimuli generator
             this._synthEx.Sequencer._freqChangedHook += new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
             this._synthEx.Sequencer._freqPlayedHook += new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
             this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
             this._synthEx.Sequencer._stepEndedHook +=new SequencerExt.StepEnded(Sequencer__stepEndedHook);
             _synthEx.Stop();
-
-            //BackgroundWorker bw = new BackgroundWorker();
-            //bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            //bw.RunWorkerAsync();
-          
-
-
         }
-
-       /* void bw_DoWork(object sender, DoWorkEventArgs e)
-        {
-            for (int i = 0; i < 1000; i++)
-            {
-                System.Threading.Thread.Sleep(5);
-                GameLogger.WriteLogFile("FDdfdfdfdf", "dffddfsgdfgsdf");
-            }
-        }*/
 
         void Sequencer__stepEndedHook()
         {
@@ -736,6 +741,13 @@ namespace LSRI.Submarine
                 }
             }
 
+            if (StateManager.Instance.CurrentState.Equals(SubmarineStates.MAINMENU_STATE))
+            {
+                if (KeyHandler.Instance.isKeyPressed(Key.Enter))
+                {
+                    StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
+                }
+            }
 
             if (StateManager.Instance.CurrentState.Equals(SubmarineStates.LEVEL_STATE))
             {
@@ -746,8 +758,8 @@ namespace LSRI.Submarine
                     SubOptions.Instance.User.CurrentLife = SubOptions.Instance.Game.MaxLives;
                     SubOptions.Instance.User.CurrentGate = 0;
                     SubOptions.Instance.User.CurrentScore = 0;
-                    SubOptions.Instance._scoreBuffer.Clear(); 
-                    StateManager.Instance.setState(States.START_STATE);
+                    SubOptions.Instance._scoreBuffer.Clear();
+                    StateManager.Instance.setState(SubmarineStates.MAINMENU_STATE);
                     return;
                 }
 
@@ -774,7 +786,7 @@ namespace LSRI.Submarine
 
                 SubOptions.Instance.UpdateDebug();
             }
-            else
+            else if (StateManager.Instance.CurrentState.Equals(SubmarineStates.MAINMENU_STATE))
             {
                 ModifierKeys keys = Keyboard.Modifiers;
                 bool controlKey = (keys & ModifierKeys.Control) != 0;
@@ -798,6 +810,43 @@ namespace LSRI.Submarine
             SubOptions.Instance.SaveConfiguration();
         }
 
+        #region Application State: Init game
+
+        private void startGame()
+        {
+            // initialise toolbox
+            this._scorePanel = new SubmarineToolbox()
+            {
+                FullMode = false
+            };
+            _scorePanel.SetValue(Canvas.LeftProperty, 0.0);
+            _scorePanel.SetValue(Canvas.TopProperty, 0.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(_scorePanel); 
+            
+            Button btnFull = new Button();
+            btnFull.Content = "Click here to start";
+            btnFull.FontSize = 36;
+                btnFull.Width = 350;
+            btnFull.Height = 150;
+
+            GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
+            btnFull.SetValue(Canvas.LeftProperty, (800 - btnFull.Width) / 2);
+            btnFull.SetValue(Canvas.TopProperty, (600 - btnFull.Height) / 2);
+
+            btnFull.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
+                StateManager.Instance.setState(SubmarineStates.MAINMENU_STATE);
+
+            };
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
+        }
+
+        private void endGame()
+        {
+            base.removeAllCanvasChildren();
+        }
+        #endregion
 
         #region Application State: Main Menu
 
@@ -832,6 +881,7 @@ namespace LSRI.Submarine
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pp);
 
 
+            /*
             ButtonIcon btnFull = new ButtonIcon();
             btnFull.TextContent.Text = "Full Screen Mode";
             btnFull.Icon.Source = ResourceHelper.GetBitmap("Media/fullscreen.png");
@@ -846,39 +896,62 @@ namespace LSRI.Submarine
                 AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
                 
             };
-
-
-
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
+             */
 
+            // Add OPTION button
             btnOption = new ButtonIcon();
             btnOption.TextContent.Text = "Options";
-            btnOption.Icon.Source = ResourceHelper.GetBitmap("Media/fullscreen.png");
-            btnOption.Icon.Height = 22;
-            btnOption.Icon.Width = 31;
-            btnOption.Width = 150;
+            btnOption.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/btn_options.png");
+            btnOption.Icon.Height = 32;
+            btnOption.Icon.Width = 32;
+            btnOption.Width = 120;
             btnOption.Height = 40;
-            btnOption.SetValue(Canvas.LeftProperty, 50.0);
+            btnOption.Visibility = Visibility.Collapsed;
+            btnOption.SetValue(Canvas.LeftProperty, 40.0);
             btnOption.SetValue(Canvas.TopProperty, 400.0);
             btnOption.Click += delegate(object sender, RoutedEventArgs e)
             {
                 StateManager.Instance.setState(SubmarineStates.OPTION_STATE);
             };
-
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnOption);
             
-            /*  Button btnStart = new Button();
-              btnStart.Content = "Start Game";
-              btnStart.Width = 100;
-              btnStart.Height = 35;
-              btnStart.SetValue(Canvas.LeftProperty, 490.0);
-              btnStart.SetValue(Canvas.TopProperty, 355.0);
-              btnStart.Click += delegate(object sender, RoutedEventArgs e) { 
-                  StateManager.Instance.setState(SubmarineStates.LEVEL_STATE); 
-              };
-              (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnStart);
-             */
 
+
+
+            ButtonIcon btnExit = new ButtonIcon();
+            btnExit.TextContent.Text = "Exit";
+            btnExit.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/btn_exit.png");
+            btnExit.Icon.Height = 32;
+            btnExit.Icon.Width = 32;
+            btnExit.Width = 120;
+            btnExit.Height = 40;
+            btnExit.SetValue(Canvas.LeftProperty, 40.0);
+            btnExit.SetValue(Canvas.TopProperty, 540.0 - 40.0 - 25.0);
+            btnExit.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                AssemblyName assemblyName = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
+                MessageBoxResult res = MessageBox.Show("Do you really want to quit?", assemblyName.Name, MessageBoxButton.OKCancel);
+                if (res == MessageBoxResult.OK)
+                    Application.Current.MainWindow.Close();
+            };
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnExit);
+
+            ButtonIcon pAboutBtn = new ButtonIcon();
+            pAboutBtn.TextContent.Text = @"";
+            pAboutBtn.TextContent.Margin = new Thickness() {Left=0};
+            pAboutBtn.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/btn_information.png");
+            pAboutBtn.Icon.Height = 32;
+            pAboutBtn.Icon.Width = 32; 
+            pAboutBtn.Width = 36;
+            pAboutBtn.Height = 36;
+            pAboutBtn.SetValue(Canvas.LeftProperty, 800.0-36.0-25.0);
+            pAboutBtn.SetValue(Canvas.TopProperty, 540.0-36.0-25.0);
+            pAboutBtn.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                
+            };
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pAboutBtn);
 
             bg = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background;
 
@@ -919,9 +992,9 @@ namespace LSRI.Submarine
 
         #endregion
 
-        #region Application State: Game
+        #region Application State: Level
 
-        private void startGame()
+        private void startLevel()
         {
             SubOptions.Instance.AttachDebug(AuditoryGameApp.Current.RootVisual as GamePage);
 
@@ -1040,7 +1113,7 @@ namespace LSRI.Submarine
 
             this._synthEx.Start();
         }
-        private void exitGame()
+        private void exitLevel()
         {
             this._synthEx.Stop(); 
             while (GameObject.gameObjects.Count != 0)
@@ -1058,6 +1131,8 @@ namespace LSRI.Submarine
 
         private void startOptions()
         {
+            this.allowConfiguration = true;
+
             //SubmarineOptionPanel panel = new SubmarineOptionPanel();
             GameParameters panel = new GameParameters(
                SubOptions.Instance.User,
@@ -1089,17 +1164,35 @@ namespace LSRI.Submarine
                 this._synthEx.Sequencer._stepEndedHook += new SequencerExt.StepEnded(Sequencer__stepEndedHook);
                 _synthEx.Start();
                 _synthEx.Stop();
-                StateManager.Instance.setState(States.START_STATE);
+                StateManager.Instance.setState(SubmarineStates.MAINMENU_STATE);
             };
 
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(panel);
+
+            ButtonIcon btnFull = new ButtonIcon();
+            btnFull.TextContent.Text = "Full Screen Mode";
+            btnFull.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/fullscreen.png");
+            //btnFull.Icon.Height = 22;
+            //btnFull.Icon.Width = 31;
+            btnFull.Width = 150;
+            btnFull.Height = 40;
+            btnFull.SetValue(Canvas.LeftProperty,40.0);
+            btnFull.SetValue(Canvas.TopProperty, 540.0 - 40.0 - 25.0); 
+            btnFull.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
+                
+            };
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
 
         }
 
         private void exitOptions()
         {
             removeAllCanvasChildren();
-            _synthEx.Stop();
+            //_synthEx.Stop();
+            this.allowConfiguration = false;
+
         }
 
         #endregion

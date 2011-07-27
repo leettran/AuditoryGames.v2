@@ -51,13 +51,13 @@
         <Grid x:Name="LayoutRoot" Margin="20" Background="#85838383" Height="202">
             <Grid.RowDefinitions>
                 <RowDefinition Height="31*" />
-                <RowDefinition Height="171*" />
+                <RowDefinition Height="114*" />
+                <RowDefinition Height="57*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="34*" />
                 <ColumnDefinition Width="234*" />
             </Grid.ColumnDefinitions>
-            <my:ButtonIcon Height="42" Name="_btnStart" Width="136" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="28,112,70,0"></my:ButtonIcon>
             <TextBlock Height="23" Name="textBlock1" Text="You are at" VerticalAlignment="Top" FontSize="14" HorizontalAlignment="Left" TextAlignment="Right" Margin="6,6,0,0" Foreground="White" Grid.ColumnSpan="2" />
             <TextBlock Height="23" HorizontalAlignment="Left" Name="_txtLevel" Text="Level 0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Margin="71,6,0,0" Foreground="White" Grid.Column="1" />
             <TextBlock FontSize="11" Height="23" Name="_txtGates" Text="At this level, you have" TextAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Width="216" Margin="6,4,0,0" Foreground="White" Grid.ColumnSpan="2" Grid.Row="1" />
@@ -67,6 +67,7 @@
             <Image HorizontalAlignment="Left" Margin="2,58,0,0" Name="image2" Source="/AuditorySubmarine;component/Media/sublife.png" Stretch="Fill" VerticalAlignment="Top" Height="27" Width="28" Grid.Column="1" Grid.Row="1" />
             <TextBlock FontSize="14" FontWeight="Bold" Foreground="White" Height="23" HorizontalAlignment="Left" Margin="38,30,0,0" Name="textBlock4" Text="5" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" />
             <TextBlock FontSize="14" FontWeight="Bold" Foreground="White" Height="23" HorizontalAlignment="Left" Margin="38,62,0,0" Name="textBlock5" Text="4" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" />
+            <my:ButtonIcon Height="42" Name="_btnStart" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="2" Grid.ColumnSpan="2"></my:ButtonIcon>
         </Grid>
     </Border>
 </UserControl>

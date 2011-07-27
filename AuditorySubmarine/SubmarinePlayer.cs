@@ -122,7 +122,7 @@ namespace LSRI.Submarine
                 {
                     _isBooster = true;
                     (IAppManager.Instance as SubmarineApplicationManager).myLogger.logAcceleration(Key.Space);
-                    _subAccel = 500;
+                    _subAccel = 1000;
                     KeyHandler.Instance.clearKeyPresses();
                     (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine in booster mode");
                 }
@@ -295,7 +295,7 @@ namespace LSRI.Submarine
                                 }
                             }
                             SubOptions.Instance._scoreBuffer.Clear();
-                            StateManager.Instance.setState(States.START_STATE);
+                            StateManager.Instance.setState(SubmarineStates.MAINMENU_STATE);
                             //StateManager.Instance.setState(States.START_STATE);
                             //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
                         };
@@ -305,8 +305,8 @@ namespace LSRI.Submarine
                     }
                     else
                     {
- 
-                        StateManager.Instance.setState(States.START_STATE);
+
+                        StateManager.Instance.setState(SubmarineStates.MAINMENU_STATE);
                         StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
                     }
                     (sender as DispatcherTimer).Stop();
@@ -392,7 +392,7 @@ namespace LSRI.Submarine
                     pn.OnCompleteTask += delegate()
                     {
                         SubOptions.Instance._scoreBuffer.Clear();
-                        StateManager.Instance.setState(States.START_STATE);
+                        StateManager.Instance.setState(SubmarineStates.MAINMENU_STATE);
                         //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
                     };
                     // we have to insert any non GameObjects at the end of the children collection
@@ -418,7 +418,7 @@ namespace LSRI.Submarine
                     DispatcherTimer timer = new DispatcherTimer();
                     timer.Tick += delegate(object sender, EventArgs e)
                     {
-                        StateManager.Instance.setState(States.START_STATE);
+                        StateManager.Instance.setState(SubmarineStates.MAINMENU_STATE);
                         if (SubOptions.Instance.User.CurrentGate != 0)
                             StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
                         (sender as DispatcherTimer).Stop();
