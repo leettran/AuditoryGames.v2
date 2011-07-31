@@ -1,7 +1,7 @@
 <OutOfBrowserSettings ShortName="AuditoryTreasureHunter" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
   <OutOfBrowserSettings.Blurb>AuditoryTreasureHunter is a Game-based Auditory Learning environment designed by Nicolas Van Labeke at the Learning Sciences Research Institute</OutOfBrowserSettings.Blurb>
   <OutOfBrowserSettings.WindowSettings>
-    <WindowSettings Title="AuditoryTreasureHunter" />
+    <WindowSettings Title="AuditoryTreasureHunter" Height="600" Width="1067" WindowStyle="None" />
   </OutOfBrowserSettings.WindowSettings>
   <OutOfBrowserSettings.SecuritySettings>
     <SecuritySettings ElevatedPermissions="Required" />

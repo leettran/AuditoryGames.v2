@@ -916,9 +916,6 @@ namespace LSRI.Submarine
             };
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnOption);
             
-
-
-
             ButtonIcon btnExit = new ButtonIcon();
             btnExit.TextContent.Text = "Exit";
             btnExit.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/btn_exit.png");
@@ -937,7 +934,7 @@ namespace LSRI.Submarine
             };
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnExit);
 
-            ButtonIcon pAboutBtn = new ButtonIcon();
+           /* ButtonIcon pAboutBtn = new ButtonIcon();
             pAboutBtn.TextContent.Text = @"";
             pAboutBtn.TextContent.Margin = new Thickness() {Left=0};
             pAboutBtn.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/btn_information.png");
@@ -952,7 +949,7 @@ namespace LSRI.Submarine
                 
             };
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pAboutBtn);
-
+            */
             bg = (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Background;
 
             //StatusPanelControl ctr = new StatusPanelControl();

@@ -35,7 +35,7 @@
                 <Setter.Value>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/GameFramework;component/Media/play_button.png" 
+                            <Image Source="/GameFramework;component/Media/btn_play.png" 
 								Width="36" 
 								Height="36">
                             </Image>

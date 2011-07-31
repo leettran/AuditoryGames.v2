@@ -19,6 +19,7 @@ using LSRI.TreasureHunter.Model;
 using LSRI.AuditoryGames.GameFramework.Data;
 using LSRI.AuditoryGames.GameFramework.UI;
 using System.Collections;
+using System.Reflection;
 
 namespace LSRI.TreasureHunter
 {
@@ -184,10 +185,11 @@ namespace LSRI.TreasureHunter
     /// @see States
     public class TreasureStates : States
     {
-        public const string LEVEL_STATE = "start_Level";    ///< Starting a new level @deprecated  Not in use, see 
-        public const string OPTION_STATE = "start_option";  ///< Starting the option page
-        public const string LOG_STATE = "start_log";        ///< Starting the log page
-        public const string SCORE_STATE = "start_score";    ///< Starting the end-of-level score dialog
+        public const string MAINMENU_STATE = "start_mainmenu";  ///< starting the main menu
+        public const string LEVEL_STATE = "start_Level";        ///< Starting a new level
+        public const string OPTION_STATE = "start_option";      ///< Starting the option page
+        public const string LOG_STATE = "start_log";            ///< Starting the log page
+        public const string SCORE_STATE = "start_score";        ///< Starting the end-of-level score dialog
     }
 
      /// <summary>
@@ -298,14 +300,19 @@ namespace LSRI.TreasureHunter
             _synthEx = new Frequency3IGenerator(children);
 
             StateManager.Instance.registerStateChange(
-                TreasureStates.START_STATE,
+                States.START_STATE,
+                new StateChangeInfo.StateFunction(startGame),
+                new StateChangeInfo.StateFunction(endGame));
+
+            StateManager.Instance.registerStateChange(
+                TreasureStates.MAINMENU_STATE,
                 new StateChangeInfo.StateFunction(startMainMenu),
                 new StateChangeInfo.StateFunction(endMainMenu));
 
             StateManager.Instance.registerStateChange(
                 TreasureStates.LEVEL_STATE,
-                new StateChangeInfo.StateFunction(startGame),
-                new StateChangeInfo.StateFunction(exitGame));
+                new StateChangeInfo.StateFunction(startLevel),
+                new StateChangeInfo.StateFunction(exitLevel));
 
             StateManager.Instance.registerStateChange(
                 TreasureStates.OPTION_STATE,
@@ -332,7 +339,7 @@ namespace LSRI.TreasureHunter
                 if (KeyHandler.Instance.isKeyPressed(Key.Q))
                 {
                     this.myLogger.logLevelEnded(-1);
-                    StateManager.Instance.setState(TreasureStates.START_STATE);
+                    StateManager.Instance.setState(TreasureStates.MAINMENU_STATE);
                     return;
                 }
 
@@ -362,7 +369,7 @@ namespace LSRI.TreasureHunter
                 }
                 TreasureOptions.Instance.UpdateDebug();
             }
-            else if (StateManager.Instance.CurrentState.Equals(TreasureStates.START_STATE))
+            else if (StateManager.Instance.CurrentState.Equals(TreasureStates.MAINMENU_STATE))
             {
                 ModifierKeys keys = Keyboard.Modifiers;
                 bool controlKey = (keys & ModifierKeys.Control) != 0;
@@ -493,6 +500,48 @@ namespace LSRI.TreasureHunter
             this._synthEx.Start();
         }
 
+
+        #region Application State: Init game
+
+        private void startGame()
+        {
+            // initialise toolbox
+            this._scorePanel = new TreasureToolbox()
+            {
+                FullMode = false
+            };
+            _scorePanel.SetValue(Canvas.LeftProperty, 0.0);
+            _scorePanel.SetValue(Canvas.TopProperty, 0.0);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutTitle.Children.Add(_scorePanel);
+
+            Button btnFull = new Button();
+            btnFull.Content = "Click here to start";
+            btnFull.FontSize = 36;
+            btnFull.Width = 350;
+            btnFull.Height = 150;
+
+            GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
+            Canvas zone = pg.LayoutRoot;
+            btnFull.SetValue(Canvas.LeftProperty, (800 - btnFull.Width) / 2);
+            btnFull.SetValue(Canvas.TopProperty, (600 - btnFull.Height) / 2);
+
+            btnFull.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
+                StateManager.Instance.setState(TreasureStates.MAINMENU_STATE);
+
+            };
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
+        }
+
+        private void endGame()
+        {
+            base.removeAllCanvasChildren();
+        }
+        #endregion
+
+
+
         #region Application State: Main Menu
 
         private void GenerateGameSettings()
@@ -620,7 +669,7 @@ namespace LSRI.TreasureHunter
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pp);
 
 
-            ButtonIcon btnFull = new ButtonIcon();
+            /*ButtonIcon btnFull = new ButtonIcon();
             btnFull.TextContent.Text = "Full Screen Mode";
             btnFull.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/fullscreen.png");
             btnFull.Icon.Height = 22;
@@ -634,22 +683,42 @@ namespace LSRI.TreasureHunter
                 AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
             };
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
-
+            **/
 
             btnOption = new ButtonIcon();
             btnOption.TextContent.Text = "Options";
-            btnOption.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/fullscreen.png");
-            btnOption.Icon.Height = 22;
-            btnOption.Icon.Width = 31;
-            btnOption.Width = 150;
+            btnOption.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/btn_options.png");
+            btnOption.Icon.Height = 32;
+            btnOption.Icon.Width = 32;
+            btnOption.Width = 120;
             btnOption.Height = 40;
-            btnOption.SetValue(Canvas.LeftProperty, 50.0);
-            btnOption.SetValue(Canvas.TopProperty, 500.0);
+            btnOption.SetValue(Canvas.LeftProperty, 40.0);
+            btnOption.SetValue(Canvas.TopProperty, 450.0);
             btnOption.Click += delegate(object sender, RoutedEventArgs e)
             {
                 StateManager.Instance.setState(TreasureStates.OPTION_STATE);
             };
             (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnOption);
+
+
+            ButtonIcon btnExit = new ButtonIcon();
+            btnExit.TextContent.Text = "Exit";
+            btnExit.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/btn_exit.png");
+            btnExit.Icon.Height = 32;
+            btnExit.Icon.Width = 32;
+            btnExit.Width = 120;
+            btnExit.Height = 40;
+            btnExit.SetValue(Canvas.LeftProperty, 40.0);
+            btnExit.SetValue(Canvas.TopProperty, 500.0);
+            btnExit.Click += delegate(object sender, RoutedEventArgs e)
+            {
+                AssemblyName assemblyName = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
+                MessageBoxResult res = MessageBox.Show("Do you really want to quit?", assemblyName.Name, MessageBoxButton.OKCancel);
+                if (res == MessageBoxResult.OK)
+                    Application.Current.MainWindow.Close();
+            };
+            (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnExit);
+
 
             /* GameParameters param = new GameParameters();
              param.NbZone.Value = GameLevelInfo._nbTreasureZones;
@@ -668,8 +737,8 @@ namespace LSRI.TreasureHunter
             qp.SetValue(Canvas.LeftProperty, 50.0);
             qp.SetValue(Canvas.TopProperty, 250.0);
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(qp);*/
-
-            Button pAboutBtn = new Button();
+            
+           /* Button pAboutBtn = new Button();
             pAboutBtn.Content = @"About ...";
 
             pAboutBtn.Width = 75;
@@ -678,13 +747,13 @@ namespace LSRI.TreasureHunter
             pAboutBtn.SetValue(Canvas.TopProperty, 540.0-40.0-25.0);
             pAboutBtn.Click += delegate(object sender, RoutedEventArgs e)
             {
-                /*AboutWindow pAbout = new AboutWindow();
-                pAbout.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pAbout.Width) / 2);
-                pAbout.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pAbout.Height) / 2);
-                pAbout.Closed += delegate(object s1, EventArgs e1)
-                    {
-                    };
-                pAbout.Show();*/
+                //AboutWindow pAbout = new AboutWindow();
+                //pAbout.SetValue(Canvas.LeftProperty, (pg.LayoutRoot.ActualWidth - pAbout.Width) / 2);
+                //pAbout.SetValue(Canvas.TopProperty, (pg.LayoutRoot.ActualHeight - pAbout.Height) / 2);
+                //pAbout.Closed += delegate(object s1, EventArgs e1)
+                //    {
+                //    };
+                //pAbout.Show();
 
                 AboutPanel pAbout2 = new AboutPanel();
                 Rectangle pMask = new Rectangle();
@@ -703,7 +772,7 @@ namespace LSRI.TreasureHunter
                     (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Remove(pAbout2);
                 };
             };
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pAboutBtn);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pAboutBtn);*/
         }
 
         public void endMainMenu()
@@ -713,9 +782,9 @@ namespace LSRI.TreasureHunter
 
         #endregion
 
-        #region Application State: Game
+        #region Application State: Level
 
-        public void startGame()
+        public void startLevel()
         {
             TreasureOptions.Instance.AttachDebug(AuditoryGameApp.Current.RootVisual as GamePage);
             TreasureApplicationManager.PREVENT_AUDIO_CHANGES = false;
@@ -906,7 +975,7 @@ namespace LSRI.TreasureHunter
             TreasureOptions.Instance.UpdateDebug();
         }
 
-        public void exitGame()
+        public void exitLevel()
         {
             this._synthEx.Stop();
             //MediaElement children = (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
@@ -933,7 +1002,7 @@ namespace LSRI.TreasureHunter
                 TreasureOptions.Instance.Game);
             panel.OnCompleteTask += delegate()
             {
-                StateManager.Instance.setState(TreasureStates.START_STATE);
+                StateManager.Instance.setState(TreasureStates.MAINMENU_STATE);
             };
             panel.SetValue(Canvas.LeftProperty, 10.0);
             panel.SetValue(Canvas.TopProperty, 10.0);
@@ -1004,7 +1073,7 @@ namespace LSRI.TreasureHunter
                     }
                 }
 
-                StateManager.Instance.setState(TreasureStates.START_STATE);
+                StateManager.Instance.setState(TreasureStates.MAINMENU_STATE);
                 //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
             };
             pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, pn);
