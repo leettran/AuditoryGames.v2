@@ -466,6 +466,7 @@ namespace LSRI.Submarine
         /// - <b>$date$</b>: the date (DD/MM/YYYY) of the event
         /// - <b>$time$</b>: the time (HH:MM:SS.0000) of the event
         /// - <b>$duration$</b>: time elapsed (HH:MM:SS.0000) since the previous LEVEL_STARTED event
+        /// - <b>$level$</b>: the current level of the game
         /// - <b>$outcome$</b>: SUCCESS if level completed, FAIL if not, CANCEL if game prematurely stopped
         /// - <b>$score$</b>: the current score of the user (might have a positive value even if level has failed)
         /// </summary>
@@ -486,6 +487,7 @@ namespace LSRI.Submarine
             }
             String[] par = {
                     elapsed.ToString(),
+                    SubOptions.Instance.User.CurrentLevel.ToString(),
                     strWin,
                     SubOptions.Instance.User.CurrentScore.ToString()
                           };
@@ -520,7 +522,7 @@ namespace LSRI.Submarine
 
         /// <summary>
         /// output 
-        /// - $date$,$time$,<b>WALL_HIT</b>,$duration$,$outcome$,$gate$,$diff$,$comparison$
+        /// - $date$,$time$,<b>HIT_WALLGATE</b>,$duration$,$outcome$,$gate$,$diff$,$comparison$
         /// 
         /// where
         /// - <b>$date$</b>: the date (DD/MM/YYYY) of the event

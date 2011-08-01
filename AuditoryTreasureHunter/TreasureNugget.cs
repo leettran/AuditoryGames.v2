@@ -241,6 +241,12 @@ namespace LSRI.TreasureHunter
             base.collision(other);
 
             int oldScore = 0;
+
+            double l = (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Left;
+            double m = (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Middle;
+            double r = (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Right;
+            (TreasureApplicationManager.Instance as TreasureApplicationManager).myLogger.logHitNugget((int)this.Type, this.Score,l,m,r);
+
             if (this.Type != TreasureType.TREASURE_NONE)
             {
                 // Show explosion animation
@@ -293,6 +299,7 @@ namespace LSRI.TreasureHunter
             tttt.Position = new Point(
                         Position.X + Dimensions.X / 2 - 55 / 2,
                         Position.Y + Dimensions.Y / 2 - 55 / 2);
+
 
             if (TreasureOptions.Instance.Game._curGold == 0 || TreasureOptions.Instance.User.CurrentLife == 0)
             {

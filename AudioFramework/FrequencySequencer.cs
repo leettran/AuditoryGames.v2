@@ -385,7 +385,12 @@ namespace LSRI.AuditoryGames.AudioFramework
     /// </summary>
     public class Frequency3IGenerator : IFrequencySequencer
     {
-        public Frequency3IGenerator(MediaElement elt) : base(elt)
+        public double Left { set; get; }
+        public double Middle { set; get; }
+        public double Right { set; get; }
+
+        public Frequency3IGenerator(MediaElement elt)
+            : base(elt)
         {
             _StimuliStructure = new List<Stimulus>();
             _StimuliStructure.Add(new Stimulus(5000, 0, 4*2));
@@ -409,7 +414,9 @@ namespace LSRI.AuditoryGames.AudioFramework
         {
             this._sequencer.Reset();
             //myqueue = new Queue<double>();
-
+            this.Left = a;
+            this.Middle = b;
+            this.Right = c;
             _StimuliStructure = new List<Stimulus>();
             _StimuliStructure.Add(new Stimulus(a, 1+0, 4 * 2));
             _StimuliStructure.Add(new Stimulus(1+4 * 2, 10 * 2));
