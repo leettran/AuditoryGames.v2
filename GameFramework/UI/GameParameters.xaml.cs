@@ -21,6 +21,7 @@ namespace LSRI.AuditoryGames.GameFramework
     {
         public delegate void OnCompleteTaskEvent();
         public event OnCompleteTaskEvent OnCompleteTask;
+        public event OnCompleteTaskEvent OnInitialiseTask;
 
         public GameParameters()
         {
@@ -54,7 +55,7 @@ namespace LSRI.AuditoryGames.GameFramework
  
         private void BtnQuota_Click(object sender, RoutedEventArgs e)
         {
-            GameLogger.IncreaseStorageQuota(20);
+            GameLogger.IncreaseStorageQuota(500);
         }
 
         private void BtnExport_Click(object sender, RoutedEventArgs e)
@@ -71,6 +72,16 @@ namespace LSRI.AuditoryGames.GameFramework
                 sw.Flush();
                 sw.Close();
             }
+        }
+
+        private void _xFullScreen_Click(object sender, RoutedEventArgs e)
+        {
+            AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
+        }
+
+        private void button4_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.OnInitialiseTask != null) this.OnInitialiseTask();
         }
 
     }

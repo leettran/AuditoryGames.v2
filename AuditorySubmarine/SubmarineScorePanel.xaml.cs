@@ -135,5 +135,10 @@ namespace LSRI.Submarine
         {
             if (this.OnCompleteTask != null) this.OnCompleteTask();
         }
+
+        public void ForceQuit()
+        {
+            if (this.OnCompleteTask != null) this.OnCompleteTask();
+        }
     }
 }

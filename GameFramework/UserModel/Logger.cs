@@ -233,13 +233,14 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
                             if (isLogExist == false)
                             {
-                                sb.AppendLine("Id,iso8601,Date,Time,Event,Duration,Param1,Param2,Param3,Param4, Param5,Param6");
+                                //sb.AppendLine("Id,iso8601,Date,Time,Event,Duration,Param1,Param2,Param3,Param4, Param5,Param6");
+                                sb.AppendLine("Date,Time,Event,Duration,Param1,Param2,Param3,Param4, Param5,Param6");
                             }
 
-                            sb.Append(GetUniqueKey());
-                            sb.Append(",");
-                            sb.Append(now.ToString("o"));
-                            sb.Append(",");
+                            //sb.Append(GetUniqueKey());
+                            //sb.Append(",");
+                            //sb.Append(now.ToString("o"));
+                            //sb.Append(",");
                             sb.Append(now.ToString("dd/MM/yyyy,HH:mm:ss.ffff"));
                             sb.Append(",");
                             sb.Append(message);
@@ -258,7 +259,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             catch (Exception e)
             {
                 
-               throw e;
+               //throw e;
             }
 
 

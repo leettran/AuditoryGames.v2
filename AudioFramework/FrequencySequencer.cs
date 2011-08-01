@@ -653,6 +653,19 @@ namespace LSRI.AuditoryGames.AudioFramework
             setSequencer(3);
         }
 
+        public void CalibrateSequencer(double fq,double length)
+        {
+             this._sequencer.Reset();
+            myqueue = new Queue<double>();
+ 
+            _StimuliStructure = new List<Stimulus>();
+            _StimuliStructure.Add(new Stimulus(5000, 0, 40));
+            _StimuliStructure.Add(new Stimulus(40,10));
+            _StimuliStructure.Add(new Stimulus(5000, 50, 40));
+            _StimuliStructure.Add(new Stimulus(90,10));
+            setSequencer(3);       
+        }
+
         public virtual void SetSignalDelay(int delay)
         {
         

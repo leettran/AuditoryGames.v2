@@ -535,7 +535,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._scores = new HighScoreContainer();
             this.Gates = new Gates();
             this.Pattern = new WinPattern();
-            this._showDebug = true;
+            this._showDebug = false;
         }
 
         /// <summary>

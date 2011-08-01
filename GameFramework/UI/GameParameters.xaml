@@ -10,7 +10,22 @@
     mc:Ignorable="d" FontSize="9" FontWeight="Normal" FontStretch="Normal" d:DesignHeight="578" d:DesignWidth="736">
 
     <UserControl.Resources>
-
+        <Style x:Key="FullScreenButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="150" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/GameFramework;component/Media/fullscreen.png" 
+								Width="36" 
+								Height="30">
+                            </Image>
+                            <ContentPresenter Content="{Binding}" Margin="10,10,0,0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="Border" x:Key="NVLBorde2r">
             <Setter Property="CornerRadius" Value="20"/>
             <Setter Property="BorderBrush" Value="Black"/>
@@ -52,13 +67,14 @@
         </Grid.ColumnDefinitions>
 
 
-        <Button Content="OK" Height="23" Name="btnOK" VerticalAlignment="Top" Click="btnOK_Click" Grid.Row="4" HorizontalAlignment="Right" Width="75" Grid.Column="2" Margin="0,0,145,0" />
+        <Button Content="OK" Height="40" Name="btnOK" VerticalAlignment="Top" Click="btnOK_Click" Grid.Row="4" Margin="12,0,0,0" HorizontalAlignment="Left" Width="75" />
         <Border Style="{StaticResource NVLBorder}" Grid.Column="4" >
-            <StackPanel Orientation="Vertical" Margin="10">
+            <StackPanel Orientation="Vertical" Margin="10" MaxWidth="200">
+                <TextBlock Name="textBlock1" Text="Make sure to click on the button below, BEFORE RUNNING THE GAME FOR THE FIRST TIME." TextWrapping="Wrap" Margin="0,0,0,20" FontWeight="Bold" />
                 <Button Content="Increase Storage Quota" Height="23" Margin="0,0,0,20" Name="button0" Width="120"  Visibility="Visible" Click="BtnQuota_Click" />
-                <Button Content="Export Data to File" Height="23" Name="button3" Visibility="Visible" Width="120" Margin="0,0,0,20" Click="BtnExport_Click" />
-                <Button Content="Save Profile" Height="23" Margin="0,0,0,0" Name="button1" Width="75" Click="BtnSave_Click" Visibility="Visible" />
-                <Button Content="Restore Profile" Height="23" Margin="0,0,0,0" Name="button2" Width="75" Click="BtnRestore_Click" Visibility="Visible" />
+                <Button Content="Export Data to File" Height="23" Name="button3" Visibility="Collapsed" Width="120" Margin="0,0,0,20" Click="BtnExport_Click" />
+                <Button Content="Save Profile" Height="23" Margin="0,0,0,0" Name="button1" Width="75" Click="BtnSave_Click" Visibility="Collapsed" />
+                <Button Content="Restore Profile" Height="23" Margin="0,0,0,0" Name="button2" Width="75" Click="BtnRestore_Click" Visibility="Collapsed" />
             </StackPanel>
         </Border>
         <Border Style="{StaticResource NVLBorder}" Grid.RowSpan="3" Grid.ColumnSpan="3" >
@@ -94,9 +110,9 @@
             </sdk:TabControl>
         </Border>
         <Border Style="{StaticResource NVLBorder}" Grid.Column="4" Grid.Row="2">
-            <Grid Margin="10" >
+            <Grid Margin="10" MaxWidth="200">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="10" />
+                    <RowDefinition Height="10*" />
                     <RowDefinition Height="40" />
                     <RowDefinition Height="40" />
                     <RowDefinition Height="40*" />
@@ -108,8 +124,12 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="label1" VerticalAlignment="Top" Grid.Row="1" Text="Duration (ms)" TextAlignment="Right" />
                 <TextBlock Grid.Row="2" Text="Frequency (Hz)" VerticalAlignment="Top" TextAlignment="Right" />
-                <Button Content="Calibration" Grid.Row="3" Height="23" Name="button4" Visibility="Visible" Width="75" Grid.ColumnSpan="3" VerticalAlignment="Top" />
+                <Button Content="Calibration" Grid.Row="3" Height="23" Name="button4" Visibility="Visible" Width="75" Grid.ColumnSpan="3" VerticalAlignment="Top" Click="button4_Click" />
+                <TextBox HorizontalAlignment="Left" Name="textBox1" VerticalAlignment="Top" Width="52" Grid.Column="2" Grid.Row="1" DataContext="{Binding}" Text="800" />
+                <TextBox Grid.Row="2" HorizontalAlignment="Left" Name="textBox2" VerticalAlignment="Top" Width="52" Grid.Column="2" Text="1500" />
+                <TextBlock Name="textBlock2" Text="AUDIO CALIBRATION" TextWrapping="Wrap" Grid.ColumnSpan="3" FontWeight="Bold" />
             </Grid>
         </Border>
+        <Button x:Name="_xFullScreen" Content="Toggle Full Screen" Style="{Binding Source={StaticResource FullScreenButtonStyle}}" Height="40" VerticalAlignment="Top" Grid.Column="4" Grid.Row="4" HorizontalAlignment="Right" Width="150" Margin="0,0,12,0" Click="_xFullScreen_Click" />
     </Grid>
 </UserControl>

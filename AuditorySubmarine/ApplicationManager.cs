@@ -651,8 +651,6 @@ namespace LSRI.Submarine
 
             SubOptions.Instance.RetrieveConfiguration();
             myLogger.logGameStarted();
-
-            myLogger.WriteJSONEvent(new GameEvent());
         }
 
         private void GamePage_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -793,7 +791,8 @@ namespace LSRI.Submarine
                 ModifierKeys keys = Keyboard.Modifiers;
                 bool controlKey = (keys & ModifierKeys.Control) != 0;
                 bool altKey = (keys & ModifierKeys.Alt) != 0;
-                if (controlKey && altKey)
+                bool shiftkey = (keys & ModifierKeys.Shift) != 0;
+                if (controlKey && altKey && shiftkey && KeyHandler.Instance.isKeyPressed(Key.Z))
                 {
                     btnOption.Visibility = Visibility.Visible;
                 }
@@ -979,7 +978,7 @@ namespace LSRI.Submarine
 
 
             _synthEx.Stop();
- 
+            //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
 
         }
 
@@ -1139,14 +1138,26 @@ namespace LSRI.Submarine
                SubOptions.Instance.Game);
             panel.SetValue(Canvas.LeftProperty, 10.0);
             panel.SetValue(Canvas.TopProperty, 10.0);
+            this._synthEx.Sequencer._freqChangedHook -= new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
+            this._synthEx.Sequencer._freqPlayedHook -= new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
+            this._synthEx.Sequencer._freqStoppedHook -= new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
+            this._synthEx.Sequencer._stepEndedHook -= new SequencerExt.StepEnded(Sequencer__stepEndedHook);
+
+            panel.OnInitialiseTask += delegate()
+            {
+                MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
+                //children = new MediaElement();
+                int bug = SubOptions.Instance.Auditory.BufferLength;
+                this._synthEx.CalibrateSequencer(2000,16);
+
+                _synthEx.Start();
+                _synthEx.Stop();
+                _synthEx.Start();
+            };
 
             panel.OnCompleteTask += delegate() 
             {
-                this._synthEx.Sequencer._freqChangedHook -= new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
-                this._synthEx.Sequencer._freqPlayedHook -= new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
-                this._synthEx.Sequencer._freqStoppedHook -= new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
-                this._synthEx.Sequencer._stepEndedHook -= new SequencerExt.StepEnded(Sequencer__stepEndedHook);
-
+ 
                 
                 MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
                 //children = new MediaElement();
@@ -1168,7 +1179,7 @@ namespace LSRI.Submarine
 
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(panel);
 
-            ButtonIcon btnFull = new ButtonIcon();
+           /* ButtonIcon btnFull = new ButtonIcon();
             btnFull.TextContent.Text = "Full Screen Mode";
             btnFull.Icon.Source = ResourceHelper.GetBitmap("/GameFramework;component/Media/fullscreen.png");
             //btnFull.Icon.Height = 22;
@@ -1182,7 +1193,7 @@ namespace LSRI.Submarine
                 AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
                 
             };
-            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);
+            (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(btnFull);*/
 
         }
 

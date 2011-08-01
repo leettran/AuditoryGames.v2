@@ -305,7 +305,7 @@ namespace LSRI.TreasureHunter.Model
             this._maxTarget = 0;
             this._currExposure = 0;
             this._nbActions = 0;
-            this._showDebug = true;
+            this._showDebug = false;
             this._scores = new HighScoreContainer();
             this.Pattern = new WinPattern();
             this.VisualTiming = new Gates();

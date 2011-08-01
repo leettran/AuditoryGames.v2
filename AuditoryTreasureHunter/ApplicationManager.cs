@@ -297,7 +297,7 @@ namespace LSRI.TreasureHunter
 
         protected TreasureApplicationManager()
         {
-            KeyHandler.Instance.IskeyUpOnly = true;
+            //KeyHandler.Instance.IskeyUpOnly = true;
 
         /*    _synthEx = new Frequency3IGenerator();
 
@@ -374,6 +374,7 @@ namespace LSRI.TreasureHunter
             {
                 if (KeyHandler.Instance.isKeyPressed(Key.Q))
                 {
+                    KeyHandler.Instance.clearKeyPresses();
                     this.myLogger.logLevelEnded(-1);
                     StateManager.Instance.setState(TreasureStates.MAINMENU_STATE);
                     return;
@@ -407,17 +408,28 @@ namespace LSRI.TreasureHunter
             }
             else if (StateManager.Instance.CurrentState.Equals(TreasureStates.MAINMENU_STATE))
             {
-                ModifierKeys keys = Keyboard.Modifiers;
-                bool controlKey = (keys & ModifierKeys.Control) != 0;
-                bool altKey = (keys & ModifierKeys.Alt) != 0;
-                if (controlKey && altKey)
+
+                if (KeyHandler.Instance.isKeyPressed(Key.Enter))
                 {
-                    btnOption.Visibility = Visibility.Visible;
+                    KeyHandler.Instance.clearKeyPresses();
+                    StateManager.Instance.setState(TreasureStates.LEVEL_STATE);
                 }
-                else
+                else 
                 {
-                    if (btnOption.Visibility == Visibility.Visible)
-                        btnOption.Visibility = Visibility.Collapsed;
+                    ModifierKeys keys = Keyboard.Modifiers;
+                    bool controlKey = (keys & ModifierKeys.Control) != 0;
+                    bool altKey = (keys & ModifierKeys.Alt) != 0;
+                    bool shiftkey = (keys & ModifierKeys.Shift) != 0;
+                    if (controlKey && altKey && KeyHandler.Instance.isKeyPressed(Key.Z))
+                    {
+                        
+                        btnOption.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        if (btnOption.Visibility == Visibility.Visible)
+                            btnOption.Visibility = Visibility.Collapsed;
+                    }
                 }
             }
       
@@ -728,6 +740,7 @@ namespace LSRI.TreasureHunter
             btnOption.Icon.Width = 32;
             btnOption.Width = 120;
             btnOption.Height = 40;
+            btnOption.Visibility = Visibility.Collapsed;
             btnOption.SetValue(Canvas.LeftProperty, 40.0);
             btnOption.SetValue(Canvas.TopProperty, 450.0);
             btnOption.Click += delegate(object sender, RoutedEventArgs e)
@@ -822,6 +835,8 @@ namespace LSRI.TreasureHunter
 
         public void startLevel()
         {
+            KeyHandler.Instance.IskeyUpOnly = true;
+
             TreasureOptions.Instance.AttachDebug(AuditoryGameApp.Current.RootVisual as GamePage);
             TreasureApplicationManager.PREVENT_AUDIO_CHANGES = false;
 
@@ -1013,6 +1028,7 @@ namespace LSRI.TreasureHunter
 
         public void exitLevel()
         {
+            KeyHandler.Instance.IskeyUpOnly = false; 
             this._synthEx.Stop();
             //MediaElement children = (LSRI.AuditoryGames.GameFramework.App.Current.RootVisual as Page).AudioPlayer;
             //children.Stop();
@@ -1058,6 +1074,7 @@ namespace LSRI.TreasureHunter
         private void startScore()
         {
             bool success = TreasureOptions.Instance.User.CurrentScore >= TreasureOptions.Instance.User.CurrentTarget;
+            this.myLogger.logLevelEnded((success)?1:0);
 
             GamePage pg = AuditoryGameApp.Current.RootVisual as GamePage;
             ScorePanel pn = new ScorePanel();

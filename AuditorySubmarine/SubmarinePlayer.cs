@@ -301,7 +301,7 @@ namespace LSRI.Submarine
                         };
                         // we have to insert any non GameObjects at the end of the children collection
                         pg.LayoutRoot.Children.Insert(pg.LayoutRoot.Children.Count, pn);
-                        
+                        //pn.ForceQuit();
                     }
                     else
                     {
