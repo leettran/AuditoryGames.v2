@@ -1052,10 +1052,31 @@ namespace LSRI.TreasureHunter
                 TreasureOptions.Instance.User,
                 TreasureOptions.Instance.Auditory,
                 TreasureOptions.Instance.Game);
+
+            // Start the calibration task
+            panel.OnCalibrateTask += delegate()
+            {
+                _synthEx.Stop();
+                _synthEx.CalibrateSequencer(panel._calibration.Frequency, panel._calibration.Duration);
+                _synthEx.Start();
+                
+                
+            };
+
+            // Triggered when changes are made to parameters (Auditory model)
+            panel.OnCommitParamsTask += delegate()
+            {
+                _synthEx.AttenuationSequencer = TreasureOptions.Instance.Auditory.Attenuation + TreasureOptions.Instance.Auditory.AttenuationRandom;
+                _synthEx.AttenuationRandom = TreasureOptions.Instance.Auditory.AttenuationRandom;
+            };
+
+            // Triggered when quitting the options
             panel.OnCompleteTask += delegate()
             {
+                _synthEx.Stop();
                 StateManager.Instance.setState(TreasureStates.MAINMENU_STATE);
             };
+
             panel.SetValue(Canvas.LeftProperty, 10.0);
             panel.SetValue(Canvas.TopProperty, 10.0);
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(panel);

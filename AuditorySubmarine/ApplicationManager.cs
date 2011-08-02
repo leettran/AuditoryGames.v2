@@ -1131,48 +1131,56 @@ namespace LSRI.Submarine
         {
             this.allowConfiguration = true;
 
-            //SubmarineOptionPanel panel = new SubmarineOptionPanel();
             GameParameters panel = new GameParameters(
                SubOptions.Instance.User,
                SubOptions.Instance.Auditory,
                SubOptions.Instance.Game);
             panel.SetValue(Canvas.LeftProperty, 10.0);
             panel.SetValue(Canvas.TopProperty, 10.0);
-            this._synthEx.Sequencer._freqChangedHook -= new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
+
+            /*this._synthEx.Sequencer._freqChangedHook -= new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
             this._synthEx.Sequencer._freqPlayedHook -= new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
             this._synthEx.Sequencer._freqStoppedHook -= new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
-            this._synthEx.Sequencer._stepEndedHook -= new SequencerExt.StepEnded(Sequencer__stepEndedHook);
+            this._synthEx.Sequencer._stepEndedHook -= new SequencerExt.StepEnded(Sequencer__stepEndedHook);*/
 
-            panel.OnInitialiseTask += delegate()
+            // Start the calibration task
+            panel.OnCalibrateTask += delegate()
             {
-                MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
-                //children = new MediaElement();
+                /*MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
+                children = new MediaElement();
                 int bug = SubOptions.Instance.Auditory.BufferLength;
-                this._synthEx.CalibrateSequencer(2000,16);
-
-                _synthEx.Start();
+                _synthEx = new Frequency2IGenerator(children, bug)
+                {
+                    AttenuationSequencer = SubOptions.Instance.Auditory.Attenuation + SubOptions.Instance.Auditory.AttenuationRandom,
+                    AttenuationRandom = SubOptions.Instance.Auditory.AttenuationRandom
+                };*/
                 _synthEx.Stop();
+                _synthEx.CalibrateSequencer(panel._calibration.Frequency, panel._calibration.Duration);
                 _synthEx.Start();
             };
 
+            // Triggered when changes are made to parameters (Auditory model)
+            panel.OnCommitParamsTask += delegate()
+            {
+                _synthEx.AttenuationSequencer = SubOptions.Instance.Auditory.Attenuation + SubOptions.Instance.Auditory.AttenuationRandom;
+                _synthEx.AttenuationRandom = SubOptions.Instance.Auditory.AttenuationRandom;
+            };
+
+            // Triggered when quitting the options
             panel.OnCompleteTask += delegate() 
             {
- 
-                
-                MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
-                //children = new MediaElement();
+                /*MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
+                children = new MediaElement();
                 int bug = SubOptions.Instance.Auditory.BufferLength;
                 _synthEx = new Frequency2IGenerator(children, bug)
                 {
                     AttenuationSequencer = SubOptions.Instance.Auditory.Attenuation + SubOptions.Instance.Auditory.AttenuationRandom,
                     AttenuationRandom = SubOptions.Instance.Auditory.AttenuationRandom
                 };
-
                 this._synthEx.Sequencer._freqChangedHook += new SequencerExt.FrequencyChanged(Sequencer__freqChangedHook);
                 this._synthEx.Sequencer._freqPlayedHook += new SequencerExt.FrequencyPlayed(Sequencer__freqStartHook);
                 this._synthEx.Sequencer._freqStoppedHook += new SequencerExt.FrequencyStopped(Sequencer__freqStopHook);
-                this._synthEx.Sequencer._stepEndedHook += new SequencerExt.StepEnded(Sequencer__stepEndedHook);
-                _synthEx.Start();
+                this._synthEx.Sequencer._stepEndedHook += new SequencerExt.StepEnded(Sequencer__stepEndedHook);*/
                 _synthEx.Stop();
                 StateManager.Instance.setState(SubmarineStates.MAINMENU_STATE);
             };

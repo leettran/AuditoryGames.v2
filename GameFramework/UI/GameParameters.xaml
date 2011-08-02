@@ -99,7 +99,7 @@
                 </sdk:TabItem>
                 <sdk:TabItem Header="Auditory Model" Name="tabItem2">
                     <StackPanel Orientation="Horizontal">
-                        <gamefw:SuperDataForm x:Name="_xStaircase" Header="Staircase" AutoCommit="True" AutoEdit="True" AutoGenerateFields="True" CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" CommitButtonContent="Commit" HeaderVisibility="Visible" UseLayoutRounding="True" Margin="10" MinWidth="220"></gamefw:SuperDataForm>
+                        <gamefw:SuperDataForm x:Name="_xStaircase" Header="Staircase" AutoCommit="True" AutoEdit="True" AutoGenerateFields="True" CancelButtonContent="Cancel" CommandButtonsVisibility="Commit, Cancel" CommitButtonContent="Commit" HeaderVisibility="Visible" UseLayoutRounding="True" Margin="10" MinWidth="220" EditEnded="_xStaircase_EditEnded"></gamefw:SuperDataForm>
                     </StackPanel>
                 </sdk:TabItem>
                 <sdk:TabItem Header="Game Options" Name="tabItem3">
@@ -109,12 +109,13 @@
                 </sdk:TabItem>
             </sdk:TabControl>
         </Border>
-        <Border Style="{StaticResource NVLBorder}" Grid.Column="4" Grid.Row="2">
+        <Border Style="{StaticResource NVLBorder}" Grid.Column="4" Grid.Row="2" DataContext="{Binding}">
             <Grid Margin="10" MaxWidth="200">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10*" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
                     <RowDefinition Height="40*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -122,11 +123,11 @@
                     <ColumnDefinition Width="10" />
                     <ColumnDefinition Width="50*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Name="label1" VerticalAlignment="Top" Grid.Row="1" Text="Duration (ms)" TextAlignment="Right" />
-                <TextBlock Grid.Row="2" Text="Frequency (Hz)" VerticalAlignment="Top" TextAlignment="Right" />
-                <Button Content="Calibration" Grid.Row="3" Height="23" Name="button4" Visibility="Visible" Width="75" Grid.ColumnSpan="3" VerticalAlignment="Top" Click="button4_Click" />
-                <TextBox HorizontalAlignment="Left" Name="textBox1" VerticalAlignment="Top" Width="52" Grid.Column="2" Grid.Row="1" DataContext="{Binding}" Text="800" />
-                <TextBox Grid.Row="2" HorizontalAlignment="Left" Name="textBox2" VerticalAlignment="Top" Width="52" Grid.Column="2" Text="1500" />
+                <TextBlock Name="label1" VerticalAlignment="Center" Grid.Row="1" Text="Duration (ms)" TextAlignment="Right" />
+                <TextBlock Grid.Row="2" Text="Frequency (Hz)" VerticalAlignment="Center" TextAlignment="Right" />
+                <Button Content="Calibration" Grid.Row="4" Height="23" Name="btnCalibrate" Visibility="Visible" Width="75" Grid.ColumnSpan="3" VerticalAlignment="Top" Click="btnCalibrate_Click" />
+                <TextBox HorizontalAlignment="Left" Name="_xCalDuration" VerticalAlignment="Center" Width="52" Grid.Column="2" Grid.Row="1" Text="{Binding Duration, Mode=TwoWay}" IsEnabled="False" />
+                <TextBox Grid.Row="2" HorizontalAlignment="Left" Name="_xCalFreq" VerticalAlignment="Center" Width="52" Grid.Column="2" Text="{Binding Frequency, Mode=TwoWay}" />
                 <TextBlock Name="textBlock2" Text="AUDIO CALIBRATION" TextWrapping="Wrap" Grid.ColumnSpan="3" FontWeight="Bold" />
             </Grid>
         </Border>

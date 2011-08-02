@@ -19,21 +19,48 @@ namespace LSRI.AuditoryGames.GameFramework
     /// </summary>
     public partial class GameParameters : UserControl
     {
-        public delegate void OnCompleteTaskEvent();
-        public event OnCompleteTaskEvent OnCompleteTask;
-        public event OnCompleteTaskEvent OnInitialiseTask;
+        public delegate void OnTaskEvent();
+        public event OnTaskEvent OnCompleteTask;
+        public event OnTaskEvent OnCalibrateTask;
+        public event OnTaskEvent OnCommitParamsTask;
+
+        public class Calibration
+        {
+            public int Frequency { get; set; }
+            public int Duration { get; set; }
+        }
+
+        public Calibration _calibration = null; 
 
         public GameParameters()
         {
+            _calibration = new Calibration
+            {
+                Duration = 1000,
+                Frequency = 1500
+            };
             InitializeComponent();
+
+            _xCalDuration.DataContext = _calibration;
+            _xCalFreq.DataContext = _calibration;
+
         }
 
         public GameParameters(UserModelEntity um, UserModelEntity am, UserModelEntity gm)
         {
+            _calibration = new Calibration
+            {
+                Duration = 800,
+                Frequency = 1500
+            }; 
+            
             InitializeComponent();
             _xPeople.CurrentItem = um;
             _xStaircase.CurrentItem = am;
             _xGameOption.CurrentItem = gm;
+
+            _xCalDuration.DataContext = _calibration;
+            _xCalFreq.DataContext = _calibration;
         }
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
@@ -79,9 +106,18 @@ namespace LSRI.AuditoryGames.GameFramework
             AuditoryGameApp.Current.Host.Content.IsFullScreen = !AuditoryGameApp.Current.Host.Content.IsFullScreen;
         }
 
-        private void button4_Click(object sender, RoutedEventArgs e)
+        private void btnCalibrate_Click(object sender, RoutedEventArgs e)
         {
-            if (this.OnInitialiseTask != null) this.OnInitialiseTask();
+            if (this.OnCalibrateTask != null) this.OnCalibrateTask();
+        }
+
+        private void _xStaircase_EditEnded(object sender, DataFormEditEndedEventArgs e)
+        {
+            if (e.EditAction == DataFormEditAction.Commit)
+            {
+                if (this.OnCommitParamsTask != null) this.OnCommitParamsTask();
+            }
+
         }
 
     }

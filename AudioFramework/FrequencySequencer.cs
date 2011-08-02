@@ -205,17 +205,17 @@ namespace LSRI.AuditoryGames.AudioFramework
 
         void _sequencer__stepChangedHook()
         {
-            //Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
+            Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
         }
 
         void _sequencer__stepEndedHook()
         {
-            //Debug.WriteLine("SEQUENCER - LAST STEP ##### : " + this._sequencer.StepIndex);
+            Debug.WriteLine("SEQUENCER - LAST STEP ##### : " + this._sequencer.StepIndex);
         }
 
         void _sequencer__stepStartedHook()
         {
-           // Debug.WriteLine("SEQUENCER - STARTED ##### : " + this._sequencer.StepIndex);
+            Debug.WriteLine("SEQUENCER - STARTED ##### : " + this._sequencer.StepIndex);
         }
 
         /// <summary>
@@ -247,8 +247,8 @@ namespace LSRI.AuditoryGames.AudioFramework
 
 
             //this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepChangedHook);
-           // this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEndedHook);
-           // this._sequencer._stepStartedHook += new SequencerExt.StepStarted(_sequencer__stepStartedHook);
+            //this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEndedHook);
+            //this._sequencer._stepStartedHook += new SequencerExt.StepStarted(_sequencer__stepStartedHook);
 
             this._intervalVoices = new Dictionary<int, ISampleMaker>();
 
@@ -425,7 +425,25 @@ namespace LSRI.AuditoryGames.AudioFramework
             _StimuliStructure.Add(new Stimulus(c, 1+28 * 2, 4 * 2));
             _StimuliStructure.Add(new Stimulus(1+32 * 2, 40 * 2));
 
-            setSequencer(3);
+            setSequencer(0);
+        }
+
+        public void CalibrateSequencer(double fq, double length)
+        {
+            this._sequencer.Reset();
+            //myqueue = new Queue<double>();
+            this.Left = fq;
+            this.Middle = fq;
+            this.Right = fq;
+            _StimuliStructure = new List<Stimulus>();
+            _StimuliStructure.Add(new Stimulus(fq, 1 + 0, 40));
+            _StimuliStructure.Add(new Stimulus(1 + 40, 10));
+            _StimuliStructure.Add(new Stimulus(fq, 1 + 50, 40));
+            _StimuliStructure.Add(new Stimulus(1 + 90, 10));
+            _StimuliStructure.Add(new Stimulus(fq, 1 + 100, 40));
+            _StimuliStructure.Add(new Stimulus(1 + 140, 40));
+
+            setSequencer(0);
         }
 
        /* public delegate void AttachExecuteDelegate();
@@ -659,9 +677,9 @@ namespace LSRI.AuditoryGames.AudioFramework
             myqueue = new Queue<double>();
  
             _StimuliStructure = new List<Stimulus>();
-            _StimuliStructure.Add(new Stimulus(5000, 0, 40));
+            _StimuliStructure.Add(new Stimulus(fq, 0, 40));
             _StimuliStructure.Add(new Stimulus(40,10));
-            _StimuliStructure.Add(new Stimulus(5000, 50, 40));
+            _StimuliStructure.Add(new Stimulus(fq, 50, 40));
             _StimuliStructure.Add(new Stimulus(90,10));
             setSequencer(3);       
         }
