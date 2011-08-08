@@ -168,6 +168,10 @@ namespace LSRI.AuditoryGames.AudioFramework
         /// </summary>
         protected MediaElement _elt = null;
 
+        public int CountTraining { set; get; }
+        public int CountComparison { set; get; }
+
+
         protected Random _rd = new Random();
 
         /// <summary>
@@ -389,6 +393,10 @@ namespace LSRI.AuditoryGames.AudioFramework
         public double Middle { set; get; }
         public double Right { set; get; }
 
+        public bool isLeftTraining { set; get; }
+        public bool isMiddleTraining { set; get; }
+        public bool isRightTraining { set; get; }
+
         public Frequency3IGenerator(MediaElement elt)
             : base(elt)
         {
@@ -403,16 +411,26 @@ namespace LSRI.AuditoryGames.AudioFramework
 
             setSequencer(0);
             this._sequencer._stepEndedHook += new SequencerExt.StepEnded(_sequencer__stepEnded3IHook);
+            this._sequencer._stepChangedHook += new SequencerExt.StepChanged(_sequencer__stepChanged3IHook);
         }
 
         public override void ResetSequencer()
         {
            // setSequencer(3);
+           // this.CountComparison = 0;
+          //  this.CountTraining = 0;
+
         }
 
         public void ResetSequencer(double a, double b, double c)
         {
             this._sequencer.Reset();
+
+            Debug.WriteLine("SEQUENCER - COUNT INITIALISED ");
+            //this.CountComparison = 0;
+            //this.CountTraining = 0;
+
+
             //myqueue = new Queue<double>();
             this.Left = a;
             this.Middle = b;
@@ -461,6 +479,42 @@ namespace LSRI.AuditoryGames.AudioFramework
             this._sequencer.StepIndex = 0;// this._sequencer.StepCount - 1;
 
         }*/
+        void _sequencer__stepChanged3IHook()
+        {
+            int st1 = _StimuliStructure[0]._start;
+            int st2 = _StimuliStructure[2]._start;
+            int st3 = _StimuliStructure[4]._start;
+
+            if (this._sequencer.StepIndex == st1)
+            {
+                Voice v = this._intervalVoices[0] as Voice;
+                if (isLeftTraining)
+                    this.CountTraining++;
+                else
+                    this.CountComparison++;
+                this._sequencer.OnFrequencyPlayed(String.Format("\t[AUD] \t stimuli 1 played: {0} - {1}", v.Frequency, v.Attenuation));
+            }
+            if (this._sequencer.StepIndex == st2)
+            {
+                Voice v = this._intervalVoices[1] as Voice;
+                if (isMiddleTraining)
+                    this.CountTraining++;
+                else
+                    this.CountComparison++;
+
+                this._sequencer.OnFrequencyPlayed(String.Format("\t[AUD] \t stimuli 2 played: {0} - {1}", v.Frequency, v.Attenuation));
+            }
+            if (this._sequencer.StepIndex == st3)
+            {
+                Voice v = this._intervalVoices[1] as Voice;
+                if (isRightTraining)
+                    this.CountTraining++;
+                else
+                    this.CountComparison++;
+
+                this._sequencer.OnFrequencyPlayed(String.Format("\t[AUD] \t stimuli 2 played: {0} - {1}", v.Frequency, v.Attenuation));
+            }
+        }
 
         void _sequencer__stepEnded3IHook()
         {
@@ -598,7 +652,7 @@ namespace LSRI.AuditoryGames.AudioFramework
             if (this._sequencer.StepIndex == st1)
             {
                 Voice v = this._intervalVoices[0] as Voice;
-
+                this.CountTraining++;
                 this._sequencer.OnFrequencyPlayed(String.Format("\t[AUD] \t stimuli 1 played: {0} - {1}", v.Frequency,v.Attenuation));
             }
             if (this._sequencer.StepIndex == (st1+sp1))
@@ -610,6 +664,7 @@ namespace LSRI.AuditoryGames.AudioFramework
             if (this._sequencer.StepIndex == st2)
             {
                 Voice v = this._intervalVoices[1] as Voice;
+                this.CountComparison++;
 
                 this._sequencer.OnFrequencyPlayed(String.Format("\t[AUD] \t stimuli 2 played: {0} - {1}", v.Frequency,v.Attenuation));
             }
@@ -658,6 +713,9 @@ namespace LSRI.AuditoryGames.AudioFramework
 
         public override void ResetSequencer()
         {
+            Debug.WriteLine("SEQUENCER - COUNT INITIALISED ");
+           // this.CountComparison = 0;
+           // this.CountTraining = 0;
             //this.sequencer.StepCount = (int)this.stepBox.Value;
             this._sequencer.Reset();
             myqueue = new Queue<double>();

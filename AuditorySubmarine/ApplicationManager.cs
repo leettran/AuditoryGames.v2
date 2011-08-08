@@ -611,8 +611,6 @@ namespace LSRI.Submarine
         private ButtonIcon btnOption = null;
         public SubmarineLogger myLogger = new SubmarineLogger();
 
-        private Boolean allowConfiguration = false;
-
         /// <summary>
         /// 
         /// </summary>
@@ -1113,7 +1111,8 @@ namespace LSRI.Submarine
         }
         private void exitLevel()
         {
-            this._synthEx.Stop(); 
+            this._synthEx.Stop();
+            Debug.WriteLine("COUNT SEQUENCER : TRAINING (" + this._synthEx.CountTraining + ") COMPARISON (" + this._synthEx.CountComparison + ")");
             while (GameObject.gameObjects.Count != 0)
                 GameObject.gameObjects[0].shutdown();
 

@@ -45,6 +45,12 @@ namespace LSRI.AuditoryGames.GameFramework
         /// <summary>
         /// 
         /// </summary>
+        protected Boolean allowConfiguration = false;
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="dt"></param>
         public abstract void enterFrame(double dt);
 

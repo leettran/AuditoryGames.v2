@@ -330,8 +330,19 @@ namespace LSRI.TreasureHunter
             PREVENT_AUDIO_CHANGES = false;
         }*/
 
+        private void GamePage_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = (allowConfiguration == false);
+        }
+
+
         public override void startupApplicationManager()
         {
+            // Prevent right-click by user
+            (AuditoryGameApp.Current.RootVisual as GamePage).MouseRightButtonDown += new MouseButtonEventHandler(GamePage_MouseRightButtonDown);
+            (AuditoryGameApp.Current.RootVisual as GamePage).MouseRightButtonUp += new MouseButtonEventHandler(GamePage_MouseRightButtonDown);
+            
+            
             MediaElement children = (LSRI.AuditoryGames.GameFramework.AuditoryGameApp.Current.RootVisual as GamePage).AudioPlayer;
             _synthEx = new Frequency3IGenerator(children);
 
@@ -544,6 +555,9 @@ namespace LSRI.TreasureHunter
 
             a.updateNotes(newnote);
             _synthEx.Arpeggiator.Start();*/
+            this._synthEx.isLeftTraining = (freqL == fqTrain);
+            this._synthEx.isMiddleTraining = (freqM == fqTrain);
+            this._synthEx.isRightTraining = (freqR == fqTrain);
             this._synthEx.ResetSequencer(freqL, freqM, freqR);
             this._synthEx.Start();
         }
@@ -1022,6 +1036,8 @@ namespace LSRI.TreasureHunter
             //this._synthEx.Start();
             this.myLogger.logLevelStarted();
 
+            this._synthEx.CountComparison = 0;
+            this._synthEx.CountTraining = 0;
             UpdateSound(-1);
             TreasureOptions.Instance.UpdateDebug();
         }
@@ -1040,6 +1056,7 @@ namespace LSRI.TreasureHunter
             // _synthEx.Arpeggiator.Stop();
 
             //txtbScore = null;
+            Debug.WriteLine("COUNT SEQUENCER : TRAINING (" +this._synthEx.CountTraining+ ") COMPARISON ("+this._synthEx.CountComparison+")");
         }
 
         #endregion
@@ -1048,6 +1065,8 @@ namespace LSRI.TreasureHunter
 
         private void startOptions()
         {
+            this.allowConfiguration = true;
+
             GameParameters panel = new GameParameters(
                 TreasureOptions.Instance.User,
                 TreasureOptions.Instance.Auditory,
@@ -1085,6 +1104,7 @@ namespace LSRI.TreasureHunter
 
         private void exitOptions()
         {
+            this.allowConfiguration = false;
             removeAllCanvasChildren();
         }
 
