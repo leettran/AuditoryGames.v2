@@ -245,7 +245,7 @@ namespace LSRI.TreasureHunter
             double l = (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Left;
             double m = (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Middle;
             double r = (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Right;
-            (TreasureApplicationManager.Instance as TreasureApplicationManager).myLogger.logHitNugget((int)this.Type, this.Score,l,m,r);
+            (TreasureApplicationManager.Instance as TreasureApplicationManager).myLogger.logHitNugget((int)this.Type, this.Depth,this.Score,l,m,r);
 
             if (this.Type != TreasureType.TREASURE_NONE)
             {

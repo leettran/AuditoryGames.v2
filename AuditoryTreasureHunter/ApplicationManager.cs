@@ -31,6 +31,7 @@ namespace LSRI.TreasureHunter
         /// Event name for the Submarine hitting the end of the game scene (whether the gate or the wall)
         /// </summary>
         protected static readonly string LOG_HITNUGGET = "HIT_NUGGET";
+        protected static readonly string LOG_USERAUDIO = "USER_STIMULI";
 
         private static readonly string TREASURE_STORAGE_CSVFILENAME = @"logger_treasure.csv";
         private DateTime _startGame = DateTime.Now;
@@ -134,6 +135,8 @@ namespace LSRI.TreasureHunter
         /// - <b>$level$</b>: the current level of the game
         /// - <b>$outcome$</b>: SUCCESS if level completed, FAIL if not, CANCEL if game prematurely stopped
         /// - <b>$score$</b>: the current score of the user (might have a positive value even if level has failed)
+        /// - <b>$train$</b>: the number of training frequencies presented
+        /// - <b>$comp$</b>: the number of comparison frequencies presented
         /// </summary>
         public override void logLevelEnded(int win)
         {
@@ -150,11 +153,31 @@ namespace LSRI.TreasureHunter
                     strWin = "CANCEL";
                     break;
             }
+            int train = (IAppManager.Instance as TreasureApplicationManager)._synthEx.CountTraining;
+            int comp = (IAppManager.Instance as TreasureApplicationManager)._synthEx.CountComparison;
+
+
+            int score = TreasureOptions.Instance.User.CurrentScore;
+            int gold = TreasureOptions.Instance.User.CurrentGold;
+            int target = TreasureOptions.Instance.User.CurrentTarget;
+            int maxT = TreasureOptions.Instance.User.MaxTarget;
+            int charges = TreasureOptions.Instance.Game.Charges;
+
+            double sAccuracy = 100.0 * (double)gold / (double)charges;
+            double sEfficiency = 100.0 * (double)score / (double)maxT;
+            double sTarget = 100.0 * (double)score / (double)target;
+
+
             String[] par = {
                     elapsed.ToString(),
                     TreasureOptions.Instance.User.CurrentLevel.ToString(),
                     strWin,
-                    TreasureOptions.Instance.User.CurrentScore.ToString()
+                    TreasureOptions.Instance.User.CurrentScore.ToString(),
+                    train.ToString(),
+                    comp.ToString(),
+                    sAccuracy.ToString("F2"),
+                    sEfficiency.ToString("F2"),
+                    sTarget.ToString("F2")
                           };
             WriteLogFile(_now, GameLogger.LOG_LEVELENDED, String.Join(",", par));
         }
@@ -169,11 +192,12 @@ namespace LSRI.TreasureHunter
         /// - <b>$duration$</b>: time elapsed (HH:MM:SS.0000) since the previous LEVEL_STARTED event
         /// - <b>$outcome$</b>: nature of the nugget blasted; can be GOLD, COAL or EMPTY (i.e. already blasted out)
         /// - <b>$score$</b>: the value of the nugget
+        /// - <b>$deoth$</b>: the depth of the nugget
         /// - <b>$left$</b>: the frequency played on the left BEFORE the nugget was blasted out
         /// - <b>$center$</b>: the frequency played on the middle BEFORE the nugget was blasted out
         /// - <b>$right$</b>: the frequency played on the right BEFORE the nugget was blasted out
         /// </summary>
-        public virtual void logHitNugget(int win, double score,double l,double m,double r)
+        public virtual void logHitNugget(int win, double depth,double score,double l,double m,double r)
         {
             DateTime _now = DateTime.Now;
             TimeSpan elapsed = _now - _startLevel;
@@ -201,6 +225,7 @@ namespace LSRI.TreasureHunter
                     TreasureOptions.Instance.User.CurrentLevel.ToString(),
                     strWin,
                     score.ToString(),
+                    depth.ToString(),
                     l.ToString(),
                     m.ToString(),
                     r.ToString(),
@@ -210,6 +235,50 @@ namespace LSRI.TreasureHunter
 
                           };
             WriteLogFile(_now, TreasureHunterLogger.LOG_HITNUGGET, String.Join(",", par));
+        }
+
+        /// <summary>
+        /// output 
+        /// - $date$,$time$,<b>LOG_USERAUDIO</b>,$duration$,$outcome$,$left$,$center$,$right$
+        /// 
+        /// where
+        /// - <b>$date$</b>: the date (DD/MM/YYYY) of the event
+        /// - <b>$time$</b>: the time (HH:MM:SS.0000) of the event
+        /// - <b>$duration$</b>: time elapsed (HH:MM:SS.0000) since the previous LEVEL_STARTED event
+        /// - <b>$outcome$</b>: nature of the nugget blasted; can be GOLD, COAL or EMPTY (i.e. already blasted out)
+        /// - <b>$score$</b>: the value of the nugget
+        /// - <b>$deoth$</b>: the depth of the nugget
+        /// - <b>$left$</b>: the frequency played on the left BEFORE the nugget was blasted out
+        /// - <b>$center$</b>: the frequency played on the middle BEFORE the nugget was blasted out
+        /// - <b>$right$</b>: the frequency played on the right BEFORE the nugget was blasted out
+        /// </summary>
+        public virtual void logRequestStimuli()
+        {
+            DateTime _now = DateTime.Now;
+            TimeSpan elapsed = _now - _startLevel;
+
+            double l = (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Left;
+            double m = (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Middle;
+            double r = (TreasureApplicationManager.Instance as TreasureApplicationManager)._synthEx.Right;
+            
+            double fqTrain = TreasureOptions.Instance.User.FrequencyTraining;
+            double fqComp = TreasureOptions.Instance.User.FrequencyTraining - TreasureOptions.Instance.User.FrequencyDelta;
+
+            string Left = (l == fqTrain) ? "TRAIN" : "COMP";
+            string Right = (r == fqTrain) ? "TRAIN" : "COMP";
+            string Midlle = (m == fqTrain) ? "TRAIN" : "COMP";
+
+            String[] par = {
+                    elapsed.ToString(),
+                    l.ToString(),
+                    m.ToString(),
+                    r.ToString(),
+                    Left.ToString(),
+                    Midlle.ToString(),
+                    Right.ToString()
+
+                          };
+            WriteLogFile(_now, TreasureHunterLogger.LOG_USERAUDIO, String.Join(",", par));
         }
 
 

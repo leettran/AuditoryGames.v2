@@ -468,7 +468,12 @@ namespace LSRI.Submarine
         /// - <b>$duration$</b>: time elapsed (HH:MM:SS.0000) since the previous LEVEL_STARTED event
         /// - <b>$level$</b>: the current level of the game
         /// - <b>$outcome$</b>: SUCCESS if level completed, FAIL if not, CANCEL if game prematurely stopped
+        /// - <b>$gate$</b>: index (0-based) of the gate reached (4 if SUCCESS)
         /// - <b>$score$</b>: the current score of the user (might have a positive value even if level has failed)
+        /// - <b>$train$</b>: the number of training frequencies presented
+        /// - <b>$comp$</b>: the number of comparison frequencies presented
+        /// - <b>$acc$</b>: the average accuracy (percentage)
+        /// - <b>$time$</b>: the average time left (percentage)
         /// </summary>
         public override void logLevelEnded(int win)
         { 
@@ -485,11 +490,33 @@ namespace LSRI.Submarine
                     strWin = "CANCEL";
                     break;
             }
+
+            int train = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.CountTraining;
+            int comp = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.CountComparison;
+
+            double avAcc = 0;
+            double avTime = 0;
+            if (win == 1 || win == 0)
+            {
+                for (int i = 0; i < SubOptions.Instance._scoreBuffer.Count; i++)
+                {
+                    avAcc += SubOptions.Instance._scoreBuffer[i].GateAccuracy;
+                    avTime += SubOptions.Instance._scoreBuffer[i].TimeLeft;
+                }
+                avAcc = avAcc / SubOptions.Instance._scoreBuffer.Count;
+                avTime = avTime / SubOptions.Instance._scoreBuffer.Count;
+            }
+
             String[] par = {
                     elapsed.ToString(),
                     SubOptions.Instance.User.CurrentLevel.ToString(),
                     strWin,
-                    SubOptions.Instance.User.CurrentScore.ToString()
+                    SubOptions.Instance.User.CurrentGate.ToString(),
+                    SubOptions.Instance.User.CurrentScore.ToString(),
+                    train.ToString(),
+                    comp.ToString(),
+                    ((int)avAcc).ToString(),
+                    ((int)avTime).ToString(),
                           };
             WriteLogFile(_now, GameLogger.LOG_LEVELENDED, String.Join(",", par));
         }
@@ -498,7 +525,7 @@ namespace LSRI.Submarine
         /// output 
         /// - $date$,$time$,<b>LEVEL_STARTED</b>,0,$level$,$training$,$delta$
         /// 
-        /// where
+        /// where.
         /// - <b>$date$</b>: the date (DD/MM/YYYY) of the event
         /// - <b>$time$</b>: the time (HH:MM:SS.0000) of the event
         /// - <b>$duration$</b>: always 0
@@ -532,8 +559,10 @@ namespace LSRI.Submarine
         /// - <b>$gate$</b>: index (0-based) of the current gate
         /// - <b>$diff$</b>: position difference (in game steps) between submarine and gate (negative means submarine below, positive means above)
         /// - <b>$comparison$</b>: the current comparison frequency (Hz) of the user
+        /// - <b>$acc$</b>: the accuracy (percentage)
+        /// - <b>$time$</b>: the time left (percentage)
         /// </summary>
-        public virtual void logGateReach(bool win, double Fq)
+        public virtual void logGateReach(bool win, double Fq,double acc,double eff)
         {
             DateTime _now = DateTime.Now;
             TimeSpan elapsed = _now - _startLevel;
@@ -554,7 +583,9 @@ namespace LSRI.Submarine
                     strWin,
                     SubOptions.Instance.User.CurrentGate.ToString(),
                     nb.ToString(),
-                    Fq.ToString()
+                    Fq.ToString("F2"),
+                    acc.ToString("F2"),
+                    eff.ToString("F2")
                           };
             WriteLogFile(_now, SubmarineLogger.LOG_HITWALLORGATE, String.Join(",", par));
         }
@@ -1104,7 +1135,11 @@ namespace LSRI.Submarine
             if ((SubOptions.Instance.User.CurrentGate == 0) &&
                 (SubOptions.Instance.User.CurrentScore == 0) &&
                 (SubOptions.Instance.User.CurrentLife == SubOptions.Instance.Game.MaxLives))
-                    (IAppManager.Instance as SubmarineApplicationManager).myLogger.logLevelStarted();
+            {
+                this._synthEx.CountComparison = 0;
+                this._synthEx.CountTraining = 0;
+                (IAppManager.Instance as SubmarineApplicationManager).myLogger.logLevelStarted();
+            }
             (IAppManager.Instance as SubmarineApplicationManager).myLogger.logGateStart();
 
             this._synthEx.Start();

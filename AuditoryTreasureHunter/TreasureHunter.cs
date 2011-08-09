@@ -158,6 +158,7 @@ namespace LSRI.TreasureHunter
             {
                 TreasureOptions.Instance.User.Actions++;
                 (TreasureApplicationManager.Instance as TreasureApplicationManager).UpdateSound(-1);
+                (TreasureApplicationManager.Instance as TreasureApplicationManager).myLogger.logRequestStimuli();
             }
 
         }

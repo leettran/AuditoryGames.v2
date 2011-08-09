@@ -219,7 +219,7 @@ namespace LSRI.Submarine
             {
                 (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine collides with WALL");
                 // LOG EVENT
-                (IAppManager.Instance as SubmarineApplicationManager).myLogger.logGateReach(false, SubOptions.Instance.User.FrequencyComparison);
+                (IAppManager.Instance as SubmarineApplicationManager).myLogger.logGateReach(false, SubOptions.Instance.User.FrequencyComparison,0,0);
 
 
                 AnimatedGameObject.UnusedAnimatedGameObject.startupAnimatedGameObject(
@@ -321,8 +321,6 @@ namespace LSRI.Submarine
             {
                 // Submarine hits the gate
                 (IAppManager.Instance as SubmarineApplicationManager)._gate.Visibility = Visibility.Visible;
-                // LOG EVENT
-                (IAppManager.Instance as SubmarineApplicationManager).myLogger.logGateReach(true, SubOptions.Instance.User.FrequencyComparison);
 
 
                 double tf = (IAppManager.Instance as SubmarineApplicationManager)._synthEx.GetTrainingFrequency();
@@ -363,6 +361,9 @@ namespace LSRI.Submarine
                     GatePosition = deltapos,
                     LifeLost = currLife
                 };
+                // LOG EVENT
+                (IAppManager.Instance as SubmarineApplicationManager).myLogger.logGateReach(true, SubOptions.Instance.User.FrequencyComparison, dartScore, timeScore);
+
                 SubOptions.Instance.User.CurrentGate++;
 
                 // update total score
