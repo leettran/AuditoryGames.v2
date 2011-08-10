@@ -182,7 +182,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
                 }
                 if (tt != null)
                 {
-                    Debug.WriteLine("JSON: " + tt);
+                    //Debug.WriteLine("JSON: " + tt);
                
                 using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForSite())
                 {
@@ -306,7 +306,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
             catch (Exception e)
             {
-                Debug.WriteLine("SERIALIZATION ERROR : " + e.Message);
+                //Debug.WriteLine("SERIALIZATION ERROR : " + e.Message);
             }
         }
 
@@ -335,7 +335,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             }
             catch (Exception e)
             {
-                Debug.WriteLine("DE-SERIALIZATION ERROR : " + e.Message);
+                //Debug.WriteLine("DE-SERIALIZATION ERROR : " + e.Message);
             }
             return umXML;
         }*/

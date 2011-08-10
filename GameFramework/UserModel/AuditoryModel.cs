@@ -224,15 +224,15 @@ namespace LSRI.AuditoryGames.GameFramework.Data
 
         public AuditoryModel()
         {
-            this._base = .10;
-            this._step = .10;
+            this._base = .50;
+            this._step = .30;
             this._minFq = 500;
             this._maxFq = 5000;
             this._lBeat = 25.0;
             this._lStim = 8;
             this._lIntStim = 10;
             this._lIntSignal = 20;
-            this._nBufferSize = 50;
+            this._nBufferSize = 20;
             this._attenuationSequencer = 0;
             this._attenuationRandom = 0;
             this._rule = Staircase.One_One;

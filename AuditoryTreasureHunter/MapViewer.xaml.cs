@@ -30,7 +30,7 @@ namespace LSRI.TreasureHunter
                 tt.Left += (pt.X < 40) ? 20 : -20;
                 tt.Left = Math.Min(0, tt.Left);
                 _image.Margin = tt;
-                // Debug.WriteLine("pos({2}) = {0} - {1}", pt.X, pt.Y,ff);
+                // //Debug.WriteLine("pos({2}) = {0} - {1}", pt.X, pt.Y,ff);
 
             }
         }

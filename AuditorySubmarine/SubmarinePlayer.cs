@@ -76,9 +76,9 @@ namespace LSRI.Submarine
             _accTime = 0;
 
             /*sp1 = new StopwatchPlus(
-                            sw => Debug.WriteLine("Submarine starts at {0}", sw.EllapsedMilliseconds),
-                            sw => Debug.WriteLine("Submarine stops at {0}", sw.EllapsedMilliseconds),
-                            (sw,msg) => Debug.WriteLine("{0} at {1}", msg, sw.EllapsedMilliseconds)
+                            sw => //Debug.WriteLine("Submarine starts at {0}", sw.EllapsedMilliseconds),
+                            sw => //Debug.WriteLine("Submarine stops at {0}", sw.EllapsedMilliseconds),
+                            (sw,msg) => //Debug.WriteLine("{0} at {1}", msg, sw.EllapsedMilliseconds)
             );
             sp1.Start();*/
             (IAppManager.Instance as SubmarineApplicationManager).Logger.Start();
@@ -110,7 +110,7 @@ namespace LSRI.Submarine
                 _subAccel += SubOptions.Instance.Game.SubmarineAcceleration;
                 KeyHandler.Instance.clearKeyPresses();
                 (IAppManager.Instance as SubmarineApplicationManager).Logger.Step("Submarine accelerated");
-                //Debug.WriteLine("Speed : {0}", (_subSpeed + _subAccel));
+                ////Debug.WriteLine("Speed : {0}", (_subSpeed + _subAccel));
                 //sp1.Step("Submarine accelerated");
                 //(IAppManager.Instance as SubmarineApplicationManager).myLogger.logAcceleration(Key.Right);
 
@@ -151,7 +151,7 @@ namespace LSRI.Submarine
                 const int MOVE_RESTRICTION = 2;
                 if (CanvasIndex <= MOVE_RESTRICTION) CanvasIndex = MOVE_RESTRICTION;
                 if (CanvasIndex > nbUnitsInScreen - MOVE_RESTRICTION) CanvasIndex = nbUnitsInScreen - MOVE_RESTRICTION;
-                Debug.WriteLine("XXXXXXXXXXXXXXXX position : {0}", CanvasIndex);
+                //Debug.WriteLine("XXXXXXXXXXXXXXXX position : {0}", CanvasIndex);
                 double SubLoc = screenMargin + CanvasIndex * stepSize;
                 SubLoc = SubLoc - Dimensions.Y / 2 + stepSize / 2;
                 Position = new Point(Position.X,  SubLoc);
@@ -163,7 +163,7 @@ namespace LSRI.Submarine
                 double deltapos = (IAppManager.Instance as SubmarineApplicationManager)._gate.CanvasIndex - CanvasIndex;
                 //double deltaf = fqDiff;//  fqTraining * .2;
                 double dfpix = deltaf / SubOptions.Instance.Game.GateSize;
-                Debug.WriteLine("*********** deltaloc = {0}", deltapos);
+                //Debug.WriteLine("*********** deltaloc = {0}", deltapos);
 
                 double fqComp = fqTraining - dfpix * deltapos;
                 if (fqComp >= SubOptions.Instance.Auditory.MaxFrequency) fqComp = SubOptions.Instance.Auditory.MaxFrequency;

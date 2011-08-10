@@ -12,7 +12,7 @@ namespace LSRI.AuditoryGames.Utils
     /// </summary>
     /// @code
     ///  StopwatchPlus sp1 = new StopwatchPlus(
-    ///     sw2 => Debug.WriteLine("Time! {0}", sw2.EllapsedMilliseconds));
+    ///     sw2 => //Debug.WriteLine("Time! {0}", sw2.EllapsedMilliseconds));
     ///  Thread.Sleep(500);
     ///  sp1.Stop();    // this will call the stopAction defined in the constructor
     /// @endcode
@@ -226,7 +226,7 @@ namespace LSRI.AuditoryGames.Utils
         [Conditional("DEBUG")]
         private static void WriteStartInternal(StopwatchPlus sw)
         {
-            Debug.WriteLine("BEGIN\t{0}", sw._name);
+            //Debug.WriteLine("BEGIN\t{0}", sw._name);
 
         }
 
@@ -239,7 +239,7 @@ namespace LSRI.AuditoryGames.Utils
         [Conditional("DEBUG")]
         private static void WriteResultsInternal(StopwatchPlus sw)
         {
-            Debug.WriteLine("END\t{0}\t{1}", sw._name, sw.EllapsedMilliseconds);
+            //Debug.WriteLine("END\t{0}\t{1}", sw._name, sw.EllapsedMilliseconds);
         }
 
         private static void WriteStep(StopwatchPlus sw, String msg)
@@ -251,7 +251,7 @@ namespace LSRI.AuditoryGames.Utils
         [Conditional("DEBUG")]
         private static void WriteStepInternal(StopwatchPlus sw, String msg)
         {
-            Debug.WriteLine("BEGIN\t{0} : {1}", sw._name, msg);
+            //Debug.WriteLine("BEGIN\t{0} : {1}", sw._name, msg);
 
         }
 

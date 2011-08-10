@@ -62,7 +62,7 @@ namespace LSRI.AuditoryGames.GameFramework
                 if (!IskeyUpOnly)
                 {
                     isPressed.Add(e.Key, true);
-                    //Debug.WriteLine("key DOWN: " + e.Key.ToString());
+                    ////Debug.WriteLine("key DOWN: " + e.Key.ToString());
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace LSRI.AuditoryGames.GameFramework
                 if (isPressed.ContainsKey(e.Key))
                 {
                     isPressed.Remove(e.Key);
-                    //Debug.WriteLine("clear key : " + e.Key.ToString());
+                    ////Debug.WriteLine("clear key : " + e.Key.ToString());
                 }
             }
             else
@@ -82,7 +82,7 @@ namespace LSRI.AuditoryGames.GameFramework
                  if (!isPressed.ContainsKey(e.Key))
                     {
                         isPressed.Add(e.Key, true);
-                        //Debug.WriteLine("key UP: " + e.Key.ToString());
+                        ////Debug.WriteLine("key UP: " + e.Key.ToString());
                     }
             }
         }

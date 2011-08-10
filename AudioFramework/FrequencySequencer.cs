@@ -209,17 +209,17 @@ namespace LSRI.AuditoryGames.AudioFramework
 
         void _sequencer__stepChangedHook()
         {
-            Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
+            //Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
         }
 
         void _sequencer__stepEndedHook()
         {
-            Debug.WriteLine("SEQUENCER - LAST STEP ##### : " + this._sequencer.StepIndex);
+            //Debug.WriteLine("SEQUENCER - LAST STEP ##### : " + this._sequencer.StepIndex);
         }
 
         void _sequencer__stepStartedHook()
         {
-            Debug.WriteLine("SEQUENCER - STARTED ##### : " + this._sequencer.StepIndex);
+            //Debug.WriteLine("SEQUENCER - STARTED ##### : " + this._sequencer.StepIndex);
         }
 
         /// <summary>
@@ -426,7 +426,7 @@ namespace LSRI.AuditoryGames.AudioFramework
         {
             this._sequencer.Reset();
 
-            Debug.WriteLine("SEQUENCER - COUNT INITIALISED ");
+            //Debug.WriteLine("SEQUENCER - COUNT INITIALISED ");
             //this.CountComparison = 0;
             //this.CountTraining = 0;
 
@@ -518,7 +518,7 @@ namespace LSRI.AuditoryGames.AudioFramework
 
         void _sequencer__stepEnded3IHook()
         {
-            //Debug.WriteLine("SEQUENCER - ENDED ## SHUT IT DOWN : " + this._sequencer.StepIndex);
+            ////Debug.WriteLine("SEQUENCER - ENDED ## SHUT IT DOWN : " + this._sequencer.StepIndex);
             this._elt.Dispatcher.BeginInvoke(() => this.Stop());
             return;
            /* //ThreadPool.QueueUserWorkItem(new WaitCallback(ThreadProc));
@@ -616,7 +616,7 @@ namespace LSRI.AuditoryGames.AudioFramework
             }*/
             _freqBuffer = fq;
             myqueue.Enqueue(fq);
-            //Debug.WriteLine("FREQUENCY -> queued change to {0}", fq);
+            ////Debug.WriteLine("FREQUENCY -> queued change to {0}", fq);
         }
 
         public void ChangeTargetFrequency(double delta)
@@ -638,7 +638,7 @@ namespace LSRI.AuditoryGames.AudioFramework
             SetTargetFrequency(fq);
             if (now)
             {
-                //Debug.WriteLine("FREQUENCY -> change now to {0}",fq);
+                ////Debug.WriteLine("FREQUENCY -> change now to {0}",fq);
                 _sequencer__stepEnded2IHook();
             }
         }
@@ -675,7 +675,7 @@ namespace LSRI.AuditoryGames.AudioFramework
                 this._sequencer.OnFrequencyStopped(String.Format("\t[AUD] \t stimuli 2 stopped: {0}", v.Frequency));
             }
 
-            //Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
+            ////Debug.WriteLine("SEQUENCER - NEXT STEP : " + this._sequencer.StepIndex);
         }
 
 
@@ -686,7 +686,7 @@ namespace LSRI.AuditoryGames.AudioFramework
            // double last = double.NaN;
            // while (myqueue.Count !=0)
              //  last= myqueue.Dequeue();
-            //Debug.WriteLine("Voice in play : {0}", _sequencer.voicesInPlay.Count);
+            ////Debug.WriteLine("Voice in play : {0}", _sequencer.voicesInPlay.Count);
             foreach (VoiceNote item in _sequencer.voicesInPlay)
             {
                 Type ff = item.Voice.GetType();
@@ -713,7 +713,7 @@ namespace LSRI.AuditoryGames.AudioFramework
 
         public override void ResetSequencer()
         {
-            Debug.WriteLine("SEQUENCER - COUNT INITIALISED ");
+            //Debug.WriteLine("SEQUENCER - COUNT INITIALISED ");
            // this.CountComparison = 0;
            // this.CountTraining = 0;
             //this.sequencer.StepCount = (int)this.stepBox.Value;

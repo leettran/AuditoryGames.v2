@@ -389,13 +389,13 @@ namespace LSRI.TreasureHunter
 
       /*  private void AppMgr_StimuliStarted()
         {
-            //Debug.WriteLine("---> AUDIO CUE started " + DateTime.Now.ToString("HH:MM:ss.FFFFFF"));
+            ////Debug.WriteLine("---> AUDIO CUE started " + DateTime.Now.ToString("HH:MM:ss.FFFFFF"));
             PREVENT_AUDIO_CHANGES = true;
         }
 
         private void AppMgr_StimuliStopped()
         {
-            Debug.WriteLine("---> AUDIO CUE stopped" + DateTime.Now.ToString("HH:MM:ss.FFFFFF"));
+            //Debug.WriteLine("---> AUDIO CUE stopped" + DateTime.Now.ToString("HH:MM:ss.FFFFFF"));
             PREVENT_AUDIO_CHANGES = false;
         }*/
 
@@ -687,7 +687,7 @@ namespace LSRI.TreasureHunter
             List<String> setup = TreasureOptions.Instance.Game.GetLevelDescriptors();
             String settings = setup[_rand.Next(0, setup.Count - 1)];
             TreasureOptions.Instance.Game._curSetup = settings;
-            Debug.WriteLine("game settings : " + settings);
+            //Debug.WriteLine("game settings : " + settings);
 
             depthArray = new int[settings.Length];
             scoreArray = new int[settings.Length];
@@ -732,14 +732,14 @@ namespace LSRI.TreasureHunter
 
                 // Array.Sort(TT, int.);
 
-            Debug.WriteLine("game scores : " + String.Join(",", TT));
-            Debug.WriteLine("median : " + acc);
+            //Debug.WriteLine("game scores : " + String.Join(",", TT));
+            //Debug.WriteLine("median : " + acc);
             //int acc = 0;
             //foreach (int i in scoreArray)
             //    acc += i;
             TreasureOptions.Instance.User.CurrentTarget = acc;
             TreasureOptions.Instance.User.MaxTarget = max;
-            Debug.WriteLine("target scores : " + TreasureOptions.Instance.User.CurrentTarget + " / " + TreasureOptions.Instance.User.MaxTarget);
+            //Debug.WriteLine("target scores : " + TreasureOptions.Instance.User.CurrentTarget + " / " + TreasureOptions.Instance.User.MaxTarget);
 
 
         }
@@ -1125,7 +1125,7 @@ namespace LSRI.TreasureHunter
             // _synthEx.Arpeggiator.Stop();
 
             //txtbScore = null;
-            Debug.WriteLine("COUNT SEQUENCER : TRAINING (" +this._synthEx.CountTraining+ ") COMPARISON ("+this._synthEx.CountComparison+")");
+            //Debug.WriteLine("COUNT SEQUENCER : TRAINING (" +this._synthEx.CountTraining+ ") COMPARISON ("+this._synthEx.CountComparison+")");
         }
 
         #endregion

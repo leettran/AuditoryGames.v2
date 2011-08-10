@@ -161,7 +161,7 @@ namespace LSRI.Submarine
             }
             catch (Exception e)
             {
-                Debug.WriteLine("SERIALIZATION ERROR : " + e.Message);
+                //Debug.WriteLine("SERIALIZATION ERROR : " + e.Message);
             }
         }
 
@@ -200,7 +200,7 @@ namespace LSRI.Submarine
             }
             catch (Exception e)
             {
-                Debug.WriteLine("DE-SERIALIZATION ERROR : " + e.Message);
+                //Debug.WriteLine("DE-SERIALIZATION ERROR : " + e.Message);
             }
         }
     }
@@ -987,8 +987,8 @@ namespace LSRI.Submarine
 
           /*  MediaElement media = new MediaElement();
             media.Name = "AudioPlayer";
-            media.Loaded += delegate(object sender, RoutedEventArgs e) { Debug.WriteLine("SOUND LOADED"); };
-            media.CurrentStateChanged += delegate(object sender, RoutedEventArgs e) { Debug.WriteLine("CurrentStateChanged"); };
+            media.Loaded += delegate(object sender, RoutedEventArgs e) { //Debug.WriteLine("SOUND LOADED"); };
+            media.CurrentStateChanged += delegate(object sender, RoutedEventArgs e) { //Debug.WriteLine("CurrentStateChanged"); };
             GamePage pp = (GameApplication.Current.RootVisual as GamePage);
             media.SetSource(_synth);
 
@@ -1026,9 +1026,9 @@ namespace LSRI.Submarine
             SubOptions.Instance.AttachDebug(AuditoryGameApp.Current.RootVisual as GamePage);
 
             /*sp1 = new StopwatchPlus(
-                    sw => Debug.WriteLine("Game Started"),
-                    sw => Debug.WriteLine("TimeLeft! {0}", sw.EllapsedMilliseconds),
-                    sw => Debug.WriteLine("totot {0}", sw.EllapsedMilliseconds)
+                    sw => //Debug.WriteLine("Game Started"),
+                    sw => //Debug.WriteLine("TimeLeft! {0}", sw.EllapsedMilliseconds),
+                    sw => //Debug.WriteLine("totot {0}", sw.EllapsedMilliseconds)
 
                 );*/
 
@@ -1107,7 +1107,7 @@ namespace LSRI.Submarine
            // _submarine.CanvasIndex = _gate.Dimensions.Y / 2 - _submarine.Dimensions.Y / 2;
 
             double theodur = (_wall.Position.X - _submarine.Dimensions.X) / _submarine.Speed;
-            //Debug.WriteLine("Theoretical timing : {0}", theodur*1000);
+            ////Debug.WriteLine("Theoretical timing : {0}", theodur*1000);
 
             // initialise auditory stimuli
             double fqTraining = SubOptions.Instance.User.FrequencyTraining;
@@ -1118,7 +1118,7 @@ namespace LSRI.Submarine
             double deltapos = Gatepos - Subpos;
             //double deltaf = fqDiff;//  fqTraining * .2;
             double dfpix = deltaf / SubOptions.Instance.Game.GateSize;
-            Debug.WriteLine("*********** Gatepos = {0}", Gatepos);
+            //Debug.WriteLine("*********** Gatepos = {0}", Gatepos);
 
             double fqComp = fqTraining - dfpix * deltapos;
             if (fqComp >= SubOptions.Instance.Auditory.MaxFrequency) fqComp = SubOptions.Instance.Auditory.MaxFrequency;
@@ -1147,7 +1147,7 @@ namespace LSRI.Submarine
         private void exitLevel()
         {
             this._synthEx.Stop();
-            Debug.WriteLine("COUNT SEQUENCER : TRAINING (" + this._synthEx.CountTraining + ") COMPARISON (" + this._synthEx.CountComparison + ")");
+            //Debug.WriteLine("COUNT SEQUENCER : TRAINING (" + this._synthEx.CountTraining + ") COMPARISON (" + this._synthEx.CountComparison + ")");
             while (GameObject.gameObjects.Count != 0)
                 GameObject.gameObjects[0].shutdown();
 

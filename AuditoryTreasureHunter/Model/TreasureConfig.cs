@@ -159,7 +159,7 @@ namespace LSRI.TreasureHunter.Model
             }
             catch (Exception e)
             {
-                Debug.WriteLine("SERIALIZATION ERROR : " + e.Message);
+                //Debug.WriteLine("SERIALIZATION ERROR : " + e.Message);
             }
         }
 
@@ -198,7 +198,7 @@ namespace LSRI.TreasureHunter.Model
             }
             catch (Exception e)
             {
-                Debug.WriteLine("DE-SERIALIZATION ERROR : " + e.Message);
+                //Debug.WriteLine("DE-SERIALIZATION ERROR : " + e.Message);
             }
         }
     }
