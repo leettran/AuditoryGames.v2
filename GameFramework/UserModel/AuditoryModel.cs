@@ -234,7 +234,7 @@ namespace LSRI.AuditoryGames.GameFramework.Data
             this._lIntSignal = 20;
             this._nBufferSize = 20;
             this._attenuationSequencer = 0;
-            this._attenuationRandom = 0;
+            this._attenuationRandom = 6;
             this._rule = Staircase.One_One;
         }
 
