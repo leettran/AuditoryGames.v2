@@ -1009,6 +1009,8 @@ namespace LSRI.Submarine
             _synthEx.Stop();
             //StateManager.Instance.setState(SubmarineStates.LEVEL_STATE);
 
+            // Force configuration saving
+            SubOptions.Instance.SaveConfiguration();
         }
 
         private void endMainMenu()

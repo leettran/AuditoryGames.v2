@@ -905,6 +905,10 @@ namespace LSRI.TreasureHunter
                 };
             };
             (AuditoryGameApp.Current.RootVisual as GamePage).LayoutRoot.Children.Add(pAboutBtn);*/
+
+            // Force configuration saving
+            TreasureOptions.Instance.SaveConfiguration();
+
         }
 
         public void endMainMenu()
