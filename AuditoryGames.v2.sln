@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		AuditoryGame.dox = AuditoryGame.dox
 		csharp.tag = csharp.tag
 		DosxygenTag.cs = DosxygenTag.cs
+		GPLv2.txt = GPLv2.txt
 		states.vsd = states.vsd
 	EndProjectSection
 EndProject
@@ -87,5 +88,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2684FB26-0CC7-4013-9C7F-DD21834F2B66} = {55EB2057-ACCD-4CD1-AB2F-23F08697E0FB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		BuildVersion_IncrementBeforeBuild = False
 	EndGlobalSection
 EndGlobal

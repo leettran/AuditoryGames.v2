@@ -175,6 +175,7 @@ AuditoryWhackAMole/Properties/AppManifest.xml -text
 AuditoryWhackAMole/Properties/AssemblyInfo.cs -text
 AuditoryWhackAMole/Properties/OutOfBrowserSettings.xml -text
 /DosxygenTag.cs -text
+/GPLv2.txt -text
 GameFramework/Assets/Styles.xaml -text
 GameFramework/Core/AnimatedGameObject.cs -text
 GameFramework/Core/BackgroundGameObject.cs -text
