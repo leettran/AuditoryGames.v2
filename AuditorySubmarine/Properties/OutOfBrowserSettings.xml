@@ -1,7 +1,7 @@
 <OutOfBrowserSettings ShortName="AuditorySubmarine" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
   <OutOfBrowserSettings.Blurb>AuditorySubmarine is a Game-based Auditory Learning environment designed by Nicolas Van Labeke at the Learning Sciences Research Institute</OutOfBrowserSettings.Blurb>
   <OutOfBrowserSettings.WindowSettings>
-    <WindowSettings Title="AuditorySubmarine" Height="600" Width="1067" WindowStyle="None" />
+    <WindowSettings Title="AuditorySubmarine" Height="640" Width="800" />
   </OutOfBrowserSettings.WindowSettings>
   <OutOfBrowserSettings.SecuritySettings>
     <SecuritySettings ElevatedPermissions="Required" />
